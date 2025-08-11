@@ -1,8 +1,12 @@
 {
-"links": {
-"video": [
-"https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1742711878559.jpeg"
-],
-"imagen": [
-"https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1742711818813.jpeg"
-]}}
+  "links": {
+    "video": [
+      "https://files.catbox.moe/ceotf9.jpg"
+    ],
+    "imagen": [
+      "https://files.catbox.moe/js2plu.jpg",
+      "https://files.catbox.moe/fft2hr.jpg",
+      "https://files.catbox.moe/ceotf9.jpg"
+    ]
+  }
+}

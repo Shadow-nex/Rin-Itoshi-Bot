@@ -38,13 +38,17 @@ const { chain } = lodash
 const PORT = process.env.PORT || process.env.SERVER_PORT || 3000
 
 let { say } = cfonts
-console.log(chalk.magentaBright('\n❀ Iniciando...'))
-say('Yuki Suou', {
+
+console.log(chalk.bold.redBright(`\n▨────────────────────────▨`))
+console.log(chalk.magentaBright('\n🌀 Iniciando...'))
+console.log(chalk.bold.redBright(`\n▨────────────────────────▨`))
+
+say('RIN ITOSHI', {
 font: 'simple',
 align: 'left',
 gradient: ['green', 'white']
 })
-say('Made with love by Destroy', {
+say('Made with By shadow', {
 font: 'console',
 align: 'center',
 colors: ['cyan', 'magenta', 'yellow']

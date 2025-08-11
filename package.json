@@ -1,6 +1,6 @@
 {
-"name": "YukiBot-MD",
-"version": "2.2.0",
+"name": "Rin itoshi AI",
+"version": "2.2.5",
 "description": "WhatsApp Bot Multi Device",
 "main": "index.js",
 "type": "module",
@@ -18,22 +18,22 @@
 "eslint": "eslint .",
 "eslintfix": "eslint --fix ."
 },
-"homepage": "https://github.com/The-King-Destroy/Yuki_Suou-Bot",
+"homepage": "https://github.com/Yuji-XDev/Rin-Itoshi-Bot",
 "author": {
-"name": "The-King-Destroy"
+"name": "alv"
 },
 "repository": {
 "type": "git",
-"url": "git+https://github.com/The-King-Destroy/Yuki_Suou-Bot.git"
+"url": "git+https://github.com/Yuji-XDev/Rin-Itoshi-Bot"
 },
 "bugs": {
-"url": "https://github.com/The-King-Destroy/Yuki_Suou-Bot/issues"
+"url": "https://github.com/Yuji-XDev/Rin-Itoshi-Bot/issues"
 },
 "license": "MIT-License",
 "dependencies": {
 "@bochilteam/scraper": "^4.2.4",
 "@vitalets/google-translate-api": "^8.0.0",
-"@whiskeysockets/baileys": "git+ssh://git@github.com/The-King-Destroy/bails.git",
+"@whiskeysockets/baileys": "github:JoseXrl15k/XrlBaileyszzz",
 "acrcloud": "^1.4.0",
 "api-dylux": "^1.7.2",
 "aptoide-scraper": "github:DIEGO-OFC/dv-aptoide-scraper",
@@ -43,6 +43,7 @@
 "cfonts": "^3.3.0",
 "chalk": "^5.1.0",
 "cheerio": "npm:cheerio@1.0.0-rc.12",
+"didyoumean": "^1.2.2",
 "file-type": "^18.0.0",
 "fluent-ffmpeg": "^2.1.2",
 "form-data": "^4.0.0",
@@ -50,7 +51,7 @@
 "google-libphonenumber": "3.2.38",
 "hispamemes": "^1.0.7",
 "human-readable": "^0.2.1",
-"jimp": "^0.22.12",
+"jimp": "^0.16.1",
 "jsdom": "^20.0.1",
 "lodash": "^4.17.21",
 "lowdb": "^3.0.0",
@@ -70,7 +71,6 @@
 "similarity": "^1.2.1",
 "syntax-error": "^1.4.0",
 "terminal-image": "^2.0.0",
-"undici": "^5.10.0",
 "url-regex-safe": "^3.0.0",
 "uuid": "^10.0.0",
 "yargs": "^17.3.1",
