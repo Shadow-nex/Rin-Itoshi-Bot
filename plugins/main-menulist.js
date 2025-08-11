@@ -14,36 +14,35 @@ const handler = async (m, { conn, usedPrefix }) => {
     const totalUsers = Object.keys(global.db.data.users).length;
     const totalCommands = Object.values(global.plugins).filter(p => p.help && p.tags).length;
     const user = global.db.data.users[m.sender] || {};
+    const taguser = '@' + (m.sender.pushname ? m.sender.pushname : m.sender.split('@s.whatsapp.net')[0])
 
-    const texto = `╭──⌁˚ ₊˚୨୧˚₊˚⌁──╮
-│     🌟 𝗜𝗡𝗙𝗢 𝗗𝗘𝗟 𝗕𝗢𝗧 🌟
-╰──⌁˚ ₊˚୨୧˚₊˚⌁──╯
-🎀 𝗖ʀᴇᴀᴅᴏʀ: *Dev.Shadow*
-🧸 𝗖ᴏɴᴛᴀᴄᴛᴏ: *wa.link/z1w9sq*
-💾 𝗩ᴇʀꜱɪᴏɴ: *2.2.5*
-👥 𝗨ꜱᴜᴀʀɪᴏꜱ: *${totalUsers}*
-🧰 𝗖ᴏᴍᴀɴᴅᴏꜱ: *${totalCommands}*
-🔐 𝗠ᴏᴅᴏ: *Privado*
-📚 𝗟ɪʙʀᴇʀɪᴀ: *Baileys-MD*
-⏱️ 𝗔ᴄᴛɪᴠᴏ: *${uptime}*
+    const texto = `*☆═━┈◈ ╰  𝕽𝖎𝖓 𝕴𝖙𝖔𝖘𝖍𝖎 𝕭𝖔𝖙 𝕸𝕯 ╯ ◈┈━═☆*
 
+ ─·˚₊· ͟͟͞͞꒰➳ \`ɪɴғᴏ - ʙᴏᴛ\` 𑁭𑁘
 
-╭──⌁˚ ₊˚୨୧˚₊˚⌁──╮
-│      💖 𝗧𝗨 𝗣𝗘𝗥𝗙𝗜𝗟 💖
-╰──⌁˚ ₊˚୨୧˚₊˚⌁──╯
-🆔 𝗜ᴅ: *${conn.getName(m.sender)}*
-💸 𝗠ᴏɴᴇᴅᴀꜱ:  *${user.coin || 0}*
-📊 𝗡ɪᴠᴇʟ:  *${user.level || 0}*
-⚡ 𝗘xᴘ: *${user.exp || 0}*
-👑 𝗥ᴀɴɢᴏ: *${user.role || 'Sin Rango'}*
+> ┊ 🎀 𝗖ʀᴇᴀᴅᴏʀ: *Dev.Shadow*
+> ┊ 🧸 𝗖ᴏɴᴛᴀᴄᴛᴏ: *wa.link/z1w9sq*
+> ┊ 💾 𝗩ᴇʀꜱɪᴏɴ: *2.2.5*
+> ┊ 👥 𝗨ꜱᴜᴀʀɪᴏꜱ: *${totalUsers}*
+> ┊ 🧰 𝗖ᴏᴍᴀɴᴅᴏꜱ: *${totalCommands}*
+> ┊ 🔐 𝗠ᴏᴅᴏ: *Privado*
+> ┊ 📚 𝗟ɪʙʀᴇʀɪᴀ: *Baileys‑MD*
+> ┊ ⏱️ 𝗔ᴄᴛɪᴠᴏ: *${uptime}*
 
 
-╭──⌁˚ ₊˚୨୧˚₊˚⌁──╮
-│     📅 𝗙𝗘𝗖𝗛𝗔 & 𝗛𝗢𝗥𝗔 🕒
-╰──⌁˚ ₊˚୨୧˚₊˚⌁──╯
-📆 𝗙ᴇᴄʜᴀ: *${fecha}*
-📅 𝗗ɪᴀ:    *${dia}*
-⏰ 𝗛ᴏʀᴀ:  *${hora}*`;
+ ─·˚₊· ͟͟͞͞꒰➳ \`ɪɴғᴏ - ᴜsᴇʀ\` 𑁭𑁘
+
+> ┊ 🆔 𝗜ᴅ: *${conn.getName(m.sender)}*
+> ┊ 💸 𝗠ᴏɴᴇᴅᴀꜱ:  *${user.coin || 0}*
+> ┊ 📊 𝗡ɪᴠᴇʟ:  *${user.level || 0}*
+> ┊ ⚡ 𝗘xᴘ: *${user.exp || 0}*
+> ┊ 👑 𝗥ᴀɴɢᴏ: *${user.role || 'Sin Rango'}*
+
+ ─·˚₊· ͟͟͞͞꒰➳ \`ɪɴғᴏ - ғᴇᴄʜᴀ\` 𑁭𑁘
+
+> ┊ 📆 𝗙ᴇᴄʜᴀ: *${fecha}*
+> ┊ 📅 𝗗ɪᴀ:    *${dia}*
+> ┊ ⏰ 𝗛ᴏʀᴀ:  *${hora}*`;
     
     const imgUrl = 'https://files.catbox.moe/4dple4.jpg';
     const imagenBuffer = await (await fetch(imgUrl)).buffer();    
@@ -57,21 +56,21 @@ const handler = async (m, { conn, usedPrefix }) => {
     const docBuffer = await sharp(imagenBuffer).webp({ quality: 90 }).toBuffer();
     
     const buttons = [
-      { buttonId: `${usedPrefix}creador`, buttonText: { displayText: '📞 Creador' }, type: 1 },
-      { buttonId: `${usedPrefix}reg dv.Shadow.18`, buttonText: { displayText: '👤 Auto Verificar' }, type: 1 },
-      { buttonId: `${usedPrefix}sistema`, buttonText: { displayText: '🌾 Ver Sistema del Bot' }, type: 1 }
+      { buttonId: `${usedPrefix}creador`, buttonText: { displayText: '📞 ᴏᴡɴᴇʀ' }, type: 1 },
+      { buttonId: `${usedPrefix}reg dv.Shadow.18`, buttonText: { displayText: '💌 ᴀᴜᴛᴏ ᴠᴇʀɪғɪᴄᴀʀ' }, type: 1 },
+      { buttonId: `${usedPrefix}estado`, buttonText: { displayText: '🔋 ᴇsᴛᴀᴅᴏ ᴅᴇʟ ʙᴏᴛ' }, type: 1 }
     ];
 
     const sections = [
       {
-         title: "💖 menu list",
-         highlight_label: "dv.shadow",
+         title: packname,
+         highlight_label: "𝘋𝘝.𝘚𝘏𝘈𝘋𝘖𝘞 𝘊𝘖𝘙𝘌",
          rows: [
-           { title: "🌟 menu All", description: "menu completo", id: `${usedPrefix}menu`, footer: "Hola soy shadow" }
+           { title: "💥 𝐌𝐄𝐍𝐔 𝐂𝐎𝐌𝐏𝐋𝐄𝐓𝐎", description: "💫 ᴠᴇʀ ʟɪsᴛᴀ ᴅᴇ ᴄᴏᴍᴀɴᴅᴏs", id: `${usedPrefix}menu` }
          ]
       },
       {
-        title: "🌟 Comandos Principales",
+        title: "🌟 𝐌𝐄𝐍𝐔𝐒 𝐃𝐈𝐒𝐏𝐎𝐍𝐈𝐁𝐋𝐄𝐒",
         //highlight_label: "by shadow",
         rows: [
           { 
@@ -127,28 +126,28 @@ const handler = async (m, { conn, usedPrefix }) => {
         ]
       },
       {
-        title: "💖 sukuna proyect",
-        highlight_label: "soporte",
+        title: "💖 𝐑𝐈𝐍 𝐈𝐓𝐎𝐒𝐇𝐈",
+        highlight_label: "BY SHADOW",
         rows: [
-          { title: "🌟 Doar via Pix", description: "Ajude o projeto con su contribución!", id: `${usedPrefix}donar` }
+          { title: "SUB BOTS ONLINE", description: "💦 ᴠᴇʀ ʟɪsᴛᴀ ᴅᴇ sᴜʙʙᴏᴛs ᴀᴄᴛɪᴠᴏs", id: `${usedPrefix}bots` }
         ]
       },
       {
-        title: "📢 Comunidade Fenrys",
-        highlight_label: "Fique por dentro!",
+        title: "📢 GRUPOS",
+        highlight_label: "LINLS",
         rows: [
-          { title: "💬 Grupo Oficial", description: "Participe do nosso grupo!", id: `${usedPrefix}grupos` },
-          { title: "🤝 Parcerias", description: "Seja um parceiro do projeto!", id: `${usedPrefix}alv` }
+          { title: "💬 Grupo Oficial", description: "ɢʀᴜᴘᴏs ᴏғɪᴄɪᴀʟᴇs ᴅᴇʟ ʙᴏᴛ", id: `${usedPrefix}grupos` },
+          { title: "🤝 SER BOT", description: "ᴄᴏɴᴇᴄᴛᴀ ᴛᴜ sᴜʙ ʙᴏᴛs xᴅ", id: `${usedPrefix}code` }
         ]
       }
     ];
     await conn.sendMessage(m.chat, {
       document: docBuffer,
-      fileName: `SUKUNA ULTRA 💚`,
+      fileName: `𝕽𝖎𝖓 𝒊𝒕𝒐𝒔𝒉𝒊 𝑼𝒍𝒕𝒓𝒂`,
       mimetype: 'image/webp',
       caption: texto,
       jpegThumbnail: thumb2,
-      footer: '[⚙] Sistema: *SU₭Ʉ₦₳.EXΞ*',
+      footer: '[⚙] Sistema: *RIN.EXΞ*',
       buttons: [
         ...buttons,
         {
@@ -170,7 +169,7 @@ const handler = async (m, { conn, usedPrefix }) => {
         forwardingScore: 999,
         externalAdReply: {
           title: '',
-          body: `あ ${global.namebot} あ`,
+          body: `${ucapan()} あ ${taguser} あ`,
           thumbnail: thumb,
           mediaType: 1,
           renderLargerThumbnail: true
@@ -195,4 +194,22 @@ function clockString(ms) {
   let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60;
   let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60;
   return [h, m, s].map(v => v.toString().padStart(2, '0')).join(':');
+}
+
+function ucapan() {
+    const time = moment.tz('America/Lima').format('HH')
+    let res = "Lɪɴᴅᴀ Nᴏᴄʜᴇ 🌉"
+    if (time >= 5) {
+        res = "Bᴜᴇɴᴀ Mᴀᴅʀᴜɢᴀᴅᴀ 🏙️"
+    }
+    if (time > 10) {
+        res = "Bᴜᴇɴ Dɪ́ᴀ 🏞️"
+    }
+    if (time >= 12) {
+        res = "Hᴇʀᴍᴏsᴀ Tᴀʀᴅᴇ 🌆"
+    }
+    if (time >= 19) {
+        res = "Lɪɴᴅᴀ Nᴏᴄʜᴇ 🌃"
+    }
+    return res
 }
