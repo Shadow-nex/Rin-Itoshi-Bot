@@ -36,7 +36,7 @@ global.namecomu = '▐▐ ⚡ 𝗥𝗶𝗻-𝗜𝘁𝗼𝘀𝗵𝗶-𝗕𝗼𝘁
 global.listo = '✦❀ *Aquí tienes, capitán ฅ^•ﻌ•^ฅ* ❀✦'
 global.fotoperfil = await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg')
 
-global.canalIdM = ["120363401404146384@newsletter", "120363401404146384@newsletter"]
+global.canalIdM = ["120363401008003732@newsletter", "120363401008003732@newsletter"]
 global.canalNombreM = ["▐ 𝗧𝗢𝗖𝗔 𝗔𝗤𝗨𝗜▐ ", "✦ 𝗥𝗶𝗻 𝗜𝘁𝗼𝘀𝗵𝗶 - 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 ✦"]
 global.channelRD = await getRandomChannel()
 
