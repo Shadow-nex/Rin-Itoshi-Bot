@@ -26,7 +26,7 @@ stiker = await sticker(buffer, false, marca[0], marca[1])
 let buffer = await sticker(false, args[0], texto1, texto2)
 stiker = buffer
 } else {
-return conn.reply(m.chat, '❀ Por favor, envía una *imagen* o *video* para hacer un sticker.', m)
+return conn.reply(m.chat, '✿ 𝐸𝑛𝑣í𝑎 𝑢𝑛𝑎 *𝑖𝑚𝑎𝑔𝑒𝑛* 𝑜 *𝑣𝑖𝑑𝑒𝑜* 𝑦 𝑡𝑢 𝑠𝑡𝑖𝑐𝑘𝑒𝑟 𝑠𝑒𝑟𝑎́ 𝑐𝑟𝑒𝑎𝑑𝑜 ✨', m, fake)
 }} catch (e) {
 await conn.reply(m.chat, '⚠︎ Ocurrió un Error: ' + e.message, m)
 await m.react('✖️')

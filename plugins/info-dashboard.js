@@ -1,29 +1,36 @@
 let handler = async (m, { conn, command }) => {
 
-    if (command == 'dash' || command == 'dashboard' || command == 'views') {
+    if (['dash', 'dashboard', 'views'].includes(command)) {
         let stats = Object.entries(db.data.stats).map(([key, val]) => {
-            let name = Array.isArray(plugins[key]?.help) ? plugins[key]?.help?.join(' , ') : plugins[key]?.help || key 
-
+            let name = Array.isArray(plugins[key]?.help) ? plugins[key]?.help.join(', ') : plugins[key]?.help || key
             if (/exec/.test(name)) return
             return { name, ...val }
-        })
+        }).filter(Boolean)
 
-        stats = stats.sort((a, b) => b.total - a.total)
-        var handlers = stats.slice(0, 10).map(({ name, total }) => {
-            return `⬡ *Comando* : *${name}*\n⬡ *Usos* : ${total}`
-        }).join('\n\n')
+        stats = stats.sort((a, b) => b.total - a.total).slice(0, 10)
 
-        conn.reply(m.chat, handlers, m, fake)
+        let txt = `╭━━━〔 *Top Comandos* 〕━━━╮\n\n`
+        txt += stats.map(({ name, total }, i) => 
+            `*${i + 1}.* ${name}\n   ➥ Usos: *${total}*`).join('\n\n')
+        txt += `\n\n╰━━━━━━━━━━━━━━━━━━━━╯`
+
+        conn.reply(m.chat, txt, m, rcanal)
     }
 
-    if (command == 'database' || command == 'usuarios' || command == 'user') {
-        let totalreg = Object.keys(global.db.data.users).length
-        let rtotalreg = Object.values(global.db.data.users).filter(user => user.registered == true).length
+    if (['database', 'usuarios', 'user'].includes(command)) {
+        let totalUsers = Object.keys(global.db.data.users).length
+        let registeredUsers = Object.values(global.db.data.users).filter(user => user.registered).length
 
-        conn.reply(m.chat, `
-🗂️ *Tengo ${rtotalreg} Usuarios Registrados*
+        let txt = `
+╭━━〔 *Estadísticas de Usuarios* 〕━━╮
+┃
+┃➤ ⚽ *Registrados:* ${registeredUsers}
+┃➤ 🧪 *No Registrados:* ${totalUsers - registeredUsers}
+┃➤ ⛅ *Total de Usuarios:* ${totalUsers}
+┃
+╰═══◉◉◉═════❖`.trim()
 
-📂 *${totalreg} No Están Registrados*`, m)
+        conn.reply(m.chat, txt, m, rcanal)
     }
 
 }

@@ -15,7 +15,17 @@ const handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, i
     isEnable = false
 } else {
     const estado = isEnable ? '✓ Activado' : '✗ Desactivado'
-    return conn.reply(m.chat, `「✦」Un administrador puede activar o desactivar el *${command}* utilizando:\n\n> ✐ *${usedPrefix}${command} on* para activar.\n> ✐ *${usedPrefix}${command} off* para desactivar.\n\n✧ Estado actual » *${estado}*`, m)
+    return conn.reply(m.chat, `╭━━━〔 ⚙️ 𝑪𝑶𝑵𝑭𝑰𝑮𝑼𝑹𝑨𝑪𝑰𝑶́𝑵 〕━━━╮
+┃ 📜 𝑪𝒐𝒎𝒂𝒏𝒅𝒐: *${command}*
+┃ 🛡️ 𝑺𝒐𝒍𝒐 𝒈𝒆𝒔𝒕𝒊𝒐𝒏𝒂𝒅𝒐 𝒑𝒐𝒓 𝒂𝒅𝒎𝒊𝒏𝒔.
+┃
+┃ 🔧 𝑨𝒄𝒕𝒊𝒗𝒂𝒓:
+┃   ╰─ ❯ *${usedPrefix}${command} on*
+┃ 📴 𝑫𝒆𝒔𝒂𝒄𝒕𝒊𝒗𝒂𝒓:
+┃   ╰─ ❯ *${usedPrefix}${command} off*
+┃
+┃ 👾 𝑬𝒔𝒕𝒂𝒅𝒐 𝒂𝒄𝒕𝒖𝒂𝒍: *${estado}*
+╰━━━━━━━━━━━━━━━━━━━━━━╯`, m, rcanal);
   }
 
   switch (type) {
@@ -41,6 +51,15 @@ const handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, i
         throw false
       }
       bot.antiPrivate = isEnable
+      break
+
+    case 'antiarabe':
+      isAll = true
+      if (!isOwner) {
+        global.dfail('rowner', m, conn)
+        throw false
+      }
+      bot.antiarabe = isEnable
       break
 
     case 'restrict':
@@ -149,7 +168,20 @@ const handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, i
       }
       chat.nsfw = isEnable
       break
-
+      
+    case 'antilink2':
+     if (!m.isGroup) {
+       if (!isOwner) {
+          global.dfail('group', m, conn)
+          throw false
+       }
+     } else if (!isAdmin) {
+       global.dfail('admin', m, conn)
+       throw false
+     }
+     chat.antiLink2 = isEnable
+     break
+      
     case 'jadibotmd':
     case 'modejadibot':
       isAll = true
@@ -173,6 +205,30 @@ const handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, i
       }
       chat.detect = isEnable
       break
+      
+    case 'antiver':
+    case 'antiocultar':
+      if (!m.isGroup) {
+        if (!isOwner) {
+          global.dfail('group', m, conn)
+          throw false
+        }
+      } else if (!isAdmin) {
+        global.dfail('admin', m, conn)
+        throw false
+      }
+      chat.antiver = isEnable
+      break
+      
+    case 'audios':
+      if (m.isGroup) {
+        if (!(isAdmin || isOwner)) {
+          global.dfail('admin', m, conn)
+          throw false
+        }
+      }
+      chat.audios = isEnable
+      break   
 
     case 'antilink':
       if (m.isGroup) {
@@ -197,11 +253,15 @@ const handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, i
   
   chat[type] = isEnable;
   
-  conn.reply(m.chat, `《✦》La función *${type}* se *${isEnable ? 'activó' : 'desactivó'}* ${isAll ? 'para este Bot' : isUser ? '' : 'para este chat'}`, m);
+  conn.reply(m.chat, `╔══〔 ✦ 🛠 𝐅𝐔𝐍𝐂𝐈𝐎́𝐍 𝐃𝐄 𝐒𝐈𝐒𝐓𝐄𝐌𝐀 ✦ 〕══╗
+║ 🧩 \`𝐅𝐮𝐧𝐜𝐢𝐨́𝐧:\` *${type}*
+║ ⚙️ \`𝐄𝐬𝐭𝐚𝐝𝐨:\` ${isEnable ? '✅ 𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎' : '❌ 𝐃𝐄𝐒𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎'}
+║ 🌍 \`𝐀𝐩𝐥𝐢𝐜𝐚:\` ${isAll ? '🌐 *𝐏𝐀𝐑𝐀 𝐓𝐎𝐃𝐎 𝐄𝐋 𝐁𝐎𝐓*' : isUser ? '👤 *𝐔𝐒𝐔𝐀𝐑𝐈𝐎 𝐄𝐒𝐏𝐄𝐂𝐈́𝐅𝐈𝐂𝐎*' : '💬 *𝐏𝐀𝐑𝐀 𝐄𝐒𝐓𝐄 𝐂𝐇𝐀𝐓*'}
+╚═══════════════════════════╝`, m, rcanal);
 };
 
-handler.help = ['welcome', 'bienvenida', 'antiprivado', 'antiprivate', 'restrict', 'restringir', 'autolevelup', 'autonivel', 'antibot', 'antibots', 'autoaceptar', 'aceptarauto', 'autorechazar', 'rechazarauto', 'autoresponder', 'autorespond', 'antisubbots', 'antibot2', 'modoadmin', 'soloadmin', 'reaction', 'reaccion', 'nsfw', 'modohorny', 'antispam', 'jadibotmd', 'modejadibot', 'subbots', 'detect', 'avisos', 'antilink']
+handler.help = ['welcome', 'bienvenida', 'antiprivado', 'antiprivate', 'restrict', 'restringir', 'antibot', 'antibots', 'autoaceptar', 'aceptarauto', 'autorechazar', 'rechazarauto', 'autoresponder', 'autorespond', 'antisubbots', 'antibot2', 'modoadmin', 'soloadmin', 'reaction', 'reaccion', 'nsfw', 'modohorny', 'antispam', 'jadibotmd', 'modejadibot', 'subbots', 'detect', 'avisos', 'antilink', 'audios', 'antiver', 'antiocultar', 'antilink2', 'antiarabe']
 handler.tags = ['nable'];
-handler.command = ['welcome', 'bienvenida', 'antiprivado', 'antiprivate', 'restrict', 'restringir', 'autolevelup', 'autonivel', 'antibot', 'antibots', 'autoaceptar', 'aceptarauto', 'autorechazar', 'rechazarauto', 'autoresponder', 'autorespond', 'antisubbots', 'antibot2', 'modoadmin', 'soloadmin', 'reaction', 'reaccion', 'nsfw', 'modohorny', 'antispam', 'jadibotmd', 'modejadibot', 'subbots', 'detect', 'avisos', 'antilink', 'antifake']
+handler.command = ['welcome', 'bienvenida', 'antiprivado', 'antiprivate', 'restrict', 'restringir', 'antibot', 'antibots', 'autoaceptar', 'aceptarauto', 'autorechazar', 'rechazarauto', 'autoresponder', 'autorespond', 'antisubbots', 'antibot2', 'modoadmin', 'soloadmin', 'reaction', 'reaccion', 'nsfw', 'modohorny', 'antispam', 'jadibotmd', 'modejadibot', 'subbots', 'detect', 'avisos', 'antilink', 'audios', 'antiver', 'antiocultar', 'antilink2', 'antiarabe']
 
 export default handler

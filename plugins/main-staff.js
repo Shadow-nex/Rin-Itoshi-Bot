@@ -1,40 +1,30 @@
 let handler = async (m, { conn, command, usedPrefix }) => {
 let img = './src/catalogo.jpg'
-let staff = `ᥫ᭡ *EQUIPO DE AYUDANTES* ❀
-✰ *Dueño* ${creador}
-✦ *Bot:* ${botname}
-⚘ *Versión:* ${vs}
-❖ *Libreria:* ${libreria} ${baileys}
+let staff = ` ︵ٜ⊹۬︵߭ꥈ‌⏜ׄ︵‌୨ ꥇ⭐߭ ୧‌︵۬߭⏜ꥇ‌︵⊹︵
+       ꥇ𝐄ٜ۬߭𝐐ׄꥇ‌𝐔ᨘ࣪𝐈ꥈ𝐏࣭߭𝐎..𝐃𝐄..𝐀𝐘𝐔𝐃𝐀𝐍𝐓𝐄𝐒.il
+⏝۬‌ꥇ︶ꥇ⊹۬︶‌⏝۬︶ᨘ⊹߭︶ׅꥇ⏝߭︶۬⊹ꥈ︶⏝
+       ⬪ 🏜️ (*RIN ITOSHI BOT MD*) 
 
-❍ *Creador:*
+━━━━━━━━━━━━━━━━━━
+🧑‍💼 *Dueño:* ${creador}
+🤖 *Bot:* ${botname}
+📦 *Versión:* ${vs}
+📚 *Librería:* ${libreria} (${baileys})
+━━━━━━━━━━━━━━━━━━
 
-ᰔᩚ ⁱᵃᵐ|𝔇ĕ𝐬†𝓻⊙γ𒆜
-> 🜸 Rol » *Creador*
-> ✧ GitHub » https://github.com/The-King-Destroy
+🧠 *Creador Principal*
+╭─➤
+│ ⚽ *Nombre:* ${etiqueta}𖣘
+│ 🎈 *Rol:* Developer
+│ 🔗 *Número:* wa.me/qr/5B6AGA5YNOUZI1
+│ 🧬 *GitHub:* https://github.com/Yuji-XDev
+╰───────────────
 
-❒ *Colaboradores:*
-
-ᰔᩚ 𝓔𝓶𝓶𝓪 𝓥𝓲𝓸𝓵𝓮𝓽𝓼 𝓥𝓮𝓻𝓼𝓲ó𝓷 
-> 🜸 Rol » *Developer*
-> ✧ GitHub » https://github.com/Elpapiema
-
-ᰔᩚ Niño Piña
-> 🜸 Rol » *Developer*
-> ✧ GitHub » https://github.com/WillZek
-
-✧ ☆꧁༒ĹєǤ𝒆𝐧𝐃༒꧂☆
-> 🜸 Rol » *Developer*
-> ✧ GitHub » https://github.com/Diomar-s
-
-ᰔᩚ I'm Fz' (Tesis)
-> 🜸 Rol » *Developer*
-> ✧ GitHub » https://github.com/FzTeis
-
-ᰔᩚ Legna
-> 🜸 Rol » *Mini-Dev* 
-> ✧ GitHub » https://github.com/Legna-chan
-`
-await conn.sendFile(m.chat, img, 'yuki.jpg', staff.trim(), m)
+👥 *Colaboradores*
+╭─➤
+│ 🚫 Actualmente no hay colaboradores
+╰───────────────`
+await conn.sendFile(m.chat, img, 'staff.jpg', staff.trim(), fkontak)
 }
   
 handler.help = ['staff']

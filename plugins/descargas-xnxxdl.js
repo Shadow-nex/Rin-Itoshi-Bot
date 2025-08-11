@@ -44,6 +44,8 @@ const handler = async (m, {conn, args, command, usedPrefix}) => {
   }
 };
 
+handler.help = ['xnxxdl'];
+handler.tags = ['descargas'];
 handler.command = ['xnxxdl'];
 handler.register = true;
 handler.group = false;

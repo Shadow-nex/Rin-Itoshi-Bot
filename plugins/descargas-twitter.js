@@ -29,7 +29,7 @@ const handler = async (m, { conn, text, usedPrefix, command, args }) => {
 };
 
 handler.help = ['twitter <url>'];
-handler.tags = ['dl'];
+handler.tags = ['descargas'];
 handler.command = ['x', 'xdl', 'dlx', 'twdl', 'tw', 'twt', 'twitter'];
 handler.group = true;
 handler.register = true;

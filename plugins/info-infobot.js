@@ -14,20 +14,34 @@ let handler = async (m, { conn, usedPrefix }) => {
     let bot = global.db.data.settings[conn.user.jid]
     let totalStats = Object.values(global.db.data.stats).reduce((total, stat) => total + stat.total, 0)
     let totalf = Object.values(global.plugins).filter((v) => v.help && v.tags).length
-
-    let info = `✿  *Informacion de ${global.botname}*\n\n`
-    info += `✎˚₊· ͟͟͞͞➳❥ *Prefijo* : [  ${usedPrefix}  ]\n`
-    info += `✥˚₊· ͟͟͞͞➳❥ *Total Plugins* : ${totalf}\n`
-    info += `✦˚₊· ͟͟͞͞➳❥ *Comandos Ejecutados* : ${toNum(totalStats)} ( *${totalStats}* )\n\n`
-    info += `*◤ Hosts:*\n`
-    info += `✰˚₊· ͟͟͞͞➳❥ *Plataforma* : ${platform()}\n`
-    info += `✿˚₊· ͟͟͞͞➳❥ *Servidor* : ${hostname()}\n`
-    info += `✧˚₊· ͟͟͞͞➳❥ *RAM* : ${format(totalmem() - freemem())} / ${format(totalmem())}\n`
-    info += `⚘˚₊· ͟͟͞͞➳❥ *Free-RAM* : ${format(freemem())}\n\n`
-    info += `❒ *NodeJS Uso de memoria* :\n`
+    let subBots = Object.keys(global.conns).length
+    
+    let info = `╭━━━〔 \`𝗜𝗡𝗙𝗢𝗥𝗠𝗔𝗖𝗜𝗢́𝗡 - 𝗕𝗢𝗧\` 〕━━⬣\n`
+    info += `┃🧩 *Prefijo:* ${usedPrefix}\n`
+    info += `┃📦 *Plugins activos:* ${totalf}\n`
+    info += `┃📊 *Comandos usados:* ${toNum(totalStats)} (${totalStats})\n`
+    info += `┃🌲 *SubBots conectados:* ${subBots}\n`
+    info += `╰━━━━━━━━━━━━━━━━━━━━⬣\n\n`
+    info += `╭━━━〔 \`𝗦𝗜𝗦𝗧𝗘𝗠𝗔 𝗛𝗢𝗦𝗧\` 〕━━⬣\n`
+    info += `┃🖥️ *Plataforma:* ${platform()}\n`
+    info += `┃🌐 *Servidor:* ${hostname()}\n`
+    info += `┃💾 *RAM usada:* ${format(totalmem() - freemem())} / ${format(totalmem())}\n`
+    info += `┃📉 *RAM libre:* ${format(freemem())}\n`
+    info += `╰━━━━━━━━━━━━━━━━━━━━⬣\n\n`
+    info += `╭━━━〔 \`𝗠𝗘𝗠𝗢𝗥𝗜𝗔 𝗗𝗘 𝗡𝗢𝗗𝗘𝗝𝗦\` 〕━━⬣\n`
     info += `${'```' + Object.keys(process.memoryUsage()).map((key) => `${key}: ${format(process.memoryUsage()[key])}`).join('\n') + '```'}`
 
-    await conn.reply(m.chat, info, fkontak, { contextInfo: { mentionedJid: [owner[0][0] + '@s.whatsapp.net'] } })
+    let imagenURL = 'https://files.catbox.moe/b4b495.jpg'
+
+    await conn.sendFile(
+        m.chat,
+        imagenURL,
+        'info.jpg',
+        info,
+        fkontak,
+        false,
+        { contextInfo: { mentionedJid: [owner[0][0] + '@s.whatsapp.net'] } }
+    )
 }
 
 handler.help = ['botinfo']

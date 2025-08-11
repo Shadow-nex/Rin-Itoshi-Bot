@@ -43,7 +43,7 @@ global.nameqr = '✦⃟⚡ Rin•Itoshi•Bot•MD ⚡⃟✦'
 global.namebot = '⚽⸸ Rin•Itoshi•MD ⸸⚽'
 global.sessions = 'Sessions'
 global.jadi = 'JadiBots' 
-global.yukiJadibts = true
+global.shadowJadibts = true
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 

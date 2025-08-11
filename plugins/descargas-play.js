@@ -1,94 +1,132 @@
 import fetch from "node-fetch"
-import yts from 'yt-search'
-import axios from "axios"
+import yts from "yt-search"
+
 const youtubeRegexID = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
-    if (!text.trim()) {
-      return conn.reply(m.chat, `❀ Por favor, ingresa el nombre de la música a descargar.`, m)
-    }
-  
-let videoIdToFind = text.match(youtubeRegexID) || null
-let ytplay2 = await yts(videoIdToFind === null ? text : 'https://youtu.be/' + videoIdToFind[1])
+    if (!text.trim()) return conn.reply(m.chat, `💿 Por favor, ingresa el nombre o enlace del video.`, m, fake)
 
-if (videoIdToFind) {
-const videoId = videoIdToFind[1]  
-ytplay2 = ytplay2.all.find(item => item.videoId === videoId) || ytplay2.videos.find(item => item.videoId === videoId)
-} 
-ytplay2 = ytplay2.all?.[0] || ytplay2.videos?.[0] || ytplay2  
-if (!ytplay2 || ytplay2.length == 0) {
-return m.reply('✧ No se encontraron resultados para tu búsqueda.')
-}
-let { title, thumbnail, timestamp, views, ago, url, author } = ytplay2
-title = title || 'no encontrado'
-thumbnail = thumbnail || 'no encontrado'
-timestamp = timestamp || 'no encontrado'
-views = views || 'no encontrado'
-ago = ago || 'no encontrado'
-url = url || 'no encontrado'
-author = author || 'no encontrado'
+    let videoIdMatch = text.match(youtubeRegexID)
+    let search = await yts(videoIdMatch ? 'https://youtu.be/' + videoIdMatch[1] : text)
+    let video = videoIdMatch
+      ? search.all.find(v => v.videoId === videoIdMatch[1]) || search.videos.find(v => v.videoId === videoIdMatch[1])
+      : search.videos?.[0]
+
+    if (!video) return conn.reply(m.chat, '✧ No se encontraron resultados para tu búsqueda.', m)
+    
+    const res2 = await fetch('https://files.catbox.moe/qzp733.jpg');
+    const thumb2 = await res2.buffer();
+    const Shadow = {
+      key: {
+        participants: "0@s.whatsapp.net",
+        remoteJid: "status@broadcast",
+        fromMe: false,
+        id: "Halo"
+      },
+      message: {
+        locationMessage: {
+          name: `DESCARGA COMPLETA\n[▓▓▓▓▓▓▓▓░░░░] 100%`,
+          jpegThumbnail: thumb2
+        }
+      },
+      participant: "0@s.whatsapp.net"
+    };
+
+    const { title, thumbnail, timestamp, views, ago, url, author } = video
     const vistas = formatViews(views)
-    const canal = author.name ? author.name : 'Desconocido'
-    const infoMessage = `「✦」Descargando *<${title || 'Desconocido'}>*\n\n> ✧ Canal » *${canal}*\n> ✰ Vistas » *${vistas || 'Desconocido'}*\n> ⴵ Duración » *${timestamp || 'Desconocido'}*\n> ✐ Publicado » *${ago || 'Desconocido'}*\n> 🜸 Link » ${url}`
+    const canal = author?.name || 'Desconocido'
+    await m.react('⏱️');
+    const infoMessage = `     *<${title || 'Desconocido'}>*\n\n` +
+      `> 📺 Canal » *${canal}*\n` +
+      `> 👁️ Vistas » *${vistas || 'Desconocido'}*\n` +
+      `> ⏱ Duración » *${timestamp || 'Desconocido'}*\n` +
+      `> 📆 Publicado » *${ago || 'Desconocido'}*\n` +
+      `> 🔗 Link » ${url}`
+ 
     const thumb = (await conn.getFile(thumbnail))?.data
-    const JT = {
+    const external = {
       contextInfo: {
         externalAdReply: {
-          title: botname,
-          body: dev,
+          title: title,
+          body: wm,
           mediaType: 1,
           previewType: 0,
           mediaUrl: url,
           sourceUrl: url,
           thumbnail: thumb,
-          renderLargerThumbnail: true,
-        },
-      },
+          renderLargerThumbnail: true
+        }
+      }
     }
-    await conn.reply(m.chat, infoMessage, m, JT)    
-    if (command === 'play' || command === 'yta' || command === 'ytmp3' || command === 'playaudio') {
+
+    await conn.reply(m.chat, infoMessage, m, external)
+
+    if (['playaudio'].includes(command)) {
       try {
-        const api = await (await fetch(`https://api.vreden.my.id/api/ytmp3?url=${url}`)).json()
-        const resulta = api.result
-        const result = resulta.download.url    
-        if (!result) throw new Error('⚠ El enlace de audio no se generó correctamente.')
-        await conn.sendMessage(m.chat, { audio: { url: result }, fileName: `${api.result.title}.mp3`, mimetype: 'audio/mpeg' }, { quoted: m })
-      } catch (e) {
-        return conn.reply(m.chat, '⚠︎ No se pudo enviar el audio. Esto puede deberse a que el archivo es demasiado pesado o a un error en la generación de la URL. Por favor, intenta nuevamente más tarde.', m)
+        const res = await fetch(`https://api.vreden.my.id/api/ytmp3?url=${url}`)
+        const json = await res.json()
+        if (!json.result?.download?.url) throw '⚠ No se obtuvo un enlace válido.'
+
+        /*await conn.sendMessage(m.chat, {
+          audio: { url: json.result.download.url },
+          fileName: `${json.result.title}.mp3`,
+          mimetype: 'audio/mpeg'
+        }, { quoted: m })*/
+    await m.react('✅');
+    await conn.sendMessage(m.chat, {
+      audio: { url: json.result.download.url },
+      mimetype: 'audio/mpeg',
+      fileName: `${json.result.title}.mp3`,
+      contextInfo: {
+        externalAdReply: {
+          title: title,
+          body: '🎃 𝖲𝖴𝖪𝖴𝖭𝖠 𝖴𝖫𝖳𝖱𝖠 𝖬𝖣 💨',
+          mediaType: 1,
+          thumbnail: thumb,
+          mediaUrl: url,
+          sourceUrl: url,
+          renderLargerThumbnail: false
+        }
       }
-    } else if (command === 'play2' || command === 'ytv' || command === 'ytmp4' || command === 'mp4') {
+    }, { quoted: Shadow })
+      } catch (e) {
+        return conn.reply(m.chat, '⚠︎ No se pudo enviar el audio. El archivo podría ser demasiado pesado o hubo un error en la generación del enlace.', m)
+      }
+    }
+
+    else if (['playvideo'].includes(command)) {
       try {
-        const response = await fetch(`https://api.neoxr.eu/api/youtube?url=${url}&type=video&quality=480p&apikey=GataDios`)
-        const json = await response.json()
-        await conn.sendFile(m.chat, json.data.url, json.title + '.mp4', title, m)
+        const res = await fetch(`https://dark-core-api.vercel.app/api/download/ytmp4/v2?key=api&url=${url}`)
+        const json = await res.json()
+
+        if (!json.download) throw '⚠ No se obtuvo enlace de video.'
+        
+        await m.react('✅');
+        await conn.sendFile(m.chat, json.download, `${json.title || 'video'}.mp4`, `📥 *Video descargado con éxito.*\n\n> 🎬 *Título:* ${json.title}\n> ⏱️ *Duracion:* ${timestamp}\n> 📽️ *Calidad:* ${json.quality}\n> 🔗 *link:* ${url}`, Shadow)
       } catch (e) {
-        return conn.reply(m.chat, '⚠︎ No se pudo enviar el video. Esto puede deberse a que el archivo es demasiado pesado o a un error en la generación de la URL. Por favor, intenta nuevamente más tarde.', m)
+        return conn.reply(m.chat, '⚠︎ No se pudo enviar el video. El archivo podría ser muy pesado o hubo un error en el enlace.', m)
       }
-    } else {
+    }
+
+    else {
       return conn.reply(m.chat, '✧︎ Comando no reconocido.', m)
     }
-  } catch (error) {
-    return m.reply(`⚠︎ Ocurrió un error: ${error}`)
+
+  } catch (err) {
+    return m.reply(`⚠︎ Ocurrió un error:\n${err}`)
   }
 }
-handler.command = handler.help = ['play', 'yta', 'ytmp3', 'play2', 'ytv', 'ytmp4', 'playaudio', 'mp4']
+
+handler.command = handler.help = ['playaudio', 'playvideo']
 handler.tags = ['descargas']
-handler.group = true
 
 export default handler
 
 function formatViews(views) {
-  if (views === undefined) {
-    return "No disponible"
-  }
-
-  if (views >= 1_000_000_000) {
-    return `${(views / 1_000_000_000).toFixed(1)}B (${views.toLocaleString()})`
-  } else if (views >= 1_000_000) {
-    return `${(views / 1_000_000).toFixed(1)}M (${views.toLocaleString()})`
-  } else if (views >= 1_000) {
-    return `${(views / 1_000).toFixed(1)}k (${views.toLocaleString()})`
-  }
+  if (views === undefined) return "No disponible"
+  if (views >= 1e9) return `${(views / 1e9).toFixed(1)}B (${views.toLocaleString()})`
+  if (views >= 1e6) return `${(views / 1e6).toFixed(1)}M (${views.toLocaleString()})`
+  if (views >= 1e3) return `${(views / 1e3).toFixed(1)}K (${views.toLocaleString()})`
   return views.toString()
 }

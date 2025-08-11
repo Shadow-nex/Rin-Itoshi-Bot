@@ -1,9 +1,14 @@
 let handler = async (m, { usedPrefix, command }) => {
 let uptime = await process.uptime()
-let runtime = `${global.botname}
+let runtime = `𓆩✦𖥔𓂃 𝑈𝓁𝓉𝓇𝒶 𝒮𝓉𝒶𝓉𝓊𝓈 𓂃𖥔✦𓆪
 
-✰ Tiempo activo: ${rTime(uptime)}`
-conn.reply(m.chat, runtime, m)
+╭━━━〔 🍁 𝑹𝒊𝒏 𝒊𝒕𝒐𝒔𝒉𝒊 𝑩𝒐𝒕 𝑼𝑷𝑻𝑰𝑴𝑬 🍁 〕━━⬣
+┃ ✧︎꒰🍁꒱ 𝑻𝒊𝒆𝒎𝒑𝒐 𝒆𝒏 𝒂𝒄𝒕𝒊𝒗𝒐: *${rTime(uptime)}*
+┃ ⭓꒰💫꒱ 𝑬𝒔𝒕𝒂𝒅𝒐: 🟢 *Operativo*
+┃ ⭓꒰⚙️꒱ 𝑩𝒐𝒕: 🤖 *${bot}*
+┃ ⭓꒰🌳꒱ 𝑺𝒊𝒔𝒕𝒆𝒎𝒂: *100% Estable*
+╰━━━━━━━━━━━━━━━━━━⬣`
+conn.reply(m.chat, runtime, m, rcanal)
 }
 handler.help = ['runtime']
 handler.tags = ['main']

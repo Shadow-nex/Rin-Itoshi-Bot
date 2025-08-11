@@ -21,6 +21,8 @@ if (!db.data.chats[m.chat].nsfw && m.isGroup) {
     }
 };
 
+handler.help = ['xvideosdl'];
+handler.tags = ['descargas'];
 handler.command = ['xvideosdl'];
 handler.register = true;
 handler.group = false;

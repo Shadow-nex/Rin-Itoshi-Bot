@@ -18,7 +18,7 @@ if (isGroupLink && m.text.includes(linkThisGroup)) return !0
 } catch (error) {
 console.error("[ERROR] No se pudo obtener el código del grupo:", error)
 }}
-await conn.reply(m.chat, `> ✦ Se ha eliminado a @${m.sender.split`@`[0]} del grupo por \`Anti-Link\`! No permitimos enlaces de ${isChannelLink ? 'canales' : 'otros grupos'}.`, null, { mentions: [m.sender] })
+await conn.reply(m.chat, `🧪 Se ha eliminado a @${m.sender.split`@`[0]} del grupo por \`Anti-Link\`! No permitimos enlaces de ${isChannelLink ? 'canales' : 'otros grupos'}.`, null, { mentions: [m.sender] })
 if (isBotAdmin) {
 try {
 await conn.sendMessage(m.chat, { delete: m.key })
