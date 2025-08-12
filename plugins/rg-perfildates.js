@@ -1,33 +1,30 @@
 let handler = async (m, { conn, usedPrefix }) => {
-  const imgurl = 'https://files.catbox.moe/3gxuzq.jpg';
-  const texto = `╔═✦〔 ⚡ ᴘʀᴏғɪʟᴇ • ɪɴᴛᴇʀғᴀᴄᴇ ✦〕═╗
+  const imgurl = icono;
+  const texto = `🌙・*:.｡. o(≧▽≦)o .｡.:*・🌸
 
 🪐 ${usedPrefix}setbirth
-   ➥ ᴀɢʀᴇɢᴀʀ ᴄᴜᴍᴘʟᴇᴀɴ̃ᴏꜱ
+   ➳ *ᴀɢʀᴇɢᴀʀ ᴄᴜᴍᴘʟᴇᴀɴ̃ᴏꜱ* ~ nyan~
 
 💣 ${usedPrefix}delbirth
-   ➥ ʙᴏʀʀᴀʀ ᴄᴜᴍᴘʟᴇᴀɴ̃ᴏꜱ
+   ➳ *ʙᴏʀʀᴀʀ ᴄᴜᴍᴘʟᴇᴀɴ̃ᴏꜱ* ~ ʕ•́ᴥ•̀ʔっ♡
 
 📜 ${usedPrefix}setdesc
-   ➥ ᴇsᴄʀɪʙɪʀ ʙɪᴏɢʀᴀғɪ́ᴀ
+   ➳ *ᴇsᴄʀɪʙɪʀ ʙɪᴏɢʀᴀғɪ́ᴀ* ~ uwu
 
 🗑️ ${usedPrefix}deldesc
-   ➥ ᴇʟɪᴍɪɴᴀʀ ʙɪᴏɢʀᴀғɪ́ᴀ
+   ➳ *ᴇʟɪᴍɪɴᴀʀ ʙɪᴏɢʀᴀғɪ́ᴀ* ~ senpai nooo~
 
 🎭 ${usedPrefix}setgenre
-   ➥ ᴅᴇғɪɴɪʀ ɢᴇ́ɴᴇʀᴏ
+   ➳ *ᴅᴇғɪɴɪʀ ɢᴇ́ɴᴇʀᴏ* ~ desu~☆
 
 🛑 ${usedPrefix}delgenre
-   ➥ ʙᴏʀʀᴀʀ ɢᴇ́ɴᴇʀᴏ
+   ➳ *ʙᴏʀʀᴀʀ ɢᴇ́ɴᴇʀᴏ* ~ (つ✧ω✧)つ
 
 💎 ${usedPrefix}marry
-   ➥ ᴄᴀsᴀʀsᴇ ᴄᴏɴ ᴀʟɢᴜɪᴇɴ
+   ➳ *ᴄᴀsᴀʀsᴇ ᴄᴏɴ ᴀʟɢᴜɪᴇɴ* ~ ʕ♡ᴥ♡ʔ
 
 ⚡ ${usedPrefix}divorce
-   ➥ ᴅɪᴠᴏʀᴄɪᴀʀsᴇ
-
-🔹 ꜱᴛᴀᴛᴜꜱ: ✅ ᴏɴʟɪɴᴇ
-╚═✦〔 ⟦ SΣC MODULΣ vX.1337 ⟧ 〕✦═╝
+   ➳ *ᴅɪᴠᴏʀᴄɪᴀʀsᴇ* ~ (｡•́︿•̀｡)
 `;
 
   await conn.sendMessage(m.chat, {

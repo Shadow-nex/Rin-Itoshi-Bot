@@ -89,19 +89,32 @@ const handler = async (m, { conn, text, command }) => {
     const size = await getSize(downloadUrl);
     const sizeStr = size ? await formatSize(size) : 'Desconocido';
 
-    await m.reply(
-      `📥 𝐃𝐄𝐒𝐂𝐀𝐑𝐆𝐀 𝐄𝐍 𝐏𝐑𝐎𝐆𝐑𝐄𝐒𝐎...
-> [▓▓▓▓▓▓░░░░░░] 50%
-> 🎧 *Título:* ${title}
-> 🕒 *Duración:* ${duration}
-> 🌳 *Tamaño:* ${sizeStr}
-> 🔗 *Enlace:* ${url}
-> ⏳ *Estado:* Preparando audio...`
-    );
+  await conn.sendMessage(m.chat, {
+    text: `⬇️ 𝗗𝗘𝗦𝗖𝗔𝗥𝗚𝗔 𝗘𝗡 𝗠𝗔𝗥𝗖𝗔 𝗣𝗥𝗢𝗚𝗥𝗘𝗦𝗢
+
+🔹 [▓▓▓▓▓░░░░░░░] 50% Completado
+
+🎼 *Título:* ${title}
+⏰ *Duración:* ${duration}
+📦 *Tamaño:* ${sizeStr}
+🌐 *Link:* ${url}
+
+⌛ *Estado:* Preparando el audio, espera un momento...`,
+    mentions: [m.sender],
+    contextInfo: {
+      externalAdReply: {
+        title: title,
+        thumbnailUrl: image,
+        sourceUrl: null,
+        mediaType: 1,
+        renderLargerThumbnail: true
+      }
+    }
+  }, { quoted: m });
     
     if (downloadUrl) {
       const fileName = `${title.replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/ +/g, '_')}.${format}`;
-      const caption = `📼 *${title}*\n> 🎧 *Duración:* ${duration}\n> 📦 *Tamaño:* ${sizeStr}\n> 🔗 ${url}`;
+      const caption = `⚡ Descarga Completa: *${title}*`;
 
       await conn.sendMessage(m.chat, {
         document: { url: downloadUrl },
@@ -116,7 +129,7 @@ const handler = async (m, { conn, text, command }) => {
             sourceUrl: url,
             thumbnailUrl: image,
             mediaType: 1,
-            renderLargerThumbnail: true
+            renderLargerThumbnail: false
           }
         }
       }, { quoted: fkontak });

@@ -38,15 +38,28 @@ let handler = async (m, { conn, text, args }) => {
     const cleanTitle = title.replace(/[^\w\s]/gi, '').trim().replace(/\s+/g, '_');
     const fileName = `${cleanTitle}.mp4`;
 
-    await m.reply(
-      `📥 𝗗𝗘𝗦𝗖𝗔𝗥𝗚𝗔 𝗘𝗡 𝗖𝗨𝗥𝗦𝗢...\n` +
-      `[▓▓▓▓▓▓░░░░░░] 50%\n` +
-      `> 🎶 *Archivo:* ${title}\n` +
-      `> ⏱️ *Duración:* ${duration}\n` +
-      `> 💾 *Tamaño estimado:* ${sizeStr}\n` +
-      `> 📎 *Enlace:* ${args[0]}\n` +
-      `> ⏳ *Estado:* Procesando...`
-    );
+    await conn.sendMessage(m.chat, {
+    text: `🎶 ¡Descargando archivo!
+
+📊 Progreso: [▓▓▓▓▓░░░░░] 50%
+
+📂 Nombre: *${title}*
+⏰ Tiempo: *${duration}*
+💽 Peso: *${sizeStr}*
+🔗 Link: ${args[0]}
+
+⌛ Estado: Casi listo, procesando video...`,
+    mentions: [m.sender],
+    contextInfo: {
+      externalAdReply: {
+        title: title,
+        thumbnailUrl: icono,
+        sourceUrl: null,
+        mediaType: 1,
+        renderLargerThumbnail: true
+      }
+    }
+  }, { quoted: m });
 
     const caption = `*📥 Descarga completa:*\n> 🎧 *Título:* ${title}\n> ⏱️ *Duración:* ${duration}\n> 💾 *Tamaño:* ${sizeStr}`;
 

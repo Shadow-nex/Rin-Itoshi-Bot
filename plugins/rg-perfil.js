@@ -2,17 +2,19 @@ import moment from 'moment-timezone';
 import PhoneNumber from 'awesome-phonenumber';
 import fetch from 'node-fetch';
 
-let handler = async (m, { conn, args }) => {
+let handler = async (m, { conn, args, usedPrefix, command }) => {
     let userId;
     if (m.quoted && m.quoted.sender) {
         userId = m.quoted.sender;
+    } else if (m.mentionedJid && m.mentionedJid.length > 0) {
+        userId = m.mentionedJid[0];
     } else {
-        userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender;
+        userId = m.sender;
     }
 
     let user = global.db.data.users[userId];
 
-    let name = conn.getName(userId);
+    let name = await conn.getName(userId);
     let cumpleanos = user.birth || 'No especificado';
     let genero = user.genre || 'No especificado';
     let pareja = user.marry || 'Nadie';
@@ -41,10 +43,9 @@ let handler = async (m, { conn, args }) => {
 > *⚧️ Energía:* ${genero}
 > *💖 Lazo Álmico:* ${pareja}
 
-
 ╭─• *\`𝐑𝐄𝐂𝐔𝐑𝐒𝐎𝐒\`*
 │° *🪙 Coins:* 15
-│° *🍨 Nivel Dimensional:* ${level}
+│° *🍨 Nivel Dimensional:* ${nivel}
 │° *🌷 Exp Astral:* ${exp.toLocaleString()}
 │° *☕ Rango:* ${role}
 ╰─────────────•
@@ -56,7 +57,7 @@ let handler = async (m, { conn, args }) => {
 ╰─────────────•
 
 > 🌠 𝐈𝐍𝐓𝐄𝐑𝐏𝐑𝐄𝐓𝐀𝐂𝐈𝐎𝐍 𝐅𝐈𝐍𝐀𝐋:
-  `.trim();
+`.trim();
 
     await conn.sendMessage(m.chat, { 
         text: profileText,

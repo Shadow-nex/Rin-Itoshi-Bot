@@ -41,16 +41,16 @@ const handler = async (m, { conn, text, command }) => {
       throw new Error('⚠️ No se pudo generar el enlace de descarga.');
     }
 
-    const textoInfo = `╭━━⬣『 *🎲 YOUTUBE - MP3* 』⬣━━⬣
+    const textoInfo = `╭━━❀ ✿ YASSSU YOUTUBE MP3 ✿ ❀━━╮
 ┃
-┃ 🍃 *Titulo:* ${title}
-┃ ⏱️ *Duración:* ${duracion}
-┃ 🍰 *Canal:* ${canal}
-┃ 👀 *Vistas:* ${vistas}
-┃ 🌱 *Publicado:* ${ago}
-┃ 🔗 *Link:* ${url}
+┃ 🍃 Título: *${title}* 〜♡
+┃ ⏱️ Duración: *${duracion}* ✧
+┃ 🍰 Canal: *${canal}* ♡
+┃ 👀 Vistas: *${vistas}* ☆
+┃ 🌱 Publicado: *${ago}* ♡
+┃ 🔗 Link: *${url}* ✧
 ┃
-╰━━━━⬣\n*➭ El audio se está enviando... 🌸*`;
+╰━❀➤ El audio está en camino... 🌸💖`;
 
     await conn.sendMessage(m.chat, {
       text: textoInfo,
