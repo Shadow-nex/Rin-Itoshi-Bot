@@ -731,14 +731,14 @@ let handler = async (m, { conn, args }) => {
   await conn.sendMessage(
     m.chat,
     {
-      image: { url: 'https://files.catbox.moe/gh3gbs.jpg' },
+      image: { url: 'https://files.catbox.moe/g2of9q.jpg' },
       caption: menuText,
       contextInfo: {
         externalAdReply: {
           title: '⚽ Rin Itoshi - MD🧪',
           body: '☯︎ Dev by Shadow\'Core',
           mediaType: 1,
-          thumbnailUrl: 'https://files.catbox.moe/8ng4fs.jpg',
+          thumbnailUrl: 'https://files.catbox.moe/us0m4f.jpg',
           mediaUrl: 'https://github.com/Yuji-XDev/SukunaUltra-MD',
           sourceUrl: 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U',
           renderLargerThumbnail: false
