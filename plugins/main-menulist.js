@@ -143,7 +143,7 @@ const handler = async (m, { conn, usedPrefix }) => {
     ];
     await conn.sendMessage(m.chat, {
       document: docBuffer,
-      fileName: `𝕽𝖎𝖓 𝒊𝒕𝒐𝒔𝒉𝒊 𝑼𝒍𝒕𝒓𝒂`,
+      fileName: `ꭈׁׅꪱׁׅꪀׁׅ ꪱׁׅtׁׅᨵׁׅ꯱ׁׅ֒hׁׅ֮ꪱׁׅ ϐׁׅ֒ᨵׁׅtׁׅ  ꩇׁׅ݊ժׁׅ݊`,
       mimetype: 'image/webp',
       caption: texto,
       jpegThumbnail: thumb2,
@@ -180,7 +180,7 @@ const handler = async (m, { conn, usedPrefix }) => {
   } catch (e) {
     console.error(e);
     await m.react('❌');
-    await conn.reply(m.chat, `❌ *Error al mostrar el menú.*\n${e.message}`, m);
+    await conn.reply(m.chat, `* [ 🧪 ] ocurrio un error al enviar el menu-list:*\n\n> ${e.message}`, m);
   }
 };
 

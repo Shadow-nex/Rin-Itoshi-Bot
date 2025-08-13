@@ -748,6 +748,41 @@ let handler = async (m, { conn, args }) => {
     { quoted: shadow }
   );
 };
+/*
+try {
+  await m.react('⚙️');
+
+  await conn.sendMessage(
+    m.chat,
+    {
+      image: { url: 'https://files.catbox.moe/g2of9q.jpg' },
+      caption: menuText,
+      contextInfo: {
+        externalAdReply: {
+          title: '⚽ Rin Itoshi - MD🧪',
+          body: '☯︎ Dev by Shadow\'Core',
+          mediaType: 1,
+          thumbnailUrl: 'https://files.catbox.moe/us0m4f.jpg',
+          mediaUrl: 'https://github.com/Yuji-XDev/SukunaUltra-MD',
+          sourceUrl: 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U',
+          renderLargerThumbnail: false
+        }
+      }
+    },
+    { quoted: shadow }
+  );
+
+} catch (err) {
+  console.error(err);
+  await m.react('❌');
+  await conn.sendMessage(
+    m.chat,
+    {
+      text: `╭─❍「 ⚠️ 𝙀𝙍𝙍𝙊𝙍 」\n│ 🚨 *Ocurrió un error inesperado.*\n│ 🛠️ *Detalles:* ${err.message}\n╰───────────────⬣`
+    },
+    { quoted: m }
+  );
+}*/
 
 handler.help = ['menu'];
 handler.tags = ['main'];
@@ -758,7 +793,7 @@ function clockString(ms) {
 let seconds = Math.floor((ms / 1000) % 60)
 let minutes = Math.floor((ms / (1000 * 60)) % 60)
 let hours = Math.floor((ms / (1000 * 60 * 60)) % 24)
-return `${hours}:${minutes}:${seconds}`
+return `${hours}h ${minutes}m ${seconds}s`
 }
 
 function ucapan() {

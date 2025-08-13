@@ -1,109 +1,46 @@
-import axios from 'axios'
+import axios from 'axios';
 
 let handler = async (m, { conn, text }) => {
-  if (!text) return conn.reply(m.chat, `☁️ Ingresa el ID de un usuario de Free Fire que quieras stalkear`, m)
+  if (!text) return conn.reply(m.chat, `✨ Ejemplo:\n/freefirestalk 123456789`, m);
 
   try {
-    let api = await axios.get(`https://vapis.my.id/api/ff-stalk?id=${text}`)
-    let json = api.data
-    if (!json.status) return conn.reply(m.chat, "❌ No se encontraron resultados para ese ID.", m)
+    const res = await axios.get(`https://vapis.my.id/api/ff-stalk?id=${text}`);
+    const json = res.data;
 
-    let {
-      account = {},
-      pet_info = {},
-      guild = {},
-      ketua_guild = {}
-    } = json.data
-
-    let {
-      name = "Desconocido",
-      level = "N/A",
-      xp = "N/A",
-      region = "N/A",
-      like = "N/A",
-      bio = "No disponible",
-      create_time = "N/A",
-      last_login = "N/A",
-      honor_score = "N/A",
-      booyah_pass = "N/A",
-      BR_points = "N/A",
-      CS_points = "N/A"
-    } = account
-
-    let {
-      name: petName = "Sin mascota",
-      level: petLevel = "N/A",
-      xp: petXP = "N/A"
-    } = pet_info
-
-    let {
-      name: guildName = "Sin clan",
-      level: guildLevel = "N/A",
-      member = "N/A",
-      capacity = "N/A"
-    } = guild
-
-    let txt = `╭━━〔 🕹️ 𝗙𝗥𝗘𝗘 𝗙𝗜𝗥𝗘 𝗦𝗧𝗔𝗟𝗞𝗘𝗥 〕━━⬣
-▢ 👤 *Usuario:* ${name}
-▢ 🧬 *Nivel:* ${level}
-▢ 🎯 *XP:* ${xp}
-▢ 🌍 *Región:* ${region}
-▢ ❤️ *Likes:* ${like}
-▢ 📜 *Bio:* ${bio}
-▢ 📅 *Creación:* ${create_time}
-▢ 🕒 *Último login:* ${last_login}
-▢ 🏅 *Honor:* ${honor_score}
-▢ 🎫 *Booyah Pass:* ${booyah_pass}
-▢ 🎮 *Puntos BR:* ${BR_points}
-▢ ⚔️ *Puntos CS:* ${CS_points}
-╰━━━━━━━━━━━━━━━━━━━━⬣\n`
-
-    txt += `\n╭━━〔 🐾 𝗠𝗔𝗦𝗖𝗢𝗧𝗔 〕━━⬣
-▢ 🐶 *Nombre:* ${petName}
-▢ 🔢 *Nivel:* ${petLevel}
-▢ ✨ *XP:* ${petXP}
-╰━━━━━━━━━━━━━━━━━━━━⬣\n`
-
-    txt += `\n╭━━〔 🏰 𝗖𝗟𝗔𝗡 〕━━⬣
-▢ 🏷️ *Nombre:* ${guildName}
-▢ 🎖️ *Nivel:* ${guildLevel}
-▢ 👥 *Miembros:* ${member}/${capacity}
-╰━━━━━━━━━━━━━━━━━━━━⬣\n`
-
-    if (ketua_guild.name) {
-      let {
-        name: leaderName = "N/A",
-        level: leaderLevel = "N/A",
-        xp: leaderXP = "N/A",
-        BR_points: leaderBR = "N/A",
-        CS_points: leaderCS = "N/A",
-        like: leaderLike = "N/A",
-        create_time: leaderCreate = "N/A",
-        last_login: leaderLogin = "N/A"
-      } = ketua_guild
-
-      txt += `\n╭━━〔 👑 𝗟𝗜́𝗗𝗘𝗥 𝗗𝗘𝗟 𝗖𝗟𝗔𝗡 〕━━⬣
-▢ 🙍 *Nombre:* ${leaderName}
-▢ 🧬 *Nivel:* ${leaderLevel}
-▢ 🎯 *XP:* ${leaderXP}
-▢ 🎮 *Puntos BR:* ${leaderBR}
-▢ ⚔️ *Puntos CS:* ${leaderCS}
-▢ ❤️ *Likes:* ${leaderLike}
-▢ 📅 *Creación:* ${leaderCreate}
-▢ 🕒 *Último login:* ${leaderLogin}
-╰━━━━━━━━━━━━━━━━━━━━⬣`
+    if (!json || !json.status || !json.data || !json.data.account) {
+  return conn.reply(m.chat, `😿 Parece que ese ID no existe o no está en la región LATAM.\n\n👉 Si tu cuenta es de *EE.UU. / Norteamérica*, esta función no podrá encontrarla porque usa servidores de LATAM.`, m);
     }
 
-    await conn.sendMessage(m.chat, { text: txt }, { quoted: m })
+    let { account, pet_info = {}, guild = {}, ketua_guild = {} } = json.data;
+    let msg = `
+🎮 *Stalk de Free Fire*
+────────────────────
+👤 *Usuario:* ${account.name}
+⭐ *Nivel:* ${account.level}
+📍 *Región:* ${account.region}
+💬 *Bio:* ${account.bio || "No disponible"}
+💗 *Likes:* ${account.like}
+📅 *Creado:* ${account.create_time}
+🕐 *Último login:* ${account.last_login}
+🎖 *Honor Score:* ${account.honor_score}
+🎫 *Booyah Pass:* ${account.booyah_pass}
+🔥 *Puntos BR:* ${account.BR_points}
+⚔️ *Puntos CS:* ${account.CS_points}
 
-  } catch (error) {
-    console.error(error)
-    conn.reply(m.chat, "⚠️ Hubo un error al procesar la información. Puede que el ID no exista o el servidor no responda.", m)
+🐾 *Mascota:* ${pet_info.name || "Ninguna"} (Nv. ${pet_info.level || "?"}, XP: ${pet_info.xp || "?"})
+
+🏰 *Clan:* ${guild.name || "Sin clan"} (Nv. ${guild.level || 0}, Miembros: ${guild.member || 0}/${guild.capacity || "?"})
+
+👑 *Líder del Clan:* ${ketua_guild.name || "Desconocido"} (Nv. ${ketua_guild.level || "?"}, BR: ${ketua_guild.BR_points || "?"}, CS: ${ketua_guild.CS_points || "?"})
+`;
+
+    await conn.sendMessage(m.chat, { text: msg }, { quoted: m });
+
+  } catch (e) {
+    console.error('[ERROR EN FREEFIRE]', e.message);
+    conn.reply(m.chat, `💔 Ooops... La API de Free Fire falló o está fuera de servicio.\nIntenta de nuevo más tarde.`, m);
   }
-}
+};
 
-handler.help = ['freefirestalk <id>']
-handler.tags = ['stalk']
-handler.command = ['freefirestalk', 'ffstalk']
-
-export default handler
+handler.command = ['freefirestalk', 'ffstalk'];
+export default handler;
