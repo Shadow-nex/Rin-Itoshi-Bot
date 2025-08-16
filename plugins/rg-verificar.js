@@ -102,14 +102,14 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
   await conn.sendMessage(
     m.chat,
     {
-      image: { url: icono },
+      image: { url: pp },
       caption: regbot,
       contextInfo: {
         externalAdReply: {
           title: '✦͢🌹⌗ 𝐔𝐒𝐔𝐀𝐑𝐈𝐎 𝐕𝐄𝐑𝐈𝐅𝐈𝐂𝐀𝐃𝐎 💎✨',
           body: '꒰🍃꒱ ᴛᴜ ᴄᴜᴇɴᴛᴀ ʜᴀ ꜱɪᴅᴏ ᴀᴄᴛɪᴠᴀᴅᴀ ᴄᴏɴ éꜱᴇxɪᴛᴏ\n☯︎ ʙʏ: 𝑺𝒉𝒂𝑫𝒐𝒘•𝑪𝒐𝒓𝒆',
           mediaType: 1,
-          thumbnailUrl: pp,
+          thumbnailUrl: icono,
           mediaUrl: redes,
           sourceUrl: redes,
           renderLargerThumbnail: true
