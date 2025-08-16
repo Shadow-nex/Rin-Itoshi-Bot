@@ -45,10 +45,10 @@ let handler = async (m, { conn, args }) => {
       mentions: [m.sender],
       contextInfo: {
         externalAdReply: {
-          title: '               ☘️ Dev.Shadow 🇦🇱',
+          title: '               ☘️ Dev.Shadow 🧪',
           body: '   🌀꙰⃟ 𖤐 𝙍𝙄𝙉 𝙄𝙏𝙊𝙎𝙃𝙄 ∞ 𝐌𝐃 𖤐🎨⃟',
           thumbnailUrl: 'https://files.catbox.moe/q8b2br',
-          sourceUrl: redes, // ⚠️ Asegúrate que "redes" esté definido
+          sourceUrl: redes,
           mediaType: 1,
           renderLargerThumbnail: false
         }
@@ -57,7 +57,7 @@ let handler = async (m, { conn, args }) => {
 
     await new Promise(resolve => setTimeout(resolve, 2000));
       
-    let hora = new Date().toLocaleTimeString('es-PE', { timeZone: 'America/Lima' });
+    let hora = new Date().toLocaleTimeString('en-US', { timeZone: 'America/Lima', hour12: true });
     let fechaObj = new Date();
     let fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Lima' });
     let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' });
