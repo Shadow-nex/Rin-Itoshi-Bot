@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import yts from 'yt-search';
+import yts from "yt-search";
 import axios from "axios";
 
 const formatAudio = ['mp3', 'm4a', 'webm', 'acc', 'flac', 'opus', 'ogg', 'wav'];
@@ -8,7 +8,7 @@ const formatVideo = ['360', '480', '720', '1080', '1440', '4k'];
 const ddownr = {
   download: async (url, format) => {
     if (!formatAudio.includes(format) && !formatVideo.includes(format)) {
-      throw new Error('Formato no soportado, verifica la lista de formatos disponibles.');
+      throw new Error('Formato no soportado, revisa la lista de formatos disponibles.');
     }
 
     const config = {
@@ -26,17 +26,12 @@ const ddownr = {
         const { image } = info;
         const downloadUrl = await ddownr.cekProgress(id);
 
-        return {
-          id: id,
-          image: image,
-          title: title,
-          downloadUrl: downloadUrl
-        };
+        return { id, image, title, downloadUrl };
       } else {
-        throw new Error('Fallo al obtener los detalles del video.');
+        throw new Error('No se pudieron obtener los detalles del video.');
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error en download:', error);
       throw error;
     }
   },
@@ -58,7 +53,7 @@ const ddownr = {
         await new Promise(resolve => setTimeout(resolve, 5000));
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error en cekProgress:', error);
       throw error;
     }
   }
@@ -66,21 +61,28 @@ const ddownr = {
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
-    if (!text.trim()) {
-      return conn.reply(m.chat, `*[❗𝐈𝐍𝐅𝐎❗] 𝙸𝙽𝚂𝙴𝚁𝚃𝙴 𝙴𝙻 𝙲𝙾𝙼𝙰𝙽𝙳𝙾 𝙼𝙰𝚂 𝙴𝙻 𝙴𝙽𝙻𝙰𝙲𝙴 / 𝙻𝙸𝙽𝙺 𝙳𝙴 𝚄𝙽 𝚅𝙸𝙳𝙴𝙾 𝙳𝙴 𝚈𝙾𝚄𝚃𝚄𝙱𝙴 🎄*`, m, rcanal);
+    if (!text || !text.trim()) {
+      return conn.reply(m.chat, `🌸 Onichan~ debes poner el comando más un enlace de YouTube uwu 💕\n\nEjemplo:\n*${usedPrefix + command} https://youtu.be/xxxx*`, m, global.rcanal);
     }
 
     const search = await yts(text);
     if (!search.all || search.all.length === 0) {
-      return m.reply('*[❗] 𝙴𝚁𝚁𝙾𝚁 𝙽𝙾 𝙵𝚄𝙴 𝙿𝙾𝚂𝙸𝙱𝙻𝙴 𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰𝚁 𝙴𝙻 𝚅𝙸𝙳𝙴𝙾*');
+      return m.reply('❌ Nyaa~ No encontré resultados para tu búsqueda.');
     }
 
     const videoInfo = search.all[0];
     const { title, thumbnail, views, url } = videoInfo;
-    const thumb = (await conn.getFile(thumbnail))?.data;
-    
-    const rinurl = logo;
-    const infoMessage = `➤ ▢ *𝚃𝙸𝚃𝚄𝙻𝙾:*\n> ${title}\n➤ ▢ *𝚅𝙸𝚂𝚃𝙰𝚂:*\n> ${formatViews(views)}\n➤ ▢ *𝙴𝙽𝙻𝙰𝙲𝙴:*\n> ${url}\n> 🎧 𝑬𝒔𝒕𝒐𝒚 𝒑𝒓𝒐𝒄𝒆𝒔𝒂𝒏𝒅𝒐 𝒕𝒖 𝒅𝒆𝒔𝒄𝒂𝒓𝒈𝒂....`;
+
+    const rinurl = global.logo || "https://files.catbox.moe/g2of9q.jpg";
+    const thumb = (await conn.getFile(thumbnail || rinurl))?.data;
+
+    const infoMessage = `╭─❍⃟🌸 𝐎𝐧𝐢𝐜𝐡𝐚𝐚𝐚𝐧~ 💗  
+┃ 🎶 *Título:* ${title}  
+┃ 👁️ *Vistas:* ${formatViews(views)}  
+┃ 🔗 *Enlace:* ${url}  
+┃  
+┃ ⏳ Estoy preparando tu descarga nya~ 💖  
+╰─⟦ 🌈 Espera un momentito uwu ⟧`;
 
     await conn.sendFile(m.chat, rinurl, 'rin.jpg', infoMessage, m);
 
@@ -106,6 +108,8 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       }, { quoted: m });
 
     } else if (command === 'video') {
+      await m.reply("⏳ Buscando la mejor fuente de descarga... 🎥✨");
+
       let sources = [
         `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
         `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
@@ -126,12 +130,14 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
               video: { url: downloadUrl },
               fileName: `${title}.mp4`,
               mimetype: 'video/mp4',
-              caption: `▢ 𝚃𝙸𝚃𝚄𝙻𝙾: ${title}`,
+              caption: `╭─❍⃟🎥 𝐕𝐢𝐝𝐞𝐨 𝐃𝐞𝐬𝐜𝐚𝐫𝐠𝐚𝐝𝐨  
+┃ 📺 *Título:* ${title}  
+╰──────────────⬣`,
               thumbnail: thumb,
               contextInfo: {
                 externalAdReply: {
                   title: title,
-                  body: videoInfo.author.name || 'YouTube',
+                  body: videoInfo.author?.name || 'YouTube',
                   mediaUrl: url,
                   sourceUrl: url,
                   thumbnail: thumb,
@@ -148,18 +154,18 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       }
 
       if (!success) {
-        return m.reply(`*No se pudo descargar el video:* No se encontró un enlace de descarga válido.`);
+        return m.reply('❌ No se pudo descargar el video nya~ 😿');
       }
     } else {
       throw "Comando no reconocido.";
     }
 
   } catch (error) {
-    return m.reply(`*Error:* ${error.message}`);
+    return m.reply(`❌ Error: ${error.message}`);
   }
 };
 
-handler.help = ['audio', 'video'];
+handler.help = ['audio <yt_link>', 'video <yt_link>'];
 handler.tags = ['descargas'];
 handler.command = ['audio', 'video'];
 handler.group = true;
