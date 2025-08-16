@@ -169,6 +169,16 @@ const handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, i
       chat.nsfw = isEnable
       break
       
+    case 'antispam':
+    case 'antiSpam':
+      isAll = true;
+      if (!isOwner) {
+        global.dfail('rowner', m, conn);
+        throw false;
+      }
+      isEnable = bot.antiSpam = !bot.antiSpam;
+      break
+      
     case 'antilink2':
      if (!m.isGroup) {
        if (!isOwner) {
@@ -240,14 +250,15 @@ const handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, i
       chat.antiLink = isEnable
       break
 
-      case 'antifake':
+      case 'antifake': 
+      case 'antivirtuales':
       if (m.isGroup) {
         if (!(isAdmin || isOwner)) {
-          global.dfail('admin', m, conn)
-          throw false
+          global.dfail('admin', m, conn);
+          throw false;
         }
       }
-      chat.antifake = isEnable
+      isEnable = chat.antifake = !chat.antifake;
       break
   }
   
@@ -257,11 +268,11 @@ const handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, i
 ║ 🧩 \`𝐅𝐮𝐧𝐜𝐢𝐨́𝐧:\` *${type}*
 ║ ⚙️ \`𝐄𝐬𝐭𝐚𝐝𝐨:\` ${isEnable ? '✅ 𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎' : '❌ 𝐃𝐄𝐒𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎'}
 ║ 🌍 \`𝐀𝐩𝐥𝐢𝐜𝐚:\` ${isAll ? '🌐 *𝐏𝐀𝐑𝐀 𝐓𝐎𝐃𝐎 𝐄𝐋 𝐁𝐎𝐓*' : isUser ? '👤 *𝐔𝐒𝐔𝐀𝐑𝐈𝐎 𝐄𝐒𝐏𝐄𝐂𝐈́𝐅𝐈𝐂𝐎*' : '💬 *𝐏𝐀𝐑𝐀 𝐄𝐒𝐓𝐄 𝐂𝐇𝐀𝐓*'}
-╚═══════════════════════════╝`, m, rcanal);
+╚═══════════════════════════╝`, m, fake);
 };
 
-handler.help = ['welcome', 'bienvenida', 'antiprivado', 'antiprivate', 'restrict', 'restringir', 'antibot', 'antibots', 'autoaceptar', 'aceptarauto', 'autorechazar', 'rechazarauto', 'autoresponder', 'autorespond', 'antisubbots', 'antibot2', 'modoadmin', 'soloadmin', 'reaction', 'reaccion', 'nsfw', 'modohorny', 'antispam', 'jadibotmd', 'modejadibot', 'subbots', 'detect', 'avisos', 'antilink', 'audios', 'antiver', 'antiocultar', 'antilink2', 'antiarabe']
+handler.help = ['welcome', 'bienvenida', 'antiprivado', 'antiprivate', 'restrict', 'restringir', 'antibot', 'antibots', 'autoaceptar', 'aceptarauto', 'autorechazar', 'rechazarauto', 'autoresponder', 'autorespond', 'antisubbots', 'antibot2', 'modoadmin', 'soloadmin', 'reaction', 'reaccion', 'nsfw', 'modohorny', 'antiSpam', 'antispam', 'jadibotmd', 'modejadibot', 'subbots', 'detect', 'avisos', 'antilink', 'audios', 'antiver', 'antiocultar', 'antilink2', 'antiarabe', 'antifake', 'antivirtuales']
 handler.tags = ['nable'];
-handler.command = ['welcome', 'bienvenida', 'antiprivado', 'antiprivate', 'restrict', 'restringir', 'antibot', 'antibots', 'autoaceptar', 'aceptarauto', 'autorechazar', 'rechazarauto', 'autoresponder', 'autorespond', 'antisubbots', 'antibot2', 'modoadmin', 'soloadmin', 'reaction', 'reaccion', 'nsfw', 'modohorny', 'antispam', 'jadibotmd', 'modejadibot', 'subbots', 'detect', 'avisos', 'antilink', 'audios', 'antiver', 'antiocultar', 'antilink2', 'antiarabe']
+handler.command = ['welcome', 'bienvenida', 'antiprivado', 'antiprivate', 'restrict', 'restringir', 'antibot', 'antibots', 'autoaceptar', 'aceptarauto', 'autorechazar', 'rechazarauto', 'autoresponder', 'autorespond', 'antisubbots', 'antibot2', 'modoadmin', 'soloadmin', 'reaction', 'reaccion', 'nsfw', 'modohorny', 'antiSpam', 'antispam', 'jadibotmd', 'modejadibot', 'subbots', 'detect', 'avisos', 'antilink', 'audios', 'antiver', 'antiocultar', 'antilink2', 'antiarabe', 'antifake', 'antivirtuales']
 
 export default handler

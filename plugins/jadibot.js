@@ -2,14 +2,19 @@ import ws from 'ws';
 
 let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
   if (!globalThis.db.data.settings[conn.user.jid].jadibotmd) 
-    return conn.reply(m.chat, `💠 El comando *${command}* está desactivado temporalmente.`, m, fake);
+    return conn.reply(m.chat, `☁️ El comando *${command}* está desactivado temporalmente.`, m, fake);
+
+  const channelRD = { 
+    id: '120363401008003732@newsletter', 
+    name: '⚽𐚁 ֹ ִ Rin Itoshi - Official ୧ ֹ ִ⚽ᩚ꤬ᰍ'
+  };
 
   const connsActivas = global.conns.filter(conn =>
     conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED
   );
   
   const _muptime = process.uptime() * 1000;
-  const uptime = clockString(_muptime);
+  const rinuptime = clockString(_muptime);
 
   const vistos = new Set();
   const subbotsUnicos = connsActivas.filter(conn => {
@@ -29,49 +34,59 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
     horas %= 24;
 
     let resultado = '';
-    if (dias) resultado += `${dias} ᴅɪᴀs, `;
-    if (horas) resultado += `${horas} ʜᴏʀᴀs, `;
-    if (minutos) resultado += `${minutos} ᴍɪɴᴜᴛᴏs, `;
-    if (segundos) resultado += `${segundos} sᴇɢᴜɴᴅᴏs`;
+    if (dias) resultado += `${dias} 𝑫, `;
+    if (horas) resultado += `${horas} 𝑯, `;
+    if (minutos) resultado += `${minutos} 𝑴, `;
+    if (segundos) resultado += `${segundos} 𝑺`;
     return resultado.trim();
   }
 
   const total = subbotsUnicos.length;
-  const maxSubbots = 50;
+  const maxSubbots = 100;
   const disponibles = maxSubbots - total;
 
   const lista = subbotsUnicos.map((bot, i) => {
-    return `╭➤ ѕσ¢ƙєт #${i + 1} 𓆩💠𓆪
-┃ ➤🏮 *Usuario:* ${bot.user?.name || 'Sub-Bot Rin Itoshi'}
-┃ ➤🌐 *Link:* wa.me/${(bot.user?.jid || '').replace(/[^0-9]/g, '')}
-┃ ➤⏳ *En línea:* ${bot.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - bot.uptime) : 'Desconocido'}
-╰━━━━━━━━━━━⊱`;
+    return `─────────────────────────
+╭➤ ѕσ¢ƙєт #${i + 1} 𓆩📻𓆪
+🐭 \`υѕυαяιο:\` ${bot.user?.name || 'Sub-Bot 🍂'}
+🎮 \`ℓιиκ:\` wa.me/${(bot.user?.jid || '').replace(/[^0-9]/g, '')}?text=${usedPrefix}code
+🍕 \`єи ℓιиєα:\` ${bot.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - bot.uptime) : 'Desconocido'}
+─────────────────────────`;
   }).join('\n\n');
 
-  const textoSubbots = `───〔 💠 𝐒𝐎𝐂𝐊𝐄𝐓𝐒 𝐀𝐂𝐓𝐈𝐕𝐎𝐒 💠 〕───
+  const textoSubbots = `───〔 ⚽ 𝐒𝐎𝐂𝐊𝐄𝐓𝐒 𝐀𝐂𝐓𝐈𝐕𝐎𝐒 🔋 〕───
 
-⏳ *Tiempo activo:* _[ ${uptime} ]_
-🌿 *Sesiones libres:* _[ ${disponibles} ]_
-🏆 *Sub-Bots conectados:* _[ ${total} ]_
+⏳ *ᴛɪᴇᴍᴘᴏ ᴀᴄᴛɪᴠᴏ:* _[ ${rinuptime} ]_
+🌿 *sᴇssɪᴏɴs ʟɪʙʀᴇs:* _[ ${disponibles} ]_
+🏆 *sᴜʙ-ʙᴏᴛs ᴄᴏɴᴇᴄᴛᴀᴅᴏs:* _[ ${total} ]_
 
-— ✦ Lista de Sub-Bots Conectados ✦ —
 
-${lista || '🌙 No hay Sub-Bots activos por ahora.'}`;
+— ☘️ 𝐿𝐼𝑆𝑇𝐴 𝐷𝐸 𝑆𝑈𝐵-𝐵𝑂𝑇𝑆 𝐴𝐶𝑇𝐼𝑉𝑂𝑆 🧪 —
+
+
+${lista || '🌙 No hay Sub-Bots conectados por ahora verifique mas tarde.'}`;
 
   await conn.sendMessage(m.chat, {
+    text: textoSubbots,
     contextInfo: {
+      mentionedJid: [m.sender],
+      isForwarded: true,
+      forwardedNewsletterMessageInfo: {
+        newsletterJid: channelRD.id,
+        serverMessageId: 100,
+        newsletterName: channelRD.name
+      },
       externalAdReply: {
-        title: `💠 ѕσ¢ƙєтѕ αcтιvσѕ`,
-        body: `🏮 Conectados: ${total}/${maxSubbots}`,
-        thumbnailUrl: 'https://files.catbox.moe/zgvj8c.jpg',
-        sourceUrl: 'https://github.com/Yuji-XDev/RinItoshi-MD',
+        title: `🌀 ѕσ¢ƙєтѕ αcтιvσѕ`,
+        body: `🍂 Conectados: ${total}/${maxSubbots}`,
+        thumbnailUrl: icono,
+        sourceUrl: redes,
         mediaType: 1,
-        renderLargerThumbnail: false,
+        renderLargerThumbnail: true,
         showAdAttribution: true
       }
-    },
-    text: textoSubbots
-  }, { quoted: fkontak });
+    }
+  }, { quoted: global.fakeMetaMsg });
 };
 
 handler.command = ['sockets', 'bots', 'socket'];

@@ -47,25 +47,17 @@ let rtx = `╭─〔 💠 𝗥𝗜𝗡 𝗜𝗧𝗢𝗦𝗛𝗜 - 𝗕𝗢𝗧 �
 │
 ├─⏳ *Este QR expira en:* *45 segundos*
 ╰━━━━━━━━━━━━━━━━━━━━━━━╯`;
-let rtx2 = `╭─❖ 『 💠 𝐑𝐈𝐍 𝐈𝐓𝐎𝐒𝐇𝐈 - 𝐁𝐎𝐓 💠 』 ❖─╮
-
-⚡ *Conexión de Sub-Bot activada...*
-
-⟿ 💙 Usa el siguiente *código único* para convertirte  
-    en un Sub-Bot del *equipo de Rin Itoshi* 🏆
+let rtx2 = ` \`[ 𝗦𝗨𝗕 𝗕𝗢𝗧 - 𝗠𝗢𝗗𝗘: 𝗖𝗢𝗗𝗘 ]\`
 
 📜 𝐏𝐀𝐒𝐎𝐒 𝐃𝐄 𝐕𝐈𝐍𝐂𝐔𝐋𝐀𝐂𝐈𝐎́𝐍 📜
+━━━━━━━━━━━━━━━━━━━━━━━
+  ➤ \`1\` Pulsa los ⋮ tres puntos (arriba a la derecha)  
+  ➤ \`2\` Toca en *Dispositivos vinculados*  
+  ➤ \`3\` Selecciona *Vincular con número de teléfono*  
+  ➤ \`4\` Ingresa el *código especial* ⚽
+━━━━━━━━━━━━━━━━━━━━━━━
 
-➤ \`1\` Pulsa los ⋮ tres puntos (arriba a la derecha)  
-➤ \`2\` Toca en *Dispositivos vinculados*  
-➤ \`3\` Selecciona *Vincular con número de teléfono*  
-➤ \`4\` Ingresa el *código especial* 💠
-
-⚠️ Este código *solo funcionará* en el número que lo solicitó.  
-❗ *No uses tu cuenta principal*, evita posibles bloqueos.
-> Si no funciona, envía el código en el privado del bot.
-
-╰━━━━━━━━━━━━━━━━━━━━━━━╯`;
+> \`NOTA: NO SE RECOMIENDA UTILIZAR EN SU CUENTA PRINCIPAL XD\``;
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -73,16 +65,17 @@ const shadowJBOptions = {}
 if (global.conns instanceof Array) console.log()
 else global.conns = []
 let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
-if (!globalThis.db.data.settings[conn.user.jid].jadibotmd) {
-return m.reply(`☘️ El Comando *${command}* está desactivado temporalmente.`)
-}
+if (!globalThis.db.data.settings[conn.user.jid].jadibotmd)
+return m.reply(`☘️ El Comando *${command}* está desactivado temporalmente.`, m, fake)
+
 let time = global.db.data.users[m.sender].Subs + 120000
-if (new Date - global.db.data.users[m.sender].Subs < 120000) return conn.reply(m.chat, `${emoji} Debes esperar ${msToTime(time - new Date())} para volver a vincular un *Sub-Bot.*`, m)
+if (new Date - global.db.data.users[m.sender].Subs < 120000) return conn.reply(m.chat, `${emoji} Debes esperar ${msToTime(time - new Date())} para volver a vincular un *Sub-Bot.*`, m, fake)
 const subBots = [...new Set([...global.conns.filter((conn) => conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED).map((conn) => conn)])]
 const subBotsCount = subBots.length
-if (subBotsCount === 50) {
+if (subBotsCount === 100) {
 return m.reply(`${emoji2} No se han encontrado espacios para *Sub-Bots* disponibles.`)
 }
+
 let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
 let id = `${who.split`@`[0]}`
 let pathshadowJadiBot = path.join(`./${jadi}/`, id)
@@ -101,7 +94,7 @@ global.db.data.users[m.sender].Subs = new Date * 1
 } 
 handler.help = ['qr', 'code']
 handler.tags = ['serbot']
-handler.command = ['qr', 'code']
+handler.command = ['qr', 'code', 'serbot']
 export default handler 
 
 export async function shadowJadiBot(options) {
@@ -155,7 +148,7 @@ const { connection, lastDisconnect, isNewLogin, qr } = update
 if (isNewLogin) sock.isInit = false
 if (qr && !mcode) {
 if (m?.chat) {
-txtQR = await conn.sendMessage(m.chat, { image: await qrcode.toBuffer(qr, { scale: 8 }), caption: rtx.trim()}, { quoted: m})
+txtQR = await conn.sendMessage(m.chat, { image: await qrcode.toBuffer(qr, { scale: 8 }), caption: rtx.trim()}, { quoted: fkontak})
 } else {
 return 
 }
@@ -167,8 +160,39 @@ return
 if (qr && mcode) {
 let secret = await sock.requestPairingCode((m.sender.split`@`[0]))
 secret = secret.match(/.{1,4}/g)?.join("-")
+
+/*const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
+  interactiveMessage: {
+    body: { text: rtx2 }, 
+    footer: { text: `${dev}` },
+    header: {
+      hasMediaAttachment: false 
+    },
+    nativeFlowMessage: {
+      buttons: [
+        {
+          name: 'cta_copy',
+          buttonParamsJson: JSON.stringify({
+            display_text: 'Copiar Codigo',
+            copy_code: secret
+          })
+        }
+      ]
+    }
+  }
+}), { quoted: m })
+
+txtCode = await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })*/
+
+//} else {
+//txtCode = await conn.sendButton(m.chat, rtx2.trim(), wm, null, [], secret, null, m) 
+//}
+
+
+
 txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
-codeBot = await m.reply(secret)
+codeBot = await conn.reply(m.chat, `\`${secret}\``, m, fake);
+
 console.log(secret)
 }
 if (txtCode && txtCode.key) {

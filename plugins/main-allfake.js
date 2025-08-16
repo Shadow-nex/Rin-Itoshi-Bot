@@ -36,8 +36,8 @@ global.namecomu = '▐▐ ⚡ 𝗥𝗶𝗻-𝗜𝘁𝗼𝘀𝗵𝗶-𝗕𝗼𝘁
 global.listo = '✦❀ *Aquí tienes, capitán ฅ^•ﻌ•^ฅ* ❀✦'
 global.fotoperfil = await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg')
 
-global.canalIdM = ["120363401008003732@newsletter", "120363401008003732@newsletter"]
-global.canalNombreM = ["▐ 𝗧𝗢𝗖𝗔 𝗔𝗤𝗨𝗜▐ ", "✦ 𝗥𝗶𝗻 𝗜𝘁𝗼𝘀𝗵𝗶 - 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 ✦"]
+global.canalIdM = ["120363401008003732@newsletter", "120363401008003732@newsletter", "120363401008003732@newsletter"]
+global.canalNombreM = ["▐ 𝗧𝗢𝗖𝗔 𝗔𝗤𝗨𝗜▐ ", "✦ 𝗥𝗶𝗻 𝗜𝘁𝗼𝘀𝗵𝗶 - 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 ✦", "⚽𐚁 ֹ ִ Rin Itoshi - Official ୧ ֹ ִ⚽ᩚ꤬ᰍ"]
 global.channelRD = await getRandomChannel()
 
 global.d = new Date(new Date + 3600000)
@@ -61,11 +61,18 @@ global.emoji5 = '(づ｡◕‿‿◕｡)づ'
 global.emoji6 = '★~(◠‿◕✿)'
 global.emojis = [emoji, emoji2, emoji3, emoji4, emoji5, emoji6].getRandom()
 
-global.wait = '✧͢☁️ 𝐏𝐑𝐎𝐂𝐄𝐒𝐀𝐍𝐃𝐎...⚙️༄  \n=͟͟͞💠 𝑬𝒔𝒑𝒆𝒓𝒆 𝒑𝒐𝒓 𝒇𝒂𝒗𝒐𝒓...';
-global.waitt = '✧͢☁️ 𝐏𝐑𝐎𝐂𝐄𝐒𝐀𝐍𝐃𝐎...⚙️༄  \n=͟͟͞💠 𝑬𝒔𝒑𝒆𝒓𝒆 𝒑𝒐𝒓 𝒇𝒂𝒗𝒐𝒓...';
-global.waittt = '✧͢☁️ 𝐏𝐑𝐎𝐂𝐄𝐒𝐀𝐍𝐃𝐎...⚙️༄  \n=͟͟͞💠 𝑬𝒔𝒑𝒆𝒓𝒆 𝒑𝒐𝒓 𝒇𝒂𝒗𝒐𝒓...';
-global.waitttt = '✧͢☁️ 𝐏𝐑𝐎𝐂𝐄𝐒𝐀𝐍𝐃𝐎...⚙️༄  \n=͟͟͞💠 𝑬𝒔𝒑𝒆𝒓𝒆 𝒑𝒐𝒓 𝒇𝒂𝒗𝒐𝒓...';
+global.wait = '⚽️ 𝙀𝙣𝙫𝙞𝙖𝙣𝙙𝙤 𝙩𝙚𝙣 𝙥𝙖𝙘𝙞𝙚𝙣𝙘𝙞𝙖...';
+global.waitt = '⚽️ 𝙀𝙣𝙫𝙞𝙖𝙣𝙙𝙤 𝙩𝙚𝙣 𝙥𝙖𝙘𝙞𝙚𝙣𝙘𝙞𝙖...';
+global.waittt = '⚽️ 𝙀𝙣𝙫𝙞𝙖𝙣𝙙𝙤 𝙩𝙚𝙣 𝙥𝙖𝙘𝙞𝙚𝙣𝙘𝙞𝙖...';
+global.waitttt = '⚽️ 𝙀𝙣𝙫𝙞𝙖𝙣𝙙𝙤 𝙩𝙚𝙣 𝙥𝙖𝙘𝙞𝙚𝙣𝙘𝙞𝙖...';
 
+
+global.hotw = '*🐭 El contenido `NSFW` está desactivado en este grupo.*\n> Un administrador puede activarlo con el comando » *`#nsfw on`*';
+
+
+global.edadaleatoria = ['10', '28', '20', '40', '18', '21', '15', '11', '9', '17', '25'].getRandom();
+global.user2 = m.pushName || 'Anónimo';
+global.verifyaleatorio = ['registrar', 'reg', 'verificar', 'verify', 'register'].getRandom();
 
 var canal = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'  
 var comunidad = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
@@ -115,7 +122,8 @@ global.icono = [
 'https://files.catbox.moe/i97oje.jpg'
 ].getRandom()
 
-global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: 100, newsletterName: channelRD.name, }, externalAdReply: { showAdAttribution: true, title: packname, body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: true }, }, }}
+//global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: 100, newsletterName: channelRD.name, }, externalAdReply: { showAdAttribution: true, title: packname, body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: true }, }, }}
+
 
 export default handler
 

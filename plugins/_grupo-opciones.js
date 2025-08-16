@@ -1,5 +1,5 @@
 const handler = async (m, { conn }) => {
-  const { welcome, antiPrivate, antiarabe, restrict, antiBot, autoAceptar, autoRechazar, antiBot2, modoadmin, reaction, nsfw, antiLink2, jadibotmd, detect, antiver, audios, antiLink, antifake } = global.db.data.chats[m.chat] || {};
+  const { welcome, antiPrivate, antiarabe, restrict, antiBot, autoAceptar, autoRechazar, antiBot2, modoadmin, reaction, nsfw, antiSpam, antiLink2, jadibotmd, detect, antiver, audios, antiLink, antifake } = global.db.data.chats[m.chat] || {};
     /*
         let thumbnail = 'https://files.catbox.moe/4dple4.jpg';  
         let rcanal = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U';
@@ -44,6 +44,7 @@ const handler = async (m, { conn }) => {
 │ 🌳 Antiarabe: ${estado(antiarabe)}
 │ 🌳 Restringir: ${estado(restrict)}
 │ 🌳 Mode Jadibot: ${estado(jadibotmd)}
+│ 🌳 antispam: ${estado(antiSpam)}
 ╰─────────────⬣
 
 _*📝 Ejemplo:*_  \`.antilink on\``;

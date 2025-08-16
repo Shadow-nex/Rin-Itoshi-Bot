@@ -33,31 +33,26 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       ⟡ ℝ𝕚𝕟 𝕀𝕥𝕠𝕤𝕙𝕚 𝔹𝕠𝕥 𝔼𝕟𝕖𝕣𝕘𝕪 ⟡
 ╚═━━━──༺༻──━━━═╝
 
-> *🪪 𝐈𝐃 𝐃𝐞 𝐔𝐬𝐮𝐚𝐫𝐢𝐨:* @${userId.split('@')[0]}
-> *🌙 𝐍𝐨𝐦𝐛𝐫𝐞 𝐌𝐢𝐬𝐭𝐢𝐜𝐨:* *${name}*
-> *🌀 𝐄𝐬𝐞𝐧𝐜𝐢𝐚 𝐢𝐧𝐭𝐞𝐫𝐢𝐨𝐫:* _${description}_
+> 𖥔 ︳*🪪 𝐈𝐃 𝐃𝐞 𝐔𝐬𝐮𝐚𝐫𝐢𝐨:* @${userId.split('@')[0]}
+> 𖥔 ︳*🌙 𝐍𝐨𝐦𝐛𝐫𝐞 𝐌𝐢𝐬𝐭𝐢𝐜𝐨:* *${name}*
+> 𖥔 ︳*🌀 𝐄𝐬𝐞𝐧𝐜𝐢𝐚 𝐢𝐧𝐭𝐞𝐫𝐢𝐨𝐫:* _${description}_
 
  \`🜁 𝐂𝐎𝐍𝐅𝐈𝐆𝐔𝐑𝐀𝐂𝐈𝐎𝐍 𝐕𝐈𝐓𝐀𝐋\`
-> *🎂 Edad Cósmica:* ${user.age || 'Incierta'}
-> *📆 Fecha Estelar:* ${cumpleanos}
-> *⚧️ Energía:* ${genero}
-> *💖 Lazo Álmico:* ${pareja}
+> ║◦ *🎂 Edad Cósmica:* ${user.age || 'Incierta'}
+> ║◦ *📆 Fecha Estelar:* ${cumpleanos}
+> ║◦ *⚧️ Energía:* ${genero}
+> ║◦ *💖 Lazo Álmico:* ${pareja}
 
-╭─• *\`𝐑𝐄𝐂𝐔𝐑𝐒𝐎𝐒\`*
-│° *🪙 Coins:* 15
-│° *🍨 Nivel Dimensional:* ${nivel}
-│° *🌷 Exp Astral:* ${exp.toLocaleString()}
-│° *☕ Rango:* ${role}
-╰─────────────•
+─• *\`𝐑𝐄𝐂𝐔𝐑𝐒𝐎𝐒\`* •─
+∘🪙.• *${moneda}:* ${coins.toLocaleString()} ${moneda}
+∘🍂.• *Nivel Dimensional:* ${nivel}
+∘🌷.• *Exp Astral:* ${exp.toLocaleString()}
+∘🌿.• *Rango:* ${role}
 
-╭─• *\`𝐄𝐒𝐓𝐀𝐃𝐎 𝐃𝐄 𝐄𝐍𝐄𝐑𝐆Í𝐀\`*
-│° *⚽ monedas:* ${coins.toLocaleString()} ${moneda}
-│° *🏦 monedas bank:* ${bankCoins.toLocaleString()} ${moneda}
-│° *🔮 Premium Astral:* ${user.premium ? '🟢 Activo' : '🔴 Inactivo'}
-╰─────────────•
+° *🏦 ${moneda} bank:* ${bankCoins.toLocaleString()} ${moneda}
+° *🔮 Premium Astral:* ${user.premium ? '🟢 Activo' : '🔴 Inactivo'}
 
-> 🌠 𝐈𝐍𝐓𝐄𝐑𝐏𝐑𝐄𝐓𝐀𝐂𝐈𝐎𝐍 𝐅𝐈𝐍𝐀𝐋:
-`.trim();
+> 🌠 𝐈𝐍𝐓𝐄𝐑𝐏𝐑𝐄𝐓𝐀𝐂𝐈𝐎𝐍 𝐅𝐈𝐍𝐀𝐋:`.trim();
 
     await conn.sendMessage(m.chat, { 
         text: profileText,

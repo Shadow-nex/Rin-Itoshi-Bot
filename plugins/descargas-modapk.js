@@ -9,16 +9,12 @@ var handler = async (m, { conn, usedPrefix, command, text }) => {
 
     let searchA = await search(text);
     let data5 = await download(searchA[0].id);
-
     let txt = `  *\`⚽ APK DOWNLOAD\`*\n\n`;
     txt += `🍩 *ɴᴏᴍʙʀᴇ:* ${data5.name}\n`;
     txt += `🏮 *ᴘᴀǫᴜᴇᴛᴇ:* ${data5.package}\n`;
     txt += `⚡ *ᴜʟᴛɪᴍᴀ ᴀᴄᴛᴜᴀʟɪᴢᴀᴄɪᴏɴ:* ${data5.lastup}\n`;
     txt += `📦 *ᴛᴀᴍᴀɴ̃ᴏ:* ${data5.size}\n\n`;
     txt += `> \`\`\`🌀 Descargando su aplicación...\`\`\``
-
-    //await conn.sendFile(m.chat, data5.icon, 'thumbnail.jpg', txt, m);
-    
 
   await conn.sendMessage(
     m.chat,
@@ -30,9 +26,9 @@ var handler = async (m, { conn, usedPrefix, command, text }) => {
           title: '                          ☘️ Dev.Shadow 🇦🇱',
           body: '   🌀꙰⃟ 𖤐 𝙍𝙄𝙉 𝙄𝙏𝙊𝙎𝙃𝙄 ∞ 𝐌𝐃 𖤐🎨⃟',
           mediaType: 1,
-          thumbnailUrl: 'https://files.catbox.moe/9l7hcn.jpg',
-          mediaUrl: 'https://github.com/Yuji-XDev/SukunaUltra-MD',
-          sourceUrl: 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U',
+          thumbnailUrl: icono,
+          mediaUrl: redes,
+          sourceUrl: redes,
           renderLargerThumbnail: true
         }
       }

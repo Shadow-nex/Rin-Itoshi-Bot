@@ -11,15 +11,15 @@ let handler = async (m, { conn }) => {
     const totalCommands = Object.values(global.plugins).filter(v => v.help && v.tags).length;
 
     const text = `
-🛸 𝙍𝙄𝙉 𝙄𝙏𝙊𝙎𝙃𝙄 𝘽𝙊𝙏 - 𝘾𝙊𝙉𝙎𝙊𝙇𝘼 𝘿𝙀 𝘼𝙐𝘿𝙄𝙊𝙎  
+🛸 𝙍𝙄𝙉 𝙄𝙏𝙊𝙎𝙃𝙄 𝘽𝙊𝙏 - 𝘾𝙊𝙉𝙎𝙊𝙇𝘼 𝘿𝙀 𝘼𝙐𝘿𝙄𝙊𝙎  ⚽
 ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔
-💠 *Usuario:* ${name}  
-💠 *Registrados:* ${totalreg}  
-💠 *Comandos activos:* ${totalCommands}  
-💠 *Uptime:* ${uptime}  
+⚡ *Usuario:* ${name}  
+🍂 *Registrados:* ${totalreg}  
+🧪 *Comandos activos:* ${totalCommands}  
+🍕 *Uptime:* ${uptime}  
   
 🧠 *Accediendo al módulo de sonidos...*  
-🔊 *Audios disponibles:*  
+📡 *Audios disponibles:*  
   
 ╭─⧉ 𝘼𝙐𝘿𝙄𝙊𝙎 𝘼𝙉𝙄𝙈𝙀 / 𝙍𝘼𝙍𝙊𝙎
 │ ◦ Onichan~
@@ -153,17 +153,17 @@ let handler = async (m, { conn }) => {
 🕹️ _Ejemplo:_ \`Tunometecabrasaramambiche\`  
   
 ───────────── ░▒▓█  
-📡 *SUKUNA SYSTEM READY*
+📡 *RIN ITOSHI SYSTEM READY*
 `.trim();
 
     await conn.sendMessage(m.chat, {
       text,
       contextInfo: {
         externalAdReply: {
-          title: "🎧 MENÚ DE AUDIOS - RIN ITOSHI BOT",
+          title: "🎧 MENÚ DE AUDIOS - RIN ITOSHI BOT ⚡",
           body: "Escribe el nombre del audio para reproducirlo automáticamente.",
-          thumbnailUrl: 'https://files.catbox.moe/ceotf9.jpg',
-          sourceUrl: 'https://github.com/Yuji-XDev',
+          thumbnailUrl: banner,
+          sourceUrl: redes,
           mediaType: 1,
           renderLargerThumbnail: true,
           showAdAttribution: true,

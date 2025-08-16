@@ -39,7 +39,7 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
           body: dev,
           previewType: 0, 
           thumbnail: avatar,
-          sourceUrl: redes 
+          sourceUrl: redes
         }
       }
     });

@@ -27,10 +27,10 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
    ];
 
    return await conn.sendMessage(m.chat, {
-     image: { url: 'https://files.catbox.moe/r2ixaj.jpg' },
+     image: { url: icono },
      caption: texto,
      mentions: [m.sender],
-     footer: '🌾 Sukuna Ultra MD',
+     footer: '˜”*°•.˜”*°• RIN ITOSHI BOT •°*”˜.•°*”˜',
      buttons: botones,
      headerType: 4
    }, { quoted: m });
@@ -50,10 +50,10 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
      ];
 
      return await conn.sendMessage(m.chat, {
-       image: { url: 'https://files.catbox.moe/r2ixaj.jpg' },
+       image: { url: icono },
        caption: mensaje,
        mentions: [m.sender],
-       footer: '🌾 Sukuna Ultra MD',
+       footer: '˜”*°•.˜”*°• RIN ITOSHI BOT •°*”˜.•°*”˜',
        buttons: botones,
        headerType: 4
      }, { quoted: m });
@@ -82,49 +82,40 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
   global.db.data.users[m.sender].joincount += 20
   let sn = createHash('md5').update(m.sender).digest('hex').slice(0, 20)
 let regbot = `✅ VERIFICACIÓN EXITOSA ✅
-
-🌾 \`NOMBRE\` » \`\`\`${name}\`\`\`
-🌀 \`EDAD\` » \`\`\`${age} años\`\`\`
-
-🕸️ \`FECHA\` » \`\`\`${fecha}\`\`\`
-🐋 \`HORA\` » \`\`\`${hora}\`\`\`
-🌿 \`DIA\` » \`\`\`${dia}\`\`\`
-
-🍹 RECOMPENSAS 🧪
-🪙 \`COINS:\` +40
-🏮 \`EXP:\` +300
-🔰 \`TOKENS:\` +20\n`;
+───────────────────
+· › 🌷 \`NOMBRE\` » *${name}*
+· › 🌀 \`EDAD\` » *${age} años*
+───────────────────
+· › 🕸️ \`FECHA\` » *${fecha}*
+· › 🐋 \`HORA\` » *${hora}*
+· › 🌿 \`DIA\` » *${dia}*
+───────────────────
+• 🍹 RECOMPENSAS 🧪
+· › 🪙 \`COINS:\` *+40*
+· › 🏮 \`EXP:\` *+300*
+· › 🔰 \`TOKENS:\` *+20*
+───────────────────`.trim();
 
 await m.react('📩')
-await conn.sendButton(m.chat, regbot, club, pp, [
-['👤 𝗢𝗪𝗡𝗘𝗥', '#owner'],
-['🌾 𝗣𝗘𝗥𝗙𝗜𝗟', '#perfil'],
-['☘️ 𝗠𝗘𝗡𝗨 • 𝗔𝗟𝗟', '#menu']], null, [
-['🌐 𝗖𝗔𝗡𝗔𝗟', `https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U`]], fkontak)}
-
-/*  await conn.sendMessage(m.chat, {
-    image: { url: pp },
+await conn.sendMessage(
+  m.chat,
+  {
+    image: { url: 'https://files.catbox.moe/g2of9q.jpg' },
     caption: regbot,
-    footer: club,
-    buttons: [
-      { buttonId: '#menu', buttonText: { displayText: '🌳 Menu Principal' }, type: 1 },
-      { buttonId: '#profile', buttonText: { displayText: '🔥 Perfil' }, type: 1 },
-    ],
-    headerType: 4,
     contextInfo: {
       externalAdReply: {
-        title: 'ּ໋۪֔⛩️⣴ ⵿ּׄ🫧 ⃝̸̶⵿ᩫᰰᮬ 𝐔𝐒𝐔𝐀𝐑𝐈𝐎 𝐕𝐄𝐑𝐈𝐅𝐈𝐂𝐀𝐃𝐎🎄᮫๋໋֢᳝ꨪᰰ⃟ુ᭡̵໋࡙',
-        body: ' . ݁ ּ ּ۪ ࣭֔𔓕⃘᜔𑵅᮫ּ߲֧߲۪۪〫֔࠭🌧️ꨩּֽ֪۪۪〫ࣳׄ꩖ּ߲߲֧۪۪߲߲࣪𝐁𝐲: 𓆩𝑺𝒉𝒂֟፝𝑫𝒐𝒘•𝒄𝒐𝒓𝒆𓆪',
-        thumbnailUrl: 'https://files.catbox.moe/hwkp81.jpg',
+        title: '✦͢🌹⌗ 𝐔𝐒𝐔𝐀𝐑𝐈𝐎 𝐂𝐎𝐍𝐅𝐈𝐑𝐌𝐀𝐃𝐎 💎✨',
+        body: '꒰🍃꒱ ᴛᴜ ᴄᴜᴇɴᴛᴀ ʜᴀ ꜱɪᴅᴏ ᴀᴄᴛɪᴠᴀᴅᴀ ᴄᴏɴ éꜱᴇxɪᴛᴏ\n☯︎ ʙʏ: 𝑺𝒉𝒂𝑫𝒐𝒘•𝑪𝒐𝒓𝒆'
         mediaType: 1,
-        renderLargerThumbnail: true,
-        showAdAttribution: true,
-        sourceUrl: channel,
+        thumbnailUrl: pp,
+        mediaUrl: redes,
+        sourceUrl: redes,
+        renderLargerThumbnail: true
       }
     }
-  }, { quoted: fkontak });
-}*/
-
+  },
+  { quoted: m }
+);
 handler.help = ['reg']
 handler.tags = ['rg']
 handler.command = ['verify', 'verificar', 'reg', 'register', 'registrar'] 

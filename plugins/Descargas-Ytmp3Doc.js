@@ -54,7 +54,7 @@ const ddownr = {
 const handler = async (m, { conn, text, command }) => {
   try {
     if (!text.trim()) {
-      return conn.reply(m.chat, `*👻 Ingresa el nombre del video a descargar.*`, m, fake);
+      return conn.reply(m.chat, `*🧪 Ingresa el nombre del video a descargar.*`, m, fake);
     }
 
     await conn.sendMessage(m.chat, { react: { text: '📀', key: m.key }});
@@ -124,7 +124,7 @@ const handler = async (m, { conn, text, command }) => {
         contextInfo: {
           externalAdReply: {
             title: title,
-            body: `💿 YOUTUBE DOC ☘️`,
+            body: `🧪 YOUTUBE DOC 💎`,
             mediaUrl: url,
             sourceUrl: url,
             thumbnailUrl: image,
@@ -144,7 +144,8 @@ const handler = async (m, { conn, text, command }) => {
   }
 };
 
-handler.command = handler.help = ['ytmp3doc', 'ytadoc'];
+handler.command = ['ytmp3doc'];
+handler.help = ['ytmp3doc', 'ytadoc'];
 handler.tags = ['descargas'];
 
 export default handler;

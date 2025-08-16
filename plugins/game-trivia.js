@@ -903,10 +903,8 @@ const triviaHandler = async (m, { conn, command, args, usedPrefix }) => {
 
         const caption = `
 🎓 *Trivia de Cultura General* 🌸
-╭       ──┉─ •• ─┉──       ╮
- ${questionData.question}
- ╰      ──┉─¡! • !¡─┉──    ╯
-`.trim();
+
+${questionData.question}`.trim();
 
         const buttons = [
             {

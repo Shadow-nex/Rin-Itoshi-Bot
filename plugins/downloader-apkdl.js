@@ -31,7 +31,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       ];
 
       await m.react('✅');
-
       await conn.sendMessage(
         m.chat,
         {
@@ -80,15 +79,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
           document: { url: downloadUrl },
           fileName: `${app.name}.apk`,
           mimetype: 'application/vnd.android.package-archive',
-          caption: `╭━━━〔 📦 *APK INFO* 〕━━⬣
-┃
-┃ ✦ *📌 Nombre:* ${app.name}
-┃ ✦ *👨‍💻 Desarrollador:* ${app.developer}
-┃ ✦ *📅 Publicado:* ${app.publish}
-┃ ✦ *📂 Tamaño:* ${app.size}
-┃ ✦ *📈 Descargas:* ${app.stats.downloads.toLocaleString()}
-┃
-╰━━━〔 🔰 Shadow'core 〕━━⬣`,
+          caption: `*${app.name}*`,
           thumbnail: app.image,
           contextInfo: {
             externalAdReply: {

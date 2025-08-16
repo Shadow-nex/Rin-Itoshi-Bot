@@ -1,8 +1,13 @@
+// ☘️ Código hecho por DEV.𝘚𝘏𝘈𝘋𝘖𝘞 XD
+// - https://github.com/Yuji-XDev
+// - Dejen créditos aunque sea gracias.
+// - 𝘙𝘐𝘕 𝘐𝘛𝘖𝘚𝘏𝘐 BOT MD ⚽
+
 import sharp from 'sharp';
 import fetch from 'node-fetch';
 
 const handler = async (m, { conn, usedPrefix }) => {
-  await m.react('🌳');
+  await m.react('🍂');
   
   try {
     const uptime = clockString(process.uptime() * 1000);
@@ -20,14 +25,14 @@ const handler = async (m, { conn, usedPrefix }) => {
 
  ─·˚₊· ͟͟͞͞꒰➳ \`ɪɴғᴏ - ʙᴏᴛ\` 𑁭𑁘
 
-> ┊ 🎀 𝗖ʀᴇᴀᴅᴏʀ: *Dev.Shadow*
-> ┊ 🧸 𝗖ᴏɴᴛᴀᴄᴛᴏ: *wa.link/z1w9sq*
-> ┊ 💾 𝗩ᴇʀꜱɪᴏɴ: *2.2.5*
-> ┊ 👥 𝗨ꜱᴜᴀʀɪᴏꜱ: *${totalUsers}*
-> ┊ 🧰 𝗖ᴏᴍᴀɴᴅᴏꜱ: *${totalCommands}*
-> ┊ 🔐 𝗠ᴏᴅᴏ: *Privado*
-> ┊ 📚 𝗟ɪʙʀᴇʀɪᴀ: *Baileys‑MD*
-> ┊ ⏱️ 𝗔ᴄᴛɪᴠᴏ: *${uptime}*
+> ┊ 🍂 𝗖ʀᴇᴀᴅᴏʀ : *Dev.Shadow*
+> ┊ 🧸 𝗖ᴏɴᴛᴀᴄᴛᴏ : *wa.link/z1w9sq*
+> ┊ 💾 𝗩ᴇʀꜱɪᴏɴ : *2.2.5*
+> ┊ 👥 𝗨ꜱᴜᴀʀɪᴏꜱ : *${totalUsers}*
+> ┊ 🧰 𝗖ᴏᴍᴀɴᴅᴏꜱ : *${totalCommands}*
+> ┊ 🔐 𝗠ᴏᴅᴏ : *Privado*
+> ┊ 📚 𝗟ɪʙʀᴇʀɪᴀ : *Baileys‑MD*
+> ┊ ⏱️ 𝗔ᴄᴛɪᴠᴏ : *${uptime}*
 
 
  ─·˚₊· ͟͟͞͞꒰➳ \`ɪɴғᴏ - ᴜsᴇʀ\` 𑁭𑁘
@@ -41,15 +46,15 @@ const handler = async (m, { conn, usedPrefix }) => {
  ─·˚₊· ͟͟͞͞꒰➳ \`ɪɴғᴏ - ғᴇᴄʜᴀ\` 𑁭𑁘
 
 > ┊ 📆 𝗙ᴇᴄʜᴀ: *${fecha}*
-> ┊ 📅 𝗗ɪᴀ:    *${dia}*
+> ┊ 💎 𝗗ɪᴀ:    *${dia}*
 > ┊ ⏰ 𝗛ᴏʀᴀ:  *${hora}*`;
     
-    const imgUrl = 'https://files.catbox.moe/4dple4.jpg';
+    const imgUrl = 'https://files.catbox.moe/4dple4.jpg'; // cambie x su imagen xd
     const imagenBuffer = await (await fetch(imgUrl)).buffer();    
     const thumb2 = await sharp(imagenBuffer).resize(400, 400).jpeg({ quality: 70 }).toBuffer();
     
     
-    const imgenUrl = 'https://files.catbox.moe/9l7hcn.jpg';
+    const imgenUrl = 'https://files.catbox.moe/9l7hcn.jpg'; // cambie x su imagen 
     const imgBuffer = await (await fetch(imgenUrl)).buffer();
      
     const thumb = await sharp(imgBuffer).resize(400, 400).jpeg({ quality: 70 }).toBuffer();
@@ -57,94 +62,94 @@ const handler = async (m, { conn, usedPrefix }) => {
     
     const buttons = [
       { buttonId: `${usedPrefix}creador`, buttonText: { displayText: '📞 ᴏᴡɴᴇʀ' }, type: 1 },
-      { buttonId: `${usedPrefix}reg dv.Shadow.18`, buttonText: { displayText: '💌 ᴀᴜᴛᴏ ᴠᴇʀɪғɪᴄᴀʀ' }, type: 1 },
-      { buttonId: `${usedPrefix}estado`, buttonText: { displayText: '🔋 ᴇsᴛᴀᴅᴏ ᴅᴇʟ ʙᴏᴛ' }, type: 1 }
+      { buttonId: `${usedPrefix}reg dv.Shadow.18`, buttonText: { displayText: '💌 ᴀᴜᴛᴏ ᴠᴇʀɪғɪᴄᴀʀ' }, type: 1 }
     ];
 
     const sections = [
       {
          title: packname,
-         highlight_label: "𝘋𝘝.𝘚𝘏𝘈𝘋𝘖𝘞 𝘊𝘖𝘙𝘌",
+         highlight_label: "𝘔𝘌𝘕𝘜 𝘈𝘓𝘓",
          rows: [
            { title: "💥 𝐌𝐄𝐍𝐔 𝐂𝐎𝐌𝐏𝐋𝐄𝐓𝐎", description: "💫 ᴠᴇʀ ʟɪsᴛᴀ ᴅᴇ ᴄᴏᴍᴀɴᴅᴏs", id: `${usedPrefix}menu` }
          ]
       },
       {
-        title: "🌟 𝐌𝐄𝐍𝐔𝐒 𝐃𝐈𝐒𝐏𝐎𝐍𝐈𝐁𝐋𝐄𝐒",
+        title: "🌟 𝐌𝐄𝐍𝐔𝐒 𝐃𝐈𝐒𝐏𝐎𝐍𝐈𝐁𝐋𝐄𝐒 🔋",
         //highlight_label: "by shadow",
         rows: [
           { 
             title: "📥 Mᴇɴᴜ [ 𝗗𝗟 ]",
-            description: "🎧 ᴠᴇʀ ғᴜɴᴄɪᴏɴᴇs ᴅᴇ ᴅᴇsᴄᴀʀɢᴀs",
+            description: "🎧 ᴅᴇsᴄᴀʀɢᴀ ᴄᴏɴᴛᴇɴɪᴅᴏ ᴅᴇ ʟᴀs ᴘʀɪɴᴄɪᴘᴀʟᴇs ʀᴇᴅᴇs: ʏᴏᴜᴛᴜʙᴇ, ғᴀᴄᴇʙᴏᴏᴋ, sᴘᴏᴛɪғʏ, ɪɢ, ᴇᴛᴄ.",
             id: `${usedPrefix}menudl`
           },       
           {
              title: "⛏️ Mᴇɴᴜ [ 𝗥𝗣𝗚 ]", 
-             description: "🎮 ᴠᴇʀ ᴍᴇɴᴜ ʀᴘɢ", 
+             description: "🎮 ᴄʀᴇᴀ ᴛᴜ ᴀᴠᴇɴᴛᴜʀᴀ, ʀᴇᴄᴏɢᴇ ʀᴇᴄᴜʀsᴏs, ɢᴀɴᴀ ᴏʀᴏ ʏ ᴅᴏᴍɪɴᴀ ᴇʟ ᴍᴜɴᴅᴏ ʀᴘɢ ⚔️.", 
              id: `${usedPrefix}menurpg` 
           },
           { 
             title: "🔍 Mᴇɴᴜ [ 𝗦𝗘𝗔𝗥𝗖𝗛 ]", 
-            description: "🌾 ʙᴜsᴄᴀʀ ᴄᴏɴᴛᴇɴɪᴅᴏ", 
+            description: "⟡ 𝐂𝐨𝐦𝐚𝐧𝐝𝐨𝐬 𝐞𝐬𝐩𝐞𝐜𝐢𝐚𝐥𝐞𝐬 𝐩𝐚𝐫𝐚 𝐛𝐮𝐬𝐜𝐚𝐫 𝐢𝐧𝐟𝐨𝐫𝐦𝐚𝐜𝐢𝐨́𝐧, 𝐚𝐮𝐝𝐢𝐨𝐬, 𝐯𝐢𝐝𝐞𝐨𝐬 𝐲 𝐦𝐮𝐜𝐡𝐨 𝐦𝐚́𝐬 𝐞𝐧 𝐥𝐢́𝐧𝐞𝐚 🌍.", 
             id: `${usedPrefix}menuse` 
           },
           { 
             title: "🖍️ Mᴇɴᴜ [ 𝗢𝗪𝗡𝗘𝗥 ]", 
-            description: "🧙‍♂️ ᴘᴀʀᴀ ᴏᴡɴᴇʀ", 
+            description: "🧙‍♂️ 𝐯𝐞𝐫 𝐦𝐞𝐧𝐮 𝐝𝐞 𝐜𝐞𝐧𝐭𝐫𝐨 𝐝𝐞 𝐜𝐨𝐧𝐭𝐫𝐨𝐥 𝐩𝐚𝐫𝐚 𝐨𝐰𝐧𝐞𝐫.", 
             id: `${usedPrefix}dev`
           },
           { 
             title: "🌈 Mᴇɴᴜ [ 𝗔𝗨𝗗𝗜𝗢𝗦 ]", 
-            description: "🎃 sᴏɴɪᴅᴏs ᴅɪᴠᴇʀᴛɪᴅᴏs", 
+            description: "🎃 𝐌𝐮𝐞𝐬𝐭𝐫𝐚 𝐞𝐥 𝐦𝐞𝐧𝐮 𝐚𝐮𝐝𝐢𝐨𝐬.", 
             id: `${usedPrefix}menu2` 
           },
           { 
              title: "⛩️ Mᴇɴᴜ [ 𝗣𝗘𝗥𝗙𝗜𝗟 ]", 
-            description: "☂️ ᴄᴜᴇɴᴛᴀs ʏ ᴇsᴛᴀᴅᴏs", 
+            description: "🧩 𝙀𝙭𝙖𝙢𝙞𝙣𝙖 𝙩𝙪𝙨 𝙙𝙖𝙩𝙤𝙨, 𝙖𝙙𝙖𝙥𝙩𝙖 𝙩𝙪 𝙪𝙨𝙚𝙧 𝙖 𝙩𝙪 𝙨𝙩𝙮𝙡𝙚 𝙮 𝙢𝙖́𝙣𝙩𝙚𝙣 𝙩𝙪 𝙚𝙨𝙩𝙖𝙙𝙤 𝙖𝙘𝙩𝙪𝙖𝙡𝙞𝙯𝙖𝙙𝙤 💠", 
             id: `${usedPrefix}perfildates` 
           },
           { 
             title: "🌞 Mᴇɴᴜ [ 𝗚𝗥𝗨𝗣𝗢 ]", 
-            description: "💫 ᴀᴅᴍɪɴ ʏ ᴄᴏɴᴛʀᴏʟ", 
+            description: "⟡ 𝐇𝐞𝐫𝐫𝐚𝐦𝐢𝐞𝐧𝐭𝐚𝐬 𝐲 𝐜𝐨𝐦𝐚𝐧𝐝𝐨𝐬 𝐩𝐚𝐫𝐚 𝐥𝐚 𝐠𝐞𝐬𝐭𝐢𝐨́𝐧 𝐲 𝐚𝐝𝐦𝐢𝐧𝐢𝐬𝐭𝐫𝐚𝐜𝐢𝐨́𝐧 𝐝𝐞 𝐭𝐮 𝐠𝐫𝐮𝐩𝐨 🌐", 
             id: `${usedPrefix}menugp` 
           },
           { 
             title: "🔞 Mᴇɴᴜ [ 𝗡𝗦𝗙𝗪 ]", 
-            description: "💨 ᴄᴏɴᴛᴇɴɪᴅᴏ ᴘʀɪᴠᴀᴅᴏ",
+            description: "🔞✨⊹ 𝐀𝐜𝐜𝐞𝐬𝐨 𝐚 𝐥𝐨𝐬 𝐜𝐨𝐦𝐚𝐧𝐝𝐨𝐬 𝐍𝐒𝐅𝐖, 𝐬𝐨𝐥𝐨 𝐩𝐚𝐫𝐚 𝐚𝐝𝐮𝐥𝐭𝐨𝐬 🍑💦⊹",
             id: `${usedPrefix}menu18` 
           },
           { 
             title: "💖 Mᴇɴᴜ [ 𝗟𝗢𝗚𝗢𝗧𝗜𝗣𝗢𝗦 ]", 
-            description: "🐥 ᴄʀᴇᴀ ᴛᴜ ʟᴏɢᴏ", 
+            description: "🐥 ᴍᴇɴᴜ ʟᴏɢᴏᴛɪᴘᴏs ", 
             id: `${usedPrefix}menulogos` 
           },
           { 
             title: "🐛 Mᴇɴᴜ [ 𝗦𝗧𝗜𝗖𝗞𝗘𝗥𝗦 ]", 
-            description: "🐾 ᴘᴇɢᴀᴛɪɴᴀs ᴅɪᴠᴇʀᴛɪᴅᴀs", 
+            description: "✨ Crea stickers animados, personalizados y súper únicos para compartir con tus amigos 🔥🎨", 
             id: `${usedPrefix}menusticker` 
           }
         ]
       },
       {
-        title: "💖 𝐑𝐈𝐍 𝐈𝐓𝐎𝐒𝐇𝐈",
-        highlight_label: "BY SHADOW",
+        title: "⚽ ɪɴғᴏʀᴍᴀᴄɪᴏɴ ᴅᴇʟ ʙᴏᴛ 🧪",
         rows: [
-          { title: "SUB BOTS ONLINE", description: "💦 ᴠᴇʀ ʟɪsᴛᴀ ᴅᴇ sᴜʙʙᴏᴛs ᴀᴄᴛɪᴠᴏs", id: `${usedPrefix}bots` }
+          { title: "𝐈𝐍𝐅𝐎 - 𝐒𝐘𝐒𝐓𝐄𝐌", description: "💦 ᴠᴇʀ ᴇʟ sɪsᴛᴇᴍᴀ ᴅᴇʟ ʙᴏᴛ xᴅ", id: `${usedPrefix}sistema` },
+          { title: "𝐈𝐍𝐅𝐎 - 𝐒𝐓𝐀𝐓𝐔𝐒", description: "🍩 ᴠᴇʀ ᴇsᴛᴀᴅᴏ ᴅᴇʟ ʙᴏᴛ", id: `${usedPrefix}estado` },
+          { title: "𝐈𝐍𝐅𝐎 - 𝐗𝐃", description: "⚽ ᴠᴇʀ ɪɴғᴏʀᴍᴀᴄɪᴏɴ ᴅᴇʟ ʙᴏᴛ", id: `${usedPrefix}info` }
         ]
       },
       {
-        title: "📢 GRUPOS",
-        highlight_label: "LINLS",
+        title: "☘️ XD",
+        highlight_label: "ɢʀᴏᴜᴘ ᴏғᴄ",
         rows: [
           { title: "💬 Grupo Oficial", description: "ɢʀᴜᴘᴏs ᴏғɪᴄɪᴀʟᴇs ᴅᴇʟ ʙᴏᴛ", id: `${usedPrefix}grupos` },
-          { title: "🤝 SER BOT", description: "ᴄᴏɴᴇᴄᴛᴀ ᴛᴜ sᴜʙ ʙᴏᴛs xᴅ", id: `${usedPrefix}code` }
+          { title: "🍂 SER BOT", description: "ᴄᴏɴᴇᴄᴛᴀ ᴛᴜ sᴜʙ ʙᴏᴛs xᴅ", id: `${usedPrefix}code` }
         ]
       }
     ];
     await conn.sendMessage(m.chat, {
       document: docBuffer,
       fileName: `ꭈׁׅꪱׁׅꪀׁׅ ꪱׁׅtׁׅᨵׁׅ꯱ׁׅ֒hׁׅ֮ꪱׁׅ ϐׁׅ֒ᨵׁׅtׁׅ  ꩇׁׅ݊ժׁׅ݊`,
-      mimetype: 'image/webp',
+      mimetype: 'image/PNG',
       caption: texto,
       jpegThumbnail: thumb2,
       footer: '[⚙] Sistema: *RIN.EXΞ*',
@@ -155,7 +160,7 @@ const handler = async (m, { conn, usedPrefix }) => {
           nativeFlowInfo: {
             name: 'single_select',
             paramsJson: JSON.stringify({
-              title: '🌳 MENU - LIST ☘️',
+              title: '🍂 𝐀𝐋𝐌𝐎𝐃 𝐌𝐄𝐍𝐔 𝐋𝐈𝐒𝐓 ⚽',
               sections
             })
           }
@@ -184,9 +189,11 @@ const handler = async (m, { conn, usedPrefix }) => {
   }
 };
 
-handler.command = ['menulist'];
+handler.command = ['menulist', 'listmenu'];
 handler.help = ['menulist'];
-handler.tags = ['menus'];
+handler.tags = ['menus']; 
+handler.register = true;
+
 export default handler;
 
 function clockString(ms) {

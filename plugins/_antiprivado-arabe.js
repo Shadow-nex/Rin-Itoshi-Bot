@@ -6,7 +6,7 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner }
   const chat = global.db.data.chats[m.chat];
   const bot = global.db.data.settings[this.user.jid] || {};
 
-  if (m.chat === '120363416409380841@newsletter') return true;
+  if (m.chat === '120363401008003732@newsletter') return true;
   const arabPrefixes = ['+212', '+971', '+20', '+966', '+964', '+963', '+973', '+968', '+974'];
   
   const senderNumber = '+' + m.sender.split('@')[0];

@@ -53,7 +53,7 @@ let handler = async (m, { conn, text, args }) => {
     contextInfo: {
       externalAdReply: {
         title: title,
-        thumbnailUrl: icono,
+        thumbnailUrl: thumbnail,
         sourceUrl: null,
         mediaType: 1,
         renderLargerThumbnail: true
@@ -73,7 +73,7 @@ let handler = async (m, { conn, text, args }) => {
         contextInfo: {
           externalAdReply: {
             title,
-            body: '💿 YOUTUBE DOC ☘️',
+            body: '🌱 YOUTUBE DOC 💎',
             mediaUrl: args[0],
             sourceUrl: args[0],
             thumbnailUrl: args[0],
@@ -84,7 +84,7 @@ let handler = async (m, { conn, text, args }) => {
       }, { quoted: fkontak });
     } catch (err) {
       console.warn('❗ Error al enviar como documento. Se enviará como video.');
-      // por si falla en enviar el video en documento 😃
+
       await conn.sendMessage(m.chat, {
         video: { url },
         caption,
@@ -102,6 +102,7 @@ let handler = async (m, { conn, text, args }) => {
 };
 
 handler.command = ['ytmp4doc', 'ytvdoc', 'ytdoc'];
+handler.help = ['ytmp4doc'];
 handler.tags = ['descargas'];
 export default handler;
 

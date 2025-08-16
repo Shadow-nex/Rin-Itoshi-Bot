@@ -40,7 +40,7 @@ const handler = async (m, { conn, text }) => {
       contextInfo: {
         externalAdReply: {
           title: audio.title,
-          body: `Dᴇsᴄᴀʀɢᴀ ᴄᴏᴍᴘʟᴇᴛᴀ . sᴜᴋᴜɴᴀ ᴍᴅ`,
+          body: `Dᴇsᴄᴀʀɢᴀ ᴄᴏᴍᴘʟᴇᴛᴀ | ʀɪɴ ɪᴛᴏsʜɪ ᴍᴅ`,
           thumbnailUrl: image,
           mediaType: 1,
           renderLargerThumbnail: true

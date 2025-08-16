@@ -363,7 +363,7 @@ let user = global.db.data.users[m.sender]
 if (!['grupo-unbanchat.js'].includes(name) && chat && chat.isBanned && !isROwner) return
 if (name != 'grupo-unbanchat.js' && name != 'owner-exec.js' && name != 'owner-exec2.js' && name != 'grupo-delete.js' && chat?.isBanned && !isROwner) return
 if (m.text && user.banned && !isROwner) {
-m.reply(`《✦》Estas baneado/a, no puedes usar comandos en este bot!\n\n${user.bannedReason ? `✰ *Motivo:* ${user.bannedReason}` : '✰ *Motivo:* Sin Especificar'}\n\n> ✧ Si este Bot es cuenta oficial y tiene evidencia que respalde que este mensaje es un error, puedes exponer tu caso con un moderador.`)
+m.reply(`🌷 Estas baneado/a, no puedes usar comandos en este bot!\n\n${user.bannedReason ? `✰ *Motivo:* ${user.bannedReason}` : '✰ *Motivo:* Sin Especificar'}\n\n> ✧ Si este Bot es cuenta oficial y tiene evidencia que respalde que este mensaje es un error, puedes exponer tu caso con un moderador.\n> ${global.creador}`)
 return
 }
 
@@ -540,9 +540,9 @@ function pickRandom(list) { return list[Math.floor(Math.random() * list.length)]
 }}
 
 global.dfail = (type, m, conn, comando = '') => {
-  let edadaleatoria = ['10', '28', '20', '40', '18', '21', '15', '11', '9', '17', '25'].getRandom();
-  let user2 = m.pushName || 'Anónimo';
-  let verifyaleatorio = ['registrar', 'reg', 'verificar', 'verify', 'register'].getRandom();
+  //let edadaleatoria = ['10', '28', '20', '40', '18', '21', '15', '11', '9', '17', '25'].getRandom();
+  //let user2 = m.pushName || 'Anónimo';
+  //let verifyaleatorio = ['registrar', 'reg', 'verificar', 'verify', 'register'].getRandom();
   let mensajes = getMensajeSistema(comando)
 
   const msg = {
@@ -554,9 +554,7 @@ global.dfail = (type, m, conn, comando = '') => {
     admin: mensajes.smsadmin,
     private: mensajes.smsprivate,
     botAdmin: mensajes.smsbotAdmin,  
-    unreg: `*Para usar " ${comando2} " primero debes registrarte.*
-
-*🧪 Utiliza:* _#${verifyaleatorio} ${user2}.${edadaleatoria}_`,
+    unreg: mensajes.smsunreg,
     restrict: mensajes.smsrestrict
   }[type]
 

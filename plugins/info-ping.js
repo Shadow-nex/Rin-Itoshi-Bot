@@ -10,9 +10,9 @@ let handler = async (m, { conn }) => {
 
           conn.reply(m.chat, `┏━❖『 ⚡ 𝐄𝐒𝐓𝐀𝐃𝐎 𝐎𝐍𝐋𝐈𝐍𝐄 』❖━┓
 ┃ 🖤 *Sistema activo y estable.*
-┃ ⚡ 𝐕𝐞𝐥𝐨𝐜𝐢𝐝𝐚𝐝: ${latensi.toFixed(2)}ms
-┃ ❝ No corro... vuelo. ❞
-┗━━━━━━━━━━━━━━━━━━━┛`, m, fake);
+┃ ⚡ 𝐓𝐢𝐞𝐦𝐩𝐨: ${latensi.toFixed(4)}ms
+┃ ❝  *! Pong ¡*❞
+┗━━━━━━━━━━━━━━━━━━━┛`, fkontak, rcanal);
             });
 }
 handler.help = ['ping']

@@ -79,10 +79,10 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     const { title, thumbnail, views, url } = videoInfo;
     const thumb = (await conn.getFile(thumbnail))?.data;
     
-    const sukunaurl = 'https://files.catbox.moe/kjh6ga.jpg';
+    const rinurl = logo;
     const infoMessage = `➤ ▢ *𝚃𝙸𝚃𝚄𝙻𝙾:*\n> ${title}\n➤ ▢ *𝚅𝙸𝚂𝚃𝙰𝚂:*\n> ${formatViews(views)}\n➤ ▢ *𝙴𝙽𝙻𝙰𝙲𝙴:*\n> ${url}\n> 🎧 𝑬𝒔𝒕𝒐𝒚 𝒑𝒓𝒐𝒄𝒆𝒔𝒂𝒏𝒅𝒐 𝒕𝒖 𝒅𝒆𝒔𝒄𝒂𝒓𝒈𝒂....`;
 
-    await conn.sendFile(m.chat, sukunaurl, 'sukuna.jpg', infoMessage, m);
+    await conn.sendFile(m.chat, rinurl, 'rin.jpg', infoMessage, m);
 
     if (command === 'audio') {
       const api = await ddownr.download(url, 'mp3');
@@ -162,7 +162,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.help = ['audio', 'video'];
 handler.tags = ['descargas'];
 handler.command = ['audio', 'video'];
-//handler.group = true;
+handler.group = true;
 export default handler;
 
 function formatViews(views) {

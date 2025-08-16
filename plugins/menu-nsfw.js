@@ -72,6 +72,7 @@ const handler = async (m, { conn, usedPrefix }) => {
 › ${usedPrefix}pack3
 › ${usedPrefix}videoxxx
 › ${usedPrefix}loli
+› ${usedPrefix}hentai
 › ${usedPrefix}tetas
 
 
@@ -81,7 +82,7 @@ const handler = async (m, { conn, usedPrefix }) => {
 
 ⚠️ *Solo mayores de edad. Usa bajo tu responsabilidad.*
 
-> © nsғᴡ 𝙈𝙀𝙉𝙐 by sukuna Bot
+> © nsғᴡ 𝙈𝙀𝙉𝙐 by Rin itoshi
 `.trim();
 
     await conn.sendMessage(m.chat, {

@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 var handler = async (m, { conn, args, usedPrefix, command }) => {
     if (!args[0]) {
-        return conn.reply(m.chat, `*🌾 Por favor, ingresa un enlace de TikTok.*`, m, fake);
+        return conn.reply(m.chat, `*🌱 Por favor, ingresa un enlace de TikTok.*`, m, fake);
     }
 
     try {
@@ -41,7 +41,7 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
 ┃ ⏱️ *Duración:* ${formatDuration(data.duration)} ⌛  
 ┃ 🖼️ *Calidad:* ${videoURL.includes('hd') ? 'HD 🎞️✨' : 'Normalito 📺💭'}  
 ┃  
-╰─⟦ 💞 𝙀𝙣𝙟𝙤𝙮 𝙞𝙩 𝙤𝙣𝙞𝙘𝙝𝙖𝙣~! 🌈 𝙆𝙮𝙖𝙖𝙖 💕 ⟧`, m, fake);
+╰─⟦ 💞 𝙀𝙣𝙟𝙤𝙮 𝙞𝙩 𝙤𝙣𝙞𝙘𝙝𝙖𝙣~! 🌈 𝙆𝙮𝙖𝙖𝙖 💕 ⟧`, m);
         } else {
             return conn.reply(m.chat, "❌ No se pudo descargar.", m);
         }

@@ -19,7 +19,7 @@ ${namecomu}
 
 > ${dev}`
 
-await conn.sendFile(m.chat, catalogo, "grupos.jpg", grupos, m)
+await conn.sendFile(m.chat, 'https://files.catbox.moe/r2ixaj.jpg', "grupos.jpg", grupos, m)
 
 await m.react(emojis)
 

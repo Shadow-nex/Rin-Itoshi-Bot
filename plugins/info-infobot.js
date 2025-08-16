@@ -29,7 +29,7 @@ let handler = async (m, { conn, usedPrefix }) => {
     info += `┃📉 *RAM libre:* ${format(freemem())}\n`
     info += `╰━━━━━━━━━━━━━━━━━━━━⬣\n\n`
     info += `╭━━━〔 \`𝗠𝗘𝗠𝗢𝗥𝗜𝗔 𝗗𝗘 𝗡𝗢𝗗𝗘𝗝𝗦\` 〕━━⬣\n`
-    info += `${'```' + Object.keys(process.memoryUsage()).map((key) => `${key}: ${format(process.memoryUsage()[key])}`).join('\n') + '```'}`
+    info += `${'```' + Object.keys(process.memoryUsage()).map((key) => `${key}: ${format(process.memoryUsage()[key])}`).join('\n┃') + '```'}╰━━━━━━━━━━━━━━━━━━━━⬣`
 
     let imagenURL = 'https://files.catbox.moe/b4b495.jpg'
 

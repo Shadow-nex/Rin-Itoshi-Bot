@@ -11,7 +11,7 @@ m.react('🕑');
 
 const gp = global.db.data.chats[m.chat] || {};
 
-if (!gp.nsfw && m.isGroup) return m.reply('[❗] *El contenido \`NSFW\` está desactivado en este grupo.*\n> Un administrador puede activarlo con el comando » *#nsfw on*');
+if (!gp.nsfw && m.isGroup) return m.reply(hotw);
 
 let txt = 'Pack🔥🔥🔥';
 
@@ -42,8 +42,8 @@ conn.sendMessage(m.chat, {
     }, { quoted: m });
 }
 
-handler.help = ['pack'];
+handler.help = ['loli'];
 handler.tag = ['nsfw'];
-handler.command = ['pack', 'loli'];
+handler.command = ['loli'];
 
 export default handler;

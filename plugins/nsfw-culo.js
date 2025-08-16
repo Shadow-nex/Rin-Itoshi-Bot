@@ -1,6 +1,6 @@
 let handler = async (m, { conn }) => {
 if (!db.data.chats[m.chat].nsfw && m.isGroup) {
-    return m.reply(`《✦》El contenido *NSFW* está desactivado en este grupo.\n> Un administrador puede activarlo con el comando » *#nsfw on*`);
+    return m.reply(hotw);
     }
     
   let img = 'https://dark-core-api.vercel.app/api/random/ass?key=api';
@@ -10,7 +10,7 @@ if (!db.data.chats[m.chat].nsfw && m.isGroup) {
     image: { url: img },
     caption: text,
     buttons: [
-      { buttonId: '.culo', buttonText: { displayText: '🔁 Otra más' }, type: 1 }
+      { buttonId: '.culo', buttonText: { displayText: 'siguiente' }, type: 1 }
     ]
   }, { quoted: m });
 
