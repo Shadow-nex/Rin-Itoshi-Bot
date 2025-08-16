@@ -147,6 +147,9 @@ global.icono = [
 }
 */
 
+global.rcanal = {contextInfo: {forwardingScore: 2025, isForwarded: true, externalAdReply: {title: packname, body: author, sourceUrl: redes, thumbnailUrl: icono}}}
+}
+
 export default handler
 
 function pickRandom(list) {
