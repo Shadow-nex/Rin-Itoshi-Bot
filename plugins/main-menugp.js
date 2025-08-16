@@ -3,164 +3,93 @@ import { join } from 'path'
 import { xpRange } from '../lib/levelling.js'
 import moment from 'moment-timezone'
 import os from 'os'
-import fs from 'fs'
-import fetch from 'node-fetch'
-const { generateWAMessageFromContent, proto } = (await import('@whiskeysockets/baileys')).default
+const { default: baileys } = await import('@whiskeysockets/baileys')
+const { generateWAMessageFromContent, proto } = baileys
 
+// --- MENU DEFAULT ---
 const defaultMenu = {
-  before: `╭━━〔 *MENU ADMINIS* 〕━━⬣
-┃ 🧪 HOLA "%name" AQUI ESTA EL
-┃ 🧹 MENU PARA GETIONAR GRUPOS..
+  before: `
+╭━━〔 *MENU ADMINIS* 〕━━⬣
+┃ 🧪 HOLA "%name" ☘️
+┃ 🧹 MENU PARA GESTIONAR GRUPOS..
 ╰━━━━━━━━━━━━━━━━⬣
 
 > ғᴜɴᴄɪᴏɴᴇs ᴘᴀʀᴀ ɢʀᴜᴘᴏs.
 %readmore
-`.trimStart(),
-  header: '--------[ %category ]----------',
-  body: '┃ %cmd\n',
-  footer: '┗━━━━━━━━━━━━━━━━\n',
-  after: ``,
+`.trim(),
+  header: '╭─〔 %category 〕',
+  body: '┃ %cmd',
+  footer: '╰───────────────⬣\n',
+  after: ''
 }
-let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command}) => {
-let tags = {
-'grupo': ' `CONFIGURACIÓN` ',
-'nable': ' `ON / OFF` ', 
-}
-let img = 'https://files.catbox.moe/nmseef.png'
 
+let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
   try {
-          // DEFAULT MENU
-      let dash = global.dashmenu
-          let m1 = global.dmenut
-      let m2 = global.dmenub
-      let m3 = global.dmenuf
-      let m4 = global.dmenub2
-
-      // COMMAND MENU
-      let cc = global.cmenut
-      let c1 = global.cmenuh
-      let c2 = global.cmenub
-      let c3 = global.cmenuf
-      let c4 = global.cmenua
-
-      // LOGO L P
-      let lprem = global.lopr
-      let llim = global.lolm
-      let tag = `@${m.sender.split('@')[0]}`
-
-    //-----------TIME---------
-    let ucpn = `${ucapan()}`
-    let d = new Date(new Date + 3600000)
-    let locale = 'es'
-    let week = d.toLocaleDateString(locale, { weekday: 'long' })
-    let date = d.toLocaleDateString(locale, {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    })
-    let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
-    // d.getTimeZoneOffset()
-    // Offset -420 is 18.00
-    // Offset    0 is  0.00
-    // Offset  420 is  7.00
-    let weton = ['Pahing', 'Pon', 'Wage', 'Kliwon', 'Legi'][Math.floor(d / 84600000) % 5]
-    let dateIslamic = Intl.DateTimeFormat(locale + '-TN-u-ca-islamic', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    }).format(d)
-    let time = d.toLocaleTimeString(locale, {
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric'
-    })
-    let _uptime = process.uptime() * 1000
-    let _muptime
-    if (process.send) {
-      process.send('uptime')
-      _muptime = await new Promise(resolve => {
-        process.once('message', resolve)
-        setTimeout(resolve, 1000)
-      }) * 1000
+    let tags = {
+      'grupo': ' `CONFIGURACIÓN` ',
+      'nable': ' `ON / OFF` ',
     }
-    let muptime = clockString(_muptime)
-    let uptime = clockString(_uptime)
-    let _mpt
-    if (process.send) {
-      process.send('uptime')
-      _mpt = await new Promise(resolve => {
-        process.once('message', resolve)
-        setTimeout(resolve, 1000)
-      }) * 1000
-    }
-    let mpt = clockString(_mpt)
-    let usrs = db.data.users[m.sender]
-
-    let wib = moment.tz('America/Buenos_Aires').format('HH:mm:ss')
-    let wibh = moment.tz('America/Buenos_Aires').format('HH')
-    let wibm = moment.tz('America/Buenos_Aires').format('mm')
-    let wibs = moment.tz('America/Buenos_Aires').format('ss')
-    let wit = moment.tz('Asia/Jayapura').format('HH:mm:ss')
-    let wita = moment.tz('Asia/Makassar').format('HH:mm:ss')
-    let wktuwib = `${wibh} H ${wibm} M ${wibs} S`
-
-    let mode = global.opts['self'] ? 'Privado' : 'Publico'
-    let _package = JSON.parse(await promises.readFile(join(__dirname, '../package.json')).catch(_ => ({}))) || {}
-    let { age, exp, limit, level, role, registered, eris} = global.db.data.users[m.sender]
-    let { min, xp, max } = xpRange(level, global.multiplier)
+    let img = 'https://files.catbox.moe/nmseef.png'
+    let tag = `@${m.sender.split('@')[0]}`
     let name = await conn.getName(m.sender)
-    let premium = global.db.data.users[m.sender].premiumTime
-    let prems = `${premium > 0 ? 'Premium': 'Usuario común'}`
+
+    // --- TIEMPO Y FECHA ---
+    let d = new Date()
+    let week = d.toLocaleDateString('es', { weekday: 'long' })
+    let date = d.toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' })
+    let time = d.toLocaleTimeString('en-US', { hour12: true }) // → 01:54:20 PM
+    let ucpn = ucapan()
+
+    // --- UPTIME ---
+    let uptime = clockString(process.uptime() * 1000)
+
+    // --- USUARIO ---
+    let { exp, limit, level, role, registered, premiumTime } = global.db.data.users[m.sender]
+    let { min, xp, max } = xpRange(level, global.multiplier)
+    let prems = premiumTime > 0 ? 'Premium' : 'Usuario común'
     let platform = os.platform()
 
-    //---------------------
-
+    // --- INFO BOT ---
     let totalreg = Object.keys(global.db.data.users).length
-    let rtotalreg = Object.values(global.db.data.users).filter(user => user.registered == true).length
-    let help = Object.values(global.plugins).filter(plugin => !plugin.disabled).map(plugin => {
-      return {
-        help: Array.isArray(plugin.tags) ? plugin.help : [plugin.help],
-        tags: Array.isArray(plugin.tags) ? plugin.tags : [plugin.tags],
-        prefix: 'customPrefix' in plugin,
-        limit: plugin.limit,
-        premium: plugin.premium,
-        enabled: !plugin.disabled,
-      }
-    })
+    let rtotalreg = Object.values(global.db.data.users).filter(u => u.registered).length
+    let _package = JSON.parse(await promises.readFile(join(__dirname, '../package.json')).catch(() => '{}')) || {}
+
+    // --- PLUGINS DISPONIBLES ---
+    let help = Object.values(global.plugins)
+      .filter(p => !p.disabled)
+      .map(p => ({
+        help: Array.isArray(p.tags) ? p.help : [p.help],
+        tags: Array.isArray(p.tags) ? p.tags : [p.tags],
+        prefix: 'customPrefix' in p,
+        limit: p.limit,
+        premium: p.premium,
+      }))
+
     let groups = {}
-    for (let tag in tags) {
-      groups[tag] = []
-      for (let plugin of help)
-        if (plugin.tags && plugin.tags.includes(tag))
-          if (plugin.help) groups[tag].push(plugin)
-          }
-    conn.menu = conn.menu ? conn.menu : {}
-    let before = conn.menu.before || defaultMenu.before
-    let header = conn.menu.header || defaultMenu.header
-    let body = conn.menu.body || defaultMenu.body
-    let footer = conn.menu.footer || defaultMenu.footer
-    let after = conn.menu.after || (conn.user.jid == global.conn.user.jid ? '' : `Powered by https://wa.me/${global.conn.user.jid.split`@`[0]}`) + defaultMenu.after
-    let _text = [
-      before,
-      ...Object.keys(tags).map(tag => {
-        return header.replace(/%category/g, tags[tag]) + '\n' + [
-          ...help.filter(menu => menu.tags && menu.tags.includes(tag) && menu.help).map(menu => {
-            return menu.help.map(help => {
-              return body.replace(/%cmd/g, menu.prefix ? help : '%_p' + help)
-                .replace(/%islimit/g, menu.limit ? llim : '')
-                .replace(/%isPremium/g, menu.premium ? lprem : '')
-                .trim()
-            }).join('\n')
-          }),
-          footer
-        ].join('\n')
-      }),
-      after
+    for (let t in tags) groups[t] = help.filter(p => p.tags.includes(t))
+
+    // --- CONSTRUCCIÓN DE MENÚ ---
+    let menuText = [
+      defaultMenu.before.replace(/%name/g, name),
+      ...Object.keys(tags).map(t =>
+        defaultMenu.header.replace(/%category/g, tags[t]) + '\n' +
+        groups[t].map(plugin =>
+          plugin.help.map(cmd =>
+            defaultMenu.body
+              .replace(/%cmd/g, plugin.prefix ? cmd : _p + cmd)
+              .replace(/%islimit/g, plugin.limit ? '🔒' : '')
+              .replace(/%isPremium/g, plugin.premium ? '⭐' : '')
+          ).join('\n')
+        ).join('\n') +
+        '\n' + defaultMenu.footer
+      ),
+      defaultMenu.after
     ].join('\n')
-    let text = typeof conn.menu == 'string' ? conn.menu : typeof conn.menu == 'object' ? _text : ''
+
+    // --- REEMPLAZOS ---
     let replace = {
       '%': '%',
-      p: uptime, muptime,
+      p: uptime,
       me: conn.getName(conn.user.jid),
       npmname: _package.name,
       npmdesc: _package.description,
@@ -169,78 +98,58 @@ let img = 'https://files.catbox.moe/nmseef.png'
       maxexp: xp,
       totalexp: exp,
       xp4levelup: max - exp,
-      github: _package.homepage ? _package.homepage.url || _package.homepage : '[unknown github url]',
-      tag, dash,m1,m2,m3,m4,cc, c1, c2, c3, c4,lprem,llim,
-      ucpn,platform, wib, mode, _p, eris, age, tag, name, prems, level, limit, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
-      readmore: readMore
+      github: _package.homepage || '[sin github]',
+      tag, name, prems, level, limit, week, date, time, totalreg, rtotalreg, role,
+      ucpn, platform, readmore: readMore
     }
-    text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
 
- let fkon = { key: { fromMe: false, participant: `${m.sender.split`@`[0]}@s.whatsapp.net`, ...(m.chat ? { remoteJid: '16504228206@s.whatsapp.net' } : {}) }, message: { contactMessage: { displayName: `${name}`, vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;a,;;;\nFN:${name}\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`}}}
-await m.react('⚙️') 
+    let text = menuText.replace(
+      new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'),
+      (_, k) => '' + replace[k]
+    )
 
- conn.sendMessage(m.chat, {
-        text: text,
-        contextInfo: {
+    await m.react('⚙️')
+    await conn.sendMessage(m.chat, {
+      text,
+      contextInfo: {
         externalAdReply: {
-        title: 'MENU GRUPOS',
-        body: dev,
-        thumbnailUrl: img,
-        sourceUrl: channel,
-        mediaType: 1,
-        renderLargerThumbnail: true
-        }}},
-        { quoted: fkontak })
+          title: 'MENU GRUPOS',
+          body: dev,
+          thumbnailUrl: img,
+          sourceUrl: channel,
+          mediaType: 1,
+          renderLargerThumbnail: true
+        }
+      }
+    }, { quoted: m })
 
   } catch (e) {
-    conn.reply(m.chat, 'Lo siento, el menú tiene algun error .', m)
+    conn.reply(m.chat, 'Lo siento, el menú tiene algún error.', m)
     throw e
   }
 }
+
 handler.help = ['menugp (Menu Para Gestionar Grupos)']
 handler.tags = ['menus']
 handler.command = ['menugp', 'menugrupo', 'menuadmin']
-
 export default handler
 
-//----------- FUNCTION -------
-
-function pickRandom(list) {
-  return list[Math.floor(Math.random() * list.length)]
-}
-
-const more = String.fromCharCode(8206)
-const readMore = more.repeat(4001)
+// --------- FUNCIONES UTILES ---------
+const readMore = String.fromCharCode(8206).repeat(4001)
 
 function clockString(ms) {
-  let h = isNaN(ms) ? '--' : Math.floor(ms / 3600000)
-  let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60
-  let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60
-  return [h, ' H ', m, ' M ', s, ' S '].map(v => v.toString().padStart(2, 0)).join('')
+  if (isNaN(ms)) return '--:--:--'
+  let h = Math.floor(ms / 3600000)
+  let m = Math.floor(ms / 60000) % 60
+  let s = Math.floor(ms / 1000) % 60
+  return [h, m, s].map(v => v.toString().padStart(2, 0)).join(':')
 }
-function clockStringP(ms) {
-  let ye = isNaN(ms) ? '--' : Math.floor(ms / 31104000000) % 10
-  let mo = isNaN(ms) ? '--' : Math.floor(ms / 2592000000) % 12
-  let d = isNaN(ms) ? '--' : Math.floor(ms / 86400000) % 30
-  let h = isNaN(ms) ? '--' : Math.floor(ms / 3600000) % 24
-  let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60
-  let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60
-  return [ye, ' *Años 🗓️*\n',  mo, ' *Meses 🌙*\n', d, ' *Días ☀️*\n', h, ' *Horad 🕐*\n', m, ' *Minutos ⏰*\n', s, ' *Segundos ⏱️*'].map(v => v.toString().padStart(2, 0)).join('')
-}
+
 function ucapan() {
-  const time = moment.tz('America/Lima').format('HH')
-  let res = "Despierto tan temprano? 🥱"
-  if (time >= 4) {
-    res = "Madrugada 🌄"
-  }
-  if (time >= 10) {
-    res = "Mañana ☀️"
-  }
-  if (time >= 15) {
-    res = "Tarde 🌇"
-  }
-  if (time >= 18) {
-    res = "Noche 🌙"
-  }
-  return res
+  let hour = +moment.tz('America/Lima').format('HH')
+  if (hour < 4) return "Despierto tan temprano? 🥱"
+  if (hour < 10) return "Madrugada 🌄"
+  if (hour < 15) return "Mañana ☀️"
+  if (hour < 18) return "Tarde 🌇"
+  return "Noche 🌙"
 }
