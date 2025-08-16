@@ -1,67 +1,68 @@
 import axios from 'axios';
+import moment from 'moment-timezone';
 
 let handler = async (m, { conn, args }) => {
-  let userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender;
-  let userData = global.db.data.users[userId] || {};
-  let exp = userData.exp || 0;
-  let coin = userData.coin || 0;
-  let level = userData.level || 0;
-  let role = userData.role || 'Sin Rango';
-  let name = await conn.getName(userId);
+  try {
+    let userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender;
+    let userData = global.db.data.users[userId] || {};
+    let exp = userData.exp || 0;
+    let coin = userData.coin || 0;
+    let level = userData.level || 0;
+    let role = userData.role || 'Sin Rango';
+    let name = await conn.getName(userId);
 
-  let _uptime = process.uptime() * 1000;
-  let uptime = clockString(_uptime);
-  let totalreg = Object.keys(global.db.data.users).length;
-  let totalCommands = Object.values(global.plugins).filter(v => v.help && v.tags).length;
+    let _uptime = process.uptime() * 1000;
+    let uptime = clockString(_uptime);
+    let totalreg = Object.keys(global.db.data.users).length;
+    let totalCommands = Object.values(global.plugins).filter(v => v.help && v.tags).length;
   
-  const imgRandom = [
-    "https://iili.io/FKVDVAN.jpg",
-    "https://iili.io/FKVbUrJ.jpg"
-  ].getRandom();
+    const imgRandom = [
+      "https://iili.io/FKVDVAN.jpg",
+      "https://iili.io/FKVbUrJ.jpg"
+    ].getRandom();
 
-  const text = [
-    "*✦ 𝐈𝐍𝐕𝐎𝐂𝐀𝐂𝐈𝐎́𝐍 𝐌𝐀𝐒𝐈𝐕𝐀 𝐁𝐘 𝐒𝐡𝐚𝐝𝐨𝐰'𝐂𝐨𝐫𝐞 ✦*",
-    "⚜️ 𝐌𝐞𝐧𝐬𝐚𝐣𝐞 𝐜𝐨𝐥𝐞𝐜𝐭𝐢𝐯𝐨 𝐞𝐧 𝐜𝐮𝐫𝐬𝐨...",
-    "🔮 𝐄𝐭𝐢𝐪𝐮𝐞𝐭𝐚𝐧𝐝𝐨 𝐚 𝐥𝐚𝐬 𝐚𝐥𝐦𝐚𝐬 𝐩𝐞𝐫𝐝𝐢𝐝𝐚𝐬"
-  ].getRandom();
+    const text = [
+      "*✦ 𝐈𝐍𝐕𝐎𝐂𝐀𝐂𝐈𝐎́𝐍 𝐌𝐀𝐒𝐈𝐕𝐀 𝐁𝐘 𝐒𝐡𝐚𝐝𝐨𝐰'𝐂𝐨𝐫𝐞 ✦*",
+      "⚜️ 𝐌𝐞𝐧𝐬𝐚𝐣𝐞 𝐜𝐨𝐥𝐞𝐜𝐭𝐢𝐯𝐨 𝐞𝐧 𝐜𝐮𝐫𝐬𝐨...",
+      "🔮 𝐄𝐭𝐢𝐪𝐮𝐞𝐭𝐚𝐧𝐝𝐨 𝐚 𝐥𝐚𝐬 𝐚𝐥𝐦𝐚𝐬 𝐩𝐞𝐫𝐝𝐢𝐝𝐚𝐬"
+    ].getRandom();
 
-  const thumbnailBuffer = Buffer.from((await axios.get(imgRandom, { responseType: 'arraybuffer' })).data);
+    const thumbnailBuffer = Buffer.from((await axios.get(imgRandom, { responseType: 'arraybuffer' })).data);
 
-  const shadow = {
-    key: { participants: "0@s.whatsapp.net", fromMe: false, id: "Halo" },
-    message: {
-      locationMessage: {
-        name: text,
-        jpegThumbnail: thumbnailBuffer
-      }
-    },
-    participant: "0@s.whatsapp.net"
-  };
+    const shadow = {
+      key: { participants: "0@s.whatsapp.net", fromMe: false, id: "Halo" },
+      message: {
+        locationMessage: {
+          name: text,
+          jpegThumbnail: thumbnailBuffer
+        }
+      },
+      participant: "0@s.whatsapp.net"
+    };
   
-  await conn.sendMessage(m.chat, {
-    text: '╭─〔 ⚙️ 𝐂𝐀𝐑𝐆𝐀𝐍𝐃𝐎... 〕─⬣\n┃ 🛰️ *Conectando a la base de datos...*\n┃ 📡 *Sincronizando menú principal...*\n╰───────────────⬣',
-    mentions: [m.sender],
-    contextInfo: {
-      externalAdReply: {
-        title: '               ☘️ Dev.Shadow 🇦🇱',
-        body: '   🌀꙰⃟ 𖤐 𝙍𝙄𝙉 𝙄𝙏𝙊𝙎𝙃𝙄 ∞ 𝐌𝐃 𖤐🎨⃟',
-        thumbnailUrl: 'https://files.catbox.moe/q8b2br',
-        sourceUrl: redes,
-        mediaType: 1,
-        renderLargerThumbnail: false
+    await conn.sendMessage(m.chat, {
+      text: '╭─〔 ⚙️ 𝐂𝐀𝐑𝐆𝐀𝐍𝐃𝐎... 〕─⬣\n┃ 🛰️ *Conectando a la base de datos...*\n┃ 📡 *Sincronizando menú principal...*\n╰───────────────⬣',
+      mentions: [m.sender],
+      contextInfo: {
+        externalAdReply: {
+          title: '               ☘️ Dev.Shadow 🇦🇱',
+          body: '   🌀꙰⃟ 𖤐 𝙍𝙄𝙉 𝙄𝙏𝙊𝙎𝙃𝙄 ∞ 𝐌𝐃 𖤐🎨⃟',
+          thumbnailUrl: 'https://files.catbox.moe/q8b2br',
+          sourceUrl: redes, // ⚠️ Asegúrate que "redes" esté definido
+          mediaType: 1,
+          renderLargerThumbnail: false
+        }
       }
-    }
-  }, { quoted: m });
+    }, { quoted: m });
 
-  await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 2000));
       
-   let hora = new Date().toLocaleTimeString('es-PE', { timeZone: 'America/Lima' });
-   let fechaObj = new Date();
-   let fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Lima' });
-   let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' });
+    let hora = new Date().toLocaleTimeString('es-PE', { timeZone: 'America/Lima' });
+    let fechaObj = new Date();
+    let fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Lima' });
+    let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' });
    
-   
-  let menuText = `
+    let menuText = `
 *˚₊·˚₊· ͟͟͞͞➳❥  Rɪɴ͟ ɪᴛᴏsʜɪ Ɓᴏᴛ ᭃ*
 *⊰᯽⊱┈──╌•|* ⊱✿⊰ *|•╌──┈⊰᯽⊱*
 
@@ -725,36 +726,38 @@ let handler = async (m, { conn, args }) => {
    🧿 *𝗖𝗥𝗘𝗔 𝗨𝗡 𝗦𝗨𝗕𝗕𝗢𝗧 𝗘𝗡 𝗦𝗘𝗚𝗨𝗡𝗗𝗢𝗦*
 > 🛰️ ➊ *#qr* – Escanea un 𝖢𝗈𝖽𝗂𝗀𝗈 𝗤𝗥  
 > 🔐 ➋ *#code* – Usa un 𝖢𝗈𝖽𝗂𝗀𝗈 de 8 dígitos
+
+
+
 `.trim();
 
-  await m.react('⚙️');
-  await conn.sendMessage(
-    m.chat,
-    {
-      image: { url: 'https://files.catbox.moe/g2of9q.jpg' },
-      caption: menuText,
-      contextInfo: {
-        externalAdReply: {
-          title: '⚽ Rin Itoshi - MD🧪',
-          body: '☯︎ Dev by Shadow\'Core',
-          mediaType: 1,
-          thumbnailUrl: 'https://files.catbox.moe/us0m4f.jpg',
-          mediaUrl: 'https://github.com/Yuji-XDev/SukunaUltra-MD',
-          sourceUrl: 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U',
-          renderLargerThumbnail: false
+    await m.react('⚙️');
+    await conn.sendMessage(
+      m.chat,
+      {
+        image: { url: 'https://files.catbox.moe/g2of9q.jpg' },
+        caption: menuText,
+        contextInfo: {
+          externalAdReply: {
+            title: '⚽ Rin Itoshi - MD🧪',
+            body: '☯︎ Dev by Shadow\'Core',
+            mediaType: 1,
+            thumbnailUrl: 'https://files.catbox.moe/us0m4f.jpg',
+            mediaUrl: 'https://github.com/Yuji-XDev/SukunaUltra-MD',
+            sourceUrl: 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U',
+            renderLargerThumbnail: false
+          }
         }
-      }
-    },
-    { quoted: shadow }
-  );
+      },
+      { quoted: shadow }
+    );
+
   } catch (e) {
     console.error(e)
     await conn.sendMessage(m.chat, {
       text: `✘ Error al enviar el menú: ${e.message}`,
       mentions: [m.sender]
-    }, { 
-      quoted: m
-    })
+    }, { quoted: m })
   }
 }
 
@@ -765,10 +768,10 @@ handler.register = true;
 export default handler;
 
 function clockString(ms) {
-let seconds = Math.floor((ms / 1000) % 60)
-let minutes = Math.floor((ms / (1000 * 60)) % 60)
-let hours = Math.floor((ms / (1000 * 60 * 60)) % 24)
-return `${hours}h ${minutes}m ${seconds}s`
+  let seconds = Math.floor((ms / 1000) % 60)
+  let minutes = Math.floor((ms / (1000 * 60)) % 60)
+  let hours = Math.floor((ms / (1000 * 60 * 60)) % 24)
+  return `${hours}h ${minutes}m ${seconds}s`
 }
 
 function ucapan() {
