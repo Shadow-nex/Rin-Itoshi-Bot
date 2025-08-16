@@ -1,4 +1,4 @@
-/*import fetch from 'node-fetch';
+import fetch from 'node-fetch';
 
 const SPOTIFY_SEARCH_API = 'https://api.vreden.my.id/api/spotifysearch?query=';
 const SPOTIFY_DOWNLOAD_API = 'https://api.vreden.my.id/api/spotify?url=';
@@ -92,46 +92,3 @@ handler.command = ['music'];
 handler.help = ['music <canción>'];
 handler.tags = ['downloader'];
 export default handler;
-*/
-
-import fetch from 'node-fetch';
-
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text || !text.includes('spotify.com/track')) {
-    return conn.reply(m.chat, `🌿 *Ingresa una URL válida de Spotify*\n\n📌 Ejemplo:\n${usedPrefix + command} https://open.spotify.com/track/5xSt1wxZobFcLzHrFakv6z?si=bMp7vXRTTLK2PkzceN9Imw%0A&context=spotify%3Aplaylist%3A37i9dQZF1EIUCUEDwM1AZV`, m);
-  }
-
-  try {
-    m.react('🎧');
-    
-    let api = `https://delirius-apiofc.vercel.app/download/spotifydl?url=${encodeURIComponent(text)}`;
-    let res = await fetch(api);
-    let json = await res.json();
-
-    if (!json.status || !json.data?.url) {
-      return conn.reply(m.chat, `❌ No se pudo obtener el audio.\n📌 Verifica que la URL sea correcta.`, m);
-    }
-
-    const { title, author, duration, image, url } = json.data;
-
-    let textoInfo = `📥 𝗗𝗘𝗦𝗖𝗔𝗥𝗚𝗔 𝗘𝗡 𝗖𝗨𝗥𝗦𝗢...
-> [▰▰▰▰▰▱▱▱▱▱] 50%
-> Archivo: 🎧 ${title}
-> Espera unos segundos...`;
-
-    await conn.sendMessage(m.chat, { image: { url: image }, caption: textoInfo.trim() }, { quoted: m });
-    await conn.sendMessage(m.chat, { audio: { url }, mimetype: 'audio/mpeg' }, { quoted: m });
-
-  } catch (e) {
-    console.error(e);
-    conn.reply(m.chat, '❌ Error al procesar la descarga. Intenta más tarde.', m);
-  }
-};
-
-handler.command = ['music'];
-handler.help = ['music <nombre>'];
-handler.tags = ['descargas'];
-handler.register = true;
-
-export default handler;
-
