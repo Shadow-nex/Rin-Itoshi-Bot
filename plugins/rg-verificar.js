@@ -114,8 +114,9 @@ await conn.sendMessage(
       }
     }
   },
-  { quoted: m }
-);
+  { quoted: m });
+};
+
 handler.help = ['reg']
 handler.tags = ['rg']
 handler.command = ['verify', 'verificar', 'reg', 'register', 'registrar'] 
