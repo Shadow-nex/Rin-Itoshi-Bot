@@ -89,7 +89,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     await conn.sendMessage(m.chat, {
       image: { url: logo },
       caption: menu,
-      footer: ,
+      footer: club,
       buttons: [
         { buttonId: `${usedPrefix}owner`, buttonText: { displayText: "⚡ Creador" }, type: 1 },
         { buttonId: `${usedPrefix}tiktok`, buttonText: { displayText: "☘️ Menu | All" }, type: 1 }
