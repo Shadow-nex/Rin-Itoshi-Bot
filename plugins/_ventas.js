@@ -41,6 +41,8 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     await m.reply(`listo ⚡`);    
 
     let url = await conn.profilePictureUrl(m.chat, 'image').catch(_ => null);
+    let admins = groupMetadata.participants.filter(p => p.admin).map(p => p.id)
+    let mentionList = [m.sender, ...admins]
     
     await conn.sendMessage(groupId, {
       text: `💥 El bot se ha unido a *${groupName}*.\n\n🍂 Estará aquí durante *${cantidad}${tiempoStr.replace(cantidad, '')}*.\n\n🌳 Luego saldrá automáticamente.`,
