@@ -1,10 +1,13 @@
 import fetch from 'node-fetch'
 import { Sticker } from 'wa-sticker-formatter'
 
+const wm = 'RinBot'
+
 let handler = async (m, { conn, text, command }) => {
   if (!text) return m.reply(`Ejemplo: .${command} Gatitos`)
 
   try {
+
     const searchRes = await fetch(`https://zenzxz.dpdns.org/search/stickerlysearch?query=${encodeURIComponent(text)}`)
     const searchJson = await searchRes.json()
 
@@ -13,6 +16,7 @@ let handler = async (m, { conn, text, command }) => {
     }
 
     const pick = searchJson.data[Math.floor(Math.random() * searchJson.data.length)]
+
 
     const detailUrl = `https://zenzxz.dpdns.org/tools/stickerlydetail?url=${encodeURIComponent(pick.url)}`
     const detailRes = await fetch(detailUrl)
@@ -25,19 +29,21 @@ let handler = async (m, { conn, text, command }) => {
     const packName = detailJson.data.name
     const authorName = detailJson.data.author?.name || 'unknown'
 
-    m.reply(`encontre ${detailJson.data.stickers.length} stiker/s`)
+    m.reply(`Encontré ${detailJson.data.stickers.length} sticker(s)`)
 
-    let maxSend = 10
-    for (let i = 0; i < Math.min(detailJson.data.stickers.length, maxSend); i++) {
-      const img = detailJson.data.stickers[i]
-      let sticker = new Sticker(img.imageUrl, {
-        pack: wm,
-        author: '',
+
+    const stickersToSend = detailJson.data.stickers.slice(0, 10)
+
+    for (const img of stickersToSend) {
+
+      const sticker = new Sticker(img.imageUrl, {
+        pack: packName || wm,
+        author: authorName,
         type: 'full',
         categories: ['😏'],
         id: 'zenzxd'
       })
-      let buffer = await sticker.toBuffer()
+      const buffer = await sticker.toBuffer()
       await conn.sendMessage(m.chat, { sticker: buffer }, { quoted: m })
     }
 
