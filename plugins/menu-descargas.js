@@ -7,6 +7,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     let dia = moment.tz('America/Lima').locale('es').format('dddd')
     let comandos = Object.keys(global.plugins).length
 
+    let club = '⚡ *Powered by* » Sʜᴀᴅᴏᴡ•Core 𝖢𝗅𝗎𝖻 ⚡'
     let menu = `
 ╭━━━〔 *📥 𝘔𝘌𝘕𝘜 𝘋𝘌𝘚𝘊𝘈𝘙𝘎𝘈𝘚* 〕━━⬣
 ┃ ⏱️ 𝐇𝐨𝐫𝐚: *${hora}*

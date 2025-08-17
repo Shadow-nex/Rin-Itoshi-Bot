@@ -7,6 +7,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     let dia = moment.tz('America/Lima').locale('es').format('dddd')
     let comandos = Object.keys(global.plugins).length
 
+    let club = '⚡ *Powered by* » Sʜᴀᴅᴏᴡ•Core 𝖢𝗅𝗎𝖻 ⚡'
     let menu = `
 ╭━━━〔 *🔎 𝑴𝑬𝑵𝑼 𝑺𝑬𝑨𝑹𝑪𝑯* 〕━━⬣
 ┃ ⏰ 𝗛𝗼𝗿𝗮: *${hora}*
@@ -18,22 +19,22 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ╰━━━〔 *${bot}* 〕━━⬣
 
 ╭─⬣「 *📥 Búsquedas Disponibles* 」
-│ 🔎 .apksearch <término>
-│ 🛍️ .playstore <nombre>
+│ 🔎 .apksearch *<término>*
+│ 🛍️ .playstore *<nombre>*
 │ 🔞 .pornhubsearch
-│ 🎵 .soundcloudsearch <texto>
-│ 🎶 .spotifysearch <texto>
-│ 🎥 .tiktoksearch <txt>
-│ 🍑 .xnxxsearch <query>
-│ 📺 .ytsearch2 <text>
-│ 📲 .fdroidsearch <término>
-│ 🎬 .movie <término>
-│ 🌐 .yahoosearch <búsqueda>
-│ 🎞️ .cinecalidadsearch <búsqueda>
-│ 🎮 .happymodsearch <búsqueda>
-│ 🎥 .tksearch <búsqueda>
+│ 🎵 .soundcloudsearch *<texto>*
+│ 🎶 .spotifysearch *<texto>*
+│ 🎥 .tiktoksearch *<txt>*
+│ 🍑 .xnxxsearch *<query>*
+│ 📺 .ytsearch2 *<text>*
+│ 📲 .fdroidsearch *<término>*
+│ 🎬 .movie *<término>*
+│ 🌐 .yahoosearch *<búsqueda>*
+│ 🎞️ .cinecalidadsearch *<búsqueda>*
+│ 🎮 .happymodsearch *<búsqueda>*
+│ 🎥 .tksearch *<búsqueda>*
 │ ➕ .tkseguir
-│ 📌 .pinscroll <búsqueda>
+│ 📌 .pinscroll *<búsqueda>*
 │ 📌 .pinseguir
 │ 🔙 .pinatras
 │ 💻 .bingsearch
@@ -41,11 +42,15 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 │ 🛒 .playstore <query>
 ╰─────────────⬣
 
-╭─⬣「 *☘️ Stalk Disponibles* 」
-│
+╭─⬣「 *☘️ Stalk* 」
+│⚡ .githubstalk *<query>*
+│🧪 .instagramstalk *<usuario>*
+│🌷 .minestalk *<nombrejugador>*
+│💎 .kwaistalk *<usuario>*
+│🔋 .telegramstalk *<nombre_usuario>*
+│📡 .tiktokstalk *<usuario>*
+│💨 .youtubestalk *<nombre de usuario>*
 ╰─────────────⬣
-
-⚡ *Powered by* » Sʜᴀᴅᴏᴡ•Core 𝖢𝗅𝗎𝖻 ⚡
 
 📢 *Canal Oficial:*  
 🔗 ${channel}  
