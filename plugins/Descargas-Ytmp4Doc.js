@@ -11,7 +11,7 @@ let handler = async (m, { conn, text, args }) => {
 
     await conn.sendMessage(m.chat, { react: { text: '📀', key: m.key } });
 
-    const thumbRes = await fetch('https://files.catbox.moe/qzp733.jpg');
+    const thumbRes = await fetch('https://files.catbox.moe/ltb32g.jpg');
     const thumbBuffer = await thumbRes.buffer();
 
     const fkontak = {
