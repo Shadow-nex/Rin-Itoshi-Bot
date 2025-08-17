@@ -4,20 +4,21 @@ let suscripciones = global.suscripciones || (global.suscripciones = {})
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
   if (!args[0] || !args[1]) {
-    return m.reply(`✘ Uso incorrecto.\n\n☘️ Ejemplo: *${usedPrefix + command} enlace 3d*  
-(Usa m = minutos, h = horas, d = días, w = semanas)`)
+    return m.reply(`✘ Uso incorrecto.\n\n☘️ Ejemplo: *${usedPrefix + command} https://chat.whatsapp.com/Enlace 3d*\n(Usa m = minutos, h = horas, d = días, w = semanas)`)
   }
 
-  let enlace = args[0].trim()
+  let enlace = args[0].trim().replace(/\s+/g, '')
   let tiempoStr = args[1].toLowerCase()
 
   if (!enlace.startsWith('https://chat.whatsapp.com/')) {
     return m.reply('✘ Enlace no válido.')
   }
 
-  let codigoGrupo = enlace.replace('https://chat.whatsapp.com/', '').split('?')[0].trim()
+  // Extraer el código del enlace
+  let codigoGrupo = enlace.split('https://chat.whatsapp.com/')[1]?.split('?')[0]
   if (!codigoGrupo) return m.reply('✘ Código de grupo no válido.')
 
+  // Parsear el tiempo
   let cantidad = parseInt(tiempoStr)
   if (isNaN(cantidad) || cantidad < 1) {
     return m.reply('✘ Ingresa un número válido (ejemplo: 10m, 5h, 2d, 1w).')
@@ -31,6 +32,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   else return m.reply('✘ Unidad de tiempo no válida. Usa: m, h, d, w.')
 
   try {
+    // Intentar unirse al grupo
     let groupId = await conn.groupAcceptInvite(codigoGrupo)
     let groupMetadata = await conn.groupMetadata(groupId)
     let groupName = groupMetadata.subject
@@ -47,14 +49,15 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         externalAdReply: {
           title: `Hola Grupo: ${groupName}`,
           body: '☘️◌*̥₊ ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ ᴍᴅ ◌❐⚽༉',
-          thumbnail: url || icono,
+          thumbnail: url || null,
           sourceUrl: global.redes,
           mediaType: 1,
           renderLargerThumbnail: true
         }
       }
-    }, { quoted: global.fkontak || null })
+    }, { quoted: m })
 
+    // Programar salida automática
     if (suscripciones[groupId]) clearTimeout(suscripciones[groupId])
     suscripciones[groupId] = setTimeout(async () => {
       try {
@@ -68,7 +71,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
   } catch (e) {
     console.error(e)
-    m.reply(`✘ Error al unirse al grupo:\n${e?.message || 'No se pudo unir. Verifica el enlace.'}`)
+    m.reply(`✘ Error al unirse al grupo:\n${e?.message || 'No se pudo unir. Verifica el enlace o que el bot tenga permisos.'}`)
   }
 }
 
