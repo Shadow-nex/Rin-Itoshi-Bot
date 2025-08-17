@@ -40,10 +40,21 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let mentions = [m.sender, ...admins]
     await m.reply(`listo ⚡`);    
 
-
+    let url = await conn.profilePictureUrl(m.chat, 'image').catch(_ => null);
+    
     await conn.sendMessage(groupId, {
-      text: `✅ El bot se ha unido a *${groupName}*.\n\n⏳ Estará aquí durante *${cantidad}${tiempoStr.replace(cantidad, '')}*.\n\n🌳 Luego saldrá automáticamente.`,
-      mentions
+      text: `💥 El bot se ha unido a *${groupName}*.\n\n🍂 Estará aquí durante *${cantidad}${tiempoStr.replace(cantidad, '')}*.\n\n🌳 Luego saldrá automáticamente.`,
+      mentions: mentionList,
+      contextInfo: {
+        externalAdReply: {
+          title: `Hola Grupo: ${groupName}`,
+          body: '☘️◌*̥₊ ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ ᴍᴅ ◌❐⚽༉',
+          thumbnailUrl: url || icono,
+          sourceUrl: global.redes,
+          mediaType: 1,
+          renderLargerThumbnail: true
+        }
+      }
     }, { quoted: global.fkontak })
 
 
