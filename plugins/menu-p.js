@@ -22,7 +22,7 @@ let handler = async (m, { conn }) => {
     let dia = moment.tz('America/Lima').locale('es').format('dddd')
     let nombreUser = m.pushName || 'Usuario'
     let pais = '🇵🇪 Perú'
-    let botName = global.bot,
+    let botName = global.bot
 
     const texto = `
 [⚡ Menú nable ⚡]
@@ -43,7 +43,7 @@ ${listaComandos}
 
     // Enviar solo imagen + texto
     await conn.sendMessage(m.chat, {
-      image: { url: imgurl },
+      image: { url: logol },
       caption: texto,
       contextInfo: {
         mentionedJid: [m.sender],
