@@ -3,9 +3,6 @@ export async function before(m, { conn }) {
 
   const usedPrefix = global.prefix.exec(m.text)[0];
   const command = m.text.slice(usedPrefix.length).trim().split(' ')[0].toLowerCase();
-  
-  const pp = null; try { pp = await conn.profilePictureUrl('51919199620@s.whatsapp.net', 'image') } catch (e) { pp = null } global.fkontak = { key: {participant: `0@s.whatsapp.net`, ...(m.chat ? { remoteJid: `120363402481697721@g.us` } : {}) }, message: { 'contactMessage': { 'displayName': `Dv.Shadow owner ✨
-  🍂`, 'vcard': `BEGIN:VCARD\nVERSION:3.0\nN:XL;DevBrayan owner✨,;;;\nFN:Dev.Shadow creador\nitem1.TEL;waid=51919199620:51919199620\nitem1.X-ABLabel:Ponsel\nEND:VCARD`, 'jpegThumbnail': pp ? await (await fetch(pp)).buffer() : null, thumbnail: null, sendEphemeral: true }}}
 
   if (!command || command === 'bot') return;
 
@@ -93,5 +90,5 @@ export async function before(m, { conn }) {
         renderLargerThumbnail: true
       }
     }
-  }, { quoted: pp });
+  }, { quoted: m });
 }
