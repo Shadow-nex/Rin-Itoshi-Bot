@@ -96,7 +96,7 @@ let handler = async (m, { conn, args }) => {
 
 `;
 
-    await m.react('⚙️');
+    await m.react('🧪');
 
     const botones = [
       {

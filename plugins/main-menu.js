@@ -1,12 +1,11 @@
 import axios from 'axios';
 import moment from 'moment-timezone';
 
-let handler = async (m, { conn, args }) => {
+let handler = async (m, { conn }) => {
   try {
     let userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender;
     let userData = global.db.data.users[userId] || {};
     let exp = userData.exp || 0;
-    let coin = userData.coin || 0;
     let level = userData.level || 0;
     let role = userData.role || 'Sin Rango';
     let name = await conn.getName(userId);
@@ -15,53 +14,12 @@ let handler = async (m, { conn, args }) => {
     let uptime = clockString(_uptime);
     let totalreg = Object.keys(global.db.data.users).length;
     let totalCommands = Object.values(global.plugins).filter(v => v.help && v.tags).length;
-  
-    const imgRandom = [
-      "https://iili.io/FKVDVAN.jpg",
-      "https://iili.io/FKVbUrJ.jpg"
-    ].getRandom();
 
-    const text = [
-      "*✦ 𝐈𝐍𝐕𝐎𝐂𝐀𝐂𝐈𝐎́𝐍 𝐌𝐀𝐒𝐈𝐕𝐀 𝐁𝐘 𝐒𝐡𝐚𝐝𝐨𝐰'𝐂𝐨𝐫𝐞 ✦*",
-      "⚜️ 𝐌𝐞𝐧𝐬𝐚𝐣𝐞 𝐜𝐨𝐥𝐞𝐜𝐭𝐢𝐯𝐨 𝐞𝐧 𝐜𝐮𝐫𝐬𝐨...",
-      "🔮 𝐄𝐭𝐢𝐪𝐮𝐞𝐭𝐚𝐧𝐝𝐨 𝐚 𝐥𝐚𝐬 𝐚𝐥𝐦𝐚𝐬 𝐩𝐞𝐫𝐝𝐢𝐝𝐚𝐬"
-    ].getRandom();
-
-    const thumbnailBuffer = Buffer.from((await axios.get(imgRandom, { responseType: 'arraybuffer' })).data);
-
-    const shadow = {
-      key: { participants: "0@s.whatsapp.net", fromMe: false, id: "Halo" },
-      message: {
-        locationMessage: {
-          name: text,
-          jpegThumbnail: thumbnailBuffer
-        }
-      },
-      participant: "0@s.whatsapp.net"
-    };
-  
-    await conn.sendMessage(m.chat, {
-      text: '╭─〔 ⚙️ 𝐂𝐀𝐑𝐆𝐀𝐍𝐃𝐎... 〕─⬣\n┃ 🛰️ *Conectando a la base de datos...*\n┃ 📡 *Sincronizando menú principal...*\n╰───────────────⬣',
-      mentions: [m.sender],
-      contextInfo: {
-        externalAdReply: {
-          title: '               ☘️ Dev.Shadow 🧪',
-          body: '   🌀꙰⃟ 𖤐 𝙍𝙄𝙉 𝙄𝙏𝙊𝙎𝙃𝙄 ∞ 𝐌𝐃 𖤐🎨⃟',
-          thumbnailUrl: 'https://files.catbox.moe/q8b2br',
-          sourceUrl: redes,
-          mediaType: 1,
-          renderLargerThumbnail: false
-        }
-      }
-    }, { quoted: m });
-
-    await new Promise(resolve => setTimeout(resolve, 2000));
-      
     let hora = new Date().toLocaleTimeString('en-US', { timeZone: 'America/Lima', hour12: true });
     let fechaObj = new Date();
     let fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Lima' });
     let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' });
-   
+
     let menuText = `
 *˚₊·˚₊· ͟͟͞͞➳❥  Rɪɴ͟ ɪᴛᴏsʜɪ Ɓᴏᴛ ᭃ*
 *⊰᯽⊱┈──╌•|* ⊱✿⊰ *|•╌──┈⊰᯽⊱*
@@ -69,55 +27,37 @@ let handler = async (m, { conn, args }) => {
 ☁️ ${ucapan()} @${userId.split('@')[0]}
 
   \`[ 𝗜 𝗡 𝗙 𝗢 - 𝗨 𝗦 𝗘 𝗥 ]\`
-  ﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊
 ✩⚞ ᴜsᴇʀ: *${name}*
 ✩⚞ ɴɪᴠᴇʟ: *${level}*
 ✩⚞ ᴇxᴘ ᴛᴏᴛᴀʟ: *${exp}*
 ✩⚞ ʀᴀɴɢᴏ: ${role}
-✩⚞ ᴘʀᴏɢʀᴇsᴏ: [██████████]
-─────────────────────────────
 
   \`[ 𝗜 𝗡 𝗙 𝗢 - 𝗕 𝗢 𝗧 ]\`
-  ﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊
-✧⚞ ⚙️ ᴍᴏᴅᴏ: *🔒 ᴘʀɪᴠᴀᴅᴏ*
 ✧⚞ 👑 ᴏᴡɴᴇʀ: *+${suittag}*
-✧⚞ 🤖 ʙᴏᴛ: ${(conn.user.jid == global.conn.user.jid ? '🌟 `ʙᴏᴛ ᴏғɪᴄɪᴀʟ`' : '✨ `sᴜʙ ʙᴏᴛ`')}
+✧⚞ 🤖 ʙᴏᴛ: ${(conn.user.jid == global.conn.user.jid ? '🌟 ʙᴏᴛ ᴏғɪᴄɪᴀʟ' : '✨ sᴜʙ ʙᴏᴛ')}
 ✧⚞ 📚 ᴄᴏᴍᴀɴᴅᴏs: *${totalCommands}*
 ✧⚞ 🧑‍🤝‍🧑 ᴛᴏᴛᴀʟ ᴜsᴇʀs: *${totalreg}*
 ✧⚞ ⏱️ ʀᴜɴᴛɪᴍᴇ: *${uptime}*
-─────────────────────────────
 
-   \`[ 𝗜 𝗡 𝗙 𝗢 - 𝗙 𝗘 𝗖 𝗛 𝗔 ]\`
-  ﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊
+  \`[ 𝗜 𝗡 𝗙 𝗢 - 𝗙 𝗘 𝗖 𝗛 𝗔 ]\`
 ✧⚞ ⚡ ʜᴏʀᴀ ᴘᴇʀᴜ: *${hora}*
 ✧⚞ 🍩 ғᴇᴄʜᴀ: *${fecha}*
 ✧⚞ ☘️ ᴅɪᴀ: *${dia}*
-──────────────────────────────
-
-`;
+`.trim();
 
     await m.react('🧪');
 
-    const botones = [
-      {
-        buttonId: '.code',
-        buttonText: { displayText: 's ᴇ ʀ ʙ ᴏ ᴛ' },
-        type: 1
-      },
-      {
-        buttonId: '.menulist',
-        buttonText: { displayText: 'ᴍᴇɴᴜ | ʟɪsᴛ' },
-        type: 1
-      }
+    const buttons = [
+      { buttonId: '.code', buttonText: { displayText: 's ᴇ ʀ ʙ ᴏ ᴛ' }, type: 1 },
+      { buttonId: '.menulist', buttonText: { displayText: 'ᴍᴇɴᴜ | ʟɪsᴛ' }, type: 1 }
     ];
 
     await conn.sendMessage(m.chat, {
       video: { url: 'https://files.catbox.moe/qoh9v4.mp4' },
       caption: menuText,
-      mentions: [m.sender],
       footer: '˜”*°•.˜”*°• RIN ITOSHI BOT •°*”˜.•°*”˜',
-      buttons: botones,
-      headerType: 4
+      buttons,
+      headerType: 5 // <- este es el headerType correcto para video
     }, { quoted: m });
 
   } catch (e) {
