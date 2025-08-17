@@ -97,8 +97,8 @@ let handler = async (m, { conn, usedPrefix }) => {
   }
 }
 
-handler.help = ['owner']
+handler.help = ['dev']
 handler.tags = ['owner']
-handler.command = ['owner', 'menuowner']
+handler.command = ['dev', 'menuowner']
 
 export default handler

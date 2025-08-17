@@ -34,7 +34,7 @@ let handler = async (m, { conn }) => {
 📅 Fecha: *${fecha}*
 📆 Día: *${dia}*
 
-📜 Menu nable "${palabrasClave.join(', ')}":
+📜 Menu nable 
 
 ${listaComandos}
 
