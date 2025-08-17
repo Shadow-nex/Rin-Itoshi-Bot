@@ -1,70 +1,95 @@
-let handler = async (m, { conn }) => {
-  let imgurl = 'https://files.catbox.moe/nmseef.png';
-  const texto = `ʜᴏʟᴀ
-    ╔═══════ • ° ❁⊕❁ ° • ═══════╗
-        💰⃟⃢᭄͜═✩═[𝐌𝐄𝐍𝐔-𝐑𝐏𝐆]═✩═⃟⃢᭄͜🏆
-    ╚═══════ • ° ❁⊕❁ ° • ═══════╝
+import moment from 'moment-timezone'
 
-> 💰🎮⊹ 𝐂𝐨𝐦𝐚𝐧𝐝𝐨𝐬 𝐝𝐞 𝐞𝐜𝐨𝐧𝐨𝐦𝐢́𝐚 𝐲 𝐑𝐏𝐆 𝐩𝐚𝐫𝐚 𝐠𝐚𝐧𝐚𝐫 𝐝𝐢𝐧𝐞𝐫𝐨 𝐲 𝐨𝐭𝐫𝐨𝐬 𝐫𝐞𝐜𝐮𝐫𝐬𝐨𝐬 🏆💎⊹
+let handler = async (m, { conn, usedPrefix, command }) => {
+  try {
+    let fecha = moment.tz('America/Lima').format('DD/MM/YYYY')
+    let hora = moment.tz('America/Lima').format('hh:mm:ss A')
+    let dia = moment.tz('America/Lima').locale('es').format('dddd')
+    let comandos = Object.keys(global.plugins).length
 
-━⃨⃛━╼─╍╍╍─╍▻◅╍─╍╍╼╼━⃨⃛╍╍
-❖─┅〈 𝑹 𝑷 𝑮 👻
-┃𐇛 #ᴀᴠᴇɴᴛᴜʀᴀ
-┃𐇛 #ʙᴀʟᴛᴏᴘ
-┃𐇛 #ʙᴇʀʙᴜʀu / ᴄᴀᴢᴀʀ
-┃𐇛 #ʙᴀɴᴋ / ʙᴀʟ
-┃𐇛 #ᴄᴏғʀᴇ
-┃𐇛 #ᴅᴇᴘᴏsɪᴛᴀʀ
-┃𐇛 #ᴇxᴘʟᴏʀᴀʀ
-┃𐇛 #ɢʀᴇᴍɪᴏ
-┃𐇛 #ʜᴀʟʟᴏᴡᴇᴇɴ
-┃𐇛 #ʜᴇᴀʟ
-┃𐇛 #ɪɴᴠᴇɴᴛᴀʀɪᴏ
-┃𐇛 #ᴍᴀᴢᴍᴏʀʀᴀ
-┃𐇛 #ᴍᴏɴᴛʜʟʏ
-┃𐇛 #ʀᴇᴛɪʀᴀʀ *<ᴄᴀɴᴛɪᴅᴀᴅ>*
-┃𐇛 #ɴᴀᴠɪᴅᴀᴅ
-┃𐇛 #ʀᴏʙᴀʀ
-┃𐇛 #ᴘʀᴏsᴛɪᴛᴜɪʀsᴇ
-┃𐇛 #ᴡᴇᴇᴋʟʏ
-┃𐇛 #ᴘʟᴀʏ
+    let club = '⚡ *Powered by* » Sʜᴀᴅᴏᴡ•Core 𝖢𝗅𝗎𝖻 ⚡'
+    let menu = `╔════ ≪ •❈• ≫ ════╗
+      👻 𝑴𝑬𝑵𝑼 𝑹𝑷𝑮 👻
+╚════ ≪ •❈• ≫ ════╝
+⏰ Hora: *${hora}*
+📅 Fecha: *${fecha}*
+🔋 Día: *${dia}*
+👑 Creador: *${creador}*
+⚙️ Prefijo: *${usedPrefix}*
+📡 Comandos: *${comandos}*
+
+⚔️ ¡Prepárate para la aventura!
+
+
+❖─┅〈 𝑨𝑽𝑬𝑵𝑻𝑼𝑹𝑨 🌍
+┃🎒 #aventura → Explora el mundo RPG
+┃🏆 #baltop → Ranking de jugadores
+┃🏹 #berburu / cazar → Caza animales y gana premios
+┃💰 #bank / bal → Consulta tu dinero en el banco
+┃📦 #cofre → Abre un cofre misterioso
+┃🏦 #depositar → Deposita dinero al banco
+┃🧭 #explorar → Descubre nuevas zonas
+┃⚔️ #gremio → Información de tu gremio
+┃🎃 #halloween → Evento de Halloween
+┃❤️ #heal → Recupera tu vida
+┃🎒 #inventario → Mira tus objetos
+┃🕳️ #mazmorra → Entra en la mazmorra
+┃📅 #monthly → Recompensa mensual
+┃🏧 #retirar <cantidad> → Retira dinero del banco
+┃🎄 #navidad → Evento de Navidad
+┃🦹 #robar → Intenta robar a alguien
+┃💃 #prostituirse → Gana dinero extra
+┃📆 #weekly → Recompensa semanal
+┃💨 #pay → tranfiere coins a otro jugador
 ╰━≡
 
-❖─┅〈 𝑬𝑪𝑶𝑵𝑶𝑴𝑰𝑨 🌞
-┃⛨ #ᴄᴀɴᴊᴇᴀʀ *<ᴄᴏᴅɪɢᴏ>*
-┃⛨ #ᴡᴀʟʟᴇᴛ
-┃⛨ #ᴀᴘᴏsᴛᴀʀ *<ᴄᴀɴᴛɪᴅᴀᴅ>*
-┃⛨ #ᴄғ
-┃⛨ #ᴄʀɪᴍᴇɴ
-┃⛨ #ᴅᴀɪʟʏ
-┃⛨ #ʀᴇɢᴀʟᴏ
-┃⛨ #ᴍɪɴᴀʀ
-┃⛨ #ʀᴏʙᴀʀxᴘ
-┃⛨ #ʙᴜʏ - ʙᴜʏᴀʟʟ
-┃⛨ #ʀᴜʟᴇᴛᴀ *<ᴄᴀɴᴛɪᴅᴀᴅ> <ᴄᴏʟᴏʀ>*
-┃⛨ #ᴛʀᴀʙᴀᴊᴀʀ - ᴡᴏʀᴋ
-┃⛨ #sʟᴏᴛ *<ᴀᴘᴜᴇsᴛᴀ>*
+❖─┅〈 𝑬𝑪𝑶𝑵𝑶𝑴𝑰𝑨 💸
+┃🎟️ #canjear <código> → Reclama un premio
+┃👛 #wallet → Consulta tu billetera
+┃🎲 #apostar <cantidad> → Juega con tu dinero
+┃🪙 #cf → Cara o cruz con monedas
+┃🔪 #crimen → Haz un crimen (riesgoso)
+┃🎁 #daily → Recompensa diaria
+┃🎉 #regalo → Recibe un regalo sorpresa
+┃⛏️ #minar → Mina minerales
+┃📚 #robarxp → Roba experiencia a otros
+┃🛒 #buy / buyall → Compra objetos
+┃🎡 #ruleta <cantidad> <color> → Apuesta a la ruleta
+┃👷 #trabajar / work → Trabaja para ganar dinero
+┃🎰 #slot <apuesta> → Máquinas tragamonedas
 ╰━≡
-━⃨⃛━╼─╍╍╍─╍▻◅╍─╍╍╼╼━⃨⃛╍╍`.trim();
 
-  await conn.sendMessage(m.chat, {
-    image: { url: imgurl },
-    caption: texto,
-    contextInfo: {
-      mentionedJid: [m.sender],
-      externalAdReply: {
-        title: packname,
-        body: dev,
-        thumbnailUrl: icono,
-        mediaType: 1,
-        renderLargerThumbnail: false,
-        showAdAttribution: true,
-        mediaUrl: 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U',
-        sourceUrl: 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
+📢 *Canal Oficial:*  
+🔗 ${channel}  
+「 ⚽𐚁 ֹ ִ Rin Itoshi - Official ୧ ֹ ִ⚽ 」
+    `.trim()
+
+    await conn.sendMessage(m.chat, {
+      image: { url: logo },
+      caption: menu,
+      footer: club,
+      buttons: [
+        { buttonId: `${usedPrefix}owner`, buttonText: { displayText: "👑 Creador" }, type: 1 },
+        { buttonId: `${usedPrefix}menu`, buttonText: { displayText: "📜 Menú Completo" }, type: 1 }
+      ],
+      headerType: 4,
+      contextInfo: {
+        externalAdReply: {
+          title: '👻 Rin Itoshi - Menú RPG',
+          body: '🎮 ᴄʀᴇᴀ ᴛᴜ ᴀᴠᴇɴᴛᴜʀᴀ, ʀᴇᴄᴏɢᴇ ʀᴇᴄᴜʀsᴏs, ɢᴀɴᴀ ᴏʀᴏ ʏ ᴅᴏᴍɪɴᴀ ᴇʟ ᴍᴜɴᴅᴏ ʀᴘɢ ⚔️',
+          thumbnailUrl: 'https://files.catbox.moe/us0m4f.jpg',
+          sourceUrl: redes,
+          mediaType: 1,
+          renderLargerThumbnail: true
+        }
       }
-    }
-  }, { quoted: m });
-};
+    }, { quoted: m })
+
+  } catch (e) {
+    console.error(e)
+    m.reply('❌ Error al mostrar el menú RPG.')
+  }
+}
 
 handler.help = ['menurpg']
 handler.tags = ['menus']

@@ -90,13 +90,13 @@ let handler = async (m, { conn, usedPrefix, command }) => {
       footer: club,
       buttons: [
         { buttonId: `${usedPrefix}owner`, buttonText: { displayText: "⚡ Creador" }, type: 1 },
-        { buttonId: `${usedPrefix}tiktok`, buttonText: { displayText: "☘️ Menu | All" }, type: 1 }
+        { buttonId: `${usedPrefix}menu`, buttonText: { displayText: "☘️ Menu | All" }, type: 1 }
       ],
       headerType: 4,
       contextInfo: {
         externalAdReply: {
-          title: '⚡ Rin Itoshi - Descargas',
-          body: '☘️ Menu | Descargas 🧪',
+          title: '⚡ Rin Itoshi - 🌱 Menu Descargas',
+          body: '🎧 ᴅᴇsᴄᴀʀɢᴀ ᴄᴏɴᴛᴇɴɪᴅᴏ ᴅᴇ ʟᴀs ᴘʀɪɴᴄɪᴘᴀʟᴇs ʀᴇᴅᴇs: ʏᴏᴜᴛᴜʙᴇ, ғᴀᴄᴇʙᴏᴏᴋ, sᴘᴏᴛɪғʏ, ɪɢ, ᴇᴛᴄ.',
           thumbnailUrl: 'https://files.catbox.moe/us0m4f.jpg',
           sourceUrl: redes,
           mediaType: 1,
