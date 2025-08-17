@@ -1,16 +1,5 @@
 import moment from 'moment-timezone'
 
-global.canalIdM = [
-  "120363401008003732@newsletter",
-  "120363401008003732@newsletter",
-  "120363401008003732@newsletter"
-]
-global.canalNombreM = [
-  "▐ 𝗧𝗢𝗖𝗔 𝗔𝗤𝗨𝗜▐ ",
-  "✦ 𝗥𝗶𝗻 𝗜𝘁𝗼𝘀𝗵𝗶 - 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 ✦",
-  "⚽𐚁 ֹ ִ Rin Itoshi - Official ୧ ֹ ִ⚽ᩚ꤬ᰍ"
-]
-
 global.getRandomChannel = () => {
   let i = Math.floor(Math.random() * global.canalIdM.length)
   return { id: global.canalIdM[i], nombre: global.canalNombreM[i] }
@@ -47,25 +36,25 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ╰─────────────⬣
 
 📢 Canal Oficial: 
-🔗 wa.me/subscribe/${global.channelRD.id}
-「 ${global.channelRD.nombre} 」
+🔗 ${channel}
+「 ⚽𐚁 ֹ ִ Rin Itoshi - Official ୧ ֹ ִ⚽ᩚ꤬ᰍ 」
     `.trim()
 
     await conn.sendMessage(m.chat, {
-      image: { url: logo }, // imagen principal
+      image: { url: logo },
       caption: menu,
       footer: '⚽ Rin Itoshi - MD 🧪',
       buttons: [
-        { buttonId: `${usedPrefix}play`, buttonText: { displayText: "🎵 YouTube" }, type: 1 },
-        { buttonId: `${usedPrefix}tiktok`, buttonText: { displayText: "🎥 TikTok" }, type: 1 }
+        { buttonId: `${usedPrefix}owner`, buttonText: { displayText: "⚡ Creador" }, type: 1 },
+        { buttonId: `${usedPrefix}tiktok`, buttonText: { displayText: "☘️ Menu | All" }, type: 1 }
       ],
       headerType: 4,
       contextInfo: {
         externalAdReply: {
-          title: '📥 Rin Itoshi - Descargas',
-          body: '☯︎ Dev by Shadow\'Core',
+          title: '⚡ Rin Itoshi - Descargas',
+          body: 'Menu | Descargas 🧪',
           thumbnailUrl: 'https://files.catbox.moe/us0m4f.jpg',
-          sourceUrl: `https://wa.me/subscribe/${global.channelRD.id}`,
+          sourceUrl: redes,
           mediaType: 1,
           renderLargerThumbnail: true
         }

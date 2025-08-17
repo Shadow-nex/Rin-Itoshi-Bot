@@ -14,7 +14,7 @@ let handler = async (m, { conn, args }) => {
     let _uptime = process.uptime() * 1000
     let uptime = clockString(_uptime)
     let totalreg = Object.keys(global.db.data.users).length
-    let totalCommands = Object.values(global.plugins).filter(v => v.help && v.tags).length
+    let totalCommands = Object.keys(global.plugins).length
 
     const imgRandom = [
       "https://iili.io/FKVDVAN.jpg",
