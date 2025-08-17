@@ -33,13 +33,13 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     await m.reply('⏳ Descargando episodio, por favor espera...');
 
-/*await conn.loadingMsg(m.chat, '🌸 𝘿𝙀𝙎𝘾𝘼𝙍𝙂𝘼𝙉𝘿𝙊 𝘼𝙉𝙄𝙈𝙀 🌸\n\n⏳ Espere un momento, descargando desde MEGA...', `✅ Enviando archivo`, [
+await conn.loadingMsg(m.chat, '🌸 𝘿𝙀𝙎𝘾𝘼𝙍𝙂𝘼𝙉𝘿𝙊 𝘼𝙉𝙄𝙈𝙀 🌸\n\n⏳ Espere un momento, descargando desde MEGA...', `✅ Enviando archivo`, [
       "▰▱▱▱▱ ᴄᴀʀɢᴀɴᴅᴏ...",
       "▰▰▱▱▱ ᴄᴀʀɢᴀɴᴅᴏ...",
       "▰▰▰▱▱ ᴄᴀʀɢᴀɴᴅᴏ...",
       "▰▰▰▰▱ ᴄᴀʀɢᴀɴᴅᴏ...",
       "▰▰▰▰▰ ᴄᴀʀɢᴀɴᴅᴏ..."
-    ], m);*/
+    ], m);
 
     const caption = `
 ╭─═☆彡〔 Rin Itoshi 彡〕☆═─╮
@@ -90,17 +90,3 @@ handler.command = ['animedl', 'animeflvdl', 'anidl'];
 handler.group = true;
 
 export default handler;
-
-/*
-
-╭─⃝🍥⃝─⃝✿⃝ 〔 彡 AlyaBot 彡 〕✿⃝─⃝🍥⃝─╮
-│  (๑˃ᴗ˂)ﻭ💿 ¡Tu anime está listo!
-│━━━━━━━━━━━━━━━━━━━━━━━
-│🎬 𝒫𝓁𝒶𝓉𝒻𝑜𝓇𝓂𝒶: AnimeFLV 🌐✨
-│📁 𝒩𝑜𝓂𝒷𝓇𝑒: 4188_4_Mq7U.mp4
-│📦 𝒯𝒶𝓂𝒶ñ𝑜: 189.87 MB
-│
-│💕 Disfruta tu dosis de anime, ¡pero no te duermas tarde, eh~? 💤💗
-╰─⃝🍥⃝─〔 AlyaBot Anime DL 〕─⃝🍥⃝─╯
-
-*/
