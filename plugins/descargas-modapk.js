@@ -41,7 +41,7 @@ var handler = async (m, { conn, usedPrefix, command, text }) => {
     if (data5.size.includes('GB') || pesoMB > 999) {
       return await conn.reply(m.chat, `${emoji4} El archivo es demasiado pesado.`, m);
     }
-
+/*
     await conn.sendMessage(m.chat, {
       document: { url: data5.dllink },
       fileName: `${data5.name}.apk`,
@@ -59,7 +59,9 @@ var handler = async (m, { conn, usedPrefix, command, text }) => {
           renderLargerThumbnail: false
         }
       }
-    }, { quoted: m });
+    }, { quoted: m });*/
+    
+    await conn.sendMessage(m.chat, {document: {url: data5.dllink}, mimetype: 'application/vnd.android.package-archive', fileName: data5.name + '.apk', caption: data5.name}, {quoted: fkontak});
 
   } catch (e) {
     console.error(e);
