@@ -41,9 +41,8 @@ ${listaComandos}
 💌 Canal oficial: https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U
 `.trim();
 
-    // Enviar solo imagen + texto
     await conn.sendMessage(m.chat, {
-      image: { url: logol },
+      image: { url: logo },
       caption: texto,
       contextInfo: {
         mentionedJid: [m.sender],
