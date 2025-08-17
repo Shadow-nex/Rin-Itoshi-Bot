@@ -39,7 +39,7 @@ export async function before(m, { conn }) {
             renderLargerThumbnail: true
           }
         }
-      }, { quoted: fkontak });
+      }, { quoted: global.fkontak });
       return;
     }
 
@@ -90,5 +90,5 @@ export async function before(m, { conn }) {
         renderLargerThumbnail: true
       }
     }
-  }, { quoted: m });
+  }, { quoted: global.fkontak });
 }
