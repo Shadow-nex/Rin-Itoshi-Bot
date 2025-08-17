@@ -1,4 +1,3 @@
-// plugins/menu.js
 import moment from 'moment-timezone'
 
 let handler = async (m, { conn }) => {
@@ -47,16 +46,20 @@ let handler = async (m, { conn }) => {
 
     await m.react('🧪')
 
-    await conn.sendMessage(m.chat, {
-      video: { url: 'https://files.catbox.moe/qoh9v4.mp4' },
-      caption: menuText,
-      footer: '˜”*°•.˜”*°• RIN ITOSHI BOT •°*”˜.•°*”˜',
-      buttons: [
-        { buttonId: '.code', buttonText: { displayText: 's ᴇ ʀ ʙ ᴏ ᴛ' }, type: 1 },
-        { buttonId: '.menulist', buttonText: { displayText: 'ᴍᴇɴᴜ | ʟɪsᴛ' }, type: 1 }
-      ],
-      headerType: 5
-    }, { quoted: m })
+    await conn.sendMessage(
+      m.chat,
+      {
+        video: { url: 'https://files.catbox.moe/qoh9v4.mp4' },
+        caption: menuText,
+        footer: '˜”*°•.˜”*°• RIN ITOSHI BOT •°*”˜.•°*”˜',
+        buttons: [
+          { buttonId: '.code', buttonText: { displayText: 's ᴇ ʀ ʙ ᴏ ᴛ' }, type: 1 },
+          { buttonId: '.menulist', buttonText: { displayText: 'ᴍᴇɴᴜ | ʟɪsᴛ' }, type: 1 }
+        ],
+        viewOnce: true
+      },
+      { quoted: m }
+    )
 
   } catch (e) {
     console.error(e)
