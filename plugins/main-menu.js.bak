@@ -59,13 +59,12 @@ let handler = async (m, { conn, args }) => {
 
     let fechaObj = new Date()
     let hora = fechaObj.toLocaleTimeString('es-PE', { 
-     timeZone: 'America/Lima', 
-     hour: '2-digit', 
-     minute: '2-digit',
-     hour12: true
+      timeZone: 'America/Lima', 
+      hour: '2-digit', 
+      minute: '2-digit', 
+      second: '2-digit',
+      hour12: true       // 🔥 Esto hace que muestre AM/PM
     })
-
-     hora = hora.replace('a. m.', 'AM').replace('p. m.', 'PM')
     let fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Lima' })
     let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' })
 
@@ -73,7 +72,7 @@ let handler = async (m, { conn, args }) => {
 *˚₊·˚₊· ͟͟͞͞➳❥  Rɪɴ͟ ɪᴛᴏsʜɪ Ɓᴏᴛ ᭃ*
 *⊰᯽⊱┈──╌•|* ⊱✿⊰ *|•╌──┈⊰᯽⊱*
 
-☁️ ${ucapan()} @${userId.split('@')[0]} ⚡
+☁️ ${ucapan()} @${userId.split('@')[0]}
 
   \`[ 𝗜 𝗡 𝗙 𝗢 - 𝗨 𝗦 𝗘 𝗥 ]\`
   ﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊
