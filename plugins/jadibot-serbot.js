@@ -186,7 +186,7 @@ txtCode = await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id }
 
 } else {
 txtCode = await conn.sendButton(m.chat, rtx2.trim(), wm, null, [], secret, null, m) 
-}
+
 
 
 
