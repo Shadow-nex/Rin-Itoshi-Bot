@@ -730,7 +730,48 @@ let handler = async (m, { conn, args }) => {
 
 
 `.trim();
-
+await m.react('⚙️');
+try {
+  await conn.sendMessage(
+    m.chat,
+    {
+      caption: menuText,
+      footer: '⚡ Menú principal ⚡',
+      buttons: [
+        {
+          buttonId: '.code',
+          buttonText: { displayText: 's ᴇ ʀ ʙ ᴏ ᴛ' },
+          type: 1
+        },
+        {
+          buttonId: '.menulist',
+          buttonText: { displayText: 'ᴍᴇɴᴜ | ʟɪsᴛ' },
+          type: 1
+        }
+      ],
+      headerType: 4,
+      contextInfo: {
+        externalAdReply: {
+          title: '⚽ Rin Itoshi - MD🧪',
+          body: '☯︎ Dev by Shadow\'Core',
+          mediaType: 1,
+          thumbnailUrl: 'https://files.catbox.moe/us0m4f.jpg',
+          mediaUrl: 'https://github.com/Yuji-XDev/SukunaUltra-MD',
+          sourceUrl: 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U',
+          renderLargerThumbnail: false
+        }
+      }
+    },
+    { quoted: shadow }
+  )
+} catch (e) {
+  console.error(e)
+  await conn.sendMessage(m.chat, {
+    text: `✘ Error al enviar el menú: ${e.message}`,
+    mentions: [m.sender]
+  }, { quoted: m })
+}
+/*
     await m.react('⚙️');
     await conn.sendMessage(
       m.chat,
@@ -759,7 +800,7 @@ let handler = async (m, { conn, args }) => {
       mentions: [m.sender]
     }, { quoted: m })
   }
-}
+}*/
 
 handler.help = ['menu'];
 handler.tags = ['main'];
