@@ -31,21 +31,22 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   else return m.reply('✘ Unidad de tiempo no válida. Usa: m, h, d, w.')
 
   try {
-    // Unirse al grupo
+ 
     let groupId = await conn.groupAcceptInvite(codigoGrupo)
     let groupMetadata = await conn.groupMetadata(groupId)
     let groupName = groupMetadata.subject
 
     let admins = groupMetadata.participants.filter(p => p.admin).map(p => p.id)
     let mentions = [m.sender, ...admins]
+    await m.reply(`listo ⚡`);    
 
 
     await conn.sendMessage(groupId, {
-      text: `✅ El bot se ha unido a *${groupName}*.\n\n⏳ Estará aquí durante *${cantidad}${tiempoStr.replace(cantidad, '')}*.\n\n📌 Luego saldrá automáticamente.`,
+      text: `✅ El bot se ha unido a *${groupName}*.\n\n⏳ Estará aquí durante *${cantidad}${tiempoStr.replace(cantidad, '')}*.\n\n🌳 Luego saldrá automáticamente.`,
       mentions
     }, { quoted: global.fkontak })
 
-    // Programar salida automática
+
     if (suscripciones[groupId]) clearTimeout(suscripciones[groupId])
     suscripciones[groupId] = setTimeout(async () => {
       try {
