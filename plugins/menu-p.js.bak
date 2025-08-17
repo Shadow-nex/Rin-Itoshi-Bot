@@ -2,7 +2,7 @@ let handler = async (m, { conn }) => {
   try {
     const imgurl = 'https://files.catbox.moe/nmseef.png';
 
-    const palabrasClave = ['busquedas', 'search'];
+    const palabrasClave = ['', 'busquedas', 'search'];
 
     // Filtrar comandos relacionados
     const comandosBusqueda = Object.values(global.plugins).filter(
