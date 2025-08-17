@@ -58,14 +58,7 @@ let handler = async (m, { conn, args }) => {
     await new Promise(resolve => setTimeout(resolve, 2000))
 
     let fechaObj = new Date()
-    let hora = fechaObj.toLocaleTimeString('es-PE', { 
-     timeZone: 'America/Lima', 
-     hour: '2-digit', 
-     minute: '2-digit',
-     hour12: true
-    })
-
-     hora = hora.replace('a. m.', 'AM').replace('p. m.', 'PM')
+    let hora = new Date().toLocaleTimeString('es-PE', { timeZone: 'America/Lima' });
     let fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Lima' })
     let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' })
 
