@@ -78,7 +78,7 @@ let handler = async (m, { conn, text, args }) => {
             sourceUrl: args[0],
             thumbnailUrl: args[0],
             mediaType: 1,
-            renderLargerThumbnail: true
+            renderLargerThumbnail: false
           }
         }
       }, { quoted: fkontak });
