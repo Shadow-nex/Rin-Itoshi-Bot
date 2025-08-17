@@ -4,7 +4,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
   try {
     let fecha = moment.tz('America/Lima').format('DD/MM/YYYY')
     let hora = moment.tz('America/Lima').format('hh:mm:ss A')
-    //let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' })
+    let dia = moment.tz('America/Lima').locale('es').format('dddd')
 
     let owner = "Shadow'Core 🧪"
     let comandos = Object.keys(global.plugins).length
@@ -14,7 +14,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ╭━━━〔 *📥 𝘔𝘌𝘕𝘜 𝘋𝘌𝘚𝘊𝘈𝘙𝘎𝘈𝘚* 〕━━⬣
 ┃ ⏱️ 𝐇𝐨𝐫𝐚: *${hora}*
 ┃ 📅 𝐅𝐞𝐜𝐡𝐚: *${fecha}*
-┃ 📆 𝐃𝐢́𝐚: **
+┃ 📆 𝐃𝐢́𝐚: *${dia}*
 ┃ 🧑‍💻 𝐎𝐰𝐧𝐞𝐫: *${owner}*
 ┃ ⚙️ 𝐏𝐫𝐞𝐟𝐢𝐣𝐨: *${usedPrefix}*
 ┃ 📚 𝐂𝐨𝐦𝐚𝐧𝐝𝐨𝐬: *${comandos}*
@@ -22,13 +22,13 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 
 ╭─⬣「 *Descargas Disponibles* 」
 │🤗 .cuddle  
-│🖼️ .imagen <query>  
+│🖼️ .imagen *<query>*
 │📌 .pinterestdl *<url>*  
-│🎵 .tksearch <búsqueda>  
+│🎵 .tksearch *<búsqueda>*
 │➕ .tkseguir  
-│🎬 .animedl <anime-id> <episode-number>  
+│🎬 .animedl *<anime-id> <episode-number>* 
 │📘 .facebook  
-│📘 .fb2 <enlace>  
+│📘 .fb2 *<enlace>* 
 │📦 .apkf  
 │📦 .fdroid  
 │☁️ .gdrive  
@@ -42,23 +42,23 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 │📌 .pinvid *<link>*  
 │🎧 .playaudio  
 │🎞️ .playvideo  
-│🎶 .playlist <texto>  
-│🎶 .ytmp33 <url>  
-│🎞️ .ytmp44 <url>  
-│🎲 .tiktokrandom  
-│👻 .snapchat  
-│🎧 .soundcloud <nombre>  
+│🎶 .playlist *<texto>*
+│🎶 .ytmp33 *<url>*
+│🎞️ .ytmp44 *<url>*
+│🎲 .tiktokrandom
+│👻 .snapchat
+│🎧 .soundcloud *<nombre>* 
 │🎼 .spotify  
-│🖼️ .tiktokimg <url>  
+│🖼️ .tiktokimg *<url>*
 │🎶 .tiktokmp3 *<url>*  
 │🎲 .tiktok *<link>*  
 │🎞️ .tiktokhd <url>  
 │🎲 .tiktok2 *<url>*  
-│🐦 .twitter <url>  
+│🐦 .twitter *<url>*
 │🔞 .xnxxdl  
 │🔞 .xvideosdl  
-│🎶 .audio <yt_link>  
-│🎞️ .video <yt_link>  
+│🎶 .audio z<yt_link>*
+│🎞️ .video *<yt_link>*
 │🎶 .ytmp3 *<link>*  
 │📄 .ytmp3doc  
 │📄 .ytadoc  
@@ -68,17 +68,17 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 │🎨 .capcut *<url>*  
 │📦 .apk2  
 │📦 .apk_download  
-│🍏 .applemusic <link>  
+│🍏 .applemusic *<link> *
 │🎥 .kwai  
-│🎶 .music <canción>  
+│🎶 .music *<canción>* 
 │📂 .terabox *<url>*  
 │📑 .menudl  
 │📑 .descargas  
 │📑 .dlmenu  
-│🎶 .yta-v2 <url de YouTube>  
+│🎶 .yta-v2 *<url de YouTube>* 
 │🎶 .play8 *<texto>*  
-│🎶 .yta <url o texto>  
-│🎞️ .ytv  
+│🎶 .yta *<url o texto>* 
+│🎞️ .ytv 
 ╰─────────────⬣
 
 📢 Canal Oficial: 
