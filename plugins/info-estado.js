@@ -13,8 +13,7 @@ let old = performance.now()
 let neww = performance.now()
 let speed = neww - old
 const used = process.memoryUsage()
-let info = `
-▧ ═══『 ${botname} 』═══ ▧
+let info = `▧ ═══『 ${botname} 』═══ ▧
 ⟢ 🏆 𝐂𝐫𝐞𝐚𝐝𝐨𝐫: ${etiqueta}
 ⟢ 🌀 𝐏𝐫𝐞𝐟𝐢𝐣𝐨: [ ${usedPrefix} ]
 ⟢ 📌 𝐕𝐞𝐫𝐬𝐢𝐨́𝐧: ${vs}

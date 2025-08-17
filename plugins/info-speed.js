@@ -29,7 +29,7 @@ let texto = `╭─『 ${emoji} ${bot} 』─⬣
 
 ⟢ 💾 *RAM usada:* ${format(totalmem() - freemem())}  
 ⟢ 📦 *RAM total:* ${format(totalmem())}
-╰⧼ ⚔️ 𝑺𝒖𝒌𝒖𝒏𝒂 𝑼𝒍𝒕𝒓𝒂 𝑴𝑫 ⚔️ ⧽`.trim()
+╰⧼ ⚡ 𝑹𝒊𝒏 𝑰𝒕𝒐𝒔𝒉𝒊 • 𝑼𝒍𝒕𝒓𝒂 𝑴𝑫 ☘️ ⧽`.trim()
 
 m.react('✈️')
 conn.reply(m.chat, texto, m, rcanal, )

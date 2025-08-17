@@ -42,30 +42,30 @@ const handler = async (m, { conn }) => {
     const nodeUsage = process.memoryUsage();
     const diskSpace = getDiskSpace();
 
-    const message = `𖥔 𓆩⟡𓂃 𝑺𝒀𝑺𝑻𝑬𝑴 𝑺𝑻𝑨𝑻𝑼𝑺 𓂃⟡𓆪 𖥔
-╭─❍ *𝙄𝙉𝙁𝙊 𝘿𝙀 𝙃𝙊𝙎𝙏* ❍─╮
-│ ✦ 🛰️ *Host:* ${hostname}
-│ ✦ 🧬 *Sistema:* ${platform} (${arch})
-│ ✦ 🔋 *RAM Total:* ${formatBytes(totalMem)}
-│ ✦ 🪄 *RAM Libre:* ${formatBytes(freeMem)}
-│ ✦ 🧁 *RAM Usada:* ${formatBytes(usedMem)}
-│ ✦ ⏳ *Uptime:* ${muptime}
-╰──────────────────⬣
+    const message = `✦͙۪۪̇˚̣̣̣͙✩ 𓆩 𝑺𝒀𝑺𝑻𝑬𝑴 𝑰𝑵𝑭𝑶 𓆪 ✩˚̣̣̣͙۪۪͙̇✦
+╭━━〔 ⚙️ *ESTADO DEL HOST* 〕━━⬣
+│ ✧ 🌐 *Host:* ${hostname}
+│ ✧ 🧬 *Sistema:* ${platform} (${arch})
+│ ✧ 🔋 *RAM Total:* ${formatBytes(totalMem)}
+│ ✧ ✨ *RAM Libre:* ${formatBytes(freeMem)}
+│ ✧ ⚡ *RAM Usada:* ${formatBytes(usedMem)}
+│ ✧ ⏳ *Tiempo Activo:* ${muptime}
+╰━━━━━━━━━━━━━━━━━━⬣
 
-╭─❍ *𝙈𝙀𝙈𝙊𝙍𝙄𝘼 𝙉𝙊𝘿𝙀.𝙅𝙎* ❍─╮
-│ ✦ 📦 *RSS:* ${formatBytes(nodeUsage.rss)}
-│ ✦ 🧠 *Heap Total:* ${formatBytes(nodeUsage.heapTotal)}
-│ ✦ 🧃 *Heap Usado:* ${formatBytes(nodeUsage.heapUsed)}
-│ ✦ 📂 *Externa:* ${formatBytes(nodeUsage.external)}
-│ ✦ 🎯 *Buffers:* ${formatBytes(nodeUsage.arrayBuffers)}
-╰─────────────────────⬣
+╭━━〔 🪄 *MEMORIA NODE.JS* 〕━━⬣
+│ ✧ 📦 *RSS:* ${formatBytes(nodeUsage.rss)}
+│ ✧ 🧠 *Heap Total:* ${formatBytes(nodeUsage.heapTotal)}
+│ ✧ 💎 *Heap Usado:* ${formatBytes(nodeUsage.heapUsed)}
+│ ✧ 📂 *Externa:* ${formatBytes(nodeUsage.external)}
+│ ✧ 🎯 *Buffers:* ${formatBytes(nodeUsage.arrayBuffers)}
+╰━━━━━━━━━━━━━━━━━━⬣
 
-${diskSpace ? `╭─❍ *𝘿𝙄𝙎𝘾𝙊 𝘿𝙐𝙍𝙊* ❍─╮
-│ ✦ 💽 *Total:* ${diskSpace.size}
-│ ✦ 📀 *Usado:* ${diskSpace.used}
-│ ✦ 🪐 *Libre:* ${diskSpace.available}
-│ ✦ 🔮 *Uso:* ${diskSpace.usePercent}
-╰──────────────────⬣` : '🚫 *No se pudo obtener el espacio en disco.*'}`;
+${diskSpace ? `╭━━━〔 💽 *DISCO DURO* 〕━━━⬣
+│ ✧ 📀 *Total:* ${diskSpace.size}
+│ ✧ 📊 *Usado:* ${diskSpace.used}
+│ ✧ 🌌 *Libre:* ${diskSpace.available}
+│ ✧ 🔮 *Uso:* ${diskSpace.usePercent}
+╰━━━━━━━━━━━━━━━━━━⬣` : '🚫 *No se pudo obtener el espacio en disco.*'}`;
 
     await conn.sendMessage(m.chat, {
         text: message,
