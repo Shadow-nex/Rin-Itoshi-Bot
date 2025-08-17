@@ -289,5 +289,5 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
 handler.help = ['logo <estilo>|<texto>[|texto2]', 'logo estilos']
 handler.tags = ['tools', 'logo', 'media']
-handler.command = /^logo$/i
+handler.command = ['logo']
 export default handler
