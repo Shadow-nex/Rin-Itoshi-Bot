@@ -41,7 +41,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 │ 🛒 .playstore <query>
 ╰─────────────⬣
 
-╭─⬣「 *☘️ Stalk Disponibles* 」
+╭─⬣「 *📥 Búsquedas Disponibles* 」
 │
 ╰─────────────⬣
 

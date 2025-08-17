@@ -2,7 +2,7 @@ let handler = async (m, { conn }) => {
   try {
     const imgurl = 'https://files.catbox.moe/nmseef.png';
 
-    const palabrasClave = ['stalk'];
+    const palabrasClave = ['busquedas', 'search'];
 
     // Filtrar comandos relacionados
     const comandosBusqueda = Object.values(global.plugins).filter(
@@ -19,7 +19,12 @@ let handler = async (m, { conn }) => {
     }).join('\n');
 
     // Texto del menú
-    const texto = `${listaComandos}`.trim();
+    const texto = `ʜᴏʟᴀ
+
+${listaComandos}
+
+> ${global.club || '👑 ʙᴏᴛ ᴘᴏʀ ʙʟᴀᴄᴋ'}
+`.trim();
 
     // Enviar solo imagen + texto
     await conn.sendMessage(m.chat, {
