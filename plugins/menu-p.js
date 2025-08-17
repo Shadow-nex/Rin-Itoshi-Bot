@@ -1,10 +1,9 @@
+import moment from 'moment-timezone'
+
 let handler = async (m, { conn }) => {
   try {
-    const imgurl = 'https://files.catbox.moe/nmseef.png';
+    const palabrasClave = ['nable'];
 
-    const palabrasClave = ['stalk'];
-
-    // Filtrar comandos relacionados
     const comandosBusqueda = Object.values(global.plugins).filter(
       plugin => plugin?.help && plugin.help.length > 0 &&
         (palabrasClave.some(palabra =>
@@ -13,13 +12,34 @@ let handler = async (m, { conn }) => {
         ))
     );
 
-    // Lista con los nombres originales de los comandos
+
     const listaComandos = comandosBusqueda.map(plugin => {
       return plugin.help.map(cmd => `│ .${cmd}`).join('\n');
     }).join('\n');
 
-    // Texto del menú
-    const texto = `${listaComandos}`.trim();
+    let fecha = moment.tz('America/Lima').format('DD/MM/YYYY')
+    let hora = moment.tz('America/Lima').format('hh:mm:ss A')
+    let dia = moment.tz('America/Lima').locale('es').format('dddd')
+    let nombreUser = m.pushName || 'Usuario'
+    let pais = '🇵🇪 Perú'
+    let botName = global.bot,
+
+    const texto = `
+[⚡ Menú nable ⚡]
+
+👤 Usuario: *${nombreUser}*
+🤖 Bot: *${botName}*
+🌎 País: ${pais}
+⏰ Hora: *${hora}*
+📅 Fecha: *${fecha}*
+📆 Día: *${dia}*
+
+📜 Menu nable "${palabrasClave.join(', ')}":
+
+${listaComandos}
+
+💌 Canal oficial: https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U
+`.trim();
 
     // Enviar solo imagen + texto
     await conn.sendMessage(m.chat, {
@@ -28,11 +48,11 @@ let handler = async (m, { conn }) => {
       contextInfo: {
         mentionedJid: [m.sender],
         externalAdReply: {
-          title: global.packname || '📦 Sukuna Bot MD',
-          body: global.dev || '👑 Creado por Black',
-          thumbnailUrl: global.icono || imgurl,
+          title: global.packname,
+          body: global.dev,
+          thumbnailUrl: global.icono,
           mediaType: 1,
-          renderLargerThumbnail: false,
+          renderLargerThumbnail: true,
           showAdAttribution: true,
           mediaUrl: 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U',
           sourceUrl: 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
