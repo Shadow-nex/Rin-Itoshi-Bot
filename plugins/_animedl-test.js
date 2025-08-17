@@ -42,15 +42,15 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     ], m);*/
 
     const caption = `
-╭─⃝🍥⃝─⃝✿⃝ 〔 彡 AlyaBot 彡 〕✿⃝─⃝🍥⃝─╮
-│  (๑˃ᴗ˂)ﻭ💿 ¡Tu anime está listo!
+╭─═☆彡〔 Rin Itoshi 彡〕☆═─╮
+│  (•̀ᴗ•́)و💥 ¡Anime listo para ti!
 │━━━━━━━━━━━━━━━━━━━━━━━
-│🎬 𝒫𝓁𝒶𝓉𝒻𝑜𝓇𝓂𝒶: AnimeFLV 🌐✨
-│📁 𝒩𝑜𝓂𝒷𝓇𝑒: ${animeId} Ep. ${episode}
-│📦 𝒯𝒶𝓂𝒶ñ𝑜: ${formatBytes(file.size)}
+│🎬 𝐏𝐥𝐚𝐭𝐟𝐨𝐫𝐦𝐚: AnimeFLV 🌐
+│📁 𝐓í𝐭𝐮𝐥𝐨: ${animeId} Ep. ${episode}
+│📦 𝐓𝐚𝐦𝐚ñ𝐨: ${formatBytes(file.size)}
 │
-│💕 Disfruta tu dosis de anime, ¡pero no te duermas tarde, eh~? 💤💗
-╰─⃝🍥⃝─〔 AlyaBot Anime DL 〕─⃝🍥⃝─╯
+│💫 Disfruta tu episodio, ¡Rin Itoshi te cubre la maratón! 🍿✨
+╰─═☆彡〔 Rin Itoshi Anime DL 〕☆═─╯
 `;
 
     const dataBuffer = await file.downloadBuffer();
