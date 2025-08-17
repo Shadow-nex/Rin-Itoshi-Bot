@@ -3,6 +3,8 @@ export async function before(m, { conn }) {
 
   const usedPrefix = global.prefix.exec(m.text)[0];
   const command = m.text.slice(usedPrefix.length).trim().split(' ')[0].toLowerCase();
+  
+  const fkontak = { "key": { "participants":"0@s.whatsapp.net", "remoteJid": "status@broadcast", "fromMe": false, "id": "Halo" }, "message": { "contactMessage": { "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=51919199620:51919199620\nitem1.X-ABLabel:Ponsel\nEND:VCARD` }}, "participant": "0@s.whatsapp.net"}
 
   if (!command || command === 'bot') return;
 
@@ -39,7 +41,7 @@ export async function before(m, { conn }) {
             renderLargerThumbnail: true
           }
         }
-      }, { quoted: global.fkontak });
+      }, { quoted: fkontak });
       return;
     }
 
@@ -90,5 +92,5 @@ export async function before(m, { conn }) {
         renderLargerThumbnail: true
       }
     }
-  }, { quoted: global.fkontak });
+  }, { quoted: fkontak });
 }
