@@ -4,7 +4,7 @@ let suscripciones = global.suscripciones || (global.suscripciones = {})
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
   if (!args[0] || !args[1]) {
-    return m.reply(`✘ Uso incorrecto.\n\n💎 Ejemplo: *${usedPrefix + command} enlace 3d*  
+    return m.reply(`✘ Uso incorrecto.\n\n☘️ Ejemplo: *${usedPrefix + command} enlace 3d*  
 (Usa m = minutos, h = horas, d = días, w = semanas)`)
   }
 
@@ -14,7 +14,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   if (!enlace.startsWith('https://chat.whatsapp.com/')) {
     return m.reply('✘ Enlace no válido.')
   }
-  
+
   let codigoGrupo = enlace.replace('https://chat.whatsapp.com/', '').split('?')[0].trim()
   if (!codigoGrupo) return m.reply('✘ Código de grupo no válido.')
 
@@ -31,19 +31,15 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   else return m.reply('✘ Unidad de tiempo no válida. Usa: m, h, d, w.')
 
   try {
- 
     let groupId = await conn.groupAcceptInvite(codigoGrupo)
     let groupMetadata = await conn.groupMetadata(groupId)
     let groupName = groupMetadata.subject
 
     let admins = groupMetadata.participants.filter(p => p.admin).map(p => p.id)
-    let mentions = [m.sender, ...admins]
-    await m.reply(`listo ⚡`);    
-
-    let url = await conn.profilePictureUrl(m.chat, 'image').catch(_ => null);
-    let admins = groupMetadata.participants.filter(p => p.admin).map(p => p.id)
     let mentionList = [m.sender, ...admins]
-    
+
+    let url = await conn.profilePictureUrl(groupId, 'image').catch(_ => null)
+
     await conn.sendMessage(groupId, {
       text: `💥 El bot se ha unido a *${groupName}*.\n\n🍂 Estará aquí durante *${cantidad}${tiempoStr.replace(cantidad, '')}*.\n\n🌳 Luego saldrá automáticamente.`,
       mentions: mentionList,
@@ -51,14 +47,13 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         externalAdReply: {
           title: `Hola Grupo: ${groupName}`,
           body: '☘️◌*̥₊ ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ ᴍᴅ ◌❐⚽༉',
-          thumbnailUrl: url || icono,
+          thumbnail: url || icono,
           sourceUrl: global.redes,
           mediaType: 1,
           renderLargerThumbnail: true
         }
       }
-    }, { quoted: global.fkontak })
-
+    }, { quoted: global.fkontak || null })
 
     if (suscripciones[groupId]) clearTimeout(suscripciones[groupId])
     suscripciones[groupId] = setTimeout(async () => {
