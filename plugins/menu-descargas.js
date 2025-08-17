@@ -110,5 +110,6 @@ let handler = async (m, { conn, usedPrefix, command }) => {
   }
 }
 handler.help = ['menudescargas', 'dlmenu']
+handler.tags = ['menus']
 handler.command = ['menudescargas', 'dlmenu', 'menudl']
 export default handler

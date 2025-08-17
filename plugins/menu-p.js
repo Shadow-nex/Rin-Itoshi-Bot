@@ -15,18 +15,12 @@ let handler = async (m, { conn }) => {
 
     // Lista con los nombres originales de los comandos
     const listaComandos = comandosBusqueda.map(plugin => {
-      return plugin.help.map(cmd => `🎃 #${cmd}`).join('\n');
+      return plugin.help.map(cmd => `│ .${cmd}`).join('\n');
     }).join('\n');
 
     // Texto del menú
     const texto = `ʜᴏʟᴀ
-╔═══════ • ° ❁⊕❁ ° • ═══════╗
-    📥⃟⃢᭄͜═✩═[𝐌𝐄𝐍𝐔-𝐃𝐄𝐒𝐂𝐀𝐑𝐆𝐀𝐒]═✩═⃟⃢᭄͜📂
-╚═══════ • ° ❁⊕❁ ° • ═══════╝
 
-> 📥⊹ 𝐂𝐨𝐦𝐚𝐧𝐝𝐨𝐬 𝐝𝐞 𝐝𝐞𝐬𝐜𝐚𝐫𝐠𝐚𝐬 𝐩𝐚𝐫𝐚 𝐯𝐚𝐫𝐢𝐨𝐬 𝐚𝐫𝐜𝐡𝐢𝐯𝐨𝐬 📂⊹
-
-━⃨⃛━╼─╍╍╍─╍▻◅╍─╍╍╼╼━⃨⃛╍╍
 ${listaComandos}
 
 > ${global.club || '👑 ʙᴏᴛ ᴘᴏʀ ʙʟᴀᴄᴋ'}
