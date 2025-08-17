@@ -5,17 +5,14 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     let fecha = moment.tz('America/Lima').format('DD/MM/YYYY')
     let hora = moment.tz('America/Lima').format('hh:mm:ss A')
     let dia = moment.tz('America/Lima').locale('es').format('dddd')
-
-    let owner = "Shadow'Core 🧪"
     let comandos = Object.keys(global.plugins).length
-    let bot = "⚽ Rin Itoshi - MD 🧪"
 
     let menu = `
 ╭━━━〔 *📥 𝘔𝘌𝘕𝘜 𝘋𝘌𝘚𝘊𝘈𝘙𝘎𝘈𝘚* 〕━━⬣
 ┃ ⏱️ 𝐇𝐨𝐫𝐚: *${hora}*
 ┃ 📅 𝐅𝐞𝐜𝐡𝐚: *${fecha}*
 ┃ 📆 𝐃𝐢́𝐚: *${dia}*
-┃ 🧑‍💻 𝐎𝐰𝐧𝐞𝐫: *${owner}*
+┃ 🧑‍💻 𝐎𝐰𝐧𝐞𝐫: *${creador}*
 ┃ ⚙️ 𝐏𝐫𝐞𝐟𝐢𝐣𝐨: *${usedPrefix}*
 ┃ 📚 𝐂𝐨𝐦𝐚𝐧𝐝𝐨𝐬: *${comandos}*
 ╰━━━〔 *${bot}* 〕━━⬣
@@ -98,7 +95,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
       contextInfo: {
         externalAdReply: {
           title: '⚡ Rin Itoshi - Descargas',
-          body: 'Menu | Descargas 🧪',
+          body: '☘️ Menu | Descargas 🧪',
           thumbnailUrl: 'https://files.catbox.moe/us0m4f.jpg',
           sourceUrl: redes,
           mediaType: 1,
