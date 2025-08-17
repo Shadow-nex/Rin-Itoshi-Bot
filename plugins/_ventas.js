@@ -37,7 +37,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let groupMetadata = await conn.groupMetadata(groupId)
     let groupName = groupMetadata.subject
     
-
+    let url = await conn.profilePictureUrl(m.chat, 'image').catch(_ => null);
     let admins = groupMetadata.participants.filter(p => p.admin).map(p => p.id)
     let mentionList = [m.sender, ...admins]
 
@@ -48,7 +48,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         externalAdReply: {
           title: `Hola Grupo: ${groupName}`,
           body: '☘️◌*̥₊ ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ ᴍᴅ ◌❐⚽༉',
-          thumbnailUrl: global.icono,
+          thumbnailUrl: url || icono,
           sourceUrl: global.redes,
           mediaType: 1,
           renderLargerThumbnail: true
