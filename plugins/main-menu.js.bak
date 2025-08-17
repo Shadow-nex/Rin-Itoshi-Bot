@@ -771,7 +771,6 @@ try {
     mentions: [m.sender]
   }, { quoted: m })
 }
-}
 /*
     await m.react('⚙️');
     await conn.sendMessage(
