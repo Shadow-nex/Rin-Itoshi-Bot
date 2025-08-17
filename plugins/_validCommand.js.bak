@@ -93,5 +93,5 @@ export async function before(m, { conn }) {
         renderLargerThumbnail: true
       }
     }
-  }, { quoted: pp });
+  }, { quoted: fkontak });
 }
