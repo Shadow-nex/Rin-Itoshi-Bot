@@ -1,64 +1,123 @@
-let handler = async (m, { conn }) => {
+import moment from 'moment-timezone'
+
+global.getRandomChannel = () => {
+  let i = Math.floor(Math.random() * global.canalIdM.length)
+  return { id: global.canalIdM[i], nombre: global.canalNombreM[i] }
+}
+global.channelRD = global.getRandomChannel()
+
+let handler = async (m, { conn, usedPrefix, command }) => {
   try {
-    const imgurl = 'https://files.catbox.moe/nmseef.png';
+    let fecha = moment.tz('America/Lima').format('DD/MM/YYYY')
+    let hora = moment.tz('America/Lima').format('hh:mm:ss A')
+    let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' })
 
-    const palabrasClave = ['descargas', 'dl', 'downloader'];
+    let owner = "Shadow'Core 🧪"
+    let comandos = Object.keys(global.plugins).length
+    let bot = "⚽ Rin Itoshi - MD 🧪"
 
-    // Filtrar comandos relacionados
-    const comandosBusqueda = Object.values(global.plugins).filter(
-      plugin => plugin?.help && plugin.help.length > 0 &&
-        (palabrasClave.some(palabra =>
-          (plugin?.tags || []).join().toLowerCase().includes(palabra) ||
-          plugin.help.join(' ').toLowerCase().includes(palabra)
-        ))
-    );
+    let menu = `
+╭━━━〔 *📥 𝘔𝘌𝘕𝘜 𝘋𝘌𝘚𝘊𝘈𝘙𝘎𝘈𝘚* 〕━━⬣
+┃ ⏱️ 𝐇𝐨𝐫𝐚: *${hora}*
+┃ 📅 𝐅𝐞𝐜𝐡𝐚: *${fecha}*
+┃ 📆 𝐃𝐢́𝐚: *${dia}*
+┃ 🧑‍💻 𝐎𝐰𝐧𝐞𝐫: *${owner}*
+┃ ⚙️ 𝐏𝐫𝐞𝐟𝐢𝐣𝐨: *${usedPrefix}*
+┃ 📚 𝐂𝐨𝐦𝐚𝐧𝐝𝐨𝐬: *${comandos}*
+╰━━━〔 *${bot}* 〕━━⬣
 
-    // Lista con los nombres originales de los comandos
-    const listaComandos = comandosBusqueda.map(plugin => {
-      return plugin.help.map(cmd => `🎃 #${cmd}`).join('\n');
-    }).join('\n');
+╭─⬣「 *Descargas Disponibles* 」
+│🤗 .cuddle  
+│🖼️ .imagen <query>  
+│📌 .pinterestdl *<url>*  
+│🎵 .tksearch <búsqueda>  
+│➕ .tkseguir  
+│🎬 .animedl <anime-id> <episode-number>  
+│📘 .facebook  
+│📘 .fb2 <enlace>  
+│📦 .apkf  
+│📦 .fdroid  
+│☁️ .gdrive  
+│🐙 .gitclone *<url git>*  
+│📸 .instagram  
+│📸 .ig  
+│📥 .mediafire  
+│📥 .mega  
+│📦 .apkmod  
+│🎮 .npmdl  
+│📌 .pinvid *<link>*  
+│🎧 .playaudio  
+│🎞️ .playvideo  
+│🎶 .playlist <texto>  
+│🎶 .ytmp33 <url>  
+│🎞️ .ytmp44 <url>  
+│🎲 .tiktokrandom  
+│👻 .snapchat  
+│🎧 .soundcloud <nombre>  
+│🎼 .spotify  
+│🖼️ .tiktokimg <url>  
+│🎶 .tiktokmp3 *<url>*  
+│🎲 .tiktok *<link>*  
+│🎞️ .tiktokhd <url>  
+│🎲 .tiktok2 *<url>*  
+│🐦 .twitter <url>  
+│🔞 .xnxxdl  
+│🔞 .xvideosdl  
+│🎶 .audio <yt_link>  
+│🎞️ .video <yt_link>  
+│🎶 .ytmp3 *<link>*  
+│📄 .ytmp3doc  
+│📄 .ytadoc  
+│🎞️ .ytmp4 *<url>*  
+│📄 .ytmp4doc  
+│🍏 .applemusic *<url>*  
+│🎨 .capcut *<url>*  
+│📦 .apk2  
+│📦 .apk_download  
+│🍏 .applemusic <link>  
+│🎥 .kwai  
+│🎶 .music <canción>  
+│📂 .terabox *<url>*  
+│📑 .menudl  
+│📑 .descargas  
+│📑 .dlmenu  
+│🎶 .yta-v2 <url de YouTube>  
+│🎶 .play8 *<texto>*  
+│🎶 .yta <url o texto>  
+│🎞️ .ytv  
+╰─────────────⬣
 
-    // Texto del menú
-    const texto = `ʜᴏʟᴀ
-╔═══════ • ° ❁⊕❁ ° • ═══════╗
-    📥⃟⃢᭄͜═✩═[𝐌𝐄𝐍𝐔-𝐃𝐄𝐒𝐂𝐀𝐑𝐆𝐀𝐒]═✩═⃟⃢᭄͜📂
-╚═══════ • ° ❁⊕❁ ° • ═══════╝
+📢 Canal Oficial: 
+🔗 ${channel}
+「 ⚽𐚁 ֹ ִ Rin Itoshi - Official ୧ ֹ ִ⚽ᩚ꤬ᰍ 」
+    `.trim()
 
-> 📥⊹ 𝐂𝐨𝐦𝐚𝐧𝐝𝐨𝐬 𝐝𝐞 𝐝𝐞𝐬𝐜𝐚𝐫𝐠𝐚𝐬 𝐩𝐚𝐫𝐚 𝐯𝐚𝐫𝐢𝐨𝐬 𝐚𝐫𝐜𝐡𝐢𝐯𝐨𝐬 📂⊹
-
-━⃨⃛━╼─╍╍╍─╍▻◅╍─╍╍╼╼━⃨⃛╍╍
-${listaComandos}
-
-> ${global.club || '👑 ʙᴏᴛ ᴘᴏʀ ʙʟᴀᴄᴋ'}
-`.trim();
-
-    // Enviar solo imagen + texto
     await conn.sendMessage(m.chat, {
-      image: { url: imgurl },
-      caption: texto,
+      image: { url: logo },
+      caption: menu,
+      footer: club,
+      buttons: [
+        { buttonId: `${usedPrefix}owner`, buttonText: { displayText: "⚡ Creador" }, type: 1 },
+        { buttonId: `${usedPrefix}tiktok`, buttonText: { displayText: "☘️ Menu | All" }, type: 1 }
+      ],
+      headerType: 4,
       contextInfo: {
-        mentionedJid: [m.sender],
         externalAdReply: {
-          title: global.packname || '📦 Sukuna Bot MD',
-          body: global.dev || '👑 Creado por Black',
-          thumbnailUrl: global.icono || imgurl,
+          title: '⚡ Rin Itoshi - Descargas',
+          body: 'Menu | Descargas 🧪',
+          thumbnailUrl: 'https://files.catbox.moe/us0m4f.jpg',
+          sourceUrl: redes,
           mediaType: 1,
-          renderLargerThumbnail: false,
-          showAdAttribution: true,
-          mediaUrl: 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U',
-          sourceUrl: 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
+          renderLargerThumbnail: true
         }
       }
-    }, { quoted: m });
+    }, { quoted: m })
 
-  } catch (err) {
-    console.error(err);
-    conn.reply(m.chat, '❌ Hubo un error al cargar el menú.', m);
+  } catch (e) {
+    console.error(e)
+    m.reply('❌ Error al mostrar el menú de descargas.')
   }
-};
-
-handler.help = ['menudl'];
-handler.tags = ['menus'];
-handler.command = ['menudescargas', 'menudl'];
-
-export default handler;
+}
+handler.help = ['menudescargas', 'dlmenu']
+handler.command = ['menudescargas', 'dlmenu', 'menudl']
+export default handler
