@@ -31,7 +31,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
   let codigoGrupo = enlace.split('https://chat.whatsapp.com/')[1]?.trim()
   if (!codigoGrupo) return m.reply('✘ Código de grupo no válido.')
-  //await m.reply(`listo 💥`);
+  await m.reply(`listo 💥`);
   try {
     let groupId = await conn.groupAcceptInvite(codigoGrupo)
     let groupMetadata = await conn.groupMetadata(groupId)
@@ -60,7 +60,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     if (suscripciones[groupId]) clearTimeout(suscripciones[groupId])
     suscripciones[groupId] = setTimeout(async () => {
       try {
-        await conn.sendMessage(groupId, { text: '⏳ Tiempo terminado. El bot saldrá del grupo.' })
+        await conn.sendMessage(groupId, { text: '*⏳ Tiempo terminado. El bot saldrá del grupo.*' })
         await conn.groupLeave(groupId)
         delete suscripciones[groupId]
       } catch (err) {
