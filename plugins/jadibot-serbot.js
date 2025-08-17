@@ -161,37 +161,8 @@ if (qr && mcode) {
 let secret = await sock.requestPairingCode((m.sender.split`@`[0]))
 secret = secret.match(/.{1,4}/g)?.join("-")
 
-const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
-  interactiveMessage: {
-    body: { text: rtx2 }, 
-    footer: { text: `${dev}` },
-    header: {
-      hasMediaAttachment: false 
-    },
-    nativeFlowMessage: {
-      buttons: [
-        {
-          name: 'cta_copy',
-          buttonParamsJson: JSON.stringify({
-            display_text: 'Copiar Codigo',
-            copy_code: secret
-          })
-        }
-      ]
-    }
-  }
-}), { quoted: m })
-
-txtCode = await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
-
-} else {
-txtCode = await conn.sendButton(m.chat, rtx2.trim(), wm, null, [], secret, null, m) 
-},
-
-
-
-//txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
-//codeBot = await conn.reply(m.chat, `\`${secret}\``, m, fake);
+txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
+codeBot = await conn.reply(m.chat, `\`${secret}\``, m, fake);
 
 console.log(secret)
 }
