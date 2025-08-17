@@ -1,5 +1,3 @@
-import fetch from 'node-fetch'
-
 let suscripciones = global.suscripciones || (global.suscripciones = {})
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
@@ -10,19 +8,16 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   let enlace = args[0].trim().replace(/\s+/g, '')
   let tiempoStr = args[1].toLowerCase()
 
-  if (!enlace.startsWith('https://chat.whatsapp.com/')) {
-    return m.reply('✘ Enlace no válido.')
-  }
+  if (!enlace.includes('chat.whatsapp.com/')) return m.reply('✘ Enlace no válido.')
 
-  // Extraer el código del enlace
-  let codigoGrupo = enlace.split('https://chat.whatsapp.com/')[1]?.split('?')[0]
-  if (!codigoGrupo) return m.reply('✘ Código de grupo no válido.')
+  // Extraer solo el código de invitación
+  let match = enlace.match(/chat\.whatsapp\.com\/([A-Za-z0-9]+)/)
+  if (!match) return m.reply('✘ Código de grupo no válido.')
+  let codigoGrupo = match[1]
 
-  // Parsear el tiempo
+  // Parsear tiempo
   let cantidad = parseInt(tiempoStr)
-  if (isNaN(cantidad) || cantidad < 1) {
-    return m.reply('✘ Ingresa un número válido (ejemplo: 10m, 5h, 2d, 1w).')
-  }
+  if (isNaN(cantidad) || cantidad < 1) return m.reply('✘ Ingresa un número válido.')
 
   let tiempoMs = 0
   if (tiempoStr.endsWith('m')) tiempoMs = cantidad * 60 * 1000
@@ -32,23 +27,24 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   else return m.reply('✘ Unidad de tiempo no válida. Usa: m, h, d, w.')
 
   try {
-    // Intentar unirse al grupo
+    // Aceptar invitación (usar groupAcceptInviteV4 si tu Baileys lo permite)
     let groupId = await conn.groupAcceptInvite(codigoGrupo)
-    let groupMetadata = await conn.groupMetadata(groupId)
-    let groupName = groupMetadata.subject
 
-    let admins = groupMetadata.participants.filter(p => p.admin).map(p => p.id)
+    let metadata = await conn.groupMetadata(groupId)
+    let groupName = metadata.subject
+
+    let admins = metadata.participants.filter(p => p.admin).map(p => p.id)
     let mentionList = [m.sender, ...admins]
 
-    let url = await conn.profilePictureUrl(groupId, 'image').catch(_ => null)
+    let url = await conn.profilePictureUrl(groupId).catch(_ => null)
 
     await conn.sendMessage(groupId, {
-      text: `💥 El bot se ha unido a *${groupName}*.\n\n🍂 Estará aquí durante *${cantidad}${tiempoStr.replace(cantidad, '')}*.\n\n🌳 Luego saldrá automáticamente.`,
+      text: `💥 El bot se ha unido a *${groupName}*.\n🍂 Estará aquí durante *${cantidad}${tiempoStr.replace(cantidad, '')}*.\n🌳 Luego saldrá automáticamente.`,
       mentions: mentionList,
       contextInfo: {
         externalAdReply: {
           title: `Hola Grupo: ${groupName}`,
-          body: '☘️◌*̥₊ ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ ᴍᴅ ◌❐⚽༉',
+          body: '☘️ ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ ᴍᴅ',
           thumbnail: url || null,
           sourceUrl: global.redes,
           mediaType: 1,
@@ -57,7 +53,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       }
     }, { quoted: m })
 
-    // Programar salida automática
+    // Salida automática
     if (suscripciones[groupId]) clearTimeout(suscripciones[groupId])
     suscripciones[groupId] = setTimeout(async () => {
       try {
@@ -69,9 +65,9 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       }
     }, tiempoMs)
 
-  } catch (e) {
-    console.error(e)
-    m.reply(`✘ Error al unirse al grupo:\n${e?.message || 'No se pudo unir. Verifica el enlace o que el bot tenga permisos.'}`)
+  } catch (err) {
+    console.error(err)
+    m.reply(`✘ No se pudo unir al grupo. Puede ser por:\n- Enlace expirado\n- El grupo es privado\n- El bot no tiene permisos\n\nError: ${err.message}`)
   }
 }
 
