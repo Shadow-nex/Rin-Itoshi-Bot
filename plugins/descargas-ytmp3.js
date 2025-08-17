@@ -40,7 +40,7 @@ const handler = async (m, { conn, text, command }) => {
     if (!json || !json.status || !json.download) {
       throw new Error('⚠️ No se pudo generar el enlace de descarga.');
     }
-
+/*
     const textoInfo = `╭━━❀ ✿ YASSSU YOUTUBE MP3 ✿ ❀━━╮
 ┃
 ┃ 🍃 Título: *${title}* 〜♡
@@ -74,7 +74,7 @@ const handler = async (m, { conn, text, command }) => {
           sourceUrl: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U"
         }
       }
-    }, { quoted: m });
+    }, { quoted: m });*/
 
     const thumbnailBuffer = await (await fetch(thumbnail)).buffer();
 
