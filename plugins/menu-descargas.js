@@ -4,7 +4,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
   try {
     let fecha = moment.tz('America/Lima').format('DD/MM/YYYY')
     let hora = moment.tz('America/Lima').format('hh:mm:ss A')
-    let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' })
+    //let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' })
 
     let owner = "Shadow'Core 🧪"
     let comandos = Object.keys(global.plugins).length
@@ -14,7 +14,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ╭━━━〔 *📥 𝘔𝘌𝘕𝘜 𝘋𝘌𝘚𝘊𝘈𝘙𝘎𝘈𝘚* 〕━━⬣
 ┃ ⏱️ 𝐇𝐨𝐫𝐚: *${hora}*
 ┃ 📅 𝐅𝐞𝐜𝐡𝐚: *${fecha}*
-┃ 📆 𝐃𝐢́𝐚: *${dia}*
+┃ 📆 𝐃𝐢́𝐚: **
 ┃ 🧑‍💻 𝐎𝐰𝐧𝐞𝐫: *${owner}*
 ┃ ⚙️ 𝐏𝐫𝐞𝐟𝐢𝐣𝐨: *${usedPrefix}*
 ┃ 📚 𝐂𝐨𝐦𝐚𝐧𝐝𝐨𝐬: *${comandos}*
@@ -89,7 +89,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     await conn.sendMessage(m.chat, {
       image: { url: logo },
       caption: menu,
-      footer: ,
+      footer: club,
       buttons: [
         { buttonId: `${usedPrefix}owner`, buttonText: { displayText: "⚡ Creador" }, type: 1 },
         { buttonId: `${usedPrefix}tiktok`, buttonText: { displayText: "☘️ Menu | All" }, type: 1 }
