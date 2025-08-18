@@ -25,12 +25,12 @@ let handler = async function (m, { conn, groupMetadata }) {
   const totalAdmins = participantes.filter(p => p.admin).length
   const totalMiembros = participantes.length - totalAdmins
 
-  const mensajeFinal = `┏━━━〔 📋 *Participantes del Grupo* 〕━━━┓
+  const mensajeFinal = `┏━━〔 📋 *Participantes del Grupo* 〕━━┓
 ┃ 🌱 *Nombre del grupo:* ${groupMetadata.subject}
 ┃ 🔢 *Total de miembros:* ${participantes.length}
 ┃ 👑 *Admins:* ${totalAdmins}
 ┃ 👤 *Miembros:* ${totalMiembros}
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 ${contenido}`
 
