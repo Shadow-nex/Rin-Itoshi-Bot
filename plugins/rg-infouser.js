@@ -1,35 +1,26 @@
-// comando bug jaja xd
 let handler = async (m, { conn, args }) => {
   let who = m.mentionedJid?.[0] 
     ? m.mentionedJid[0] 
     : m.quoted 
       ? m.quoted.sender 
-      : m.sender
+      : args[0] 
+        ? args[0].replace(/[^0-9]/g, "") + "@s.whatsapp.net"
+        : m.sender
   
   try {
     let jid = who
     let number = jid.split('@')[0]
     let waLink = `https://wa.me/${number}`
-    let name = await conn.getName(who)
+    let name = await conn.getName(jid)
     
     let ppUrl
     try {
-      ppUrl = await conn.profilePictureUrl(who, "image")
+      ppUrl = await conn.profilePictureUrl(jid, "image")
     } catch {
       ppUrl = logo
     }
 
-    let about = (await conn.fetchStatus(who).catch(() => ({})))?.status || "Sin descripción"
-
-    let business = await conn.fetchBusinessProfile(who).catch(() => null)
-    let tipoCuenta = "📱 WhatsApp Messenger"
-
-    if (business) {
-      tipoCuenta = "🏢 WhatsApp Business"
-      if (business.verifiedName) {
-        verificado = `✅ Sí (${business.verifiedName})`
-      }
-    }
+    let about = (await conn.fetchStatus(jid).catch(() => ({})))?.status || "Sin descripción"
 
     let info = `
 ╭━━━〔 👤 *Información de Usuario* 〕━━⬣
@@ -38,8 +29,7 @@ let handler = async (m, { conn, args }) => {
 ┃ ✦ *wa.me:* ${waLink}
 ┃ ✦ *Nombre:* ${name}
 ┃ ✦ *Descripción:* ${about}
-┃ ✦ *Tipo de cuenta:* ${tipoCuenta}
-┃ ✦ *Verificado:* ${verificado}
+┃ ✦ *Tipo de cuenta:* 📱 WhatsApp (Messenger/Business)
 ╰━━━━━━━━━━━━━━━━━━⬣
     `.trim()
 
@@ -51,8 +41,8 @@ let handler = async (m, { conn, args }) => {
   }
 }
 
-handler.help = ["infouser @tag"]
+handler.help = ["infouser @tag | número"]
 handler.tags = ["info"]
-handler.command = /^infouser$/i
+handler.command = ['infouser']
 
 export default handler
