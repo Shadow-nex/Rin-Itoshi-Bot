@@ -49,7 +49,7 @@ let handler = async (m, { conn, usedPrefix }) => {
     { quoted: m }
   )
 
-  await conn.sendMessage(m.chat, { react: { text: '🐥', key: m.key } }) // reacción
+  await conn.sendMessage(m.chat, { react: { text: '📂', key: m.key } }) // reacción
 }
 
 handler.command = ['menutest']
