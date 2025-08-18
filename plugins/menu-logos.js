@@ -56,13 +56,13 @@ const handler = async (m, { conn, usedPrefix }) => {
   try {
     let menutxt = `╭━━━❰ *✨ MENÚ DE LOGOS & ESTILOS ✨* ❱━━━╮\n\n`;
 
-    menutxt += `🌳 *Estilos Populares*\n`;
+    menutxt += `• 🌳 *Estilos Populares*  •\n`;
     const populares = estilogo.slice(0, 10);
     menutxt += populares.map(e => `${e.emoji} *${usedPrefix}${e.cmd}*`).join('\n');
-    menutxt += `\n\n🎨 *Estilos Creativos*\n`;
+    menutxt += `\n\n•  🎨 *Estilos Creativos*  •\n`;
     const creativos = estilogo.slice(10, 30);
     menutxt += creativos.map(e => `${e.emoji} *${usedPrefix}${e.cmd}*`).join('\n');
-    menutxt += `\n\n🌈 *Estilos Especiales*\n`;
+    menutxt += `\n\n•  🌈 *Estilos Especiales*  •\n`;
     const especiales = estilogo.slice(30);
     menutxt += especiales.map(e => `${e.emoji} *${usedPrefix}${e.cmd}*`).join('\n');
 
