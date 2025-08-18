@@ -1,4 +1,4 @@
-import yts from 'yt-search';
+/*import yts from 'yt-search';
 
 const traducirAgo = (texto) => {
   return texto
@@ -73,4 +73,4 @@ handler.command = ['play', 'play2'];
 handler.tags = ['descargas'];
 handler.limit = 6;
 
-export default handler;
+export default handler;*/
