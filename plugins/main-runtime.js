@@ -3,7 +3,6 @@ import fetch from 'node-fetch'
 let handler = async (m, { conn }) => {
   let uptime = await process.uptime()
 
-  // 🔎 Información de la API de Internet (ejemplo: IP pública, país y hora)
   let infoNet = {}
   try {
     let res = await fetch('https://ipapi.co/json/')
@@ -12,7 +11,6 @@ let handler = async (m, { conn }) => {
     infoNet = { ip: "No disponible", country_name: "Desconocido" }
   }
 
-  // ⚙️ Información básica del sistema
   let os = process.platform
   let nodeVer = process.version
 
@@ -29,7 +27,7 @@ let handler = async (m, { conn }) => {
 ┃ ✦꒰🏳️꒱ Ubicación: *${infoNet.country_name || 'Desconocido'}*
 ╰━━━━━━━━━━━━━━━━━━⬣`
 
-  conn.reply(m.chat, runtime, m, rcanal)
+  conn.reply(m.chat, runtime, m, fake)
 }
 
 handler.help = ['runtime']
@@ -38,7 +36,6 @@ handler.command = ['runtime', 'uptime']
 
 export default handler
 
-// 📌 Función para convertir segundos en tiempo legible
 function rTime(seconds) {
   seconds = Number(seconds);
   var d = Math.floor(seconds / (3600 * 24));
