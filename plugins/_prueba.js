@@ -6,12 +6,12 @@ let handler = async (m, { conn, usedPrefix }) => {
         { 
           title: "📥 Mᴇɴᴜ [ 𝗗𝗟 ]",
           description: "🎧 ᴅᴇsᴄᴀʀɢᴀ ᴄᴏɴᴛᴇɴɪᴅᴏ ᴅᴇ ʟᴀs ᴘʀɪɴᴄɪᴘᴀʟᴇs ʀᴇᴅᴇs: ʏᴏᴜᴛᴜʙᴇ, ғᴀᴄᴇʙᴏᴏᴋ, sᴘᴏᴛɪғʏ, ɪɢ, ᴇᴛᴄ.",
-          id: `${usedPrefix}menudl`
+          rowId: `${usedPrefix}menudl`
         },       
         {
           title: "⛏️ Mᴇɴᴜ [ 𝗥𝗣𝗚 ]", 
           description: "🎮 ᴄʀᴇᴀ ᴛᴜ ᴀᴠᴇɴᴛᴜʀᴀ, ʀᴇᴄᴏɢᴇ ʀᴇᴄᴜʀsᴏs, ɢᴀɴᴀ ᴏʀᴏ ʏ ᴅᴏᴍɪɴᴀ ᴇʟ ᴍᴜɴᴅᴏ ʀᴘɢ ⚔️.", 
-          id: `${usedPrefix}menurpg` 
+          rowId: `${usedPrefix}menurpg` 
         }
       ]
     }
@@ -28,6 +28,7 @@ let handler = async (m, { conn, usedPrefix }) => {
   }
 
   await conn.sendMessage(m.chat, listMessage, { quoted: m })
+  await conn.sendMessage(m.chat, { react: { text: '📂', key: m.key } }) // reacción
 }
 
 handler.command = ['menutest']
