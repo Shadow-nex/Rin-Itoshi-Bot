@@ -7,7 +7,7 @@ import sharp from 'sharp';
 import fetch from 'node-fetch';
 
 const handler = async (m, { conn, usedPrefix }) => {
-  await m.react('🌱');
+  await m.react('🍂');
   
   try {
     const uptime = clockString(process.uptime() * 1000);
@@ -50,11 +50,11 @@ const handler = async (m, { conn, usedPrefix }) => {
 > ┊ ⏰ 𝗛ᴏʀᴀ:  *${hora}*`;
     
     const imgUrl = 'https://files.catbox.moe/4dple4.jpg'; // cambie x su imagen xd
-    const imagenBuffer = await (await fetch(imgUrl)).buffer();
+    const imagenBuffer = await (await fetch(imgUrl)).buffer();    
     const thumb2 = await sharp(imagenBuffer).resize(400, 400).jpeg({ quality: 70 }).toBuffer();
     
     
-    const imgenUrl = 'https://files.catbox.moe/9l7hcn.jpg'; // cambie x su imagen
+    const imgenUrl = 'https://files.catbox.moe/9l7hcn.jpg'; // cambie x su imagen 
     const imgBuffer = await (await fetch(imgenUrl)).buffer();
      
     const thumb = await sharp(imgBuffer).resize(400, 400).jpeg({ quality: 70 }).toBuffer();
