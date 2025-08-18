@@ -271,7 +271,7 @@ const handler = async (m, { conn, usedPrefix }) => {
 > ┊ 📆 𝗙ᴇᴄʜᴀ: *${fecha}*
 > ┊ 💎 𝗗ɪᴀ:    *${dia}*
 > ┊ ⏰ 𝗛ᴏʀᴀ:  *${hora}*`;
-    
+    /*
     const imgUrl = 'https://files.catbox.moe/4dple4.jpg'; 
     const imagenBuffer = await (await fetch(imgUrl)).buffer();    
     
@@ -282,6 +282,10 @@ const handler = async (m, { conn, usedPrefix }) => {
     const thumb2 = imagenBuffer
     const thumb = imgBuffer
     const docBuffer = imagenBuffer
+    */
+    
+    const image = 'https://files.catbox.moe/dwo9vm.jpg';
+    const buffer = await (await fetch(image)).buffer();
     
     const buttons = [
       { buttonId: `${usedPrefix}creador`, buttonText: { displayText: '📞 ᴏᴡɴᴇʀ' }, type: 1 },
@@ -329,11 +333,11 @@ const handler = async (m, { conn, usedPrefix }) => {
       }
     ];
     await conn.sendMessage(m.chat, {
-      document: docBuffer,
+      document: buffer,
       fileName: `ꭈׁׅꪱׁׅꪀׁׅ ...`,
       mimetype: 'image/PNG',
       caption: texto,
-      jpegThumbnail: thumb2,
+      jpegThumbnail: buffer,
       footer: '[⚙] Sistema: *RIN.EXΞ*',
       buttons: [
         ...buttons,
@@ -357,7 +361,7 @@ const handler = async (m, { conn, usedPrefix }) => {
         externalAdReply: {
           title: '',
           body: `${ucapan()} あ ${taguser} あ`,
-          thumbnail: thumb,
+          thumbnail: buffer,
           mediaType: 1,
           renderLargerThumbnail: true
         }
