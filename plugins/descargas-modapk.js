@@ -23,8 +23,8 @@ var handler = async (m, { conn, usedPrefix, command, text }) => {
       caption: txt,
       contextInfo: {
         externalAdReply: {
-          title: '                          ☘️ Dev.Shadow 🇦🇱',
-          body: '   🌀꙰⃟ 𖤐 𝙍𝙄𝙉 𝙄𝙏𝙊𝙎𝙃𝙄 ∞ 𝐌𝐃 𖤐🎨⃟',
+          title: '🌳 Iᴛᴏsʜɪ Bᴏᴛ | Dᴇsᴄᴀʀɢᴀs 💎',
+          body: '🍂 ᴅᴇᴠ.sʜᴀᴅᴏᴡ',
           mediaType: 1,
           thumbnailUrl: icono,
           mediaUrl: redes,
