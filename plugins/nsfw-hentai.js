@@ -7,8 +7,8 @@ if (!db.data.chats[m.chat].nsfw && m.isGroup) {
   const res = await fetch(url).then(v => v.json());
   await conn.sendFile(m.chat, res.message, 'hentai.jpg', `🥵 *Mmm toma tu hentai pervertido...*`, m);
 };
-handler.command = ['hentai'];
-handler.help = ['hentai'];
+handler.command = ['hentai2'];
+handler.help = ['hentai2'];
 handler.tags = ['nsfw'];
 handler.group = false;
 handler.register = true;
