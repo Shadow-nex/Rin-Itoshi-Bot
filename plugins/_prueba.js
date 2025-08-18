@@ -1,4 +1,6 @@
 import fs from 'fs'
+import pkg from '@whiskeysockets/baileys'
+const { proto } = pkg
 
 let handler = async (m, { conn, usedPrefix }) => {
   const sections = [
@@ -19,18 +21,17 @@ let handler = async (m, { conn, usedPrefix }) => {
     }
   ]
 
-  // ESTE es el formato correcto de listMessage en Baileys
   const listMessage = {
-    title: "「 📜 𝗠𝗘𝗡𝗨 𝗣𝗥𝗜𝗡𝗖𝗜𝗣𝗔𝗟 」",
     text: `╭━━━〔 𝗠𝗘𝗡𝗨𝗦 𝗗𝗜𝗦𝗣𝗢𝗡𝗜𝗕𝗟𝗘𝗦 〕━━⬣
 ┃  ✦ 𝗘𝗹𝗶𝗴𝗲 𝘂𝗻𝗮 𝗼𝗽𝗰𝗶𝗼́𝗻 𝗱𝗲𝗹 𝗺𝗲𝗻𝘂́ 👇
 ╰━━━━━━━━━━━━━━━━⬣`,
     footer: "☘️ Rin Itoshi Bot 💨",
+    title: "「 📜 𝗠𝗘𝗡𝗨 𝗣𝗥𝗜𝗡𝗖𝗜𝗣𝗔𝗟 」",
     buttonText: "📂 𝗔𝗕𝗥𝗜𝗥 𝗠𝗘𝗡𝗨𝗦",
     sections
   }
 
-  // Enviar la lista junto con la imagen (externalAdReply sí funciona acá)
+  // enviar lista + preview
   await conn.sendMessage(
     m.chat,
     {
@@ -39,7 +40,7 @@ let handler = async (m, { conn, usedPrefix }) => {
         externalAdReply: {
           title: "☘️ Rin Itoshi Bot",
           body: "📂 Elige tu menú favorito",
-          thumbnail: fs.readFileSync('./src/catalogo.jpg'),
+          thumbnail: fs.readFileSync(logo),
           sourceUrl: "https://github.com/Yuji-XDev"
         }
       }
@@ -47,7 +48,7 @@ let handler = async (m, { conn, usedPrefix }) => {
     { quoted: m }
   )
 
-  // Reacción
+  // reacción
   await conn.sendMessage(m.chat, { react: { text: '🔋', key: m.key } })
 }
 
