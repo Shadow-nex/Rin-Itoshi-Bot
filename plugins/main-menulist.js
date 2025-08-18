@@ -2,7 +2,7 @@ import fetch from 'node-fetch'
 
 const handler = async (m, { conn, usedPrefix }) => {
   await m.react('🌳')
-  
+
   try {
     const uptime = clockString(process.uptime() * 1000)
     const now = new Date()
@@ -42,15 +42,13 @@ const handler = async (m, { conn, usedPrefix }) => {
 > ┊ 📆 𝗙ᴇᴄʜᴀ: *${fecha}*
 > ┊ 💎 𝗗ɪᴀ:    *${dia}*
 > ┊ ⏰ 𝗛ᴏʀᴀ:  *${hora}*`
-    
+
     const imgUrl = 'https://files.catbox.moe/4dple4.jpg'
     const thumb2 = await (await fetch(imgUrl)).buffer()
 
     const imgenUrl = 'https://files.catbox.moe/9l7hcn.jpg'
     const thumb = await (await fetch(imgenUrl)).buffer()
 
-    const docBuffer = thumb2 // uso directo, sin sharp
-    
     const buttons = [
       { buttonId: `${usedPrefix}creador`, buttonText: { displayText: '📞 ᴏᴡɴᴇʀ' }, type: 1 },
       { buttonId: `${usedPrefix}reg Shadow.18`, buttonText: { displayText: '💌 ᴀᴜᴛᴏ ᴠᴇʀɪғɪᴄᴀʀ' }, type: 1 }
@@ -68,11 +66,8 @@ const handler = async (m, { conn, usedPrefix }) => {
     ]
 
     await conn.sendMessage(m.chat, {
-      document: docBuffer,
-      fileName: `ꭈׁׅꪱׁׅꪀׁׅ 𝑴𝒆𝒏𝒖 𝑳𝒊𝒔𝒕`,
-      mimetype: 'application/pdf',
+      image: thumb2,
       caption: texto,
-      jpegThumbnail: thumb2,
       footer: '[⚙] Sistema: *RIN.EXΞ*',
       buttons: [
         ...buttons,
@@ -88,7 +83,6 @@ const handler = async (m, { conn, usedPrefix }) => {
         }
       ],
       headerType: 1,
-      viewOnce: true,
       contextInfo: {
         mentionedJid: [m.sender],
         isForwarded: true,
