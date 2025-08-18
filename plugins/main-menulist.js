@@ -3,11 +3,11 @@
 // - Dejen créditos aunque sea gracias.
 // - 𝘙𝘐𝘕 𝘐𝘛𝘖𝘚𝘏𝘐 BOT MD ⚽
 
-import sharp from 'sharp';
+//import sharp from 'sharp';
 import fetch from 'node-fetch';
 
 const handler = async (m, { conn, usedPrefix }) => {
-  await m.react('🍂');
+  await m.react('🌱');
   
   try {
     const uptime = clockString(process.uptime() * 1000);
