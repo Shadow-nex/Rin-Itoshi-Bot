@@ -40,7 +40,7 @@ const PORT = process.env.PORT || process.env.SERVER_PORT || 3000
 let { say } = cfonts
 
 console.log(chalk.bold.redBright(`\n▨────────────────────────▨`))
-console.log(chalk.magentaBright('\n🌀 Iniciando bot...'))
+console.log(chalk.magentaBright('\n🌱 Iniciando bot...'))
 console.log(chalk.bold.redBright(`\n▨────────────────────────▨`))
 
 say('RIN ITOSHI', {
