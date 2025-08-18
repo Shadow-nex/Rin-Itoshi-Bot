@@ -40,7 +40,7 @@ let handler = async (m, { conn, usedPrefix }) => {
         externalAdReply: {
           title: "☘️ Rin Itoshi Bot",
           body: "📂 Elige tu menú favorito",
-          thumbnail: fs.readFileSync(logo),
+          thumbnail: fs.readFileSync('https://files.catbox.moe/ha863t.jpg'),
           sourceUrl: "https://github.com/Yuji-XDev"
         }
       }
