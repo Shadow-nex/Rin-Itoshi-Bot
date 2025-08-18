@@ -6,13 +6,12 @@ const handler = async (m, { conn }) => {
   if (!user.exp) user.exp = 0;
   if (!user.joincount) user.joincount = 0;
 
-  const moneda = 'llamas';
   const tenDaysInMillis = 864000000; 
   const now = Date.now();
   const timeRemaining = user.lastclaim + tenDaysInMillis - now;
 
   if (timeRemaining > 0) {
-    return conn.reply(m.chat, `*🕒 Ya reclamaste tu recompensa de ShadowBot ⚔️!*\n\n⌛ Vuelve en: *${msToTime(timeRemaining)}*`, m);
+    return conn.reply(m.chat, `*🕒 Ya reclamaste tu recompensa de Rin Itoshi 🌷!*\n\n⌛ Vuelve en: *${msToTime(timeRemaining)}*`, m);
   }
 
   user.coin += 500;

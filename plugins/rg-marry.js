@@ -34,7 +34,7 @@ const handler = async (m, { conn, command }) => {
                 if (userIsMarried(proposer)) {
                     return await conn.reply(m.chat, `🎉 Ya estás casado con *${conn.getName(marriages[proposer])}*\n> Puedes divorciarte con el comando: *#divorce*`, m);
                 } else {
-                    throw new Error('☄️ Debes mencionar a alguien para aceptar o proponer matrimonio.\n> Ejemplo » *#marry @⁨Ruby Hoshino⁩*');
+                    throw new Error('🌷 Debes mencionar a alguien para aceptar o proponer matrimonio.\n> Ejemplo » *#marry @⁨Ruby Hoshino⁩*');
                 }
             }
             if (userIsMarried(proposer)) throw new Error(`😼 Ya estás casado con ${conn.getName(marriages[proposer])}.`);

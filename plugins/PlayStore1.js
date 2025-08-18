@@ -51,7 +51,7 @@ let handler = async (m, { conn, text, usedPrefix }) => {
       txt += `▢ *Desarrollador:* ${app.desarrollador}\n`;
       txt += `▢ *Calificación:* ${app.calificacionTexto} (${app.calificacion})\n`;
       txt += `▢ *Link:* ${app.link}\n`;
-      txt += `▢ *Link del Desarrollador:* ${app.link_desarrollador}\n\n`;
+      txt += `▢ *Link del Desarrollador:* ${app.link_desarrollador}\n\n━━━━━━━━━━━━━━━━━━━━━━\n\n`;
     }
 
     await conn.sendMessage(m.chat, { 

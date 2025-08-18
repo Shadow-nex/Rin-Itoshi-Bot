@@ -6,7 +6,7 @@ const handler = async (m, { conn }) => {
   if (!user.exp) user.exp = 0;
   if (!user.tokens) user.tokens = 0;
 
-  const moneda = 'coins';
+ 
   const cooldown = 12 * 60 * 60 * 1000;
   const now = Date.now();
   const timeLeft = user.lastclaim + cooldown - now;
