@@ -6,10 +6,10 @@ import yts from 'yt-search';
 const handler = async (m, { conn, text, command }) => {
   try {
     if (!text) {
-      return conn.reply(m.chat, `⛩️ 𝙄𝙣𝙜𝙧𝙚𝙨𝙖 𝙪𝙣 𝙚𝙣𝙡𝙖𝙘𝙚 𝙙𝙚 𝙔𝙤𝙪𝙏𝙪𝙗𝙚 🌲`, m, fake);
+      return conn.reply(m.chat, `🌱 𝙄𝙣𝙜𝙧𝙚𝙨𝙖 𝙪𝙣 𝙚𝙣𝙡𝙖𝙘𝙚 𝙙𝙚 𝙔𝙤𝙪𝙏𝙪𝙗𝙚`, m, fake);
     }
 
-    await conn.sendMessage(m.chat, { react: { text: '💿', key: m.key } });
+    await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } });
 
     const search = await yts(text);
     const video = search.videos[0];
@@ -38,8 +38,8 @@ const handler = async (m, { conn, text, command }) => {
     if (!json || !json.status || !json.download) {
       throw new Error('⚠️ No se pudo generar el enlace de descarga.');
     }
-
-    const textoInfo = `╭━━❀ ✿ YASSSU YOUTUBE MP3 ✿ ❀━━╮
+    const thumbnailBuffer = await (await fetch(thumbnail)).buffer();
+    const textoInfo = `╭━━✿ YASSSU YOUTUBE MP3 ✿━━╮
 ┃
 ┃ 🍃 Título: *${title}* 〜♡
 ┃ ⏱️ Duración: *${duracion}* ✧
@@ -50,9 +50,7 @@ const handler = async (m, { conn, text, command }) => {
 ┃
 ╰━❀➤ El audio está en camino... 🌸💖`;
 
-    await conn.sendMessage(m.chat, {text: textoInfo, contextInfo: { forwardingScore: 999, isForwarded: true, forwardedNewsletterMessageInfo: { newsletterName: channelRD.name, newsletterJid: channelRD.id, }, externalAdReply: { title: title, body: '┈ ⋞ 〈 ☘️ ʀɪɴ ɪᴛᴏsʜɪ - ᴀɪ ⛅ 〉 ⋟ ┈', thumbnailUrl: thumbnail, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: true }}}, {quoted: m});
-
-    const thumbnailBuffer = await (await fetch(thumbnail)).buffer();
+    await conn.sendMessage(m.chat, {text: textoInfo, contextInfo: { forwardingScore: 999, isForwarded: true, forwardedNewsletterMessageInfo: { newsletterName: channelRD.name, newsletterJid: channelRD.id, }, externalAdReply: { title: title, body: '┈ ⋞ 〈 ☘️ ʀɪɴ ɪᴛᴏsʜɪ - ᴀɪ ⛅ 〉 ⋟ ┈', thumbnailUrl: thumbnailBuffer, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: true }}}, {quoted: m});
 
     await conn.sendMessage(m.chat, {
       audio: { url: json.download },
