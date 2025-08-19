@@ -103,7 +103,7 @@ END:VCARD`.trim();
     },
     contextInfo: {
       externalAdReply: {
-        title: '🧪 Contacto del Creador',
+        title: '🧪 Contacto del Creador 🌱',
         body: 'Toca aquí para guardar el contacto o hablar con él',
         mediaType: 1,
         thumbnailUrl: fotoPerfil,
