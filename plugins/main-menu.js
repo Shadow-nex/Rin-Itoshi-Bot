@@ -749,7 +749,7 @@ let handler = async (m, { conn, args }) => {
 
     await conn.sendMessage(m.chat, {
       image: { url: 'https://files.catbox.moe/g2of9q.jpg' },
-      caption: menu,
+      caption: menuText,
       footer: club,
       buttons: [
         { buttonId: `${usedPrefix}code`, buttonText: { displayText: "🌱 s ᴇ ʀ ʙ ᴏ ᴛ" }, type: 1 },
