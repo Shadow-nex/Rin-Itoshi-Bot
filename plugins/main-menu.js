@@ -63,8 +63,8 @@ let handler = async (m, { conn, args }) => {
     let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' })
 
     let menuText = `
-*˚₊·˚₊· ͟͟͞͞➳❥  Rɪɴ͟ ɪᴛᴏsʜɪ Ɓᴏᴛ ᭃ*
-*⊰᯽⊱┈──╌•|* ⊱✿⊰ *|•╌──┈⊰᯽⊱*
+🌷｡･:*˚:✧｡  Rɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ ｡✧:˚*:･｡🌱
+⊱ ────── {.⋅ ✯ ⋅.} ────── ⊰
 
 ☁️ ${ucapan()} @${userId.split('@')[0]} ⚡
 
@@ -79,7 +79,7 @@ let handler = async (m, { conn, args }) => {
 
   \`[ 𝗜 𝗡 𝗙 𝗢 - 𝗕 𝗢 𝗧 ]\`
   ﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊
-> ✧⚞ ⚙️ ᴍᴏᴅᴏ: *🔒 ᴘʀɪᴠᴀᴅᴏ*
+> ✧⚞ ⚙️ ᴍᴏᴅᴏ: *ɢʀᴀᴛɪs 😉*
 > ✧⚞ 👑 ᴏᴡɴᴇʀ: *+${suittag}*
 > ✧⚞ 🤖 ʙᴏᴛ: ${(conn.user.jid == global.conn.user.jid ? '🌟 `ʙᴏᴛ ᴏғɪᴄɪᴀʟ`' : '✨ `sᴜʙ ʙᴏᴛ`')}
 > ✧⚞ 📚 ᴄᴏᴍᴀɴᴅᴏs: *${totalCommands}*
