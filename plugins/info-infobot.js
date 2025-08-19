@@ -16,26 +16,30 @@ let handler = async (m, { conn, usedPrefix }) => {
     let totalf = Object.values(global.plugins).filter((v) => v.help && v.tags).length
     let subBots = Object.keys(global.conns).length
     
-    let info = `╭━━━〔 \`𝗜𝗡𝗙𝗢𝗥𝗠𝗔𝗖𝗜𝗢́𝗡 - 𝗕𝗢𝗧\` 〕━━⬣\n`
-    info += `┃🧩 *Prefijo:* ${usedPrefix}\n`
-    info += `┃📦 *Plugins activos:* ${totalf}\n`
-    info += `┃📊 *Comandos usados:* ${toNum(totalStats)} (${totalStats})\n`
-    info += `┃🌲 *SubBots conectados:* ${subBots}\n`
-    info += `╰━━━━━━━━━━━━━━━━━━━━⬣\n\n`
-    info += `╭━━━〔 \`𝗦𝗜𝗦𝗧𝗘𝗠𝗔 𝗛𝗢𝗦𝗧\` 〕━━⬣\n`
-    info += `┃🖥️ *Plataforma:* ${platform()}\n`
-    info += `┃🌐 *Servidor:* ${hostname()}\n`
-    info += `┃💾 *RAM usada:* ${format(totalmem() - freemem())} / ${format(totalmem())}\n`
-    info += `┃📉 *RAM libre:* ${format(freemem())}\n`
-    info += `╰━━━━━━━━━━━━━━━━━━━━⬣\n\n`
-    info += `╭━━━〔 \`𝗠𝗘𝗠𝗢𝗥𝗜𝗔 𝗗𝗘 𝗡𝗢𝗗𝗘𝗝𝗦\` 〕━━⬣\n`
-    info += `${'```' + Object.keys(process.memoryUsage()).map((key) => `${key}: ${format(process.memoryUsage()[key])}`).join('\n┃🧪') + '```'}\n╰━━━━━━━━━━━━━━━━━━━━⬣`
+    let info = `
+╔══❖═══⟪ ✦ 𝑰𝑵𝑭𝑶 𝑩𝑶𝑻 ✦ ⟫══❖═══╗
+║ 🧩 𝐏𝐫𝐞𝐟𝐢𝐣𝐨: ${usedPrefix}
+║ 📦 𝐏𝐥𝐮𝐠𝐢𝐧𝐬 𝐚𝐜𝐭𝐢𝐯𝐨𝐬: ${totalf}
+║ 📊 𝐂𝐨𝐦𝐚𝐧𝐝𝐨𝐬 𝐮𝐬𝐚𝐝𝐨𝐬: ${toNum(totalStats)} (${totalStats})
+║ 🌲 𝐒𝐮𝐛𝐁𝐨𝐭𝐬 𝐜𝐨𝐧𝐞𝐜𝐭𝐚𝐝𝐨𝐬: ${subBots}
+╚═══════════════════════════╝
 
-    let imagenURL = banner // 'https://files.catbox.moe/b4b495.jpg'
+╔══❖═⟪ ⚙️ 𝑺𝑰𝑺𝑻𝑬𝑴𝑨 𝑯𝑶𝑺𝑻 ⚙️ ⟫═❖══╗
+║ 🖥️ 𝐏𝐥𝐚𝐭𝐚𝐟𝐨𝐫𝐦𝐚: ${platform()}
+║ 🌐 𝐒𝐞𝐫𝐯𝐢𝐝𝐨𝐫: ${hostname()}
+║ 💾 𝐑𝐀𝐌 𝐮𝐬𝐚𝐝𝐚: ${format(totalmem() - freemem())} / ${format(totalmem())}
+║ 📉 𝐑𝐀𝐌 𝐥𝐢𝐛𝐫𝐞: ${format(freemem())}
+╚═══════════════════════════╝
+
+╔═❖═⟪ 🔬 𝑴𝑬𝑴𝑶𝑹𝑰𝑨 𝑵𝑶𝑫𝑬.𝑱𝑺 🔬 ⟫═❖═╗
+${'```' + Object.keys(process.memoryUsage())
+   .map((key) => `${key}: ${format(process.memoryUsage()[key])}`)
+   .join('\n║ 🍂 ') + '```'}
+╚══════════════════════════╝`
 
     await conn.sendFile(
         m.chat,
-        imagenURL,
+        banner,
         'info.jpg',
         info,
         fkontak,
