@@ -6,7 +6,8 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     let hora = moment.tz('America/Lima').format('hh:mm:ss A')
     let dia = moment.tz('America/Lima').locale('es').format('dddd')
     let comandos = Object.keys(global.plugins).length
-
+    
+    let readMore = String.fromCharCode(8206).repeat(4001)
     let club = '⚡ *Powered by* » Sʜᴀᴅᴏᴡ•Core 𝖢𝗅𝗎𝖻 ⚡'
     let menu = `
 ╭━━━〔 *📥 𝘔𝘌𝘕𝘜 𝘋𝘌𝘚𝘊𝘈𝘙𝘎𝘈𝘚* 〕━━⬣
@@ -17,7 +18,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ┃ ⚙️ 𝐏𝐫𝐞𝐟𝐢𝐣𝐨: *${usedPrefix}*
 ┃ 📚 𝐂𝐨𝐦𝐚𝐧𝐝𝐨𝐬: *${comandos}*
 ╰━━━〔 *${bot}* 〕━━⬣
-
+${readMore}
 ╭─⬣「 *Descargas Disponibles* 」
 │🤗 .cuddle  
 │🖼️ .imagen *<query>*
