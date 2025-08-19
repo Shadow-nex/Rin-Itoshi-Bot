@@ -1,4 +1,4 @@
-// codigo de dv.Shadow
+// codigo de dv.Shadow optimizado
 
 import fetch from 'node-fetch';
 import yts from 'yt-search';
@@ -38,7 +38,7 @@ const handler = async (m, { conn, text, command }) => {
     if (!json || !json.status || !json.download) {
       throw new Error('⚠️ No se pudo generar el enlace de descarga.');
     }
-    const thumbnailBuffer = await (await fetch(thumbnail)).buffer();
+
     const textoInfo = ` ✿ YASSSU YOUTUBE MP3 ✿
 🍃 Título: *${title}* 〜♡
 ⏱️ Duración: *${duracion}* ✧
@@ -49,28 +49,34 @@ const handler = async (m, { conn, text, command }) => {
 
 ➤ El audio está en camino... 🌸💖`;
 
-    await conn.sendMessage(m.chat, {text: textoInfo, contextInfo: { forwardingScore: 999, isForwarded: true, forwardedNewsletterMessageInfo: { newsletterName: channelRD.name, newsletterJid: channelRD.id, }, externalAdReply: { title: title, body: '┈ ⋞ 〈 ☘️ ʀɪɴ ɪᴛᴏsʜɪ - ᴀɪ ⛅ 〉 ⋟ ┈', thumbnailUrl: thumbnailBuffer, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: true }}}, {quoted: m});
+    await conn.sendMessage(m.chat, {
+      text: textoInfo,
+      contextInfo: {
+        forwardingScore: 999,
+        isForwarded: true,
+        externalAdReply: {
+          title: title,
+          body: '┈ ⋞ 〈 ☘️ ʀɪɴ ɪᴛᴏsʜɪ - ᴀɪ ⛅ 〉 ⋟ ┈',
+          thumbnailUrl: thumbnail,
+          sourceUrl: url,
+          mediaType: 1,
+          renderLargerThumbnail: true
+        }
+      }
+    }, { quoted: m });
 
     await conn.sendMessage(m.chat, {
       audio: { url: json.download },
       mimetype: 'audio/mpeg',
       fileName: `${json.title}.mp3`,
       contextInfo: {
-      mentionedJid: [m.sender],
         isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: channelRD.id,
-          serverMessageId: 100,
-          newsletterName: channelRD.name
-        },
         externalAdReply: {
           title: json.title,
           body: 'YOUTUBE • MP3',
-          mediaType: 1,
-          thumbnail: thumbnailBuffer,
-          mediaUrl: url,
+          thumbnailUrl: thumbnail,
           sourceUrl: url,
-          renderLargerThumbnail: false
+          mediaType: 1
         }
       }
     }, { quoted: m });
