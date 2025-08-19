@@ -1,59 +1,78 @@
-// 📌 Comando: lyrics / letra
-// Creado desde cero 🔥
+// ytv-v2.js
+// by dv.shadow - https://github.com/Yuji-XDev
+// Usa la API: https://dark-core-api.vercel.app/api/download/ytmp4/v2?key=API_KEY&url=YOUTUBE_URL
 
-import axios from "axios"
+import fetch from 'node-fetch'
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) {
-    return m.reply(`❌ Ejemplo de uso:\n${usedPrefix + command} ojala beret`)
-  }
+const API_BASE = 'https://dark-core-api.vercel.app/api/download/ytmp4/v2'
+const API_KEY = process.env.DARK_CORE_KEY || 'api' // <-- cambia 'api' por tu key si tienes una
+
+const handler = async (m, { conn, text, usedPrefix, command }) => {
+  await m.react('🎥')
 
   try {
-    // Buscar en Genius con API free
-    let search = await axios.get(
-      `https://deliriussapi-oficial.vercel.app/search/genius?q=${encodeURIComponent(text)}`
-    )
-    let data = search.data
-
-    if (!data || !data.length) {
-      return m.reply(`⚠️ No encontré resultados para: *${text}*`)
+    // Validación básica
+    const url = (text || '').trim()
+    if (!url) {
+      return m.reply(
+        `✦ 𝙐𝙎𝙊 𝘿𝙀 𝙔𝙏𝙑-𝙑2\n` +
+        `• Envia:  *${usedPrefix + command} <link de YouTube>*\n` +
+        `• Ej:  *${usedPrefix + command} https://youtu.be/ryVgEcaJhwM*`
+      )
+    }
+    if (!/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\//i.test(url)) {
+      return m.reply('⚠️ Proporciona un enlace válido de YouTube.')
     }
 
-    // Tomamos el primer resultado
-    let song = data[0]
+    // Llamada a la API
+    const endpoint = `${API_BASE}?key=${encodeURIComponent(API_KEY)}&url=${encodeURIComponent(url)}`
+    const res = await fetch(endpoint)
+    if (!res.ok) throw new Error(`API respondió ${res.status}`)
+    const data = await res.json()
 
-    // Buscar letra
-    let lyricsRes = await axios.get(
-      `https://deliriussapi-oficial.vercel.app/search/lyrics?url=${song.url}&parse=false`
-    )
+    // Se espera: { title, quality, download }
+    const { title, quality, download } = data || {}
+    if (!download) throw new Error('No llegó el enlace de descarga.')
 
-    let lyrics = lyricsRes.data.lyrics || "⚠️ No se encontró la letra."
+    // Enviar el video
+    const caption =
+      `╭━━━〔 𝙔𝙏𝙑 - 𝙑2 〕━━⬣\n` +
+      `┃🎬 *Título:* ${title || 'Desconocido'}\n` +
+      `┃📺 *Calidad:* ${quality || 'Desconocida'}\n` +
+      `┃🔗 *Origen:* ${url}\n` +
+      `╰━━━━━━━━━━━━━━━━⬣`
 
-    // Construcción del mensaje
-    let caption = `
-╭━━━〔 🎶 𝑳𝒆𝒕𝒓𝒂 🎶 〕━━⬣
-┃ ✨ *Título:* ${song.title}
-┃ 🎤 *Artista:* ${song.artist?.name || "Desconocido"}
-┃ 🌐 *Enlace:* ${song.url}
-╰━━━━━━━━━━━━━━━━⬣
-
-${lyrics}
-`
-
-    // Enviar con portada si existe
     await conn.sendMessage(m.chat, {
-      image: { url: song.image || "https://i.ibb.co/4VfS7Fk/music.jpg" },
-      caption
+      video: { url: download },
+      mimetype: 'video/mp4',
+      fileName: `${(title || 'video')}.mp4`,
+      caption,
+      // Si usas newsletter/Canal, descomenta y ajusta:
+      // contextInfo: {
+      //   mentionedJid: [m.sender],
+      //   isForwarded: true,
+      //   forwardedNewsletterMessageInfo: {
+      //     newsletterJid: channelRD.id,
+      //     serverMessageId: 100,
+      //     newsletterName: channelRD.name
+      //   }
+      // }
     }, { quoted: m })
 
-  } catch (err) {
-    console.error(err)
-    m.reply("❌ Ocurrió un error al buscar la letra.")
+    await m.react('✅')
+  } catch (e) {
+    console.error('ytv-v2 error:', e)
+    await m.react('❌')
+    return m.reply(
+      `*[ 🧪 ] Ocurrió un error con ytv-v2:*\n` +
+      `> ${e?.message || e}\n\n` +
+      `• Intenta con otro link o más tarde.`
+    )
   }
 }
 
-handler.help = ["lyrics", "letra"].map(v => v + " <canción>")
-handler.tags = ["music"]
-handler.command = /^(lyrics|lyric|letra|lirik)$/i
+handler.help = ['ytv-v2 <url>']
+handler.tags = ['downloader']
+handler.command = /^ytv-v2$/i
 
 export default handler
