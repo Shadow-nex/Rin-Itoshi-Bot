@@ -56,13 +56,6 @@ const handler = async (m, { conn, text, command }) => {
       mimetype: 'audio/mpeg',
       fileName: `${json.title}.mp3`,
       contextInfo: {
-      mentionedJid: [m.sender],
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: channelRD.id,
-          serverMessageId: 100,
-          newsletterName: channelRD.name
-        },
         externalAdReply: {
           title: json.title,
           body: 'YOUTUBE • MP3',
