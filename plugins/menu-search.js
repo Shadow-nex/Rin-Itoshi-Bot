@@ -7,7 +7,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     let dia = moment.tz('America/Lima').locale('es').format('dddd')
     let comandos = Object.keys(global.plugins).length
 
-    let club = '⚡ *Powered by* » Sʜᴀᴅᴏᴡ•Core 𝖢𝗅𝗎𝖻 ⚡'
+    let club = '⚡ *Powered by* » Sʜᴀᴅᴏᴡ•Core 𝖢𝗅𝗎𝖻 🌱'
     let menu = `
 ╭━━━〔 *🔎 𝑴𝑬𝑵𝑼 𝑺𝑬𝑨𝑹𝑪𝑯* 〕━━⬣
 ┃ ⏰ 𝗛𝗼𝗿𝗮: *${hora}*
@@ -17,7 +17,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ┃ ⚙️ 𝗣𝗿𝗲𝗳𝗶𝗷𝗼: *${usedPrefix}*
 ┃ 📂 𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀: *${comandos}*
 ╰━━━〔 *${bot}* 〕━━⬣
-
+${ereadMore}
 ╭─⬣「 *📥 Búsquedas Disponibles* 」
 │ 🔎 .apksearch *<término>*
 │ 🛍️ .playstore *<nombre>*
@@ -53,7 +53,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ╰─────────────⬣
 
 📢 *Canal Oficial:*  
-🔗 ${channel}  
+🔗 ${channel}
 「 ⚽𐚁 ֹ ִ Rin Itoshi - Official ୧ ֹ ִ⚽ 」
     `.trim()
 
@@ -96,3 +96,6 @@ handler.tags = ['menus']
 handler.command = ['menusearch', 'menuse']
 
 export default handler
+
+const more = String.fromCharCode(8206)
+const readMore = more.repeat(4001)
