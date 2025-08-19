@@ -6,8 +6,8 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     let hora = moment.tz('America/Lima').format('hh:mm:ss A')
     let dia = moment.tz('America/Lima').locale('es').format('dddd')
     let comandos = Object.keys(global.plugins).length
-
     let readMore = String.fromCharCode(8206).repeat(4001)
+    let channel = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
     let club = '⚡ *Powered by* » Sʜᴀᴅᴏᴡ•Core 𝖢𝗅𝗎𝖻 🌱'
     let menu = `
 ╭━━━〔 *🔎 𝑴𝑬𝑵𝑼 𝑺𝑬𝑨𝑹𝑪𝑯* 〕━━⬣
@@ -18,7 +18,9 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ┃ ⚙️ 𝗣𝗿𝗲𝗳𝗶𝗷𝗼: *${usedPrefix}*
 ┃ 📂 𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀: *${comandos}*
 ╰━━━〔 *${bot}* 〕━━⬣
+
 ${readMore}
+
 ╭─⬣「 *📥 Búsquedas Disponibles* 」
 │ 🔎 .apksearch *<término>*
 │ 🛍️ .playstore *<nombre>*
@@ -53,8 +55,10 @@ ${readMore}
 │💨 .youtubestalk *<nombre de usuario>*
 ╰─────────────⬣
 
-📢 *Canal Oficial:*  
-🔗 ${channel}
+📢 *Canal Official:*
+
+${channel}
+
 「 ⚽𐚁 ֹ ִ Rin Itoshi - Official ୧ ֹ ִ⚽ 」
     `.trim()
 
