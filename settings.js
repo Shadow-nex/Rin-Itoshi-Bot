@@ -74,7 +74,7 @@ global.comunidad1 = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
 global.channel = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
 global.channel2 = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
 global.md = 'https://github.com/Yuji-XDev/Rin-Itoshi-Bot'
-global.correo = 'thekingdestroy507@gmail.com'
+global.correo = 'blackoficial2025@gmail.com'
 
 //✎﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏
 
