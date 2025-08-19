@@ -29,18 +29,18 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
         };
 
         if (videoURL) {
-            await conn.sendFile(m.chat, videoURL, "tiktok.mp4", `╭─❍⃟🌸 𝑶𝒏𝒊𝒄𝒉𝒂𝒂𝒂𝒏~ 💗  
-┃ 📥 *Tu video ya está listo nya~!*  
-┃  
-┃ 🎀 *Título:* ${data.title || 'Sin descripción uwu'}  
-┃ 💖 *Likes:* ${formatNumber(data.digg_count)} ✨  
-┃ 💬 *Comentarios:* ${formatNumber(data.comment_count)} 💕  
-┃ 👁️ *Vistas:* ${formatNumber(data.play_count)} 🌸  
-┃ 🔁 *Compartido:* ${formatNumber(data.share_count)} 💌  
-┃ ⏱️ *Duración:* ${formatDuration(data.duration)} ⌛  
-┃ 🖼️ *Calidad:* ${videoURL.includes('hd') ? 'HD 🌟' : 'Normalito 📺'}  
-┃  
-╰─⟦ 🌈 𝐄𝐧𝐣𝐨𝐲 𝐢𝐭, 𝐨𝐧𝐢𝐢-𝐜𝐡𝐚𝐧~ 💞 ⟧`, m);
+            await conn.sendFile(m.chat, videoURL, "tiktok.mp4", `╭─╼⃝🌸 𝑶𝒏𝒊𝒄𝒉𝒂𝒂𝒏~ 💖  
+│ 🍡 *Tu video está servidito nya~!*  
+│  
+│ 🎀 *Título:* ${data.title || 'Sin descripción uwu'}  
+│ 💗 *Likes:* ${formatNumber(data.digg_count)} ✨  
+│ 📝 *Comentarios:* ${formatNumber(data.comment_count)} 💕  
+│ 👁 *Vistas:* ${formatNumber(data.play_count)} 🌸  
+│ 🔁 *Compartido:* ${formatNumber(data.share_count)} 💌  
+│ ⏲️ *Duración:* ${formatDuration(data.duration)} ⌛  
+│ 🖼️ *Calidad:* ${videoURL.includes('hd') ? 'HD 🌟' : 'Normalito 📺'}  
+│  
+╰─❖ 🌈 𝐃𝐢𝐬𝐟𝐫𝐮𝐭𝐚𝐥𝐨, 𝐨𝐧𝐢𝐢-𝐜𝐡𝐚𝐧~ 💞`, m);
         } else {
             return conn.reply(m.chat, "❌ No pude descargarlo nya~ 😿", m);
         }
