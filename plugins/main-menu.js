@@ -726,27 +726,7 @@ let handler = async (m, { conn, args }) => {
    🧿 *𝗖𝗥𝗘𝗔 𝗨𝗡 𝗦𝗨𝗕𝗕𝗢𝗧 𝗘𝗡 𝗦𝗘𝗚𝗨𝗡𝗗𝗢𝗦*
 > 🛰️ ➊ *#qr* – Escanea un 𝖢𝗈𝖽𝗂𝗀𝗈 𝗤𝗥  
 > 🔐 ➋ *#code* – Usa un 𝖢𝗈𝖽𝗂𝗀𝗈 de 8 dígitos`.trim()
-/*
-    await m.react('⚽')
-    await conn.sendMessage(
-      m.chat,
-      {
-        image: { url: 'https://files.catbox.moe/g2of9q.jpg' },
-        caption: menuText,
-        contextInfo: {
-          externalAdReply: {
-            title: '⚽ Rin Itoshi - MD🧪',
-            body: '☯︎ Dev by Shadow\'Core',
-            mediaType: 1,
-            thumbnailUrl: 'https://files.catbox.moe/us0m4f.jpg',
-            mediaUrl: 'https://github.com/Yuji-XDev/SukunaUltra-MD',
-            sourceUrl: 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U',
-            renderLargerThumbnail: false
-          }
-        }
-      },
-      { quoted: shadow }
-
+    await m.react('🍂')
     await conn.sendMessage(m.chat, {
       image: { url: 'https://files.catbox.moe/g2of9q.jpg' },
       caption: menuText,
@@ -757,6 +737,13 @@ let handler = async (m, { conn, args }) => {
       ],
       headerType: 4,
       contextInfo: {
+        mentionedJid: [m.sender],
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: channelRD.id,
+          serverMessageId: 100,
+          newsletterName: channelRD.name
+        },
         externalAdReply: {
           title: packname,
           body: dev,
@@ -766,37 +753,8 @@ let handler = async (m, { conn, args }) => {
           renderLargerThumbnail: true
         }
       }
-    }, { quoted: shadow }
-    )*/
-    await m.react('⚽')
-    await conn.sendMessage(m.chat, {
-       image: { url: 'https://files.catbox.moe/g2of9q.jpg' },
-       caption: menuText,
-       footer: club,
-       buttons: [
-         { buttonId: `.code`, buttonText: { displayText: "🌱 s ᴇ ʀ ʙ ᴏ ᴛ" }, type: 1 },
-         { buttonId: `.owner`, buttonText: { displayText: "🍂 ᴏ ᴡ ɴ ᴇ ʀ" }, type: 1 }
-       ],
-       headerType: 4,
-       contextInfo: {
-         mentionedJid: [m.sender],
-         isForwarded: true,
-         forwardedNewsletterMessageInfo: {
-         newsletterJid: channelRD.id,
-         serverMessageId: 100,
-         newsletterName: channelRD.name
-       },
-       externalAdReply: {
-        title: packname,
-        body: dev,
-        thumbnailUrl: 'https://files.catbox.moe/us0m4f.jpg',
-        sourceUrl: redes,
-        mediaType: 1,
-        renderLargerThumbnail: true
-    }
-  }
-}, { quoted: shadow }
-   )
+    }, { quoted: shadow })
+
   } catch (e) {
     console.error(e)
     await conn.sendMessage(m.chat, {
