@@ -6,9 +6,7 @@ import yts from 'yt-search';
 const handler = async (m, { conn, text, command }) => {
   try {
     if (!text) {
-      return conn.reply(m.chat, `╭━━⬣『 𝙔𝙊𝙐𝙏𝙐𝘽𝙀 𝙇𝙄𝙉𝙆 』⬣━━╮
-┃⛩️ 𝙄𝙣𝙜𝙧𝙚𝙨𝙖 𝙪𝙣 𝙚𝙣𝙡𝙖𝙘𝙚 𝙙𝙚 𝙔𝙤𝙪𝙏𝙪𝙗𝙚 🌲
-╰━━━〔 🌀 𝙎𝙐𝙆𝙐𝙉𝘼 𝘽𝙊𝙏 〕━━⬣`, m, fake);
+      return conn.reply(m.chat, `⛩️ 𝙄𝙣𝙜𝙧𝙚𝙨𝙖 𝙪𝙣 𝙚𝙣𝙡𝙖𝙘𝙚 𝙙𝙚 𝙔𝙤𝙪𝙏𝙪𝙗𝙚 🌲`, m, fake);
     }
 
     await conn.sendMessage(m.chat, { react: { text: '💿', key: m.key } });
@@ -40,7 +38,7 @@ const handler = async (m, { conn, text, command }) => {
     if (!json || !json.status || !json.download) {
       throw new Error('⚠️ No se pudo generar el enlace de descarga.');
     }
-/*
+
     const textoInfo = `╭━━❀ ✿ YASSSU YOUTUBE MP3 ✿ ❀━━╮
 ┃
 ┃ 🍃 Título: *${title}* 〜♡
@@ -52,29 +50,7 @@ const handler = async (m, { conn, text, command }) => {
 ┃
 ╰━❀➤ El audio está en camino... 🌸💖`;
 
-    await conn.sendMessage(m.chat, {
-      text: textoInfo,
-      contextInfo: {
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363401008003732@newsletter',
-          serverMessageId: '',
-          newsletterName: '˗ˏˋ🎀 sᴜᴋuna_ʙᴏᴛ⋆.ᴍᴅ ᯓ✧💌 ˎˊ˗'
-        },
-        forwardingScore: 9999999,
-        isForwarded: true,
-        mentionedJid: null,
-        externalAdReply: {
-          showAdAttribution: true,
-          renderLargerThumbnail: true,
-          title: title,
-          body: '┈ ⋞ 〈 ☘️ ʀɪɴ ɪᴛᴏsʜɪ - ᴀɪ ⛅ 〉 ⋟ ┈',
-          containsAutoReply: true,
-          mediaType: 1,
-          thumbnailUrl: thumbnail,
-          sourceUrl: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U"
-        }
-      }
-    }, { quoted: m });*/
+    await conn.sendMessage(m.chat, {text: textoInfo, contextInfo: { forwardingScore: 999, isForwarded: true, forwardedNewsletterMessageInfo: { newsletterName: channelRD.name, newsletterJid: channelRD.id, }, externalAdReply: { title: title, body: '┈ ⋞ 〈 ☘️ ʀɪɴ ɪᴛᴏsʜɪ - ᴀɪ ⛅ 〉 ⋟ ┈', thumbnailUrl: thumbnail, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: true }}}, {quoted: m});
 
     const thumbnailBuffer = await (await fetch(thumbnail)).buffer();
 
@@ -93,7 +69,7 @@ const handler = async (m, { conn, text, command }) => {
           renderLargerThumbnail: false
         }
       }
-    }, { quoted: fkontak });
+    }, { quoted: m });
 
     await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
 

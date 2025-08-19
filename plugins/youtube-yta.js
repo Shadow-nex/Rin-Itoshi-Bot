@@ -57,7 +57,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     if (!info) throw '❌ No se pudo obtener información de ninguna API.';
-/*
+
     await conn.sendMessage(m.chat, {
       image: { url: info.thumb },
       caption: `╭━━━〔 𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰 𝙴𝙽 𝙲𝚄𝚁𝚂𝙾 ⬇️ 〕━━━⬣
@@ -71,20 +71,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃ ⏳ 𝙴𝚜𝚝𝚊𝚍𝚘: *Preparando audio...*
 ┃
 ╰━━━━━━━━━━━━━━━━━━━━⬣`
-    }, { quoted: m });*/
-    
-    
-    await conn.sendMessage(m.chat, {text: `╭━━━〔 𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰 𝙴𝙽 𝙲𝚄𝚁𝚂𝙾 🌱 〕━━━⬣
-┃
-┃ 📥 𝙿𝚛𝚘𝚐𝚛𝚎𝚜𝚘: ▓▓▓▓▓▓░░░░░░ 50%
-┃
-┃ 🎵 𝚃𝚒́𝚝𝚞𝚕𝚘: *${info.title}*
-┃ 👤 𝙰𝚞𝚝𝚘𝚛: *${info.author || 'Desconocido'}*
-┃ ⏱️ 𝙳𝚞𝚛𝚊𝚌𝚒𝚘́𝚗: *${info.duration || 'Desconocida'}*
-┃ 📦 𝚃𝚊𝚖𝚊𝚗̃𝚘: *${info.size || 'Calculando...'}*
-┃ ⏳ 𝙴𝚜𝚝𝚊𝚍𝚘: *Preparando audio...*
-┃
-╰━━━━━━━━━━━━━━━━━━━━⬣`, contextInfo: { forwardingScore: 999, isForwarded: true, forwardedNewsletterMessageInfo: { newsletterName: channelRD.name, newsletterJid: channelRD.id, }, externalAdReply: { title: packname, body: dev, thumbnailUrl: info.thumb, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: true }}}, {quoted: m});
+    }, { quoted: m });
+ 
 
     await conn.sendMessage(m.chat, {
       audio: { url: info.download },
