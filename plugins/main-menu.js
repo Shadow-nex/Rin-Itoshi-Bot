@@ -752,8 +752,8 @@ let handler = async (m, { conn, args }) => {
       caption: menuText,
       footer: club,
       buttons: [
-        { buttonId: `${usedPrefix}code`, buttonText: { displayText: "🌱 s ᴇ ʀ ʙ ᴏ ᴛ" }, type: 1 },
-        { buttonId: `${usedPrefix}owner`, buttonText: { displayText: "🍂 ᴏ ᴡ ɴ ᴇ ʀ" }, type: 1 }
+        { buttonId: `.code`, buttonText: { displayText: "🌱 s ᴇ ʀ ʙ ᴏ ᴛ" }, type: 1 },
+        { buttonId: `.owner`, buttonText: { displayText: "🍂 ᴏ ᴡ ɴ ᴇ ʀ" }, type: 1 }
       ],
       headerType: 4,
       contextInfo: {
