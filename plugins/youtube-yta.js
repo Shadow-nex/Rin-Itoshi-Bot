@@ -84,7 +84,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃ 📦 𝚃𝚊𝚖𝚊𝚗̃𝚘: *${info.size || 'Calculando...'}*
 ┃ ⏳ 𝙴𝚜𝚝𝚊𝚍𝚘: *Preparando audio...*
 ┃
-╰━━━━━━━━━━━━━━━━━━━━⬣`, contextInfo: { forwardingScore: 999, isForwarded: true, forwardedNewsletterMessageInfo: { newsletterName: channelRD.name, newsletterJid: channelRD.id, }, externalAdReply: { title: packname, body: dev, thumbnailUrl: info.thumb, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: true }}}, {quoted: m})
+╰━━━━━━━━━━━━━━━━━━━━⬣`, contextInfo: { forwardingScore: 999, isForwarded: true, forwardedNewsletterMessageInfo: { newsletterName: channelRD.name, newsletterJid: channelRD.id, }, externalAdReply: { title: packname, body: dev, thumbnailUrl: info.thumb, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: true }}}, {quoted: m});
 
     await conn.sendMessage(m.chat, {
       audio: { url: info.download },
