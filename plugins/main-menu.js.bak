@@ -768,7 +768,7 @@ let handler = async (m, { conn, args }) => {
       }
     }, { quoted: shadow }
     )*/
-    await m.react('⚽')
+    
     await conn.sendMessage(m.chat, {
        image: { url: 'https://files.catbox.moe/g2of9q.jpg' },
        caption: menuText,
