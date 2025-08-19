@@ -18,9 +18,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ┃ ⚙️ 𝐏𝐫𝐞𝐟𝐢𝐣𝐨: *${usedPrefix}*
 ┃ 📚 𝐂𝐨𝐦𝐚𝐧𝐝𝐨𝐬: *${comandos}*
 ╰━━━〔 *${bot}* 〕━━⬣
-
 ${readMore}
-
 ╭─⬣「 *Descargas Disponibles* 」
 │🤗 .cuddle  
 │🖼️ .imagen *<query>*
