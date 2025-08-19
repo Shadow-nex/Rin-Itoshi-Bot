@@ -7,8 +7,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     let dia = moment.tz('America/Lima').locale('es').format('dddd')
     let comandos = Object.keys(global.plugins).length
 
-let more = String.fromCharCode(8206)
-let readMore = more.repeat(4001)
+    let readMore = String.fromCharCode(8206).repeat(4001)
     let club = '⚡ *Powered by* » Sʜᴀᴅᴏᴡ•Core 𝖢𝗅𝗎𝖻 🌱'
     let menu = `
 ╭━━━〔 *🔎 𝑴𝑬𝑵𝑼 𝑺𝑬𝑨𝑹𝑪𝑯* 〕━━⬣
@@ -19,7 +18,7 @@ let readMore = more.repeat(4001)
 ┃ ⚙️ 𝗣𝗿𝗲𝗳𝗶𝗷𝗼: *${usedPrefix}*
 ┃ 📂 𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀: *${comandos}*
 ╰━━━〔 *${bot}* 〕━━⬣
-${ereadMore}
+${readMore}
 ╭─⬣「 *📥 Búsquedas Disponibles* 」
 │ 🔎 .apksearch *<término>*
 │ 🛍️ .playstore *<nombre>*

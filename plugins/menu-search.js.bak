@@ -17,7 +17,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ┃ ⚙️ 𝗣𝗿𝗲𝗳𝗶𝗷𝗼: *${usedPrefix}*
 ┃ 📂 𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀: *${comandos}*
 ╰━━━〔 *${bot}* 〕━━⬣
-${ereadMore}
+
 ╭─⬣「 *📥 Búsquedas Disponibles* 」
 │ 🔎 .apksearch *<término>*
 │ 🛍️ .playstore *<nombre>*
@@ -96,6 +96,3 @@ handler.tags = ['menus']
 handler.command = ['menusearch', 'menuse']
 
 export default handler
-
-const more = String.fromCharCode(8206)
-const readMore = more.repeat(4001)
