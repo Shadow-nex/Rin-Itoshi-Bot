@@ -54,7 +54,7 @@ global.wm = '◈𝐑𝐢𝐧 𝐈𝐭𝐨𝐬𝐡𝐢 𝐁𝐨𝐭◈'
 global.author = '⩇⃟🔋 𝑴𝒂𝒅𝒆 𝒃𝒚 𝑺𝒉𝒂𝒅𝒐𝒘𝒄𝒐𝒓𝒆 ⩇⃟⚡'
 global.dev = '☘️ ミ💨 》Tʜᴇ Sʜᴀᴅᴏᴡ`ᴄᴏʀᴇ《 💥ミ 🌀'
 global.bot = '𝑹𝒊𝒏 𝑰𝒕𝒐𝒔𝒉𝒊 𝑩𝒐𝒕'
-global.club = '📡 𝖯𝗈𝗐𝖾𝗋𝖾𝖽 𝖻𝗒 Sʜᴀᴅᴏᴡ•Core 𝖢𝗅𝗎𝖻 ⚡'
+global.club = '🌱 𝖯𝗈𝗐𝖾𝗋𝖾𝖽 𝖻𝗒 Sʜᴀᴅᴏᴡ•Core 𝖢𝗅𝗎𝖻 ⚡'
 global.textbot = '𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 𝙱𝙾𝚃 ✦ 𝕊ℍ𝔸𝔻𝕆𝕎•ℂ𝕆ℝ𝔼'
 global.etiqueta = '@sʜᴀᴅᴏᴡ°ᴄᴏʀᴇ'
 
