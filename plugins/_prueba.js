@@ -1,17 +1,14 @@
-// ytv-v2.js
-// by dv.shadow - https://github.com/Yuji-XDev
-// Usa la API: https://dark-core-api.vercel.app/api/download/ytmp4/v2?key=API_KEY&url=YOUTUBE_URL
 
 import fetch from 'node-fetch'
 
 const API_BASE = 'https://dark-core-api.vercel.app/api/download/ytmp4/v2'
-const API_KEY = process.env.DARK_CORE_KEY || 'api' // <-- cambia 'api' por tu key si tienes una
+const SEARCH_API = 'https://delirius-apiofc.vercel.app/search/ytsearch'
+const API_KEY = process.env.DARK_CORE_KEY || 'api'
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
   await m.react('🎥')
 
   try {
-    // Validación básica
     const url = (text || '').trim()
     if (!url) {
       return m.reply(
@@ -24,39 +21,51 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       return m.reply('⚠️ Proporciona un enlace válido de YouTube.')
     }
 
-    // Llamada a la API
+    // Descargar video
     const endpoint = `${API_BASE}?key=${encodeURIComponent(API_KEY)}&url=${encodeURIComponent(url)}`
     const res = await fetch(endpoint)
     if (!res.ok) throw new Error(`API respondió ${res.status}`)
     const data = await res.json()
-
-    // Se espera: { title, quality, download }
     const { title, quality, download } = data || {}
     if (!download) throw new Error('No llegó el enlace de descarga.')
 
-    // Enviar el video
+    // Obtener detalles extra
+    const infoRes = await fetch(`${SEARCH_API}?query=${encodeURIComponent(url)}`)
+    const infoData = await infoRes.json()
+    const videoInfo = infoData?.result?.[0] || {}
+
+    const {
+      title: tInfo,
+      duration,
+      channel,
+      views,
+      published,
+      description,
+      thumbnail
+    } = videoInfo
+
+    // Caption super detallado
     const caption =
-      `╭━━━〔 𝙔𝙏𝙑 - 𝙑2 〕━━⬣\n` +
-      `┃🎬 *Título:* ${title || 'Desconocido'}\n` +
-      `┃📺 *Calidad:* ${quality || 'Desconocida'}\n` +
-      `┃🔗 *Origen:* ${url}\n` +
-      `╰━━━━━━━━━━━━━━━━⬣`
+`╭━━━〔 *📹 INFORMACIÓN DEL VIDEO* 〕━━⬣
+┃🎬 *Título:* ${tInfo || title || 'Desconocido'}
+┃📺 *Canal:* ${channel || 'Desconocido'}
+┃🕒 *Duración:* ${duration || 'Desconocida'}
+┃👁️ *Vistas:* ${views || '0'}
+┃📅 *Publicado:* ${published || 'N/A'}
+┃💿 *Calidad descarga:* ${quality || 'Desconocida'}
+┃🔗 *Enlace:* ${url}
+╰━━━━━━━━━━━━━━━━⬣
+
+📝 *Descripción completa:*
+${description ? description.slice(0, 1500) : 'Sin descripción.'}
+`
 
     await conn.sendMessage(m.chat, {
       video: { url: download },
       mimetype: 'video/mp4',
       fileName: `${(title || 'video')}.mp4`,
       caption,
-      // Si usas newsletter/Canal, descomenta y ajusta:
-      // contextInfo: {
-      //   mentionedJid: [m.sender],
-      //   isForwarded: true,
-      //   forwardedNewsletterMessageInfo: {
-      //     newsletterJid: channelRD.id,
-      //     serverMessageId: 100,
-      //     newsletterName: channelRD.name
-      //   }
-      // }
+      thumbnail: thumbnail ? await (await fetch(thumbnail)).buffer() : null
     }, { quoted: m })
 
     await m.react('✅')
