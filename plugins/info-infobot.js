@@ -31,7 +31,7 @@ let handler = async (m, { conn, usedPrefix }) => {
     info += `╭━━━〔 \`𝗠𝗘𝗠𝗢𝗥𝗜𝗔 𝗗𝗘 𝗡𝗢𝗗𝗘𝗝𝗦\` 〕━━⬣\n`
     info += `${'```' + Object.keys(process.memoryUsage()).map((key) => `${key}: ${format(process.memoryUsage()[key])}`).join('\n┃🧪') + '```'}\n╰━━━━━━━━━━━━━━━━━━━━⬣`
 
-    let imagenURL = 'https://files.catbox.moe/b4b495.jpg'
+    let imagenURL = banner // 'https://files.catbox.moe/b4b495.jpg'
 
     await conn.sendFile(
         m.chat,
