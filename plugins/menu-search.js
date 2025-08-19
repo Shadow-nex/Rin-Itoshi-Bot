@@ -67,6 +67,13 @@ let handler = async (m, { conn, usedPrefix, command }) => {
       ],
       headerType: 4,
       contextInfo: {
+      mentionedJid: [m.sender],
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: channelRD.id,
+          serverMessageId: 100,
+          newsletterName: channelRD.name
+        },
         externalAdReply: {
           title: '💨 Rin Itoshi - Menú Search 💎',
           body: '⟡ 𝐂𝐨𝐦𝐚𝐧𝐝𝐨𝐬 𝐞𝐬𝐩𝐞𝐜𝐢𝐚𝐥𝐞𝐬 𝐩𝐚𝐫𝐚 𝐛𝐮𝐬𝐜𝐚𝐫 𝐢𝐧𝐟𝐨𝐫𝐦𝐚𝐜𝐢𝐨́𝐧, 𝐚𝐮𝐝𝐢𝐨𝐬, 𝐯𝐢𝐝𝐞𝐨𝐬 𝐲 𝐦𝐮𝐜𝐡𝐨 𝐦𝐚́𝐬 𝐞𝐧 𝐥𝐢́𝐧𝐞𝐚 🌍.',

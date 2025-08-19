@@ -74,6 +74,13 @@ let handler = async (m, { conn, usedPrefix, command }) => {
       ],
       headerType: 4,
       contextInfo: {
+      mentionedJid: [m.sender],
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: channelRD.id,
+          serverMessageId: 100,
+          newsletterName: channelRD.name
+        },
         externalAdReply: {
           title: '👻 Rin Itoshi - Menú RPG',
           body: '🎮 ᴄʀᴇᴀ ᴛᴜ ᴀᴠᴇɴᴛᴜʀᴀ, ʀᴇᴄᴏɢᴇ ʀᴇᴄᴜʀsᴏs, ɢᴀɴᴀ ᴏʀᴏ ʏ ᴅᴏᴍɪɴᴀ ᴇʟ ᴍᴜɴᴅᴏ ʀᴘɢ ⚔️',
