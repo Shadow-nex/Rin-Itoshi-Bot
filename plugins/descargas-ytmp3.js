@@ -42,7 +42,7 @@ const handler = async (m, { conn, text, command }) => {
 
     const textoInfo = `✿ YASSSU YOUTUBE MP3 ✿
 
-🍃 Título: ${title}
+🍂 Título: ${title}
 ⏱️ Duración: ${duracion}
 🍰 Canal: ${canal}
 👀 Vistas: ${vistas}
@@ -58,7 +58,7 @@ const handler = async (m, { conn, text, command }) => {
         isForwarded: true,
         externalAdReply: {
           title: title,
-          body: bot,
+          body: "📥 Descargando desde YouTube",
           thumbnailUrl: thumbnail,
           sourceUrl: url,
           mediaType: 1,
@@ -67,15 +67,15 @@ const handler = async (m, { conn, text, command }) => {
       }
     }, { quoted: m });
 
-    if (json?.resultado?.descargar?.url) {
+    if (json?.resultado?.links?.mp3) {
       await conn.sendMessage(m.chat, {
-        audio: { url: json.resultado.descargar.url },
+        audio: { url: json.resultado.links.mp3 },
         fileName: `${title}.mp3`,
         mimetype: 'audio/mpeg',
         contextInfo: { isForwarded: true }
       }, { quoted: m });
     } else {
-      await conn.reply(m.chat, `⚠️ No se pudo enviar el audio, pero aquí tienes el enlace:\n\n${json?.resultado?.descargar?.url || url}`, m);
+      await conn.reply(m.chat, `⚠️ No se pudo enviar el audio, pero aquí tienes el enlace:\n\n${json?.resultado?.links?.mp3 || url}`, m);
     }
 
     await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
