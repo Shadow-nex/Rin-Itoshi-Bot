@@ -189,21 +189,14 @@ npm start
 
 ---
 
-## 📊 Estadísticas del Repositorio  
+##  Estadísticas del repositorio
 
-<p align="center">
-  
-  <!-- Popularidad -->
-  <img src="https://img.shields.io/github/stars/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=yellow" alt="Stars"/>
-  <img src="https://img.shields.io/github/forks/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=blue" alt="Forks"/>
-  <img src="https://img.shields.io/github/watchers/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=green" alt="Watchers"/>
-
-  <!-- Actividad -->
-  <img src="https://img.shields.io/github/commit-activity/m/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=git&color=orange" alt="Commits"/>
-  <img src="https://img.shields.io/github/contributors/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=purple" alt="Contribuidores"/>
-  <img src="https://img.shields.io/github/repo-size/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=database&color=red" alt="Repo Size"/>
-
-</p>
+![GitHub stars](https://img.shields.io/github/stars/Yuji-XDev/Rin-Itoshi-Bot?style=social)
+![GitHub forks](https://img.shields.io/github/forks/Yuji-XDev/Rin-Itoshi-Bot?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/Yuji-XDev/Rin-Itoshi-Bot?style=social)
+![GitHub commits](https://img.shields.io/github/commit-activity/m/Yuji-XDev/Rin-Itoshi-Bot)
+![GitHub contributors](https://img.shields.io/github/contributors/Yuji-XDev/Rin-Itoshi-Bot)
+![Repo size](https://img.shields.io/github/repo-size/Yuji-XDev/Rin-Itoshi-Bot)
 
 ---
 
