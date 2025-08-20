@@ -47,23 +47,23 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
 
   const readMore = String.fromCharCode(8206).repeat(4001)
   const lista = subbotsUnicos.map((bot, i) => {
-    return `✧════ ∘◦ ✦ ◦∘ ════✧
-      👑 Sσ¢кєт #${i + 1} 👑
-✧════ ∘◦ ✦ ◦∘ ════✧
+    return `❖━━━━━━━━━━━━━━━❖
+      𖦹𖦹𖦹  𝐒𝐎𝐂𝐊𝐄𝐓 𖦹𖦹𖦹
+⋆｡ﾟ☁︎｡⋆｡ ﾟ☾ \`#${i + 1}\` ﾟ｡⋆ ｡ﾟ☁︎｡⋆｡ ﾟ☾ ﾟ｡⋆
 
-🥇 ᴜsᴜᴀʀɪᴏ: ${bot.user?.name || 'Sub-Bot 🍂'}
-🔗 ʟɪɴᴋ: wa.me/${(bot.user?.jid || '').replace(/[^0-9]/g, '')}?text=${usedPrefix}code
-⏳ ᴇɴ ʟɪɴᴇᴀ: ${bot.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - bot.uptime) : 'Desconocido'}`;
+> ✦ 🍂 ᴜsᴜᴀʀɪᴏ: ${bot.user?.name || 'Sub-Bot 🍂'}
+> ✦ 🌷 ʟɪɴᴋ: wa.me/${(bot.user?.jid || '').replace(/[^0-9]/g, '')}?text=${usedPrefix}code
+> ✦ 🌱 ᴇɴ ʟɪɴᴇᴀ: ${bot.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - bot.uptime) : 'Desconocido'}`;
   }).join('\n\n');
 
   const textoSubbots = `───〔 ⚽ 𝐒𝐎𝐂𝐊𝐄𝐓𝐒 𝐀𝐂𝐓𝐈𝐕𝐎𝐒 🔋 〕───
 
-⏳ *ᴛɪᴇᴍᴘᴏ ᴀᴄᴛɪᴠᴏ:* _[ ${rinuptime} ]_
-🌿 *sᴇssɪᴏɴs ʟɪʙʀᴇs:* _[ ${disponibles} ]_
-🏆 *sᴜʙ-ʙᴏᴛs ᴄᴏɴᴇᴄᴛᴀᴅᴏs:* _[ ${total} ]_
+⚽ *ᴛɪᴇᴍᴘᴏ ᴀᴄᴛɪᴠᴏ:* _[ ${rinuptime} ]_
+💖 *sᴇssɪᴏɴs ʟɪʙʀᴇs:* _[ ${disponibles} ]_
+🌀 *sᴜʙ-ʙᴏᴛs ᴄᴏɴᴇᴄᴛᴀᴅᴏs:* _[ ${total} ]_
 
 
-— ☘️ List de sub Bots activos 🧪 —
+— 🜼🍂 List de sub Bots activos 🌱🜼❁ུ۪⸙ —
 
 ${readMore
 }
