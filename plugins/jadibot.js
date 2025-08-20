@@ -68,7 +68,7 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
 ${readMore}
 
 ${lista || '🌙 No hay Sub-Bots conectados por ahora verifique mas tarde.'}`;
-/*
+
 await conn.sendMessage(m.chat, {
   text: textoSubbots,
   contextInfo: {
@@ -90,29 +90,6 @@ await conn.sendMessage(m.chat, {
       showAdAttribution: true
     }
   }
-}, { quoted: m });*/
-
-const crearContextInfo = (m, channelRD, icono, banner, redes, total, maxSubbots) => {
-  return {
-    mentionedJid: [m.sender],
-    isForwarded: true,
-    forwardingScore: 1,
-    externalAdReply: {
-      title: '🌀 ѕσ¢ƙєтѕ αcтιvσѕ',
-      body: `🍂 Conectados: ${total}/${maxSubbots}`,
-      thumbnailUrl: icono,
-      mediaUrl: banner,
-      sourceUrl: redes,
-      mediaType: 1,
-      renderLargerThumbnail: true,
-      showAdAttribution: true
-    }
-  }
-}
-
-await conn.sendMessage(m.chat, {
-  text: textoSubbots,
-  contextInfo: crearContextInfo(m, channelRD, icono, banner, redes, total, maxSubbots)
 }, { quoted: m });
 };
 
