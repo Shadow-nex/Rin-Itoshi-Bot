@@ -42,14 +42,14 @@ const handler = async (m, { conn, text, command }) => {
 
     const textoInfo = `✿ YASSSU YOUTUBE MP3 ✿
 
-🍂 Título: ${title}
-⏱️ Duración: ${duracion}
-🍰 Canal: ${canal}
-👀 Vistas: ${vistas}
-🌱 Publicado: ${ago}
-🔗 Link: ${url}
+🍂 *Título:* ${title}
+⏱️ *Duración:* ${duracion}
+🍰 *Canal:* ${canal}
+👀 *Vistas:* ${vistas}
+🌱 *Publicado:* ${ago}
+🔗 *Link:* ${url}
 
-➤ El audio está en camino... 🌸💖`;
+*➤ El audio está en camino... 🌸💖*`;
 
     await conn.sendMessage(m.chat, {
       text: textoInfo,
@@ -73,7 +73,7 @@ const handler = async (m, { conn, text, command }) => {
         fileName: `${title}.mp3`,
         mimetype: 'audio/mpeg',
         contextInfo: { isForwarded: true }
-      }, { quoted: m });
+      }, { quoted: fkontak });
     } else {
       await conn.reply(m.chat, `⚠️ No se pudo enviar el audio, pero aquí tienes el enlace:\n\n${json?.download || url}`, m);
     }
