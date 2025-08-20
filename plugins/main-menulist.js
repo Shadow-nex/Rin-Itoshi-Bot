@@ -186,7 +186,7 @@ const handler = async (m, { conn, usedPrefix }) => {
           renderLargerThumbnail: true
         }
       }
-    }, { quoted: m });
+    }, { quoted: estilo });
 
   } catch (e) {
     console.error(e);
