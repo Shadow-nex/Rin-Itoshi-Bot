@@ -1,87 +1,32 @@
-
-import fetch from 'node-fetch'
-
-const API_BASE = 'https://dark-core-api.vercel.app/api/download/ytmp4/v2'
-const SEARCH_API = 'https://delirius-apiofc.vercel.app/search/ytsearch'
-const API_KEY = process.env.DARK_CORE_KEY || 'api'
-
-const handler = async (m, { conn, text, usedPrefix, command }) => {
-  await m.react('🎥')
-
+let handler = async (m, { conn, usedPrefix, command }) => {
   try {
-    const url = (text || '').trim()
-    if (!url) {
-      return m.reply(
-        `✦ 𝙐𝙎𝙊 𝘿𝙀 𝙔𝙏𝙑-𝙑2\n` +
-        `• Envia:  *${usedPrefix + command} <link de YouTube>*\n` +
-        `• Ej:  *${usedPrefix + command} https://youtu.be/ryVgEcaJhwM*`
-      )
-    }
-    if (!/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\//i.test(url)) {
-      return m.reply('⚠️ Proporciona un enlace válido de YouTube.')
-    }
+    let rtx2 = "✨ Aquí tienes tu código secreto";
+    let secret = Math.random().toString(36).substring(2, 10).toUpperCase(); // Ejemplo de código aleatorio
+    let imgUrl = "https://telegra.ph/file/9f1c4c9f5a20c2a9f8f9e.jpg"; // Imagen decorativa
 
-    // Descargar video
-    const endpoint = `${API_BASE}?key=${encodeURIComponent(API_KEY)}&url=${encodeURIComponent(url)}`
-    const res = await fetch(endpoint)
-    if (!res.ok) throw new Error(`API respondió ${res.status}`)
-    const data = await res.json()
-    const { title, quality, download } = data || {}
-    if (!download) throw new Error('No llegó el enlace de descarga.')
+    // Primer mensaje con texto + imagen
+    let txtCode = await conn.sendMessage(m.chat, {
+      image: { url: imgUrl },
+      caption: rtx2,
+      contextInfo: {
+        mentionedJid: [m.sender],
+        isForwarded: true
+      }
+    }, { quoted: m });
 
-    // Obtener detalles extra
-    const infoRes = await fetch(`${SEARCH_API}?query=${encodeURIComponent(url)}`)
-    const infoData = await infoRes.json()
-    const videoInfo = infoData?.result?.[0] || {}
+    // Segundo mensaje respondiendo al anterior con el código secreto
+    let codeBot = await conn.reply(
+      m.chat,
+      `\`🔐 ${secret}\``,
+      txtCode, // responde al mensaje con imagen
+      { contextInfo: { mentionedJid: [m.sender] } }
+    );
 
-    const {
-      title: tInfo,
-      duration,
-      channel,
-      views,
-      published,
-      description,
-      thumbnail
-    } = videoInfo
-
-    // Caption super detallado
-    const caption =
-`╭━━━〔 *📹 INFORMACIÓN DEL VIDEO* 〕━━⬣
-┃🎬 *Título:* ${tInfo || title || 'Desconocido'}
-┃📺 *Canal:* ${channel || 'Desconocido'}
-┃🕒 *Duración:* ${duration || 'Desconocida'}
-┃👁️ *Vistas:* ${views || '0'}
-┃📅 *Publicado:* ${published || 'N/A'}
-┃💿 *Calidad descarga:* ${quality || 'Desconocida'}
-┃🔗 *Enlace:* ${url}
-╰━━━━━━━━━━━━━━━━⬣
-
-📝 *Descripción completa:*
-${description ? description.slice(0, 1500) : 'Sin descripción.'}
-`
-
-    await conn.sendMessage(m.chat, {
-      video: { url: download },
-      mimetype: 'video/mp4',
-      fileName: `${(title || 'video')}.mp4`,
-      caption,
-      thumbnail: thumbnail ? await (await fetch(thumbnail)).buffer() : null
-    }, { quoted: m })
-
-    await m.react('✅')
   } catch (e) {
-    console.error('ytv-v2 error:', e)
-    await m.react('❌')
-    return m.reply(
-      `*[ 🧪 ] Ocurrió un error con ytv-v2:*\n` +
-      `> ${e?.message || e}\n\n` +
-      `• Intenta con otro link o más tarde.`
-    )
+    console.error(e);
+    conn.reply(m.chat, "❌ Error al generar el código.", m);
   }
-}
+};
 
-handler.help = ['ytv-v2 <url>']
-handler.tags = ['downloader']
-handler.command = /^ytv-v2$/i
-
-export default handler
+handler.command = /^code|codigo$/i;
+export default handler;
