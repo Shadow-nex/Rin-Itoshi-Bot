@@ -9,8 +9,15 @@ const handler = async (m, { conn, text, command }) => {
 
     await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } });
 
-    const search = await yts(text);
-    const video = search.videos[0];
+    let video;
+    if (text.includes("youtube.com") || text.includes("youtu.be")) {
+      const search = await yts({ videoId: text.split("v=")[1] || text.split("/").pop() });
+      video = search;
+    } else {
+      const search = await yts(text);
+      video = search.videos[0];
+    }
+
     if (!video) {
       return conn.reply(m.chat, '❌ No se encontraron resultados para tu búsqueda.', m);
     }
@@ -20,22 +27,18 @@ const handler = async (m, { conn, text, command }) => {
     const vistas = new Intl.NumberFormat('es-PE').format(views);
 
     let duracion;
-    const partes = timestamp.split(':');
+    const partes = (timestamp || "0:00").split(':');
     if (partes.length === 3) {
-      const [horas, min, seg] = partes;
-      duracion = `${parseInt(horas)} hora${horas === '1' ? '' : 's'}, ${parseInt(min)} minuto${min === '1' ? '' : 's'}, ${parseInt(seg)} segundo${seg === '1' ? '' : 's'}`;
+      const [h, m2, s] = partes;
+      duracion = `${parseInt(h)}h ${parseInt(m2)}m ${parseInt(s)}s`;
     } else {
-      const [min, seg] = partes;
-      duracion = `${parseInt(min)} minuto${min === '1' ? '' : 's'}, ${parseInt(seg)} segundo${seg === '1' ? '' : 's'}`;
+      const [m2, s] = partes;
+      duracion = `${parseInt(m2)}m ${parseInt(s)}s`;
     }
 
-    const api = `https://dark-core-api.vercel.app/api/download/YTMP3?key=api&url=${encodeURIComponent(url)}`;
+    const api = `https://api.vreden.my.id/api/ytmp3?url=${encodeURIComponent(url)}`;
     const res = await fetch(api);
     const json = await res.json();
-
-    if (!json || !json.status || !json.download) {
-      throw new Error('⚠️ No se pudo generar el enlace de descarga.');
-    }
 
     const textoInfo = `✿ YASSSU YOUTUBE MP3 ✿
 
@@ -64,24 +67,28 @@ const handler = async (m, { conn, text, command }) => {
       }
     }, { quoted: m });
 
-    await conn.sendMessage(m.chat, {
-      audio: { url: json.download },
-      fileName: `${title}.mp3`,
-      mimetype: 'audio/mpeg',
-      contextInfo: { isForwarded: true }
-    }, { quoted: m });
+    if (json?.resultado?.descargar?.url) {
+      await conn.sendMessage(m.chat, {
+        audio: { url: json.resultado.descargar.url },
+        fileName: `${title}.mp3`,
+        mimetype: 'audio/mpeg',
+        contextInfo: { isForwarded: true }
+      }, { quoted: m });
+    } else {
+      await conn.reply(m.chat, `⚠️ No se pudo enviar el audio, pero aquí tienes el enlace:\n\n${json?.resultado?.descargar?.url || url}`, m);
+    }
 
     await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
 
   } catch (e) {
     console.error('❌ Error en ytmp3:', e);
     await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
-    return conn.reply(m.chat, `❌ *Error:* ${e.message}`, m);
+    await conn.reply(m.chat, `❌ *Error:* ${e.message}\n\nPero aquí tienes el link directo: https://youtube.com/watch?v=${text.split("v=")[1] || text}`, m);
   }
 };
 
 handler.command = ['ytmp3'];
 handler.tags = ['descargas'];
-handler.help = ['ytmp3 <link>'];
+handler.help = ['ytmp3 <link o texto>'];
 
 export default handler;
