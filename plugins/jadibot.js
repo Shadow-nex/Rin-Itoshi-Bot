@@ -34,10 +34,10 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
     horas %= 24;
 
     let resultado = '';
-    if (dias) resultado += `${dias} 𝑫, `;
-    if (horas) resultado += `${horas} 𝑯, `;
-    if (minutos) resultado += `${minutos} 𝑴, `;
-    if (segundos) resultado += `${segundos} 𝑺`;
+    if (dias) resultado += `${dias} d, `;
+    if (horas) resultado += `${horas} h, `;
+    if (minutos) resultado += `${minutos} m, `;
+    if (segundos) resultado += `${segundos} s`;
     return resultado.trim();
   }
 
@@ -87,7 +87,7 @@ await conn.sendMessage(m.chat, {
       showAdAttribution: true
     }
   }
-}, { quoted: global.fakeMetaMsg });
+}, { quoted: m });
 };
 
 handler.command = ['sockets', 'bots', 'socket'];
