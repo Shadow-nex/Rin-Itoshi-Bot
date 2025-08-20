@@ -172,7 +172,7 @@ secret = secret.match(/.{1,4}/g)?.join("-")
     }, { quoted: m });
 
 //txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
-codeBot = await conn.reply(m.chat, `\`${secret}\``, m, rcanal);
+codeBot = await conn.reply(m.chat, `[✿] Código: *${secret}*`, m);
 
 console.log(secret)
 }

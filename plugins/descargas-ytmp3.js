@@ -64,7 +64,7 @@ const handler = async (m, { conn, text, command }) => {
         }
       }
     }, { quoted: m });
-
+/*
     await conn.sendMessage(m.chat, {
       audio: { url: json.download },
       mimetype: 'audio/mpeg',
@@ -79,7 +79,13 @@ const handler = async (m, { conn, text, command }) => {
           mediaType: 1
         }
       }
-    }, { quoted: m });
+    }, { quoted: m });*/
+    
+      await conn.sendMessage(m.chat, {
+        audio: { url: json.download },
+        fileName: `${json.title}.mp3`,
+        mimetype: 'audio/mpeg'
+      }, { quoted: m });
 
     await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
 
