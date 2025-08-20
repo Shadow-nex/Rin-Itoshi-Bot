@@ -61,7 +61,7 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
 │  
 ╰─❖ 🌈 𝐃𝐢𝐬𝐟𝐫𝐮𝐭𝐚𝐥𝐨, 𝐨𝐧𝐢𝐢-𝐜𝐡𝐚𝐧~ 💞`, m);
         } else {
-            return conn.reply(m.chat, "❌ No pude descargarlo nya~ 😿", fkontak);
+            return conn.reply(m.chat, "❌ No pude descargarlo nya~ 😿", m, fkontak);
         }
     } catch (error1) {
         return conn.reply(m.chat, `❌ Error inesperado: ${error1.message}`, m);
