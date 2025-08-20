@@ -18,6 +18,25 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
             return conn.reply(m.chat, "❌ Uff... No pude traer tu video onichan 😿", m);
         }
 
+    const thumbRes = await fetch('https://files.catbox.moe/knns14.jpg');
+    const thumbBuffer = await thumbRes.buffer();
+
+    const fkontak = {
+      key: {
+        participants: "0@s.whatsapp.net",
+        remoteJid: "status@broadcast",
+        fromMe: false,
+        id: "Halo"
+      },
+      message: {
+        locationMessage: {
+          name: `DESCARGA COMPLETA\n[▓▓▓▓▓▓░░░░░░] 100%`,
+          jpegThumbnail: thumbBuffer
+        }
+      },
+      participant: "0@s.whatsapp.net"
+    };
+
         const data = tiktokData.data;
         const videoURL = data.play;
 
@@ -42,7 +61,7 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
 │  
 ╰─❖ 🌈 𝐃𝐢𝐬𝐟𝐫𝐮𝐭𝐚𝐥𝐨, 𝐨𝐧𝐢𝐢-𝐜𝐡𝐚𝐧~ 💞`, m);
         } else {
-            return conn.reply(m.chat, "❌ No pude descargarlo nya~ 😿", m);
+            return conn.reply(m.chat, "❌ No pude descargarlo nya~ 😿", fkontak);
         }
     } catch (error1) {
         return conn.reply(m.chat, `❌ Error inesperado: ${error1.message}`, m);
