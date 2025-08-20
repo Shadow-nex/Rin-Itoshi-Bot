@@ -61,7 +61,7 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
 🏆 *sᴜʙ-ʙᴏᴛs ᴄᴏɴᴇᴄᴛᴀᴅᴏs:* _[ ${total} ]_
 
 
-— ☘️ List de sub Bots activos 🧪 —
+— ☘️ 𝐿𝐼𝑆𝑇𝐴 𝐷𝐸 𝑆𝑈𝐵-𝐵𝑂𝑇𝑆 𝐴𝐶𝑇𝐼𝑉𝑂𝑆 🧪 —
 
 
 ${lista || '🌙 No hay Sub-Bots conectados por ahora verifique mas tarde.'}`;
