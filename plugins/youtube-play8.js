@@ -3,7 +3,6 @@ import fetch from 'node-fetch';
 import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys';
 
 const handler = async (m, { conn, args, usedPrefix, command }) => {
-  const fake = { key: { remoteJid: '0@s.whatsapp.net', fromMe: false, id: 'ABCD' }, message: { conversation: 'Sukuna Bot MD' } };
   const club = '🎧 𝙍𝙞𝙣 𝙞𝙩𝙤𝙨𝙝𝙞 𝗨𝗹𝘁𝗿𝗮 𝗠𝗗';
 
   if (!args[0]) return conn.reply(m.chat, `*🧪 Ingresa un título para buscar en YouTube.*\n✧ \`Ejemplo:\` ${usedPrefix}${command} Joji - Ew`, m, fake);
@@ -94,7 +93,7 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
       },
       buttons: [
         {
-          buttonId: `${usedPrefix}playaudio ${video.url}`,
+          buttonId: `${usedPrefix}ytmp3 ${video.url}`,
           buttonText: { displayText: '💿 Audio' },
           type: 1,
         },
