@@ -30,10 +30,10 @@ const handler = async (m, { conn, text, command }) => {
     const partes = (timestamp || "0:00").split(':');
     if (partes.length === 3) {
       const [h, m2, s] = partes;
-      duracion = `${parseInt(h)}h ${parseInt(m2)}m ${parseInt(s)}s`;
+      duracion = `${parseInt(h)}h, ${parseInt(m2)}m, ${parseInt(s)}s`;
     } else {
       const [m2, s] = partes;
-      duracion = `${parseInt(m2)}m ${parseInt(s)}s`;
+      duracion = `${parseInt(m2)}m, ${parseInt(s)}s`;
     }
 
     const api = `https://dark-core-api.vercel.app/api/download/YTMP3?key=api&url=${encodeURIComponent(url)}`;
@@ -73,7 +73,7 @@ const handler = async (m, { conn, text, command }) => {
         fileName: `${title}.mp3`,
         mimetype: 'audio/mpeg',
         contextInfo: { isForwarded: true }
-      }, { quoted: fkontak });
+      }, { quoted: m });
     } else {
       await conn.reply(m.chat, `⚠️ No se pudo enviar el audio, pero aquí tienes el enlace:\n\n${json?.download || url}`, m);
     }
