@@ -1,12 +1,10 @@
-// codigo de dv.Shadow optimizado
-
 import fetch from 'node-fetch';
 import yts from 'yt-search';
 
 const handler = async (m, { conn, text, command }) => {
   try {
     if (!text) {
-      return conn.reply(m.chat, `🌱 𝙄𝙣𝙜𝙧𝙚𝙨𝙖 𝙪𝙣 𝙚𝙣𝙡𝙖𝙘𝙚 𝙙𝙚 𝙔𝙤𝙪𝙏𝙪𝙗𝙚`, m, fake);
+      return conn.reply(m.chat, '🌱 Ingresa un enlace o nombre de video de YouTube', m);
     }
 
     await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } });
@@ -31,7 +29,7 @@ const handler = async (m, { conn, text, command }) => {
       duracion = `${parseInt(min)} minuto${min === '1' ? '' : 's'}, ${parseInt(seg)} segundo${seg === '1' ? '' : 's'}`;
     }
 
-    const api = `https://dark-core-api.vercel.app/api/download/YTMP3?key=api&url=${url}`;
+    const api = `https://dark-core-api.vercel.app/api/download/YTMP3?key=api&url=${encodeURIComponent(url)}`;
     const res = await fetch(api);
     const json = await res.json();
 
@@ -39,13 +37,14 @@ const handler = async (m, { conn, text, command }) => {
       throw new Error('⚠️ No se pudo generar el enlace de descarga.');
     }
 
-    const textoInfo = ` ✿ YASSSU YOUTUBE MP3 ✿
-🍃 Título: *${title}* 〜♡
-⏱️ Duración: *${duracion}* ✧
-🍰 Canal: *${canal}* ♡
-👀 Vistas: *${vistas}* ☆
-🌱 Publicado: *${ago}* ♡
-🔗 Link: *${url}* ✧
+    const textoInfo = `✿ YASSSU YOUTUBE MP3 ✿
+
+🍃 Título: ${title}
+⏱️ Duración: ${duracion}
+🍰 Canal: ${canal}
+👀 Vistas: ${vistas}
+🌱 Publicado: ${ago}
+🔗 Link: ${url}
 
 ➤ El audio está en camino... 🌸💖`;
 
@@ -56,7 +55,7 @@ const handler = async (m, { conn, text, command }) => {
         isForwarded: true,
         externalAdReply: {
           title: title,
-          body: '┈ ⋞ 〈 ☘️ ʀɪɴ ɪᴛᴏsʜɪ - ᴀɪ ⛅ 〉 ⋟ ┈',
+          body: bot,
           thumbnailUrl: thumbnail,
           sourceUrl: url,
           mediaType: 1,
@@ -64,28 +63,13 @@ const handler = async (m, { conn, text, command }) => {
         }
       }
     }, { quoted: m });
-/*
+
     await conn.sendMessage(m.chat, {
       audio: { url: json.download },
+      fileName: `${title}.mp3`,
       mimetype: 'audio/mpeg',
-      fileName: `${json.title}.mp3`,
-      contextInfo: {
-        isForwarded: true,
-        externalAdReply: {
-          title: json.title,
-          body: 'YOUTUBE • MP3',
-          thumbnailUrl: thumbnail,
-          sourceUrl: url,
-          mediaType: 1
-        }
-      }
-    }, { quoted: m });*/
-    
-      await conn.sendMessage(m.chat, {
-        audio: { url: json.download },
-        fileName: `${json.title}.mp3`,
-        mimetype: 'audio/mpeg'
-      }, { quoted: m });
+      contextInfo: { isForwarded: true }
+    }, { quoted: m });
 
     await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
 
@@ -98,6 +82,6 @@ const handler = async (m, { conn, text, command }) => {
 
 handler.command = ['ytmp3'];
 handler.tags = ['descargas'];
-handler.help = ['ytmp3 *<link>*'];
+handler.help = ['ytmp3 <link>'];
 
 export default handler;
