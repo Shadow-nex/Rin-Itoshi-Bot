@@ -2,7 +2,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
   try {
     let rtx2 = "✨ Aquí tienes tu código secreto";
     let secret = Math.random().toString(36).substring(2, 10).toUpperCase(); // Ejemplo de código aleatorio
-    let imgUrl = "https://telegra.ph/file/9f1c4c9f5a20c2a9f8f9e.jpg"; // Imagen decorativa
+    let imgUrl = logo; // Imagen decorativa
 
     // Primer mensaje con texto + imagen
     let txtCode = await conn.sendMessage(m.chat, {
