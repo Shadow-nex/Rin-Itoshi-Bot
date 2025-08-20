@@ -47,17 +47,18 @@ let rtx = `╭─〔 💠 𝗥𝗜𝗡 𝗜𝗧𝗢𝗦𝗛𝗜 - 𝗕𝗢𝗧 �
 │
 ├─⏳ *Este QR expira en:* *45 segundos*
 ╰━━━━━━━━━━━━━━━━━━━━━━━╯`;
-let rtx2 = ` \`[ 𝗦𝗨𝗕 𝗕𝗢𝗧 - 𝗠𝗢𝗗𝗘: 𝗖𝗢𝗗𝗘 ]\`
+let rtx2 = `✧──── 〔 🔑 𝗦𝗨𝗕 𝗕𝗢𝗧 ~ 𝗖𝗢𝗗𝗘 〕────✧
 
-📜 𝐏𝐀𝐒𝐎𝐒 𝐃𝐄 𝐕𝐈𝐍𝐂𝐔𝐋𝐀𝐂𝐈𝐎́𝐍 📜
-━━━━━━━━━━━━━━━━━━━━━━━
-  🌱 1~ Pulsa los ⋮ tres puntos (arriba a la derecha)  
-  🌀 2~ Toca en *Dispositivos vinculados*  
-  🍂 3~ Selecciona *Vincular con número de teléfono*  
-  🌷 4~ Ingresa el *código especial* ⚽
-━━━━━━━━━━━━━━━━━━━━━━━
+         📜 𝑷𝒂𝒔𝒐𝒔 𝒅𝒆 𝒄𝒐𝒏𝒆𝒙𝒊𝒐́𝒏 📜
+════════════════════════════
+🌱 ➊~ Pulsa los ⋮ tres puntos (arriba a la derecha)  
+🌀 ➋~ Entra en *Dispositivos vinculados*  
+🍂 ➌~ Selecciona *Vincular con número de teléfono*  
+🌷 ➍~ Ingresa tu *código especial* ⚡
+════════════════════════════
 
-> \`NOTA: NO SE RECOMIENDA UTILIZAR EN SU CUENTA PRINCIPAL XD\``;
+🚨 𝐀𝐯𝐢𝐬𝐨: *No uses tu cuenta principal* 💀
+✧────────────────────────────✧`;
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
