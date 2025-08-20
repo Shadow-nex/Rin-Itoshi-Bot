@@ -13,32 +13,6 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
     conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED
   );
   
-  
-  
-  
-  const fkontak = {
-  key: {
-    participants: "0@s.whatsapp.net",
-    remoteJid: "status@broadcast",
-    fromMe: false,
-    id: "✨-RinStyle-✨"
-  },
-  message: {
-    contactMessage: {
-      vcard: `BEGIN:VCARD
-VERSION:3.0
-N:Bot;Rin;;;
-FN:🌸 ʀɪɴ ιтoѕнι 🌸
-item1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}
-item1.X-ABLabel:📱 Usuario
-item2.EMAIL;type=INTERNET:rin.bot@whatsapp.net
-item2.X-ABLabel:✉️ Correo
-END:VCARD`
-    }
-  },
-  participant: "0@s.whatsapp.net"
-};
-  
   const _muptime = process.uptime() * 1000;
   const rinuptime = clockString(_muptime);
 
@@ -116,7 +90,7 @@ await conn.sendMessage(m.chat, {
       showAdAttribution: true
     }
   }
-}, { quoted: fkontak });
+}, { quoted: m });
 };
 
 handler.command = ['sockets', 'bots', 'socket'];
