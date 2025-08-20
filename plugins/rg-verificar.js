@@ -20,19 +20,28 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
   
 ⛩️ Usa *#unreg* para borrar tu registro y volver a empezar.`;
 
-   const botones = [
-     { buttonId: `${usedPrefix}ping`, buttonText: { displayText: '🌳 Velocidad del Bot' }, type: 1 },
-     { buttonId: `${usedPrefix}unreg`, buttonText: { displayText: '🌷 Unreg' }, type: 1 },
-   ];
+    const botones = [
+      { buttonId: `${usedPrefix}ping`, buttonText: { displayText: '🌳 Velocidad del Bot' }, type: 1 },
+      { buttonId: `${usedPrefix}unreg`, buttonText: { displayText: '🌷 Unreg' }, type: 1 },
+    ];
 
-   return await conn.sendMessage(m.chat, {
-     image: { url: icono },
-     caption: texto,
-     mentions: [m.sender],
-     footer: '˜”*°•.˜”*°• RIN ITOSHI BOT •°*”˜.•°*”˜',
-     buttons: botones,
-     headerType: 4
-   }, { quoted: m });
+    return await conn.sendMessage(m.chat, {
+      image: { url: icono },
+      caption: texto,
+      mentions: [m.sender],
+      footer: '˜”*°•.˜”*°• RIN ITOSHI BOT •°*”˜.•°*”˜',
+      buttons: botones,
+      headerType: 4,
+      contextInfo: {
+        mentionedJid: [m.sender],
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: channelRD.id,
+          serverMessageId: 100,
+          newsletterName: channelRD.name
+        }
+      }
+    }, { quoted: m });
  }
   
    if (!Reg.test(text)) {
@@ -43,22 +52,14 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
 🎄 \`Ejemplo:\`
 *${usedPrefix + command} ${name2}.18*`;
 
-    const botones = [
-      { 
-        buttonId: `${usedPrefix}ping`, 
-        buttonText: { displayText: '🌳 Velocidad del Bot' }, 
-        type: 1 
-      },
-      { 
-        buttonId: `${usedPrefix}unreg`, 
-        buttonText: { displayText: '🌷 Unreg' }, 
-        type: 1 
-      },
-    ]
+     const botones = [
+       { buttonId: `${usedPrefix}reg ${name2}.18`, buttonText: { displayText: '🖍️ Auto Verificación' }, type: 1 },
+       { buttonId: `${usedPrefix}menu`, buttonText: { displayText: '🎲 Menu All' }, type: 1 },
+     ];
 
     return await conn.sendMessage(m.chat, {
       image: { url: icono },
-      caption: texto,
+      caption: mensaje,
       mentions: [m.sender],
       footer: '˜”*°•.˜”*°• RIN ITOSHI BOT •°*”˜.•°*”˜',
       buttons: botones,
