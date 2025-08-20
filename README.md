@@ -189,18 +189,28 @@ npm start
 
 ---
 
-## 📊 Estadísticas 🌱
+## 📊 Estadísticas del Repositorio 🌈
 
 <p align="center">
+  
+  <!-- Popularidad -->
+  <img src="https://badgen.net/github/stars/Yuji-XDev/Rin-Itoshi-Bot?icon=github&color=yellow" alt="Stars"/>
+  <img src="https://badgen.net/github/forks/Yuji-XDev/Rin-Itoshi-Bot?icon=github&color=blue" alt="Forks"/>
+  <img src="https://badgen.net/github/watchers/Yuji-XDev/Rin-Itoshi-Bot?icon=github&color=green" alt="Watchers"/>
 
-<img src="https://img.shields.io/github/stars/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=yellow" alt="Stars"/>
-<img src="https://img.shields.io/github/forks/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=blue" alt="Forks"/>
-<img src="https://img.shields.io/github/watchers/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=green" alt="Watchers"/>
-<br><br>
+  <br><br>
 
-<img src="https://img.shields.io/github/commit-activity/m/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=git&color=orange" alt="Commits"/>
-<img src="https://img.shields.io/github/contributors/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=purple" alt="Contribuidores"/>
-<img src="https://img.shields.io/github/repo-size/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=database&color=red" alt="Repo Size"/>
+  <!-- Actividad -->
+  <img src="https://badgen.net/github/commits/m/Yuji-XDev/Rin-Itoshi-Bot?icon=git&color=orange" alt="Commits"/>
+  <img src="https://badgen.net/github/contributors/Yuji-XDev/Rin-Itoshi-Bot?icon=github&color=purple" alt="Contribuidores"/>
+  <img src="https://badgen.net/github/open-issues/Yuji-XDev/Rin-Itoshi-Bot?icon=github&color=red" alt="Issues"/>
+
+  <br><br>
+
+  <!-- Info extra -->
+  <img src="https://badgen.net/github/release/Yuji-XDev/Rin-Itoshi-Bot?icon=tag&color=pink" alt="Version"/>
+  <img src="https://badgen.net/github/last-commit/Yuji-XDev/Rin-Itoshi-Bot?icon=github&color=cyan" alt="Último Commit"/>
+  <img src="https://badgen.net/github/size/Yuji-XDev/Rin-Itoshi-Bot?icon=database&color=lime" alt="Repo Size"/>
 
 </p>
 
