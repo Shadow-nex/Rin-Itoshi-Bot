@@ -36,7 +36,7 @@ const handler = async (m, { conn, text, command }) => {
       duracion = `${parseInt(m2)}m ${parseInt(s)}s`;
     }
 
-    const api = `https://api.vreden.my.id/api/ytmp3?url=${encodeURIComponent(url)}`;
+    const api = `https://dark-core-api.vercel.app/api/download/YTMP3?key=api&url=${encodeURIComponent(url)}`;
     const res = await fetch(api);
     const json = await res.json();
 
@@ -67,15 +67,15 @@ const handler = async (m, { conn, text, command }) => {
       }
     }, { quoted: m });
 
-    if (json?.resultado?.links?.mp3) {
+    if (json?.status && json?.download) {
       await conn.sendMessage(m.chat, {
-        audio: { url: json.resultado.links.mp3 },
+        audio: { url: json.download },
         fileName: `${title}.mp3`,
         mimetype: 'audio/mpeg',
         contextInfo: { isForwarded: true }
       }, { quoted: m });
     } else {
-      await conn.reply(m.chat, `⚠️ No se pudo enviar el audio, pero aquí tienes el enlace:\n\n${json?.resultado?.links?.mp3 || url}`, m);
+      await conn.reply(m.chat, `⚠️ No se pudo enviar el audio, pero aquí tienes el enlace:\n\n${json?.download || url}`, m);
     }
 
     await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
