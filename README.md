@@ -189,19 +189,27 @@ npm start
 
 ---
 
-## 📊 Estadísticas del Repositorio  
+## 📊 Estadísticas 🌱
 
 <p align="center">
-  
-  <!-- Popularidad -->
-  <img src="https://img.shields.io/github/stars/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=yellow" alt="Stars"/>
-  <img src="https://img.shields.io/github/forks/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=blue" alt="Forks"/>
-  <img src="https://img.shields.io/github/watchers/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=green" alt="Watchers"/>
 
-  <!-- Actividad -->
-  <img src="https://img.shields.io/github/commit-activity/m/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=git&color=orange" alt="Commits"/>
-  <img src="https://img.shields.io/github/contributors/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=purple" alt="Contribuidores"/>
-  <img src="https://img.shields.io/github/repo-size/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=database&color=red" alt="Repo Size"/>
+<table>
+  <tr>
+    <td align="center" style="border: 3px solid #ff00ff; border-radius: 20px; padding: 20px; background: linear-gradient(135deg, #ffcc00, #ff6699, #66ccff);">
+      
+      <!-- Popularidad -->
+      <img src="https://img.shields.io/github/stars/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=yellow" alt="Stars"/>
+      <img src="https://img.shields.io/github/forks/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=blue" alt="Forks"/>
+      <img src="https://img.shields.io/github/watchers/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=green" alt="Watchers"/>
+      <br><br>
+      <!-- Actividad -->
+      <img src="https://img.shields.io/github/commit-activity/m/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=git&color=orange" alt="Commits"/>
+      <img src="https://img.shields.io/github/contributors/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=purple" alt="Contribuidores"/>
+      <img src="https://img.shields.io/github/repo-size/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=database&color=red" alt="Repo Size"/>
+    
+    </td>
+  </tr>
+</table>
 
 </p>
 
