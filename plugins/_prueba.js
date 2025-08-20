@@ -28,5 +28,5 @@ let handler = async (m, { conn, usedPrefix, command }) => {
   }
 };
 
-handler.command = /^code|codigo$/i;
+handler.command = /^codigo$/i;
 export default handler;
