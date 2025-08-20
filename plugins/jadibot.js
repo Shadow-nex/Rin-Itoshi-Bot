@@ -65,8 +65,8 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
 
 — 🜼🍂 List de sub Bots activos 🌱🜼❁ུ۪⸙ —
 
-${readMore
-}
+${readMore}
+
 ${lista || '🌙 No hay Sub-Bots conectados por ahora verifique mas tarde.'}`;
 /*
 await conn.sendMessage(m.chat, {
@@ -92,12 +92,11 @@ await conn.sendMessage(m.chat, {
   }
 }, { quoted: m });*/
 
-// 📌 Const para crear el contextInfo
 const crearContextInfo = (m, channelRD, icono, banner, redes, total, maxSubbots) => {
   return {
-    mentionedJid: [m.sender], // menciona al que ejecuta
+    mentionedJid: [m.sender],
     isForwarded: true,
-    forwardingScore: 1, // evita bug de invisibilidad
+    forwardingScore: 1,
     externalAdReply: {
       title: '🌀 ѕσ¢ƙєтѕ αcтιvσѕ',
       body: `🍂 Conectados: ${total}/${maxSubbots}`,
@@ -111,7 +110,6 @@ const crearContextInfo = (m, channelRD, icono, banner, redes, total, maxSubbots)
   }
 }
 
-// 📌 Uso en tu mensaje
 await conn.sendMessage(m.chat, {
   text: textoSubbots,
   contextInfo: crearContextInfo(m, channelRD, icono, banner, redes, total, maxSubbots)
