@@ -8,13 +8,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     let txtCode = await conn.sendMessage(m.chat, {
       image: { url: imgUrl },
       caption: rtx2,
-      contextInfo: {mentionedJid: [m.sender],
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: channelRD.id,
-          serverMessageId: 100,
-          newsletterName: channelRD.name
-        },
+      contextInfo: {
         mentionedJid: [m.sender],
         isForwarded: true
       }
