@@ -34,5 +34,5 @@ let handler = async (m, { conn, text }) => {
   }
 }
 
-handler.command = /^miniatura$/i
+handler.command = /^miniatura|mini$/i
 export default handler
