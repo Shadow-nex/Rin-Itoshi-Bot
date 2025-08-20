@@ -18,24 +18,24 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
             return conn.reply(m.chat, "❌ Uff... No pude traer tu video onichan 😿", m);
         }
 
-    const thumbRes = await fetch('https://files.catbox.moe/knns14.jpg');
-    const thumbBuffer = await thumbRes.buffer();
+       const thumbRes = await fetch('https://files.catbox.moe/knns14.jpg');
+       const thumbBuffer = await thumbRes.buffer();
 
-    const fkontak = {
-      key: {
-        participants: "0@s.whatsapp.net",
-        remoteJid: "status@broadcast",
-        fromMe: false,
-        id: "Halo"
-      },
-      message: {
-        locationMessage: {
-          name: `DESCARGA COMPLETA\n[▓▓▓▓▓▓░░░░░░] 100%`,
-          jpegThumbnail: thumbBuffer
-        }
-      },
-      participant: "0@s.whatsapp.net"
-    };
+       const fkontak = {
+         key: {
+           participants: "0@s.whatsapp.net",
+           remoteJid: "status@broadcast",
+           fromMe: false,
+           id: "Halo"
+         },
+         message: {
+           locationMessage: {
+             name: `🌱 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 𝙈𝘿 🍂`,
+             jpegThumbnail: thumbBuffer
+           }
+         },
+         participant: "0@s.whatsapp.net"
+       };
 
         const data = tiktokData.data;
         const videoURL = data.play;

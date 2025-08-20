@@ -7,7 +7,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     let [animeId, episode = 1] = text.split(',').map(v => v.trim());
 
     if (!animeId) {
-      return m.reply(`🌸 𝙵𝚘𝚛𝚖𝚊𝚝𝚘 𝚒𝚗𝚌𝚘𝚛𝚛𝚎𝚌𝚝𝚘.\n\n🧾 𝚄𝚜𝚘 𝚌𝚘𝚛𝚛𝚎𝚌𝚝𝚘:\n${usedPrefix + command} <anime-id>, <capítulo>\n\n🐁 Ejemplo:\n${usedPrefix + command} to-love-ru-ova, 1`);
+      return m.reply(`🍂 𝙵𝚘𝚛𝚖𝚊𝚝𝚘 𝚒𝚗𝚌𝚘𝚛𝚛𝚎𝚌𝚝𝚘.\n\n🧾 𝚄𝚜𝚘 𝚌𝚘𝚛𝚛𝚎𝚌𝚝𝚘:\n${usedPrefix + command} <anime-id>, <capítulo>\n\n🌀 Ejemplo:\n${usedPrefix + command} to-love-ru-ova, 1`);
     }
 
     if (isNaN(episode) || episode <= 0) {
@@ -87,6 +87,6 @@ function formatBytes(bytes) {
 handler.help = ['animedl <anime-id>, <episodio>'];
 handler.tags = ['downloader'];
 handler.command = ['animedl', 'animeflvdl', 'anidl'];
-handler.group = true;
+//handler.group = true;
 
 export default handler;
