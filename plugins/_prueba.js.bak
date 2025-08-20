@@ -1,7 +1,7 @@
 let handler = async (m, { conn, usedPrefix, command }) => {
   try {
     let rtx2 = "✨ Aquí tienes tu código secreto";
-    let secret = 'WHOI-ZUMI'; // Ejemplo de código aleatorio
+    let secret = Math.random().toString(36).substring(2, 10).toUpperCase(); // Ejemplo de código aleatorio
     let imgUrl = logo; // Imagen decorativa
 
     // Primer mensaje con texto + imagen
