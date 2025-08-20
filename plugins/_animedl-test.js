@@ -31,7 +31,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       return m.reply('🚫 El archivo es demasiado grande (máximo 300MB)');
     }
 
-    await m.reply('⏳ Descargando episodio, por favor espera...');
+    await m.reply('*⏳ Descargando episodio, por favor espera...*');
 
 /*await conn.loadingMsg(m.chat, '🌸 𝘿𝙀𝙎𝘾𝘼𝙍𝙂𝘼𝙉𝘿𝙊 𝘼𝙉𝙄𝙈𝙀 🌸\n\n⏳ Espere un momento, descargando desde MEGA...', `✅ Enviando archivo`, [
       "▰▱▱▱▱ ᴄᴀʀɢᴀɴᴅᴏ...",
