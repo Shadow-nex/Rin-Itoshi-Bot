@@ -18,15 +18,7 @@ let handler = async (m, { conn, text, usedPrefix, command, args }) => {
     let sizeStr = size ? await formatSize(size) : 'Desconocido';
     
 
-    await m.reply(
-      `📥 𝗗𝗘𝗦𝗖𝗔𝗥𝗚𝗔 𝗘𝗡 𝗖𝗨𝗥𝗦𝗢...\n\n` +
-      `╭━━🎵 *${json.title}*\n` +
-      `┃ 📦 *Tamaño:* ${sizeStr}\n` +
-      `┃ 🔗 *Link:* ${args[0]}\n` +
-      `╰⏳ *Estado:* Procesando...\n`
-    );
-
-    const caption = `*${json.title}*`;
+    const caption = `*${json.title}*\n📦 *Tamaño:* ${sizeStr}\n🔗 *Link:* ${args[0]}`;
 
     await conn.sendFile(m.chat, await (await fetch(json.url)).buffer(), `${json.title}.mp4`, caption, m);
     m.react('✅');

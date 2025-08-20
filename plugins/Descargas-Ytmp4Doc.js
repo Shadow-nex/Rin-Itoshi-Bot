@@ -14,21 +14,6 @@ let handler = async (m, { conn, text, args }) => {
     const thumbRes = await fetch('https://files.catbox.moe/9exbxh.png');
     const thumbBuffer = await thumbRes.buffer();
 
-    const fkontak = {
-      key: {
-        participants: "0@s.whatsapp.net",
-        remoteJid: "status@broadcast",
-        fromMe: false,
-        id: "Halo"
-      },
-      message: {
-        locationMessage: {
-          name: `DESCARGA COMPLETA\n[▓▓▓▓▓▓░░░░░░] 100%`,
-          jpegThumbnail: thumbBuffer
-        }
-      },
-      participant: "0@s.whatsapp.net"
-    };
 
     const videoData = await ytdl(args[0]);
     const { title, duration, url } = videoData;
@@ -81,7 +66,7 @@ let handler = async (m, { conn, text, args }) => {
             renderLargerThumbnail: false
           }
         }
-      }, { quoted: fkontak });
+      }, { quoted: m });
     } catch (err) {
       console.warn('❗ Error al enviar como documento. Se enviará como video.');
 
@@ -90,7 +75,7 @@ let handler = async (m, { conn, text, args }) => {
         caption,
         mimetype: 'video/mp4',
         thumbnail
-      }, { quoted: fkontak });
+      }, { quoted: m });
     }
 
     await conn.sendMessage(m.chat, { react: { text: '☑️', key: m.key } });
