@@ -1,18 +1,16 @@
-// 📌 Instala dependencias antes:
-// npm install node-fetch sharp
+// codigo bug xd
 
 import fetch from 'node-fetch'
 import sharp from 'sharp'
 
-let handler = async (m, { conn, usedPrefix, command }) => {
-  try {
-    let urlImg = 'https://files.catbox.moe/4q363w.jpg' // 🔗 tu imagen
+let handler = async (m, { conn, text }) => {
+  if (!text) return m.reply("✨ Pásame la URL de la imagen.\nEjemplo: .miniatura https://ejemplo.com/imagen.jpg")
 
-    // Descargar imagen
-    const res = await fetch(urlImg)
+  try {
+    const res = await fetch(text)
+    if (!res.ok) throw new Error("No se pudo descargar la imagen")
     const buffer = await res.buffer()
 
-    // Reducir a thumbnail <= 64 KB
     let quality = 80
     let thumb
     do {
@@ -23,33 +21,18 @@ let handler = async (m, { conn, usedPrefix, command }) => {
       quality -= 10
     } while (thumb.length > 64 * 1024 && quality > 10)
 
-    console.log(`📦 Thumbnail final: ${(thumb.length / 1024).toFixed(1)} KB`)
+    const base64Thumb = thumb.toString("base64")
 
-    // Fake message estilo Shadow
-    const Shadow = {
-      key: {
-        participants: "0@s.whatsapp.net",
-        remoteJid: "status@broadcast",
-        fromMe: false,
-        id: "Halo"
-      },
-      message: {
-        locationMessage: {
-          name: `✅ DESCARGA COMPLETA\n[▓▓▓▓▓▓▓▓▓▓] 100%`,
-          jpegThumbnail: thumb
-        }
-      },
-      participant: "0@s.whatsapp.net"
-    }
-
-    // Enviar mensaje usando el Shadow como quoted
-    await conn.sendMessage(m.chat, { text: "🌸 Aquí tu prueba con thumbnail especial" }, { quoted: Shadow })
+    await conn.sendMessage(m.chat, {
+      image: thumb,
+      caption: `✅ Aquí tienes tu imagen lista para WhatsApp (≤64KB)\n\n📦 Peso: ${(thumb.length / 1024).toFixed(1)} KB\n\n\`\`\`Código Base64:\`\`\`\n${base64Thumb.substring(0,200)}...`
+    }, { quoted: m })
 
   } catch (e) {
     console.error(e)
-    m.reply("❌ Error al generar el thumbnail.")
+    m.reply("❌ Error al procesar la imagen.")
   }
 }
 
-handler.command = /^shadowtest$/i
+handler.command = /^miniatura$/i
 export default handler
