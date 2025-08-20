@@ -52,7 +52,7 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
 ⋆｡ﾟ☁︎｡⋆｡ ﾟ☾ \`#${i + 1}\` ﾟ｡⋆ ｡ﾟ☁︎｡⋆｡ ﾟ☾ ﾟ｡⋆
 
 > ✦ 🍂 \`ᴜsᴜᴀʀɪᴏ:\` ${bot.user?.name || 'Sub-Bot 🍂'}
-> ✦ 🌷 \`ʟɪɴᴋ:\` wa.me/${(bot.user?.jid || '').replace(/[^0-9]/g, '')}?text=${usedPrefix}code
+> ✦ 🌷 \`ʟɪɴᴋ:\` wa.me/${(bot.user?.jid || '').replace(/[^0-9]/g, '')}
 > ✦ 🌱 \`ᴇɴ ʟɪɴᴇᴀ:\` ${bot.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - bot.uptime) : 'Desconocido'}`;
   }).join('\n\n');
 
