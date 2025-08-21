@@ -1,6 +1,6 @@
 <p align="center">
   <a href="#">
-    <img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=35&duration=3000&pause=1000&color=FF00FF,00FFFF,FFFF00,FF0000,00FF00&center=true&vCenter=true&width=700&lines=🍂+RIN+ITOSHI+%7C+BY+SHADOW" alt="RIN ITOSHI| BY SHADOW 🍂"/>
+    <img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=35&duration=3000&pause=1000&color=FF00FF,00FFFF,FFFF00,FF0000,00FF00&center=true&vCenter=true&width=700&lines=🍂+RIN+ITOSHI+%7C+BY+SHADOW" alt="RIN ITOSHI • BY SHADOW 🍂"/>
   </a>
 </p>
 
@@ -40,7 +40,9 @@
 
 ---
 
-## 🧩 ғᴜɴᴄɪᴏɴᴇs ᴅᴇ ʀɪɴ ɪᴛᴏsʜɪ
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=800&center=true&vCenter=true&width=750&lines=%F0%9F%A7%A9+%E1%B4%9B%E1%B4%98%C9%A2%C9%AA%E1%B4%8F%C9%B4%E1%B4%87s+%E1%B4%85%E1%B4%87+%CA%80%C9%AA%C9%B4+%C9%AA%E1%B4%9B%E1%B4%8Fs%CA%9C%C9%AA&color=FF0000" alt="🧩 ғᴜɴᴄɪᴏɴᴇs ᴅᴇ ʀɪɴ ɪᴛᴏsʜɪ"/>
+</p>
 
 <details>
  <summary><b> ☄️ INFO - BOT 👀</b></summary>
@@ -72,21 +74,13 @@
 
 ---
 
-## 🛠️ 𝐈𝐧𝐬𝐭𝐚𝐥𝐚𝐜𝐢o𝐧
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=800&center=true&vCenter=true&width=650&lines=%E2%9E%AE%F0%9F%93%B1%20Instalaci%C3%B3n%20por%20termux&color=00E5FF" alt="➮📱 Instalación por termux"/>
+</p>
 
 ### **`✧ Click en la imagen para descargar termux ✧`**
 <a
 href="https://www.mediafire.com/file/llugt4zgj7g3n3u/com.termux_1020.apk/file"><img src="https://qu.ax/finc.jpg" height="125px"></a> 
-
-<p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=800&center=true&vCenter=true&width=650&lines=%E2%9E%AE%F0%9F%93%B1%20Instalaci%C3%B3n%20por%20termux&color=FF00FF,00FFFF,FFFF00,00FF00,FF4500" alt="➮📱 Instalación por termux"/>
-</p>
-
----
-
-<p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=800&center=true&vCenter=true&width=650&lines=%E2%9E%AE%F0%9F%93%B1%20Instalaci%C3%B3n%20por%20termux&color=00E5FF" alt="➮📱 Instalación por termux"/>
-</p>
 
 <details>
  <summary><b> 🔰 Ver comandos de instalación </b></summary>
@@ -162,7 +156,9 @@ cd Rin-Itoshi-Bot && nano config.js
 
 ---
 
-#### **`🔥 Instalación por cloudshell`**
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=26&duration=2500&pause=800&center=true&vCenter=true&width=700&lines=%F0%9F%94%A5+Instalaci%C3%B3n+por+cloudshell&color=32CD32" alt="🔥 Instalación por cloudshell"/>
+</p>
 
 <details>
  <summary><b> 🍁 Ver comandos para Cloud Shell</b></summary>
@@ -202,7 +198,9 @@ npm start
 
 ---
 
-## 📊 Estadísticas del Repositorio 🌈
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=800&center=true&vCenter=true&width=800&lines=%F0%9F%93%8A+Estad%C3%ADsticas+del+Repositorio+%F0%9F%8C%88&color=FF00FF,00FFFF,FFFF00,00FF00,FF4500" alt="📊 Estadísticas del Repositorio 🌈"/>
+</p>
 
 <p align="center">
   
