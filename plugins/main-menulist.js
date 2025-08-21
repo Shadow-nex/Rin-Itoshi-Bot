@@ -61,7 +61,7 @@ const handler = async (m, { conn, usedPrefix }) => {
     const docBuffer = await sharp(imagenBuffer).webp({ quality: 90 }).toBuffer();
     */
     
-let shadowb = 'https://files.catbox.moe/4dple4.jpg',
+let shadowb = 'https://files.catbox.moe/4dple4.jpg';
     
 let thumb2;
     try {
