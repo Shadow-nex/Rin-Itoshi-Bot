@@ -41,6 +41,13 @@ END:VCARD`.trim();
       contacts: [contactMessage]
     },
     contextInfo: {
+    mentionedJid: [m.sender],
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: channelRD.id,
+          serverMessageId: 100,
+          newsletterName: channelRD.name
+        },
       externalAdReply: {
         title: '🧪 Contacto del Creador oniichan 💌',
         body: 'Toca aquí para guardar el contacto o hablar con él',
