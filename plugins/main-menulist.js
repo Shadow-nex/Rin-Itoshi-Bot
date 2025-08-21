@@ -48,7 +48,7 @@ const handler = async (m, { conn, usedPrefix }) => {
 > ┊ 📆 𝗙ᴇᴄʜᴀ: *${fecha}*
 > ┊ 💎 𝗗ɪᴀ:    *${dia}*
 > ┊ ⏰ 𝗛ᴏʀᴀ:  *${hora}*`;
-    /*
+
     const imgUrl = 'https://files.catbox.moe/4dple4.jpg'; // cambie x su imagen xd
     const imagenBuffer = await (await fetch(imgUrl)).buffer();
     const thumb2 = await sharp(imagenBuffer).resize(400, 400).jpeg({ quality: 70 }).toBuffer();
@@ -59,38 +59,6 @@ const handler = async (m, { conn, usedPrefix }) => {
      
     const thumb = await sharp(imgBuffer).resize(400, 400).jpeg({ quality: 70 }).toBuffer();
     const docBuffer = await sharp(imagenBuffer).webp({ quality: 90 }).toBuffer();
-    */
-    
-let shadowb = 'https://files.catbox.moe/4dple4.jpg';
-    
-let thumb2;
-    try {
-      thumbnail2 = await (await fetch(shadowb)).buffer();
-    } catch (e) {
-      console.warn('*✖️ No se pudo obtener la miniatura, usando imagen por defecto.*');
-      thumbnail2 = await (await fetch('https://telegra.ph/file/36f2a1bd2aaf902e4d1ff.jpg')).buffer();
-    }    
-    
-let imgBuffer;
-    try {
-      thumbnail3 = await (await fetch(shadowb)).buffer();
-    } catch (e) {
-      console.warn('*✖️ No se pudo obtener la miniatura, usando imagen por defecto.*');
-      thumbnail3 = await (await fetch('https://telegra.ph/file/36f2a1bd2aaf902e4d1ff.jpg')).buffer();
-    }    
-    
-let docBuffer;
-    try {
-      thumbnail4 = await (await fetch(shadowb)).buffer();
-    } catch (e) {
-      console.warn('*✖️ No se pudo obtener la miniatura, usando imagen por defecto.*');
-      thumbnail4 = await (await fetch('https://telegra.ph/file/36f2a1bd2aaf902e4d1ff.jpg')).buffer();
-    }    
-    
-    
-    
-    
-    
     
     
     const buttons = [

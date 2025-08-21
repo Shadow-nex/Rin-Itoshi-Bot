@@ -14,11 +14,12 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
 
 
   if (user.registered) {
-   const texto = `➤ ⌬ \`ＡＶＩＳＯ\` ⌬
-*🚫 Ya estás registrado...*
-¿ ǫᴜɪᴇʀᴇs ᴠᴏʟᴠᴇʀ ᴀ ʀᴇɢɪsᴛʀᴀʀᴛᴇ ?
-  
-⛩️ Usa *#unreg* para borrar tu registro y volver a empezar.`;
+   const texto = `✧━━━━〔 ⚠ ＡＶＩＳＯ ⚠ 〕━━━━✧
+*🚫 Ya cuentas con un registro activo...*
+¿ 𝚀𝚞𝚒𝚎𝚛𝚎𝚜 𝚛𝚎𝚐𝚒𝚜𝚝𝚛𝚊𝚛𝚝𝚎 𝚗𝚞𝚎𝚟𝚊𝚖𝚎𝚗𝚝𝚎?
+
+🎋 Usa *#unreg* para borrar tu registro y comenzar otra vez.
+✧━━━━━━━━━━━━━━━━━━✧`;
 
     const botones = [
       { buttonId: `${usedPrefix}ping`, buttonText: { displayText: '🌳 Velocidad del Bot' }, type: 1 },
@@ -45,12 +46,14 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
  }
   
    if (!Reg.test(text)) {
-     const mensaje = `*『✦』El comando ingresado es incorrecto, uselo de la siguiente manera:*
+     const mensaje = `✦・🍂  ᴇʟ ᴄᴏᴍᴀɴᴅᴏ ɪɴɢʀᴇsᴀᴅᴏ ᴇs ɪɴᴄᴏʀʀᴇᴄᴛᴏ
+┈┈┈┈┈┈┈┈┈┈
+↳ Úsalo así:
+   ${usedPrefix + command} nombre.edad
 
-*${usedPrefix + command} nombre.edad*
-
-🎄 \`Ejemplo:\`
-*${usedPrefix + command} ${name2}.18*`;
+🎄 Ejemplo:
+   ${usedPrefix + command} ${name2}.18
+┈┈┈┈┈┈┈┈┈┈`;
 
      const botones = [
        { buttonId: `${usedPrefix}reg ${name2}.18`, buttonText: { displayText: '🖍️ Auto Verificación' }, type: 1 },
@@ -100,20 +103,25 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
 
   let sn = createHash('md5').update(m.sender).digest('hex').slice(0, 20)
 
-  let regbot = `✅ VERIFICACIÓN EXITOSA ✅
-───────────────────
-· › 🌷 \`NOMBRE\` » *${name}*
-· › 🌀 \`EDAD\` » *${age} años*
-───────────────────
-· › 🕸️ \`FECHA\` » *${fecha}*
-· › 🐋 \`HORA\` » *${hora}*
-· › 🌿 \`DIA\` » *${dia}*
-───────────────────
-• 🍹 RECOMPENSAS 🧪
-· › 🪙 \`COINS:\` *+40*
-· › 🏮 \`EXP:\` *+300*
-· › 🔰 \`TOKENS:\` *+20*
-───────────────────`.trim();
+  let regbot = `╭━━━〔 🌸 𝑺𝑰𝑺𝑻𝑬𝑴𝑨 𝑫𝑬 𝑽𝑬𝑹𝑰𝑭𝑰𝑪𝑨𝑪𝑰𝑶́𝑵 🌸 〕━━⬣
+┃
+┃ 🪷 *Nombre:* » ${name}
+┃ 🌊 *Edad:* » ${age} años
+┃ 🕰️ *Fecha:* » ${fecha}
+┃ 🌌 *Hora:* » ${hora}
+┃ 🍃 *Día:* » ${dia}
+┃
+╰━━━━━━━━━━━━━━━━━━━⬣
+
+🎁 *Recompensas Especiales* 🎁
+┌──────────────────⊷
+│ 🪙 Monedas:  +40  
+│ 🔮 Experiencia: +300  
+│ 💎 Tokens:     +20  
+└──────────────────⊷
+
+✨ ¡Felicidades ${name}!  
+Ahora formas parte de la comunidad oficial de *Rin Itoshi Bot* ⚡`.trim();
 
   await m.react?.('📩')
 
