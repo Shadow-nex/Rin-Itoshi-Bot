@@ -61,11 +61,11 @@ const handler = async (m, { conn, usedPrefix }) => {
     const docBuffer = await sharp(imagenBuffer).webp({ quality: 90 }).toBuffer();
     */
     
-let video.miniatura = 'https://files.catbox.moe/4dple4.jpg'    
+let shadowb = 'https://files.catbox.moe/4dple4.jpg',
     
 let thumb2;
     try {
-      thumbnail = await (await fetch(video.miniatura)).buffer();
+      thumbnail = await (await fetch(shadowb)).buffer();
     } catch (e) {
       console.warn('*✖️ No se pudo obtener la miniatura, usando imagen por defecto.*');
       thumbnail = await (await fetch('https://telegra.ph/file/36f2a1bd2aaf902e4d1ff.jpg')).buffer();
@@ -73,7 +73,7 @@ let thumb2;
     
 let imgBuffer;
     try {
-      thumbnail = await (await fetch(video.miniatura)).buffer();
+      thumbnail = await (await fetch(shadowb)).buffer();
     } catch (e) {
       console.warn('*✖️ No se pudo obtener la miniatura, usando imagen por defecto.*');
       thumbnail = await (await fetch('https://telegra.ph/file/36f2a1bd2aaf902e4d1ff.jpg')).buffer();
@@ -81,7 +81,7 @@ let imgBuffer;
     
 let docBuffer;
     try {
-      thumbnail = await (await fetch(video.miniatura)).buffer();
+      thumbnail = await (await fetch(shadowb)).buffer();
     } catch (e) {
       console.warn('*✖️ No se pudo obtener la miniatura, usando imagen por defecto.*');
       thumbnail = await (await fetch('https://telegra.ph/file/36f2a1bd2aaf902e4d1ff.jpg')).buffer();
