@@ -38,7 +38,7 @@ const handler = async (m, { conn, text, command }) => {
 
     const api = `https://dark-core-api.vercel.app/api/download/YTMP3?key=api&url=${encodeURIComponent(url)}`;
     const res = await fetch(api);
-    const data = await res.data();
+    const json = await res.json();
 
     const textoInfo = `✿ YASSSU YOUTUBE MP3 🌲
 
@@ -67,15 +67,15 @@ const handler = async (m, { conn, text, command }) => {
       }
     }, { quoted: m });
 
-    if (data?.status && data?.download) {
+    if (json?.status && json?.download) {
       await conn.sendMessage(m.chat, {
-        audio: { url: data.download },
+        audio: { url: json.download },
         fileName: `${title}.mp3`,
         mimetype: 'audio/mpeg',
         contextInfo: { isForwarded: true }
       }, { quoted: m });
     } else {
-      await conn.reply(m.chat, `⚠️ No se pudo enviar el audio, pero aquí tienes el enlace:\n\n${data?.download || url}`, m);
+      await conn.reply(m.chat, `⚠️ No se pudo enviar el audio, pero aquí tienes el enlace:\n\n${json?.download || url}`, m);
     }
 
     await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
