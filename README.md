@@ -1,6 +1,6 @@
 <h1 align="center"> ʀɪɴ ɪᴛᴏsʜɪ | ʙʏ sʜᴀᴅᴏᴡ</h1>
 <p align="center">
-  <img src="https://files.catbox.moe/8mrxn1.jpg" width="300">
+  <img src="https://files.catbox.moe/m442az.jpg" width="300">
 </p>
 
 <p align="center">
