@@ -1,4 +1,9 @@
-<h1 align="center"> ʀɪɴ ɪᴛᴏsʜɪ | ʙʏ sʜᴀᴅᴏᴡ</h1>
+<p align="center">
+  <a href="#">
+    <img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=35&duration=3000&pause=1000&color=FF00FF,00FFFF,FFFF00,FF0000,00FF00&center=true&vCenter=true&width=700&lines=ʀɪɴ+ɪᴛᴏsʜɪ+%7C+ʙʏ+sʜᴀᴅᴏᴡ" alt="ʀɪɴ ɪᴛᴏsʜɪ | ʙʏ sʜᴀᴅᴏᴡ"/>
+  </a>
+</p>
+
 <p align="center">
   <img src="https://files.catbox.moe/m442az.jpg" width="300">
 </p>
