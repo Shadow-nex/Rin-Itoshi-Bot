@@ -20,7 +20,6 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
 
        const thumbRes = await fetch('https://files.catbox.moe/knns14.jpg');
        const thumbBuffer = await thumbRes.buffer();
-
        const fkontak = {
          key: {
            participants: "0@s.whatsapp.net",
@@ -30,7 +29,7 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
          },
          message: {
            locationMessage: {
-             name: `🌱 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 𝙈𝘿 🍂`,
+             name: `🌀 ᴅᴏᴡɴʟᴏᴀᴅ ᴛɪᴋᴛᴏᴋ | 🌱 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 𝙈𝘿 🍂`,
              jpegThumbnail: thumbBuffer
            }
          },
