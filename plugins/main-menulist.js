@@ -65,26 +65,26 @@ let shadowb = 'https://files.catbox.moe/4dple4.jpg';
     
 let thumb2;
     try {
-      thumbnail = await (await fetch(shadowb)).buffer();
+      thumbnail2 = await (await fetch(shadowb)).buffer();
     } catch (e) {
       console.warn('*✖️ No se pudo obtener la miniatura, usando imagen por defecto.*');
-      thumbnail = await (await fetch('https://telegra.ph/file/36f2a1bd2aaf902e4d1ff.jpg')).buffer();
+      thumbnail2 = await (await fetch('https://telegra.ph/file/36f2a1bd2aaf902e4d1ff.jpg')).buffer();
     }    
     
 let imgBuffer;
     try {
-      thumbnail = await (await fetch(shadowb)).buffer();
+      thumbnail3 = await (await fetch(shadowb)).buffer();
     } catch (e) {
       console.warn('*✖️ No se pudo obtener la miniatura, usando imagen por defecto.*');
-      thumbnail = await (await fetch('https://telegra.ph/file/36f2a1bd2aaf902e4d1ff.jpg')).buffer();
+      thumbnail3 = await (await fetch('https://telegra.ph/file/36f2a1bd2aaf902e4d1ff.jpg')).buffer();
     }    
     
 let docBuffer;
     try {
-      thumbnail = await (await fetch(shadowb)).buffer();
+      thumbnail4 = await (await fetch(shadowb)).buffer();
     } catch (e) {
       console.warn('*✖️ No se pudo obtener la miniatura, usando imagen por defecto.*');
-      thumbnail = await (await fetch('https://telegra.ph/file/36f2a1bd2aaf902e4d1ff.jpg')).buffer();
+      thumbnail4 = await (await fetch('https://telegra.ph/file/36f2a1bd2aaf902e4d1ff.jpg')).buffer();
     }    
     
     
