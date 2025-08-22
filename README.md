@@ -204,6 +204,12 @@ npm start
 </details>
 
 ---
+<p align="center">
+  <img
+    src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=800&center=true&vCenter=true&width=750&lines=📊+Estadísticas+de+Rin+Itoshi&color=FF1493"
+    alt="📊 Estadísticas Rin Itoshi"
+  />
+</p>
 
 <p align="center">
 
