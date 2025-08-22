@@ -4,7 +4,7 @@ let pp = 'https://files.catbox.moe/vwlhum.mp4';
     let pp3 = 'https://telegra.ph/file/062b9506656e89b069618.mp4';
     let pp4 = 'https://telegra.ph/file/1325494a54adc9a87ec56.mp4';
         
-   const videos = [pp, pp2, pp3, pp4, pp5, pp6, pp7];
+   const videos = [pp, pp2, pp3, pp4];
    const video = videos[Math.floor(Math.random() * videos.length)];
    
 let texto = `╭━━━〔 📌 𝙈𝙀𝙉𝙐 𝘿𝙀 𝙋𝙍𝙐𝘽𝘼 〕━━⬣
