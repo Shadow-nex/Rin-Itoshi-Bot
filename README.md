@@ -42,8 +42,8 @@
 
 <p align="center">
   <img
-    src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&amp;size=28&amp;duration=2500&amp;pause=800&amp;width=750&amp;lines=%F0%9F%A7%A9+%E1%B4%9B%E1%B4%98%C9%A2%C9%AA%E1%B4%8F%C9%B4%E1%B4%87s+%E1%B4%85%E1%B4%87+%CA%80%C9%AA%C9%B4+%C9%AA%E1%B4%9B%E1%B4%8Fs%CA%9C%C9%AA&amp;color=FF0000"
-    alt="🌱 FUNCIONES RIN ITOSHI"
+    src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=800&center=true&vCenter=true&width=750&lines=✨+Funciones+de+Rin+Itoshi&color=FF0000&color=FF7F00&color=FFFF00&color=00FF00&color=00FFFF&color=0000FF&color=8B00FF"
+    alt="✨ Funciones de Rin Itoshi"
   />
 </p>
 
