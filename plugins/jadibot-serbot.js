@@ -47,18 +47,18 @@ let rtx = `╭─〔 💠 𝗥𝗜𝗡 𝗜𝗧𝗢𝗦𝗛𝗜 - 𝗕𝗢𝗧 �
 │
 ├─⏳ *Este QR expira en:* *45 segundos*
 ╰━━━━━━━━━━━━━━━━━━━━━━━╯`;
-let rtx2 = `✧──── 〔 🔑 𝗦𝗨𝗕 𝗕𝗢𝗧 ~ 𝗖𝗢𝗗𝗘 〕────✧
+let rtx2 = `✧─── 〔 🔑 𝗦𝗨𝗕 𝗕𝗢𝗧 ~ 𝗖𝗢𝗗𝗘 〕───✧
 
-         📜 𝑷𝒂𝒔𝒐𝒔 𝒅𝒆 𝒄𝒐𝒏𝒆𝒙𝒊𝒐́𝒏 📜
-════════════════════════════
+      📜 𝑷𝒂𝒔𝒐𝒔 𝒅𝒆 𝒄𝒐𝒏𝒆𝒙𝒊𝒐́𝒏 📜
+══════════════════════
 🌱 ➊~ Pulsa los ⋮ tres puntos (arriba a la derecha)  
 🌀 ➋~ Entra en *Dispositivos vinculados*  
 🍂 ➌~ Selecciona *Vincular con número de teléfono*  
 🌷 ➍~ Ingresa tu *código especial* ⚡
-════════════════════════════
+═══════════════════════
 
-🚨 𝐀𝐯𝐢𝐬𝐨: *No uses tu cuenta principal* 💀
-✧────────────────────────────✧`;
+🚨 𝐀𝐯𝐢𝐬𝐨: *No uses tu cuenta principal* 🚀
+✧──────────────────────────✧`;
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -67,7 +67,7 @@ if (global.conns instanceof Array) console.log()
 else global.conns = []
 let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
 if (!globalThis.db.data.settings[conn.user.jid].jadibotmd)
-return m.reply(`☘️ El Comando *${command}* está desactivado temporalmente.`, m, fake)
+return m.reply(`${emoji3} El Comando *${command}* está desactivado temporalmente.`, m, fake)
 
 let time = global.db.data.users[m.sender].Subs + 120000
 if (new Date - global.db.data.users[m.sender].Subs < 120000) return conn.reply(m.chat, `${emoji} Debes esperar ${msToTime(time - new Date())} para volver a vincular un *Sub-Bot.*`, m, fake)

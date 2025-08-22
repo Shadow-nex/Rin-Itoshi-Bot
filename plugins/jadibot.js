@@ -57,7 +57,7 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
 > ✦ 🌱 \`ᴇɴ ʟɪɴᴇᴀ:\` ${bot.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - bot.uptime) : 'Desconocido'}`;
   }).join('\n\n');
 
-  const textoSubbots = `─〔 💖 𝐒𝐎𝐂𝐊𝐄𝐓𝐒 𝐀𝐂𝐓𝐈𝐕𝐎𝐒 🌀 〕─
+  const textoSubbots = ` ׂ      ᳕ㅤֺֺ   ִֶָ    ֺ    ꒰ ꒰ 💖 𝐒𝐎𝐂𝐊𝐄𝐓𝐒 𝐀𝐂𝐓𝐈𝐕𝐎𝐒 🌀 ꒱ ꒱ᅟׄᅟ  ᳕ㅤֺ 
 
 ⚽ *ᴛɪᴇᴍᴘᴏ ᴀᴄᴛɪᴠᴏ:* _[ ${rinuptime} ]_
 💖 *sᴇssɪᴏɴs ʟɪʙʀᴇs:* _[ ${disponibles} ]_

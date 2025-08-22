@@ -7,8 +7,9 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     let dia = moment.tz('America/Lima').locale('es').format('dddd')
     let comandos = Object.keys(global.plugins).length
     let readMore = String.fromCharCode(8206).repeat(4001)
-    let channel = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
-    let club = '⚡ *Powered by* » Sʜᴀᴅᴏᴡ•Core 𝖢𝗅𝗎𝖻 🌱'
+    let uptime = clockString(process.uptime() * 1000);
+    let totalreg = Object.keys(global.db.data.users).length
+
     let menu = `
 ╭━━━〔 *🔎 𝑴𝑬𝑵𝑼 𝑺𝑬𝑨𝑹𝑪𝑯* 〕━━⬣
 ┃ ⏰ 𝗛𝗼𝗿𝗮: *${hora}*
@@ -17,6 +18,8 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ┃ 👑 𝗖𝗿𝗲𝗮𝗱𝗼𝗿: *${creador}*
 ┃ ⚙️ 𝗣𝗿𝗲𝗳𝗶𝗷𝗼: *${usedPrefix}*
 ┃ 📂 𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀: *${comandos}*
+┃ 🌱 𝗥𝘂𝗻𝘁𝗶𝗺𝗲: *${uptime}*
+┃ 🚀 𝘂𝘀𝗲𝗿 𝗿𝗲𝗴𝘀: *${totalreg}*
 ╰━━━〔 *${bot}* 〕━━⬣
 
 ${readMore}
@@ -65,7 +68,7 @@ ${channel}
     await conn.sendMessage(m.chat, {
       image: { url: logo },
       caption: menu,
-      footer: club,
+      footer: '⚡ *Powered by* » Sʜᴀᴅᴏᴡ•Core 𝖢𝗅𝗎𝖻 🌱',
       buttons: [
         { buttonId: `${usedPrefix}owner`, buttonText: { displayText: "👑 Creador" }, type: 1 },
         { buttonId: `${usedPrefix}menu`, buttonText: { displayText: "📜 Menú Completo" }, type: 1 }
@@ -101,3 +104,10 @@ handler.tags = ['menus']
 handler.command = ['menusearch', 'menuse']
 
 export default handler
+
+function clockString(ms) {
+  let h = isNaN(ms) ? '--' : Math.floor(ms / 3600000);
+  let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60;
+  let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60;
+  return [h, m, s].map(v => v.toString().padStart(2, '0')).join(':');
+}
