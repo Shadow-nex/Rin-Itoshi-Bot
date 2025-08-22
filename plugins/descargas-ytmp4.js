@@ -95,6 +95,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 
   await m.react('📀');
+  await m.reply('🌸 *𝐄𝐥 𝐯𝐢𝐝𝐞𝐨 𝐬𝐞 𝐞𝐬𝐭𝐚́ 𝐞𝐧𝐯𝐢𝐚𝐧𝐝𝐨... 𝚊𝚠𝚞𝚞~* 🌸');
 
   try {
     const search = await yts({ query: text, pages: 1 });
@@ -166,8 +167,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃ 🌱 *𝕡𝕦𝕓𝕝𝕚𝕔𝕒𝕕𝕠:* ${ago}
 ┃ 🔗 *𝕝𝕚𝕟𝕜:* ${videoUrl}
 ┃
-╰━━━━━━⬣
-🌸 *𝐄𝐥 𝐯𝐢𝐝𝐞𝐨 𝐬𝐞 𝐞𝐬𝐭𝐚́ 𝐞𝐧𝐯𝐢𝐚𝐧𝐝𝐨... 𝚊𝚠𝚞𝚞~* 🌸`; // `*💌 ${titleVid}*\n> ⚖️ Peso: ${formatSize(size)}\n> 🌎 URL: ${text}`;
+╰━━━━━━⬣`; // `*💌 ${titleVid}*\n> ⚖️ Peso: ${formatSize(size)}\n> 🌎 URL: ${text}`;
     const isSmallVideo = size < VIDEO_THRESHOLD;
 
     const buffer = await (await fetch(url)).buffer();
