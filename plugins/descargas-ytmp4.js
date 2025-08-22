@@ -100,7 +100,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     const search = await yts({ query: text, pages: 1 });
     const video = search.videos[0];
     const { title, timestamp, views, ago, author, thumbnail, url: videoUrl } = video || {};
-
+/*
     const textoInfo = `🌸✨╭━━━⬣ 『 🎲 𝒀𝑶𝑼𝑻𝑼𝑩𝐸 - 𝑴𝑷4 』⬣━━━╮✨🌸
 ┃
 ┃ 🍃 *𝕋𝕚𝕥𝕦𝕝𝕠:* ${title}
@@ -135,7 +135,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
           sourceUrl: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U"
         }
       }
-    }, { quoted: m });
+    }, { quoted: m });*/
 
     const { url, title: titleVid } = await ytdl(text);
     const size = await getSize(url);
@@ -157,7 +157,17 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     await m.react('✅️');
 
-    const caption = `*💌 ${titleVid}*\n> ⚖️ Peso: ${formatSize(size)}\n> 🌎 URL: ${text}`;
+    const caption =`🌸✨╭━━━⬣ 『 🎲 𝒀𝑶𝑼𝑻𝑼𝑩𝐸 - 𝑴𝑷4 』⬣━━━╮✨🌸
+┃
+┃ 🍃 *𝕋𝕚𝕥𝕦𝕝𝕠:* ${title}
+┃ ⏳ *𝔻𝕦𝕣𝕒𝕔𝕚ó𝕟:* ${formatDuration(timestamp)}
+┃ 🍰 *𝕔𝕒𝕟𝕒𝕝:* ${author?.name}
+┃ 👀 *𝕧𝕚𝕤𝕥𝕒𝕤:* ${formatViews(views)}
+┃ 🌱 *𝕡𝕦𝕓𝕝𝕚𝕔𝕒𝕕𝕠:* ${ago}
+┃ 🔗 *𝕝𝕚𝕟𝕜:* ${videoUrl}
+┃
+╰━━━━━━⬣
+🌸 *𝐄𝐥 𝐯𝐢𝐝𝐞𝐨 𝐬𝐞 𝐞𝐬𝐭𝐚́ 𝐞𝐧𝐯𝐢𝐚𝐧𝐝𝐨... 𝚊𝚠𝚞𝚞~* 🌸`; // `*💌 ${titleVid}*\n> ⚖️ Peso: ${formatSize(size)}\n> 🌎 URL: ${text}`;
     const isSmallVideo = size < VIDEO_THRESHOLD;
 
     const buffer = await (await fetch(url)).buffer();
