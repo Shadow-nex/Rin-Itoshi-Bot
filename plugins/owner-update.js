@@ -6,7 +6,6 @@ let handler = async (m, { conn }) => {
 
   exec('git pull', (err, stdout, stderr) => {
     if (err) {
-      await m.react('😼')
       conn.reply(m.chat, `${msm} Error: No se pudo realizar la actualización.\nRazón: ${err.message}`, m);
       return;
     }
@@ -16,7 +15,6 @@ let handler = async (m, { conn }) => {
     }
 
     if (stdout.includes('Already up to date.')) {
-       await m.react('🚀')
       conn.reply(m.chat, `⚽ 𝒆𝒍 𝒃𝒐𝒕 𝒚𝒂 𝒆𝒔𝒕𝒂 𝒂𝒄𝒕𝒖𝒂𝒍𝒊𝒛𝒂𝒅𝒐.`, m);
     } else {
        await m.react('⚽')
