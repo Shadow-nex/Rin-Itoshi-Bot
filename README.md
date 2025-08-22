@@ -40,8 +40,7 @@
 
 ---
 
-<p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=800&center=true&vCenter=true&width=750&lines=%F0%9F%A7%A9+%E1%B4%9B%E1%B4%98%C9%A2%C9%AA%E1%B4%8F%C9%B4%E1%B4%87s+%E1%B4%85%E1%B4%87+%CA%80%C9%AA%C9%B4+%C9%AA%E1%B4%9B%E1%B4%8Fs%CA%9C%C9%AA&color=FF0000" alt="🧩 ғᴜɴᴄɪᴏɴᴇs ᴅᴇ ʀɪɴ ɪᴛᴏsʜɪ"/>
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=800&center=true&vCenter=true&width=750&lines=%F0%9F%A7%A9+%E1%B4%9B%E1%B4%98%C9%A2%C9%AA%E1%B4%8F%C9%B4%E1%B4%87s+%E1%B4%85%E1%B4%87+%CA%80%C9%AA%C9%B4+%C9%AA%E1%B4%9B%E1%B4%8Fs%CA%9C%C9%AA&color=FF0000" alt="🧩 FUNCIONES DE RIN ITOSHI"/>
 </p>
 
 <details>
@@ -74,8 +73,7 @@
 
 ---
 
-<p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=800&center=true&vCenter=true&width=650&lines=%E2%9E%AE%F0%9F%93%B1%20Instalaci%C3%B3n%20por%20termux&color=00E5FF" alt="➮📱 Instalación por termux"/>
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=800&center=true&vCenter=true&width=650&lines=%E2%9E%AE%F0%9F%93%B1%20Instalaci%C3%B3n%20por%20termux&color=00E5FF" alt="➮📱 Instalación por termux"/>
 </p>
 
 ### **`✧ Click en la imagen para descargar termux ✧`**
@@ -156,8 +154,7 @@ cd Rin-Itoshi-Bot && nano config.js
 
 ---
 
-<p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=26&duration=2500&pause=800&center=true&vCenter=true&width=700&lines=%F0%9F%94%A5+Instalaci%C3%B3n+por+cloudshell&color=32CD32" alt="🔥 Instalación por cloudshell"/>
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=26&duration=2500&pause=800&center=true&vCenter=true&width=700&lines=%F0%9F%94%A5+Instalaci%C3%B3n+por+cloudshell&color=32CD32" alt="🔥 Instalación por cloudshell"/>
 </p>
 
 <details>
@@ -198,8 +195,7 @@ npm start
 
 ---
 
-<p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=800&center=true&vCenter=true&width=800&lines=%F0%9F%93%8A+Estad%C3%ADsticas+del+Repositorio+%F0%9F%8C%88&color=FF00FF,00FFFF,FFFF00,00FF00,FF4500" alt="📊 Estadísticas del Repositorio 🌈"/>
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=800&center=true&vCenter=true&width=800&lines=%F0%9F%93%8A+Estad%C3%ADsticas+del+Repositorio+%F0%9F%8C%88&color=FF00FF,00FFFF,FFFF00,00FF00,FF4500" alt="📊 Estadísticas del Repositorio 🌈"/>
 </p>
 
 <p align="center">
