@@ -707,8 +707,7 @@ ${readMore}
 °•. ✿ .•°°•. ✿ .•°°•. ✿ .•°°•. ✿ .•°°•. ✿ .•°°•. ✿ .•°°•. ✿ .•°`.trim()
     await m.react('🍂')
     await conn.sendMessage(m.chat, {
-      //image: { url: 'https://files.catbox.moe/g2of9q.jpg' },
-      video: { url: "https://files.catbox.moe/81wrse.mp4" },
+      image: { url: 'https://files.catbox.moe/g2of9q.jpg' },
       caption: menuText,
       footer: club,
       buttons: [
