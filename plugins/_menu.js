@@ -1,8 +1,8 @@
-let handler = async (m, { conn }) => {
-let pp = 'https://files.catbox.moe/vwlhum.mp4'; 
-    let pp2 = 'https://telegra.ph/file/a11625fef11d628d3c8df.mp4'; 
-    let pp3 = 'https://telegra.ph/file/062b9506656e89b069618.mp4';
-    let pp4 = 'https://telegra.ph/file/1325494a54adc9a87ec56.mp4';
+/*let handler = async (m, { conn }) => {
+    let pp = 'https://files.catbox.moe/vwlhum.mp4'; 
+    let pp2 = 'https://files.catbox.moe/tc1zxx.mp4'; 
+    let pp3 = 'https://files.catbox.moe/o3ggg8.mp4';
+    let pp4 = 'https://files.catbox.moe/uzi4do.mp4';
         
    const videos = [pp, pp2, pp3, pp4];
    const video = videos[Math.floor(Math.random() * videos.length)];
@@ -29,4 +29,37 @@ await conn.sendMessage(m.chat, {
 }
 
 handler.command = /^menuppp$/i
+export default handler*/
+
+
+let handler = async (m, { conn }) => {
+  // Lista de videos cortos (tipo gif)
+  const videos = [
+    'https://files.catbox.moe/vwlhum.mp4',
+    'https://files.catbox.moe/tc1zxx.mp4',
+    'https://files.catbox.moe/o3ggg8.mp4',
+    'https://files.catbox.moe/uzi4do.mp4'
+  ]
+
+  // Lista de captions decorados
+  const captions = [
+    '✨ Aquí tienes tu animación mágica!',
+    '🔥 Disfruta este loop animado!',
+    '🎬 Un gif con estilo para ti!',
+    '💫 Movimiento infinito cargado!'
+  ]
+
+  // Elegir un video y caption aleatorio
+  const video = videos[Math.floor(Math.random() * videos.length)]
+  const caption = captions[Math.floor(Math.random() * captions.length)]
+
+  // Enviar como “GIF animado”
+  await conn.sendMessage(m.chat, {
+    video: { url: video },
+    gifPlayback: true,
+    caption: caption
+  }, { quoted: m })
+}
+
+handler.command = /^gifprueba$/i
 export default handler

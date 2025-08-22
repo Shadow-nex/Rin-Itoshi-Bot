@@ -15,24 +15,15 @@ let handler = async (m, { conn, args }) => {
     let uptime = clockString(_uptime)
     let totalreg = Object.keys(global.db.data.users).length
     let totalCommands = Object.keys(global.plugins).length
-/*    
-    // Lista de videos (mp4 cortos que simulan gifs)
-const videos = [
-  'https://files.catbox.moe/vwlhum.mp4',
-  'https://files.catbox.moe/tc1zxx.mp4',
-  'https://files.catbox.moe/o3ggg8.mp4',
-  'https://files.catbox.moe/uzi4do.mp4'
-];
-
-// Elegir uno aleatorio
-const video = videos[Math.floor(Math.random() * videos.length)];
-
-// Enviar como “GIF” (video loop sin sonido)
-await conn.sendMessage(m.chat, {
-  video: { url: video },
-  gifPlayback: true,
-  caption: `✨ Aquí tienes tu animación!`
-}, { quoted: m });*/
+    
+    /*
+    let pp = 'https://files.catbox.moe/vwlhum.mp4'; 
+    let pp2 = 'https://telegra.ph/file/a11625fef11d628d3c8df.mp4'; 
+    let pp3 = 'https://telegra.ph/file/062b9506656e89b069618.mp4';
+    let pp4 = 'https://telegra.ph/file/1325494a54adc9a87ec56.mp4';
+        
+   const videos = [pp, pp2, pp3, pp4, pp5, pp6, pp7];
+   const video = videos[Math.floor(Math.random() * videos.length)];*/
 
     const imgRandom = [
       "https://iili.io/FKVDVAN.jpg",
