@@ -77,7 +77,10 @@
 
 ---
 
-<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=800&center=true&vCenter=true&width=650&lines=%E2%9E%AE%F0%9F%93%B1%20Instalaci%C3%B3n%20por%20termux&color=00E5FF" alt="➮📱 Instalación por termux"/>
+<p align="center">
+  <img
+    src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=800&center=true&vCenter=true&width=650&lines=%E2%9E%AE%F0%9F%93%B1%20Instalaci%C3%B3n%20por%20termux&color=00E5FF" alt="➮📱 Instalación por termux"
+  />
 </p>
 
 ### **`✧ Click en la imagen para descargar termux ✧`**
@@ -158,7 +161,10 @@ cd Rin-Itoshi-Bot && nano config.js
 
 ---
 
-<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=26&duration=2500&pause=800&center=true&vCenter=true&width=700&lines=%F0%9F%94%A5+Instalaci%C3%B3n+por+cloudshell&color=32CD32" alt="🔥 Instalación por cloudshell"/>
+<p align="center">
+  <img 
+    src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=26&duration=2500&pause=800&center=true&vCenter=true&width=700&lines=%F0%9F%94%A5+Instalaci%C3%B3n+por+cloudshell&color=32CD32" alt="🔥 Instalación por cloudshell"
+  />
 </p>
 
 <details>
@@ -199,29 +205,26 @@ npm start
 
 ---
 
-<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=800&center=true&vCenter=true&width=800&lines=%F0%9F%93%8A+Estad%C3%ADsticas+del+Repositorio+%F0%9F%8C%88&color=FF00FF,00FFFF,FFFF00,00FF00,FF4500" alt="📊 Estadísticas del Repositorio 🌈"/>
-</p>
-
 <p align="center">
-  
+
   <!-- Popularidad -->
-  <img src="https://badgen.net/github/stars/Yuji-XDev/Rin-Itoshi-Bot?icon=github&color=yellow" alt="Stars"/>
-  <img src="https://badgen.net/github/forks/Yuji-XDev/Rin-Itoshi-Bot?icon=github&color=blue" alt="Forks"/>
-  <img src="https://badgen.net/github/watchers/Yuji-XDev/Rin-Itoshi-Bot?icon=github&color=green" alt="Watchers"/>
+  <img src="https://img.shields.io/github/stars/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=yellow" alt="Stars"/>
+  <img src="https://img.shields.io/github/forks/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=blue" alt="Forks"/>
+  <img src="https://img.shields.io/github/watchers/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=green" alt="Watchers"/>
 
   <br><br>
 
   <!-- Actividad -->
-  <img src="https://badgen.net/github/commits/m/Yuji-XDev/Rin-Itoshi-Bot?icon=git&color=orange" alt="Commits"/>
-  <img src="https://badgen.net/github/contributors/Yuji-XDev/Rin-Itoshi-Bot?icon=github&color=purple" alt="Contribuidores"/>
-  <img src="https://badgen.net/github/open-issues/Yuji-XDev/Rin-Itoshi-Bot?icon=github&color=red" alt="Issues"/>
+  <img src="https://img.shields.io/github/commit-activity/m/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=git&color=orange" alt="Commits"/>
+  <img src="https://img.shields.io/github/contributors/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=purple" alt="Contribuidores"/>
+  <img src="https://img.shields.io/github/issues/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=red" alt="Issues"/>
 
   <br><br>
 
   <!-- Info extra -->
-  <img src="https://badgen.net/github/release/Yuji-XDev/Rin-Itoshi-Bot?icon=tag&color=pink" alt="Version"/>
-  <img src="https://badgen.net/github/last-commit/Yuji-XDev/Rin-Itoshi-Bot?icon=github&color=cyan" alt="Último Commit"/>
-  <img src="https://badgen.net/github/size/Yuji-XDev/Rin-Itoshi-Bot?icon=database&color=lime" alt="Repo Size"/>
+  <img src="https://img.shields.io/github/v/release/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=tag&color=pink" alt="Version"/>
+  <img src="https://img.shields.io/github/last-commit/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=cyan" alt="Último Commit"/>
+  <img src="https://img.shields.io/github/repo-size/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=database&color=lime" alt="Repo Size"/>
 
 </p>
 
