@@ -714,11 +714,10 @@ ${readMore}
 > 🌷 ➊ *#qr* – Escanea un 𝖢𝗈𝖽𝗂𝗀𝗈 𝗤𝗥  
 > 🔐 ➋ *#code* – Usa un 𝖢𝗈𝖽𝗂𝗀𝗈 de 8 dígitos
 °•. ✿ .•°°•. ✿ .•°°•. ✿ .•°°•. ✿ .•°°•. ✿ .•°°•. ✿ .•°°•. ✿ .•°`.trim()
-    await m.react('⚽')
+    await m.react('🌱')
     await conn.sendMessage(m.chat, {
-      //image: { url: 'https://files.catbox.moe/g2of9q.jpg' },
       video: { url: video },
-      gifPlayback: true,
+      //gifPlayback: true,
       caption: menuText,
       footer: club,
       buttons: [
