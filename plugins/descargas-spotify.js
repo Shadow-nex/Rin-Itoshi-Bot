@@ -92,87 +92,65 @@ handler.register = true;
 
 export default handler;*/
 
-import axios from 'axios';
+import fetch from 'node-fetch';
 
-let handler = async (m, { conn, text }) => {
-
-  if (!text) return m.reply(`🍂 Ingresa el nombre de una canción o una URL de Spotify.`);
+let handler = async (m, { conn, text, command }) => {
+  if (!text) {
+    return m.reply(`🎵 Ingresa el nombre o URL de una canción de Spotify.\n\nEjemplo:\n.${command} https://open.spotify.com/track/6UR5tB1wVm7qvH4xfsHr8m\n.${command} Carla Morrison Disfruto`);
+  }
 
   try {
-    let song;
-    const isSpotifyUrl = text.startsWith('https://open.spotify.com/');
-    if (isSpotifyUrl) {
-      song = { url: text };
-    } else {
-      const results = await spotifyxv(text);
-      if (!results.length) return m.reply('No se encontró la canción.');
-      song = results[0];
+    // Si es un link directo de Spotify
+    let spotifyUrl = text.startsWith("https://open.spotify.com/track/") 
+      ? text 
+      : null;
+
+    // Si no es URL, buscar en Spotify usando API de búsqueda gratis
+    if (!spotifyUrl) {
+      let search = await fetch(`https://api.dorratz.com/spotifysearch?text=${encodeURIComponent(text)}`);
+      let sdata = await search.json();
+      if (!sdata || !sdata.data || sdata.data.length === 0) {
+        return m.reply("❌ No encontré resultados en Spotify.");
+      }
+      spotifyUrl = sdata.data[0].url; // primer resultado
     }
 
-    await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } });
-     
-    const res = await axios.get(`https://api.stellarwa.xyz/dow/spotify?url=${song.url}&apikey=proyectsV2`);
-    const data = res.data?.data;
-    if (!data?.download) return m.reply('No se pudo obtener el enlace de descarga.');
+    // Descargar canción desde la API
+    let res = await fetch(`https://api.dorratz.com/spotifydl?url=${spotifyUrl}`);
+    let json = await res.json();
 
-    const info = `[ ✿ ] Descargando › *${data.title}*\n\n` +
-                 `> [✩] Artista › *${data.artist}*\n` +
-                 (song.album ? `> ✰ Álbum › *${song.album}*\n` : '') +
-                 `> 🌱 Duración › *${data.duration}*\n` +
-                 `> 🍂 Enlace › *${song.url}*`;
+    if (!json.download_url) {
+      return m.reply("⚠️ No se pudo obtener el enlace de descarga.");
+    }
 
-    await conn.sendMessage(m.chat, { image: { url: data.image }, caption: info }, { quoted: m });
-    
-    
+    let caption = `╭━━━〔 🎶 SPOTIFY DL 〕━━⬣
+┃✨ *Título:* ${json.name}
+┃🎤 *Artista:* ${json.artists}
+┃⏱️ *Duración:* ${(json.duration_ms / 60000).toFixed(2)} min
+┃📀 *By:* ${json.creator}
+╰━━━━━━━━━━━━━━━━⬣`;
+
+    // Enviar portada + info
     await conn.sendMessage(m.chat, {
-      audio: { url: data.download },
-      ptt: true,
-      fileName: `${data.title}.mp3`,
-      mimetype: 'audio/mpeg'
+      image: { url: json.image },
+      caption
     }, { quoted: m });
-    
-    /*await conn.sendMessage(m.chat, {
-      audio: { url: data.download },
-      mimetype: 'audio/mpeg',
-      ptt: true,
-      fileName: `${data.title}.mp3`,
-      contextInfo: {
-        externalAdReply: {
-          title: data.title,
-          body: `Duración: ${data.duration}`,
-          mediaType: 1,
-          thumbnailUrl: data.image,
-          mediaUrl: song.url,
-          sourceUrl: song.url,
-          renderLargerThumbnail: true
-        }
-      }
-    }, { quoted: m });*/
-    
-    await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
+
+    // Enviar canción
+    await conn.sendMessage(m.chat, {
+      audio: { url: json.download_url },
+      mimetype: "audio/mpeg",
+      fileName: `${json.name}.mp3`
+    }, { quoted: m });
 
   } catch (e) {
-    await m.reply('❌ Error al procesar la canción.');
+    console.error(e);
+    m.reply("❌ Error al procesar la canción.");
   }
 };
 
-handler.tags = ['descargas'];
-handler.help = ['spotify'];
-handler.command = ['spotify'];
+handler.help = ["spotify <url|texto>"];
+handler.tags = ["descargas"];
+handler.command = /^spotify(dl)?$/i;
+
 export default handler;
-
-async function spotifyxv(query) {
-  const res = await axios.get(`https://api.stellarwa.xyz/search/spotify?query=${encodeURIComponent(query)}&apikey=proyectsV2`);
-  if (!res.data?.status || !res.data?.data?.length) return [];
-
-  const firstTrack = res.data.data[0];
-
-  return [{
-    name: firstTrack.title,
-    artista: [firstTrack.artist],
-    album: firstTrack.album,
-    duracion: firstTrack.duration,
-    url: firstTrack.url,
-    imagen: firstTrack.image || ''
-  }];
-}
