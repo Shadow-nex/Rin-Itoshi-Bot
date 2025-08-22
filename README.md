@@ -236,8 +236,12 @@ npm start
 
 ---
 
-<div align="center">
-  <h1 align="center">EDITOR Y PROPIETARIO DEL BOT</h1>
+<p align="center">
+  <img
+    src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=800&center=true&vCenter=true&width=750&lines=EDITOR+Y+PROPIETARIO+DEL+BOT;EDITOR+Y+PROPIETARIO+DEL+BOT;EDITOR+Y+PROPIETARIO+DEL+BOT;EDITOR+Y+PROPIETARIO+DEL+BOT&color=FF0000&color=00FF00&color=FFFF00&color=800080"
+    alt="EDITOR Y PROPIETARIO DEL BOT"
+  />
+</p>
 
 <a href="https://github.com/Yuji-XDev"><img src="https://github.com/Yuji-XDev.png" width="300" height="300" alt="Yuji-XDev"/></a>
 
