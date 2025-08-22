@@ -15,24 +15,15 @@ let handler = async (m, { conn, args }) => {
     let uptime = clockString(_uptime)
     let totalreg = Object.keys(global.db.data.users).length
     let totalCommands = Object.keys(global.plugins).length
-/*    
-    // Lista de videos (mp4 cortos que simulan gifs)
-const videos = [
-  'https://files.catbox.moe/vwlhum.mp4',
-  'https://files.catbox.moe/tc1zxx.mp4',
-  'https://files.catbox.moe/o3ggg8.mp4',
-  'https://files.catbox.moe/uzi4do.mp4'
-];
 
-// Elegir uno aleatorio
-const video = videos[Math.floor(Math.random() * videos.length)];
-
-// Enviar como “GIF” (video loop sin sonido)
-await conn.sendMessage(m.chat, {
-  video: { url: video },
-  gifPlayback: true,
-  caption: `✨ Aquí tienes tu animación!`
-}, { quoted: m });*/
+    let videos = [
+        'https://files.catbox.moe/vwlhum.mp4',
+        'https://files.catbox.moe/tc1zxx.mp4',
+        'https://files.catbox.moe/o3ggg8.mp4',
+        'https://files.catbox.moe/uzi4do.mp4'
+    ]
+  
+    let video = videos[Math.floor(Math.random() * videos.length)]
 
     const imgRandom = [
       "https://iili.io/FKVDVAN.jpg",
@@ -723,10 +714,11 @@ ${readMore}
 > 🌷 ➊ *#qr* – Escanea un 𝖢𝗈𝖽𝗂𝗀𝗈 𝗤𝗥  
 > 🔐 ➋ *#code* – Usa un 𝖢𝗈𝖽𝗂𝗀𝗈 de 8 dígitos
 °•. ✿ .•°°•. ✿ .•°°•. ✿ .•°°•. ✿ .•°°•. ✿ .•°°•. ✿ .•°°•. ✿ .•°`.trim()
-    await m.react('🍂')
+    await m.react('⚽')
     await conn.sendMessage(m.chat, {
       //image: { url: 'https://files.catbox.moe/g2of9q.jpg' },
-      video: { url: "https://files.catbox.moe/81wrse.mp4" },
+      video: { url: video },
+      gifPlayback: true,
       caption: menuText,
       footer: club,
       buttons: [
