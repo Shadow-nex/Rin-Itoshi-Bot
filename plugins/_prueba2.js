@@ -1,3 +1,5 @@
+//codigo creador x dv.shadow xd
+
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text, command }) => {
@@ -6,7 +8,6 @@ let handler = async (m, { conn, text, command }) => {
   }
 
   try {
-    // Llamar API pix-ai
     let res = await fetch(`https://api.dorratz.com/v2/pix-ai?prompt=${encodeURIComponent(text)}`);
     let json = await res.json();
 
@@ -14,10 +15,9 @@ let handler = async (m, { conn, text, command }) => {
       return m.reply("⚠️ No se generaron imágenes, intenta con otra descripción.");
     }
 
-    // Enviar imágenes generadas
     let caption = `╭━━━〔 🎨 PIX-AI 〕━━⬣
 ┃✨ *Prompt:* ${text}
-┃📀 *By:* ${json.creator}
+┃📀 *By:* ${dev}
 ╰━━━━━━━━━━━━━━━━⬣`;
 
     await conn.sendMessage(m.chat, {
@@ -25,7 +25,6 @@ let handler = async (m, { conn, text, command }) => {
       caption
     }, { quoted: m });
 
-    // Mandar las demás imágenes sin repetir texto
     for (let i = 1; i < json.images.length; i++) {
       await conn.sendMessage(m.chat, {
         image: { url: json.images[i] }
