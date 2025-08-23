@@ -5,7 +5,7 @@ import sharp from 'sharp'
 let handler = async (m, { conn, usedPrefix, command }) => {
   try {
     // Imagen de prueba
-    const imgenUrl = logo // Cambia a tu imagen
+    const imgenUrl = 'https://files.catbox.moe/9l7hcn.jpg' // Cambia a tu imagen
     const imgBuffer = await (await fetch(imgenUrl)).buffer()
 
     // Crear miniatura JPG
@@ -33,7 +33,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 
     // Mensaje con video + botones
     await conn.sendMessage(m.chat, {
-      video: { url: 'https://files.catbox.moe/uzi4do.mp4' }, // Cambia a tu video
+      video: { url: 'https://files.catbox.moe/vwlhum.mp4' }, // Cambia a tu video
       caption: menuText,
       footer: '🌿 Rin Itoshi Bot',
       buttons: [
