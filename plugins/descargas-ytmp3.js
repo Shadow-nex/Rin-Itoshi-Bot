@@ -50,10 +50,10 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
           externalAdReply: {
             title: meta.title || video.title,
             body: "📥 Descargando desde YouTube",
-            thumbnailUrl: meta.thumbnail || video.thumbnail,
+            thumbnailUrl: logo,
             sourceUrl: meta.url || video.url,
             mediaType: 1,
-            renderLargerThumbnail: true
+            renderLargerThumbnail: false
           }
         }
       },
@@ -75,7 +75,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
           sourceUrl: video.url,
           thumbnailUrl: video.thumbnail,
           mediaType: 1,
-          renderLargerThumbnail: true
+          renderLargerThumbnail: false
         }
       }
     }, { quoted: m })
