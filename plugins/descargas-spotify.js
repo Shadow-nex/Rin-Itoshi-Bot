@@ -1,11 +1,11 @@
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  const thumbnailCard = 'https://qu.ax/phgPU.jpg';
+  const thumbnailCard = icono;
   
   if (!text) {
     return conn.sendMessage(m.chat, {
-      text: `🎵 *Escribe el nombre de una canción o pega el enlace de Spotify.*\nEjemplo:\n${usedPrefix + command} DJ Opus`,
+      text: `🌲 *Escribe el nombre de una canción o pega el enlace de Spotify.*\nEjemplo:\n${usedPrefix + command} DJ Opus`,
       footer: '🔍 Buscar y descargar vía Vreden API',
       contextInfo: {
         externalAdReply: {
@@ -53,8 +53,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     // Enviar información del track con imagen
     await conn.sendMessage(m.chat, {
       image: { url: track.cover || thumbnailCard },
-      caption: `🎶 *${track.title}*\n👤 Artista: ${track.artists}\n📀 Tipo: ${track.type}\n📅 Lanzamiento: ${track.releaseDate || 'No disponible'}\n🎧 Enviando audio...`,
-      footer: '🟢 Extraído vía Vreden API',
+      caption: `🌾 título: *${track.title}*\n🔥 Artista: ${track.artists}\n📀 Tipo: ${track.type}\n📅 Lanzamiento: ${track.releaseDate || 'No disponible'}\n🎧 Enviando audio...`,
+      footer: dev,
       contextInfo: {
         externalAdReply: {
           title: track.title,
