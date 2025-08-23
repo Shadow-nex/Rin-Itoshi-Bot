@@ -150,38 +150,7 @@ Ahora formas parte de la comunidad oficial de *Rin Itoshi Bot* ⚡`.trim();
       }
     },
     { quoted: m });
-    
-    let user = global.db.data.users[m.sender] || {};
-    let perfil = await conn.profilePictureUrl(m.sender, "image").catch(_ => logo);
-    let about = (await conn.fetchStatus(m.sender).catch(_ => {}))?.status || "Sin descripción";
-    user.descripcion = about;
-    let fechaBio = moment.tz("America/Bogota").format("DD/MM/YYYY HH:mm");  
-    if (!user.sn) user.sn = Math.floor(Math.random() * 1000000);
-    let chtxt = `⚔️ੈ₊˚༅༴│.👤 *Usuario* » ${m.pushName || "Anónimo"}
-🆔ੈ₊˚༅༴│.🔑 *ID* » ${m.sender}
-⚡ੈ₊˚༅༴│.🍰 *Verificación* » ${user.name || "Sin nombre"}
-🍬ੈ₊˚༅༴│.⚙️ *Edad* » ${user.age || "Sin definir"} años
-☁️ੈ₊˚༅༴│.⌨️ *Descripción* » ${about}
-🍧ੈ₊˚༅༴│.📇 *Última Modificación* » ${fechaBio}
-🍫ੈ₊˚༅༴│.📆 *Fecha* » ${moment.tz("America/Lima").format("DD/MM/YY")}
-❄️ੈ₊˚༅༴│.🌸 *Número de registro* »
-⤷ ${user.sn}`;
-
-    await conn.sendMessage('120363402970883180@g.us', {
-      text: chtxt,
-      contextInfo: {
-        externalAdReply: {
-          title: "【 🌹 NOTIFICACIÓN ⚔️ 】",
-          body: "😊 ¡Un usuario nuevo ha sido verificado!",
-          thumbnailUrl: perfil,
-          sourceUrl: redes,
-          mediaType: 1,
-          showAdAttribution: false,
-          renderLargerThumbnail: false,
-        },
-      },
-    });
-};
+  };
 
 handler.help = ['reg']
 handler.tags = ['rg']
