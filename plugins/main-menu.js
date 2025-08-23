@@ -747,7 +747,7 @@ ${readMore}
       ],
       headerType: 4,
       contextInfo: {      
-      jpegThumbnail: thumb2,
+      jpegThumbnail: thumb,
         mentionedJid: [m.sender],
         isForwarded: true,
         forwardedNewsletterMessageInfo: {

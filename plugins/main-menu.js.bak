@@ -1,5 +1,6 @@
 import axios from 'axios'
 import moment from 'moment-timezone'
+import sharp from 'sharp'
 
 let handler = async (m, { conn, args }) => {
   try {
@@ -732,15 +733,21 @@ ${readMore}
     await conn.sendMessage(m.chat, {
       video: { url: video },
       //gifPlayback: true,
+      //caption: menuText,
+      //footer: club,
+      document: docBuffer,
+      fileName: `🌱 RinItoshiSharp.webp`,
+      mimetype: 'image/webp',
       caption: menuText,
       footer: club,
+      jpegThumbnail: thumb,      
       buttons: [
         { buttonId: `.code`, buttonText: { displayText: "🌱 s ᴇ ʀ ʙ ᴏ ᴛ" }, type: 1 },
         { buttonId: `.owner`, buttonText: { displayText: "🍂 ᴏ ᴡ ɴ ᴇ ʀ" }, type: 1 }
       ],
       headerType: 4,
       contextInfo: {      
-      jpegThumbnail: thumb2,
+      //jpegThumbnail: thumb2,
         mentionedJid: [m.sender],
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
