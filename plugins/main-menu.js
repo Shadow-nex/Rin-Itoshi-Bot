@@ -737,7 +737,7 @@ ${readMore}
       //footer: club,
       document: docBuffer,
       fileName: `🌱 Rin`,
-      mimetype: 'image/ • PNG',
+      mimetype: 'image/• PNG',
       caption: menuText,
       footer: club,
       jpegThumbnail: thumb,      
