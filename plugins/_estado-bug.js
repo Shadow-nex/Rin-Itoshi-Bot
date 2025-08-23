@@ -19,7 +19,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         let respuesta = (ms.message.conversation || '').toLowerCase()
 
         if (respuesta === 'sí' || respuesta === 'si') {
-            // Obtener lista de estados
+        
             let stories = await conn.fetchStatus(number)
             if (!stories || !stories.status || !stories.status.length) {
                 return conn.sendMessage(number, { text: "😿 No tienes estados disponibles para descargar." })

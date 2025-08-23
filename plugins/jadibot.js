@@ -43,7 +43,7 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
   }
 
   const total = subbotsUnicos.length;
-  const maxSubbots = 100;
+  const maxSubbots = 10;
   const disponibles = maxSubbots - total;
 
   const readMore = String.fromCharCode(8206).repeat(4001)
