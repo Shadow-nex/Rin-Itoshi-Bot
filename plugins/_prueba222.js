@@ -1,70 +1,57 @@
-// plugins/menu_sharp.js
-import fetch from 'node-fetch'
-import sharp from 'sharp'
+// plugins/verify.js
+import moment from "moment-timezone";
 
-let handler = async (m, { conn, usedPrefix }) => {
+let handler = async (m, { conn, usedPrefix, command }) => {
   try {
-    // Imagen de prueba
-    const imgenUrl = logo // define tu variable logo en config.js o cámbiala a una URL directa
-    const imgBuffer = await (await fetch(imgenUrl)).buffer()
+    // Obtener datos del usuario desde tu base
+    let user = global.db.data.users[m.sender] || {};
+    let perfil = await conn.profilePictureUrl(m.sender, "image").catch(_ => "https://telegra.ph/file/24fa902ead26340f3df2c.png");
+    let about = (await conn.fetchStatus(m.sender).catch(_ => {}))?.status || "Sin descripción";
 
-    // Crear miniatura JPG
-    const thumb = await sharp(imgBuffer)
-      .resize(400, 400)
-      .jpeg({ quality: 70 })
-      .toBuffer()
+    // Guardar descripción en la base
+    user.descripcion = about;
 
-    // Crear versión WebP (será el documento)
-    const docBuffer = await sharp(imgBuffer)
-      .webp({ quality: 90 })
-      .toBuffer()
+    // Fecha de verificación
+    let fechaBio = moment.tz("America/Bogota").format("DD/MM/YYYY HH:mm");
 
-    // Reacción al mensaje
-    await m.react('🌷')
+    // ID / Número de registro
+    if (!user.sn) user.sn = Math.floor(Math.random() * 1000000);
 
-    // Texto del menú
-    let menuText = `
-╭━━━〔 🌱 𝙈𝙀𝙉𝙐 〕━━⬣
-┃🍂 Ejemplo con Sharp
-┃📂 Convierte imágenes
-┃🎥 Envía video + doc
-╰━━━━━━━━━━━━⬣
-    `.trim()
+    let chtxt = `ੈ₊˚༅༴│↷◌⁺˖ ☕ *𝐒𝐇𝐀𝐃𝐎𝐖 - 𝐁𝐎𝐓* 🚀
+⚔️ੈ₊˚༅༴│.👤 *Usuario* » ${m.pushName || "Anónimo"}
+🆔ੈ₊˚༅༴│.🔑 *ID* » ${m.sender}
+⚡ੈ₊˚༅༴│.🍰 *Verificación* » ${user.name || "Sin nombre"}
+🍬ੈ₊˚༅༴│.⚙️ *Edad* » ${user.age || "Sin definir"} años
+☁️ੈ₊˚༅༴│.⌨️ *Descripción* » ${about}
+🍧ੈ₊˚༅༴│.📇 *Última Modificación* » ${fechaBio}
+🍫ੈ₊˚༅༴│.📆 *Fecha* » ${moment.tz("America/Bogota").format("DD/MM/YY")}
+❄️ੈ₊˚༅༴│.🌸 *Número de registro* »
+⤷ ${user.sn}`;
 
-    // Un solo mensaje con video + documento + botones
-    await conn.sendMessage(m.chat, {
-      video: { url: 'https://files.catbox.moe/uzi4do.mp4' }, // cambia a tu video
-      document: docBuffer, // manda el buffer como documento
-      fileName: `🌱 RinItoshiSharp.webp`,
-      mimetype: 'image/webp',
-      caption: menuText,
-      footer: '🌿 Rin Itoshi Bot',
-      jpegThumbnail: thumb,
-      buttons: [
-        { buttonId: `${usedPrefix}code`, buttonText: { displayText: "🌱 s ᴇ ʀ ʙ ᴏ ᴛ" }, type: 1 },
-        { buttonId: `${usedPrefix}owner`, buttonText: { displayText: "🍂 ᴏ ᴡ ɴ ᴇ ʀ" }, type: 1 }
-      ],
-      headerType: 4,
+    // Enviar notificación al canal o grupo
+    await conn.sendMessage('120363402970883180@g.us', {
+      text: chtxt,
       contextInfo: {
         externalAdReply: {
-          title: "Ejemplo Sharp",
-          body: "Procesando imágenes con Node.js",
-          thumbnailUrl: imgenUrl,
-          sourceUrl: "https://github.com", // cambia a tus redes
+          title: "【 🌹 NOTIFICACIÓN ⚔️ 】",
+          body: "😊 ¡Un usuario nuevo ha sido verificado!",
+          thumbnailUrl: perfil,
+          sourceUrl: redes, // Define global.redes con el link que quieras
           mediaType: 1,
-          renderLargerThumbnail: true
-        }
-      }
-    }, { quoted: m })
+          showAdAttribution: false,
+          renderLargerThumbnail: false,
+        },
+      },
+    });
+
+    // Responder al usuario
+    await conn.reply(m.chat, "✅ Te has verificado correctamente, se ha enviado una notificación al canal.", m);
 
   } catch (e) {
-    console.error(e)
-    await conn.sendMessage(m.chat, {
-      text: `✘ Error al enviar el menú: ${e.message}`,
-      mentions: [m.sender]
-    }, { quoted: m })
+    console.error(e);
+    m.reply("⚠️ Hubo un error al verificar tu cuenta.");
   }
-}
+};
 
-handler.command = ['men']
-export default handler
+handler.command = ["verify2", "verificar2", "reg2"];
+export default handler;
