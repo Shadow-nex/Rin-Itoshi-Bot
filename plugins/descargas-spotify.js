@@ -1,82 +1,84 @@
-import fetch from 'node-fetch';
+import axios from 'axios';
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-  const thumbnailCard = icono;
-  
-  if (!text) {
-    return conn.sendMessage(m.chat, {
-      text: `🌲 *Escribe el nombre de una canción o pega el enlace de Spotify.*\nEjemplo:\n${usedPrefix + command} DJ Opus`,
-      footer: '🔍 Buscar y descargar vía Vreden API',
-      contextInfo: {
-        externalAdReply: {
-          title: 'Spotify Downloader',
-          body: 'Busca una canción por nombre o link',
-          thumbnailUrl: thumbnailCard,
-          sourceUrl: 'https://api.vreden.my.id'
-        }
-      }
-    }, { quoted: m });
-  }
+let handler = async (m, { conn, text }) => {
 
-  let trackUrl;
-
-  // Detectar si es enlace válido de Spotify
-  const isSpotifyLink = text.includes('spotify.com/track');
-
-  if (isSpotifyLink) {
-    trackUrl = text.trim();
-  } else {
-    // Buscar por nombre
-    const searchUrl = `https://api.vreden.my.id/api/spotifysearch?query=${encodeURIComponent(text)}`;
-    const searchRes = await fetch(searchUrl);
-    const searchJson = await searchRes.json();
-
-    if (!searchJson?.result || !searchJson.result[0]) {
-      return m.reply(`❌ No se encontró ninguna canción con el término: ${text}`);
-    }
-
-    trackUrl = searchJson.result[0].spotifyLink;
-  }
+  if (!text) return m.reply(`🍂 Ingresa el nombre de una canción o una URL de Spotify.`);
 
   try {
-    const infoRes = await fetch(`https://api.vreden.my.id/api/spotify?url=${encodeURIComponent(trackUrl)}`);
-    const trackData = await infoRes.json();
-    const track = trackData.result;
-
-    if (!track?.status || !track.music) {
-      return m.reply(`⚠️ No se pudo obtener datos válidos del track.`);
+    let song;
+    const isSpotifyUrl = text.startsWith('https://open.spotify.com/');
+    if (isSpotifyUrl) {
+      song = { url: text };
+    } else {
+      const results = await spotifyxv(text);
+      if (!results.length) return m.reply('No se encontró la canción.');
+      song = results[0];
     }
 
-    const audioRes = await fetch(track.music);
-    const audioBuffer = await audioRes.buffer();
+    await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } });
+     
+    const res = await axios.get(`https://api.stellarwa.xyz/dow/spotify?url=${song.url}&apikey=proyectsV2`);
+    const data = res.data?.data;
+    if (!data?.download) return m.reply('No se pudo obtener el enlace de descarga.');
 
-    // Enviar información del track con imagen
+    const info = `[ ✿ ] Descargando › *${data.title}*\n\n` +
+                 `> [✩] Artista › *${data.artist}*\n` +
+                 (song.album ? `> ✰ Álbum › *${song.album}*\n` : '') +
+                 `> 🌱 Duración › *${data.duration}*\n` +
+                 `> 🍂 Enlace › *${song.url}*`;
+
+    await conn.sendMessage(m.chat, { image: { url: data.image }, caption: info }, { quoted: m });
+    
+   /*
     await conn.sendMessage(m.chat, {
-      image: { url: track.cover || thumbnailCard },
-      caption: `🌾 título: *${track.title}*\n🔥 Artista: ${track.artists}\n📀 Tipo: ${track.type}\n📅 Lanzamiento: ${track.releaseDate || 'No disponible'}\n🎧 Enviando audio...`,
-      footer: dev,
+      audio: { url: data.download },
+      ptt: true,
+      fileName: `${data.title}.mp3`,
+      mimetype: 'audio/mpeg'
+    }, { quoted: m });
+    */
+    await conn.sendMessage(m.chat, {
+      audio: { url: data.download },
+      mimetype: 'audio/mpeg',
+      ptt: true,
+      fileName: `${data.title}.mp3`,
       contextInfo: {
         externalAdReply: {
-          title: track.title,
-          body: 'Click para escuchar o descargar',
-          thumbnailUrl: thumbnailCard,
-          sourceUrl: track.music
+          title: data.title,
+          body: `Duración: ${data.duration}`,
+          mediaType: 1,
+          thumbnailUrl: data.image,
+          mediaUrl: song.url,
+          sourceUrl: song.url,
+          renderLargerThumbnail: true
         }
       }
     }, { quoted: m });
+    
+    await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
 
-    // Enviar audio en formato MP3
-    await conn.sendMessage(m.chat, {
-      audio: audioBuffer,
-      mimetype: 'audio/mpeg',
-      fileName: `${track.title}.mp3`
-    }, { quoted: m });
-
-  } catch (err) {
-    console.error('❌ Error:', err);
-    m.reply(`💥 Ocurrió un error al procesar la solicitud.\n📛 ${err.message}`);
+  } catch (e) {
+    await m.reply('❌ Error al procesar la canción.');
   }
 };
 
-handler.command = ['spotify', 'trackvreden', 'songcard', 'buscaspotify'];
+handler.tags = ['descargas'];
+handler.help = ['spotify'];
+handler.command = ['spotify'];
 export default handler;
+
+async function spotifyxv(query) {
+  const res = await axios.get(`https://api.stellarwa.xyz/search/spotify?query=${encodeURIComponent(query)}&apikey=proyectsV2`);
+  if (!res.data?.status || !res.data?.data?.length) return [];
+
+  const firstTrack = res.data.data[0];
+
+  return [{
+    name: firstTrack.title,
+    artista: [firstTrack.artist],
+    album: firstTrack.album,
+    duracion: firstTrack.duration,
+    url: firstTrack.url,
+    imagen: firstTrack.image || ''
+  }];
+}

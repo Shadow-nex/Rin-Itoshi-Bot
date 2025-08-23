@@ -1,90 +1,80 @@
 import fetch from 'node-fetch';
 
-const SPOTIFY_SEARCH_API = 'https://api.vreden.my.id/api/spotifysearch?query=';
-const SPOTIFY_DOWNLOAD_API = 'https://api.vreden.my.id/api/spotify?url=';
-
-async function fetchSpotifySearch(query) {
-  try {
-    const res = await fetch(SPOTIFY_SEARCH_API + encodeURIComponent(query));
-    if (!res.ok) return null;
-    const json = await res.json();
-    return json.result?.[0] || null;
-  } catch {
-    return null;
-  }
-}
-
-async function fetchSpotifyDownload(spotifyUrl) {
-  try {
-    const res = await fetch(SPOTIFY_DOWNLOAD_API + encodeURIComponent(spotifyUrl));
-    if (!res.ok) return null;
-    const json = await res.json();
-    return json.result?.music ? json.result : null;
-  } catch {
-    return null;
-  }
-}
-
-let handler = async (m, { text, conn, command }) => {
-  if (!text) return m.reply('*🌱 Ingresa el nombre de la canción. Ejemplo: .music DJ Opus*');
-
-  try {
-    const track = await fetchSpotifySearch(text);
-    if (!track) return m.reply('⚠️ No se encontraron resultados en Spotify.');
-
-    const { title, artist, album, duration, popularity, releaseDate, spotifyLink, coverArt } = track;
-
-  await conn.sendMessage(m.chat, {
-    text: `📥 𝗗𝗘𝗦𝗖𝗔𝗥𝗚𝗔 𝗘𝗡 𝗖𝗨𝗥𝗦𝗢...
-   [▰▰▰▰▰▱▱▱▱▱] 50%
-
-> 🎵 Título: ${title}
-> 🧑‍🎤 Artista: ${artist}
-> 💿 Álbum: ${album}
-> ⏱️ Duración: ${duration}
-> 📈 Popularidad: ${popularity}
-> 📅 Lanzamiento: ${releaseDate}
-> 🔗 Spotify: ${spotifyLink}`,
-    mentions: [m.sender],
-    contextInfo: {
-      externalAdReply: {
-        title: title,
-        body: `Duración: ${duration}`,
-        thumbnailUrl: coverArt,
-        sourceUrl: spotifyLink,
-        mediaType: 1,
-        renderLargerThumbnail: true
-      }
-    }
-  }, { quoted: m });
-
-    const download = await fetchSpotifyDownload(spotifyLink);
-    if (!download || !download.music) return m.reply('❌ No se pudo obtener el enlace de descarga.');
-
-    const doc = {
-      audio: { url: download.music },
-      mimetype: 'audio/mpeg',
-      fileName: `${download.title || 'track'}.mp3`,
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+  const thumbnailCard = icono;
+  
+  if (!text) {
+    return conn.sendMessage(m.chat, {
+      text: `🌲 *Escribe el nombre de una canción o pega el enlace de Spotify.*\nEjemplo:\n${usedPrefix + command} DJ Opus`,
+      footer: '🔍 Buscar y descargar vía Vreden API',
       contextInfo: {
         externalAdReply: {
-          showAdAttribution: true,
-          mediaType: 2,
-          mediaUrl: spotifyLink,
-          title: title,
-          body: `🧪 Duración: ${duration} | 🌷 Lanzamiento: ${releaseDate}`,
-          sourceUrl: spotifyLink,
-          thumbnailUrl: coverArt || "https://h.uguu.se/gwCZoshl.jpg",
-          renderLargerThumbnail: true
+          title: 'Spotify Downloader',
+          body: 'Busca una canción por nombre o link',
+          thumbnailUrl: thumbnailCard,
+          sourceUrl: 'https://api.vreden.my.id'
         }
       }
+    }, { quoted: m });
+  }
+
+  let trackUrl;
+
+  // Detectar si es enlace válido de Spotify
+  const isSpotifyLink = text.includes('spotify.com/track');
+
+  if (isSpotifyLink) {
+    trackUrl = text.trim();
+  } else {
+    // Buscar por nombre
+    const searchUrl = `https://api.vreden.my.id/api/spotifysearch?query=${encodeURIComponent(text)}`;
+    const searchRes = await fetch(searchUrl);
+    const searchJson = await searchRes.json();
+
+    if (!searchJson?.result || !searchJson.result[0]) {
+      return m.reply(`❌ No se encontró ninguna canción con el término: ${text}`);
     }
 
-    await conn.sendMessage(m.chat, doc, { quoted: m })
-    await m.react('✅')
+    trackUrl = searchJson.result[0].spotifyLink;
+  }
 
-  } catch (e) {
-    console.error(e);
-    m.reply('❌ Error al procesar tu solicitud.');
+  try {
+    const infoRes = await fetch(`https://api.vreden.my.id/api/spotify?url=${encodeURIComponent(trackUrl)}`);
+    const trackData = await infoRes.json();
+    const track = trackData.result;
+
+    if (!track?.status || !track.music) {
+      return m.reply(`⚠️ No se pudo obtener datos válidos del track.`);
+    }
+
+    const audioRes = await fetch(track.music);
+    const audioBuffer = await audioRes.buffer();
+
+    // Enviar información del track con imagen
+    await conn.sendMessage(m.chat, {
+      image: { url: track.cover || thumbnailCard },
+      caption: `🌾 título: *${track.title}*\n🔥 Artista: ${track.artists}\n📀 Tipo: ${track.type}\n📅 Lanzamiento: ${track.releaseDate || 'No disponible'}\n🎧 Enviando audio...`,
+      footer: dev,
+      contextInfo: {
+        externalAdReply: {
+          title: track.title,
+          body: 'Click para escuchar o descargar',
+          thumbnailUrl: thumbnailCard,
+          sourceUrl: track.music
+        }
+      }
+    }, { quoted: m });
+
+    // Enviar audio en formato MP3
+    await conn.sendMessage(m.chat, {
+      audio: audioBuffer,
+      mimetype: 'audio/mpeg',
+      fileName: `${track.title}.mp3`
+    }, { quoted: m });
+
+  } catch (err) {
+    console.error('❌ Error:', err);
+    m.reply(`💥 Ocurrió un error al procesar la solicitud.\n📛 ${err.message}`);
   }
 };
 
