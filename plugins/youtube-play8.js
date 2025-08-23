@@ -26,17 +26,17 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
       thumbnail = await (await fetch('https://telegra.ph/file/36f2a1bd2aaf902e4d1ff.jpg')).buffer();
     }
 
-    const caption = "✧─── ･ ｡ﾟ★: .✦ . :★. ───✧",
-    "⧼ ᰔᩚ ⧽  M U S I C  -  Y O U T U B E",
-    "",
-    `» ✧🌱 « *${video.titulo || 'no encontrado'}*`,
-    `> ➩ Canal › *${video.canal || 'no encontrado'}*`,
-    `> ➩ Duración › *${video.duracion || 'no encontrado'}*`,
-    `> ➩ Vistas › *${video.vistas || 'no encontrado'}*`,
-    `> ➩ Publicado › *${video.publicado || 'no encontrado'}*`,
-    `> ➩ Link › *${video.urll}*`,
-    "",
-    "> ✰ Elija *audio* o *video* para descargar ✧"
+    const caption = `✧─── ･ ｡ﾟ★: .✦ . :★. ───✧
+⧼ ᰔᩚ ⧽  M U S I C  -  Y O U T U B E
+
+» ✧🌱 « *${video.titulo || 'no encontrado'}*
+> ➩ Canal › *${video.canal || 'no encontrado'}*
+> ➩ Duración › *${video.duracion || 'no encontrado'}*
+> ➩ Vistas › *${video.vistas || 'no encontrado'}*
+> ➩ Publicado › *${video.publicado || 'no encontrado'}*
+> ➩ Link › *${video.urll}*
+    
+> ✰ Elija *audio* o *video* para descargar ✧`;
 
 
     let ytSections = searchResults.slice(1, 11).map((v, index) => ({
