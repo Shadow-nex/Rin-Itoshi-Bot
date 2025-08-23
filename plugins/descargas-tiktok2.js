@@ -1,24 +1,17 @@
 import axios from "axios";
 import cheerio from "cheerio";
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) {
-    return conn.reply(m.chat, `🚫 *Formato incorrecto.*\n\n📌 Usa: ${usedPrefix + command} <enlace de TikTok>`, m, fake);
-  }
+let handler = async (m, { conn }) => {
+  let regex = /(https?:\/\/(?:www\.)?tiktok\.com\/[^\s]+)/i;
+  let match = m.text.match(regex);
+  if (!match) return;
 
+  let url = match[0];
   try {
-    await m.react('🕒');
+    await m.react("🕒");
 
-    const videoResult = await ttsave.video(text);
-    const {
-      type,
-      nickname,
-      username,
-      description,
-      videoInfo,
-      slides,
-      audioUrl
-    } = videoResult;
+    const videoResult = await ttsave.video(url);
+    const { type, nickname, username, description, videoInfo, slides } = videoResult;
 
     let message = `
 ╭━〔 *📥 TIKTOK DOWNLOADER* 〕━⬣
@@ -32,7 +25,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       await conn.reply(m.chat, message, m);
 
       for (let slide of slides) {
-        await m.react('🍁');
+        await m.react("🍁");
         await conn.sendFile(m.chat, slide.url, `slide-${slide.number}.jpg`, "", m);
       }
 
@@ -40,48 +33,39 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       message += `\n┃ 🎬 *Tipo:* Video\n╰━━━━━━━━━━━━⬣`;
 
       if (videoInfo.nowm) {
-        await m.react('🍓');
-
-        await conn.sendMessage(m.chat, {
-          video: { url: videoInfo.nowm },
-          caption: message,
-          footer: dev,
-          buttons: [
-            {
-              buttonId: `.tiktokmp3 ${text}`,
-              buttonText: {
-                displayText: '🎧 Extraer Audio',
-              },
-            },
-            {
-              buttonId: `.tiktokhd ${text}`,
-              buttonText: {
-                displayText: '📺 Descargar en HD',
-              },
-            },
-          ],
-          viewOnce: true,
-          headerType: 4,
-        }, { quoted: m });
-
+        await m.react("🍓");
+        await conn.sendMessage(
+          m.chat,
+          {
+            video: { url: videoInfo.nowm },
+            caption: message,
+          },
+          { quoted: m }
+        );
       } else {
         conn.reply(m.chat, "⚠️ No se pudo obtener el video sin marca de agua.", m);
       }
     }
 
-    if (audioUrl) {
-    }
-
   } catch (error) {
     console.error(error);
-    conn.reply(m.chat, `❌ *Ocurrió un error al procesar el enlace.*\n\n📌 Asegúrate de que el enlace de TikTok sea válido y vuelve a intentarlo.`, m);
+    conn.reply(
+      m.chat,
+      `❌ *Ocurrió un error al procesar el enlace.*\n\n📌 Verifica que el enlace sea válido.`,
+      m
+    );
   }
 };
 
-handler.help = ["tiktok2 *<url>*"];
-handler.tags = ["descargas"];
-handler.command = ["tt2", "tiktok2"];
+handler.customPrefix = /https?:\/\/(?:www\.)?tiktok\.com\/[^\s]+/i;
+handler.command = new RegExp();
+
 export default handler;
+
+
+// =======================
+//   Scraper ttsave.app
+// =======================
 
 const headers = {
   authority: "ttsave.app",
@@ -113,34 +97,6 @@ const ttsave = {
       cover: $("a[type='cover']").attr("href"),
     };
 
-    const stats = {
-      reproducciones: "",
-      meGusta: "",
-      comentarios: "",
-      compartidos: "",
-    };
-
-    $(".flex.flex-row.items-center.justify-center").each((index, element) => {
-      const $element = $(element);
-      const svgPath = $element.find("svg path").attr("d");
-      const value = $element.find("span.text-gray-500").text().trim();
-
-      if (svgPath && svgPath.startsWith("M10 18a8 8 0 100-16")) {
-        stats.reproducciones = value;
-      } else if (svgPath && svgPath.startsWith("M3.172 5.172a4 4 0 015.656")) {
-        stats.meGusta = value || "0";
-      } else if (svgPath && svgPath.startsWith("M18 10c0 3.866-3.582")) {
-        stats.comentarios = value;
-      } else if (svgPath && svgPath.startsWith("M17.593 3.322c1.1.128")) {
-        stats.compartidos = value;
-      }
-    });
-
-    const tituloCancion = $(".flex.flex-row.items-center.justify-center.gap-1.mt-5")
-      .find("span.text-gray-500")
-      .text()
-      .trim();
-
     const slides = $("a[type='slide']")
       .map((i, el) => ({
         number: i + 1,
@@ -148,17 +104,7 @@ const ttsave = {
       }))
       .get();
 
-    return {
-      uniqueId,
-      nickname,
-      profilePic,
-      username,
-      description,
-      dlink,
-      stats,
-      tituloCancion,
-      slides,
-    };
+    return { uniqueId, nickname, profilePic, username, description, dlink, slides };
   },
 
   video: async function (link) {
