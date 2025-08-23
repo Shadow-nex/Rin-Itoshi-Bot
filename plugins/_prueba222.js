@@ -2,10 +2,10 @@
 import fetch from 'node-fetch'
 import sharp from 'sharp'
 
-let handler = async (m, { conn, usedPrefix, command }) => {
+let handler = async (m, { conn, usedPrefix }) => {
   try {
     // Imagen de prueba
-    const imgenUrl = logo // Cambia a tu imagen
+    const imgenUrl = logo // define tu variable logo en config.js o cámbiala a una URL directa
     const imgBuffer = await (await fetch(imgenUrl)).buffer()
 
     // Crear miniatura JPG
@@ -14,13 +14,13 @@ let handler = async (m, { conn, usedPrefix, command }) => {
       .jpeg({ quality: 70 })
       .toBuffer()
 
-    // Crear versión WebP
+    // Crear versión WebP (será el documento)
     const docBuffer = await sharp(imgBuffer)
       .webp({ quality: 90 })
       .toBuffer()
 
-    // Reaccionamos al mensaje
-    await m.react('🌱')
+    // Reacción al mensaje
+    await m.react('🌷')
 
     // Texto del menú
     let menuText = `
@@ -31,11 +31,15 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ╰━━━━━━━━━━━━⬣
     `.trim()
 
-    // Mensaje con video + botones
+    // Un solo mensaje con video + documento + botones
     await conn.sendMessage(m.chat, {
-      video: { url: 'https://files.catbox.moe/uzi4do.mp4' }, // Cambia a tu video
+      video: { url: 'https://files.catbox.moe/uzi4do.mp4' }, // cambia a tu video
+      document: docBuffer, // manda el buffer como documento
+      fileName: `🌱 RinItoshiSharp.webp`,
+      mimetype: 'image/webp',
       caption: menuText,
       footer: '🌿 Rin Itoshi Bot',
+      jpegThumbnail: thumb,
       buttons: [
         { buttonId: `${usedPrefix}code`, buttonText: { displayText: "🌱 s ᴇ ʀ ʙ ᴏ ᴛ" }, type: 1 },
         { buttonId: `${usedPrefix}owner`, buttonText: { displayText: "🍂 ᴏ ᴡ ɴ ᴇ ʀ" }, type: 1 }
@@ -46,21 +50,11 @@ let handler = async (m, { conn, usedPrefix, command }) => {
           title: "Ejemplo Sharp",
           body: "Procesando imágenes con Node.js",
           thumbnailUrl: imgenUrl,
-          sourceUrl: "https://github.com", // pon tus redes
+          sourceUrl: "https://github.com", // cambia a tus redes
           mediaType: 1,
           renderLargerThumbnail: true
         }
       }
-    }, { quoted: m })
-
-    // Enviar documento (imagen procesada en webp)
-    await conn.sendMessage(m.chat, {
-      document: docBuffer,
-      fileName: `🌱 RinItoshiSharp.webp`,
-      mimetype: 'image/webp',
-      jpegThumbnail: thumb,
-      mentionedJid: [m.sender],
-      isForwarded: true
     }, { quoted: m })
 
   } catch (e) {
