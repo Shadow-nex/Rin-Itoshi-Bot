@@ -61,6 +61,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       { quoted: m }
     )
 
+    // Descargar el audio como buffer
     const audioBuffer = await (await fetch(dl.url)).buffer()
 
     await conn.sendMessage(m.chat, {
