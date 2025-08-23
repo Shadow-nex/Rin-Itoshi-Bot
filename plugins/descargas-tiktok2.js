@@ -1,61 +1,187 @@
-import fetch from 'node-fetch';
+import axios from "axios";
+import cheerio from "cheerio";
 
-var handler = async (m, { conn, text }) => {
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text) {
+    return conn.reply(m.chat, `🚫 *Formato incorrecto.*\n\n📌 Usa: ${usedPrefix + command} <enlace de TikTok>`, m, fake);
+  }
+
   try {
-    let regex = /(https?:\/\/(?:www\.)?(?:vt\.)?tiktok\.com\/[^\s]+)/gi;
-    let urls = text.match(regex);
-
-    if (!urls) return; // si no hay link de TikTok, no hace nada
-
-    let url = urls[0];
     await m.react('🕒');
 
-    const tiktokData = await tiktokdl(url);
+    const videoResult = await ttsave.video(text);
+    const {
+      type,
+      nickname,
+      username,
+      description,
+      videoInfo,
+      slides,
+      audioUrl
+    } = videoResult;
 
-    if (!tiktokData || !tiktokData.video || !tiktokData.video.no_watermark) {
-      return conn.reply(m.chat, "❌ Uff... No pude traer tu video onichan 😿", m);
+    let message = `
+╭━〔 *📥 TIKTOK DOWNLOADER* 〕━⬣
+┃ 👤 *Nombre:* ${nickname || "-"}
+┃ 🆔 *Usuario:* ${username || "-"}
+┃ 📝 *Descripción:* ${description || "Sin descripción disponible..."}
+`.trim();
+
+    if (type === "slide") {
+      message += `\n┃ 🖼️ *Tipo:* Presentación (Imágenes)\n╰━━━━━━━━━━━━⬣`;
+      await conn.reply(m.chat, message, m);
+
+      for (let slide of slides) {
+        await m.react('🍁');
+        await conn.sendFile(m.chat, slide.url, `slide-${slide.number}.jpg`, "", m);
+      }
+
+    } else if (type === "video") {
+      message += `\n┃ 🎬 *Tipo:* Video\n╰━━━━━━━━━━━━⬣`;
+
+      if (videoInfo.nowm) {
+        await m.react('🍓');
+
+        await conn.sendMessage(m.chat, {
+          video: { url: videoInfo.nowm },
+          caption: message,
+          footer: dev,
+          buttons: [
+            {
+              buttonId: `.tiktokmp3 ${text}`,
+              buttonText: {
+                displayText: '🎧 Extraer Audio',
+              },
+            },
+            {
+              buttonId: `.tiktokhd ${text}`,
+              buttonText: {
+                displayText: '📺 Descargar en HD',
+              },
+            },
+          ],
+          viewOnce: true,
+          headerType: 4,
+        }, { quoted: m });
+
+      } else {
+        conn.reply(m.chat, "⚠️ No se pudo obtener el video sin marca de agua.", m);
+      }
     }
 
-    const thumbRes = await fetch('https://files.catbox.moe/knns14.jpg');
-    const thumbBuffer = await thumbRes.buffer();
+    if (audioUrl) {
+    }
 
-    const fkontak = {
-      key: {
-        participants: "0@s.whatsapp.net",
-        remoteJid: "status@broadcast",
-        fromMe: false,
-        id: "Halo"
-      },
-      message: {
-        locationMessage: {
-          name: `🌀 ᴅᴏᴡɴʟᴏᴀᴅ ᴛɪᴋᴛᴏᴋ | 🌱 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 𝙈𝘿 🍂`,
-          jpegThumbnail: thumbBuffer
-        }
-      },
-      participant: "0@s.whatsapp.net"
-    };
-
-    const videoURL = tiktokData.video.no_watermark;
-
-    await conn.sendFile(m.chat, videoURL, "tiktok.mp4", `
-╭─╼⃝🌸 𝑶𝒏𝒊𝒄𝒉𝒂𝒂𝒏~ 💖  
-│ 🍡 *Tu video está servidito nya~!*  
-╰─❖ 🌈 𝐃𝐢𝐬𝐟𝐫𝐮𝐭𝐚𝐥𝐨, 𝐨𝐧𝐢𝐢-𝐜𝐡𝐚𝐧~ 💞`, fkontak);
-    await m.react('✅');
-    
-  } catch (error1) {
-    return conn.reply(m.chat, `❌ Error inesperado: ${error1.message}`, m);
+  } catch (error) {
+    console.error(error);
+    conn.reply(m.chat, `❌ *Ocurrió un error al procesar el enlace.*\n\n📌 Asegúrate de que el enlace de TikTok sea válido y vuelve a intentarlo.`, m);
   }
 };
 
-handler.customPrefix = /https?:\/\/(www\.)?(vt\.)?tiktok\.com\//i;
-handler.command = new RegExp;
-
+handler.help = ["tiktok2 *<url>*"];
+handler.tags = ["descargas"];
+handler.command = ["tt2", "tiktok2"];
 export default handler;
 
-// Nueva función de descarga
-async function tiktokdl(url) {
-  let api = `https://api.dorratz.com/tiktok?url=${encodeURIComponent(url)}`;
-  let response = await (await fetch(api)).json();
-  return response;
-}
+const headers = {
+  authority: "ttsave.app",
+  accept: "application/json, text/plain, */*",
+  origin: "https://ttsave.app",
+  referer: "https://ttsave.app/en",
+  "user-agent": "Postify/1.0.0",
+};
+
+const ttsave = {
+  submit: async function (url, referer) {
+    const headerx = { ...headers, referer };
+    const data = { query: url, language_id: "1" };
+    return axios.post("https://ttsave.app/download", data, { headers: headerx });
+  },
+
+  parse: function ($) {
+    const uniqueId = $("#unique-id").val();
+    const nickname = $("h2.font-extrabold").text();
+    const profilePic = $("img.rounded-full").attr("src");
+    const username = $("a.font-extrabold.text-blue-400").text();
+    const description = $("p.text-gray-600").text();
+
+    const dlink = {
+      nowm: $("a.w-full.text-white.font-bold").first().attr("href"),
+      wm: $("a.w-full.text-white.font-bold").eq(1).attr("href"),
+      audio: $("a[type='audio']").attr("href"),
+      profilePic: $("a[type='profile']").attr("href"),
+      cover: $("a[type='cover']").attr("href"),
+    };
+
+    const stats = {
+      reproducciones: "",
+      meGusta: "",
+      comentarios: "",
+      compartidos: "",
+    };
+
+    $(".flex.flex-row.items-center.justify-center").each((index, element) => {
+      const $element = $(element);
+      const svgPath = $element.find("svg path").attr("d");
+      const value = $element.find("span.text-gray-500").text().trim();
+
+      if (svgPath && svgPath.startsWith("M10 18a8 8 0 100-16")) {
+        stats.reproducciones = value;
+      } else if (svgPath && svgPath.startsWith("M3.172 5.172a4 4 0 015.656")) {
+        stats.meGusta = value || "0";
+      } else if (svgPath && svgPath.startsWith("M18 10c0 3.866-3.582")) {
+        stats.comentarios = value;
+      } else if (svgPath && svgPath.startsWith("M17.593 3.322c1.1.128")) {
+        stats.compartidos = value;
+      }
+    });
+
+    const tituloCancion = $(".flex.flex-row.items-center.justify-center.gap-1.mt-5")
+      .find("span.text-gray-500")
+      .text()
+      .trim();
+
+    const slides = $("a[type='slide']")
+      .map((i, el) => ({
+        number: i + 1,
+        url: $(el).attr("href"),
+      }))
+      .get();
+
+    return {
+      uniqueId,
+      nickname,
+      profilePic,
+      username,
+      description,
+      dlink,
+      stats,
+      tituloCancion,
+      slides,
+    };
+  },
+
+  video: async function (link) {
+    try {
+      const response = await this.submit(link, "https://ttsave.app/en");
+      const $ = cheerio.load(response.data);
+      const result = this.parse($);
+
+      if (result.slides && result.slides.length > 0) {
+        return { type: "slide", ...result };
+      }
+
+      return {
+        type: "video",
+        ...result,
+        videoInfo: {
+          nowm: result.dlink.nowm,
+          wm: result.dlink.wm,
+        },
+      };
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+};
