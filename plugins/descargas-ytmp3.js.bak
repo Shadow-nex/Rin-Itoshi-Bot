@@ -73,8 +73,8 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
   }
 }
 
-handler.command = ['ytmp3', 'song']
+handler.command = ['ytmp3', 'play', 'song']
 handler.tags = ['descargas']
-handler.help = ['ytmp3 <texto o link>', 'song <texto>']
+handler.help = ['ytmp3 <texto o link>', 'play <texto>']
 
 export default handler
