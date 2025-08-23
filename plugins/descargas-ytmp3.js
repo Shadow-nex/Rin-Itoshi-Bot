@@ -6,7 +6,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     if (!text) {
       return conn.reply(
         m.chat,
-        `🌱 Ingresa el nombre de la canción o un enlace de YouTube.\n\n🍂 Ejemplo: ${usedPrefix + command} DJ Malam Pagi`,
+        `🧪 Ingresa el nombre de la canción o un enlace de YouTube.\n\n🍂 Ejemplo: ${usedPrefix + command} DJ Malam Pagi`,
         m
       )
     }
@@ -44,10 +44,9 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     await conn.sendMessage(
       m.chat,
       {
-        text: textoInfo,
+        image: { url: meta.thumbnail || video.thumbnail },
+        caption: textoInfo,
         contextInfo: {
-          forwardingScore: 999,
-          isForwarded: true,
           externalAdReply: {
             title: meta.title || video.title,
             body: "📥 Descargando desde YouTube",
@@ -71,7 +70,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       contextInfo: {
         externalAdReply: {
           title: video.title,
-          body: 'YouTube - MP3',
+          body: `Duracion: ${video.timestamp}`,
           mediaUrl: video.url,
           sourceUrl: video.url,
           thumbnailUrl: video.thumbnail,
