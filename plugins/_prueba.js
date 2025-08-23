@@ -1,4 +1,4 @@
-/*// codigo bug xd
+// codigo bug xd
 
 import fetch from 'node-fetch'
 import sharp from 'sharp'
@@ -35,7 +35,8 @@ let handler = async (m, { conn, text }) => {
 }
 
 handler.command = /^miniatura|mini$/i
-export default handler*/
+export default handler
+/*
 
 
 import fetch from 'node-fetch'
@@ -87,4 +88,4 @@ let handler = async (m, { conn, text }) => {
 }
 
 handler.command = /^miniatura|mini$/i
-export default handler
+export default handler*/
