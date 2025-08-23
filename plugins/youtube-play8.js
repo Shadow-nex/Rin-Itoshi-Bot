@@ -34,7 +34,7 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
 > ➩ Duración › *${video.duracion || 'no encontrado'}*
 > ➩ Vistas › *${video.vistas || 'no encontrado'}*
 > ➩ Publicado › *${video.publicado || 'no encontrado'}*
-> ➩ Link › *${video.urll}*
+> ➩ Link › *${video.url}*
     
 > ✰ Elija *audio* o *video* para descargar ✧`;
 
