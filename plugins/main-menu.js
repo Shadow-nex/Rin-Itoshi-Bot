@@ -1,8 +1,6 @@
 import axios from 'axios'
 import moment from 'moment-timezone'
 
-import sharp from 'sharp';
-
 let handler = async (m, { conn, args }) => {
   try {
     let userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender
@@ -72,17 +70,6 @@ let handler = async (m, { conn, args }) => {
     let hora = new Date().toLocaleTimeString('es-PE', { timeZone: 'America/Lima' })
     let fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Lima' })
     let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' })
-
-
-
-    const imgenUrl = 'https://files.catbox.moe/9l7hcn.jpg'; // cambie x su imagen
-    const imgBuffer = await (await fetch(imgenUrl)).buffer();
-     
-    const thumb = await sharp(imgBuffer).resize(400, 400).jpeg({ quality: 70 }).toBuffer();
-    const docBuffer = await sharp(imagenBuffer).webp({ quality: 90 }).toBuffer();
-    
-
-
 
 
     let readMore = String.fromCharCode(8206).repeat(4001)
@@ -739,13 +726,7 @@ ${readMore}
         { buttonId: `.owner`, buttonText: { displayText: "🍂 ᴏ ᴡ ɴ ᴇ ʀ" }, type: 1 }
       ],
       headerType: 4,
-      contextInfo: {
-      
-      await conn.sendMessage(m.chat, {
-      document: docBuffer,
-      fileName: `ꭈׁׅꪱׁׅꪀׁׅ ꪱׁׅtׁׅᨵׁׅ꯱ׁׅ֒hׁׅ֮ꪱׁׅ ϐׁׅ֒ᨵׁׅtׁׅ  ꩇׁׅ݊ժׁׅ݊`,
-      mimetype: 'image/PNG',
-      
+      contextInfo: {      
       jpegThumbnail: thumb2,
         mentionedJid: [m.sender],
         isForwarded: true,
