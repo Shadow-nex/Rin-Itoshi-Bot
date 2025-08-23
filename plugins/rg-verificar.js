@@ -151,30 +151,36 @@ Ahora formas parte de la comunidad oficial de *Rin Itoshi Bot* ⚡`.trim();
     },
     { quoted: m });
     
-/*   let chtxt = `ੈ₊˚༅༴│↷◌⁺˖ ☕ *𝐒𝐇𝐀𝐃𝐎𝐖 - 𝐁𝐎𝐓* 🚀
-⚔️ੈ₊˚༅༴│.👤 *𝚄𝚜𝚎𝚛* » ${m.pushName || 'Anónimo'}
-⚡ੈ₊˚༅༴│.🍰 *𝚅𝚎𝚛𝚒𝚏𝚒𝚌𝚊𝚌𝚒𝚘́𝚗* » ${user.name}
-🍬ੈ₊˚༅༴│.⚙️ *𝙴𝚍𝚊𝚍* » ${user.age} años
-☁️ੈ₊˚༅༴│.⌨️ *𝙳𝚎𝚜𝚌𝚛𝚒𝚙𝚌𝚒𝚘𝚗* » ${user.descripcion} 
-🍧ੈ₊˚༅༴│.📇 *𝚄𝚕𝚝𝚒𝚖𝚊 𝙼𝚘𝚍𝚒𝚏𝚒𝚌𝚊𝚝𝚒𝚘𝚗* » ${fechaBio}
-🍫ੈ₊˚༅༴│.📆 *𝙵𝚎𝚌𝚑𝚊* » ${moment.tz('America/Bogota').format('DD/MM/YY')}
-❄️ੈ₊˚༅༴│.🌸 *𝙽𝚞𝚖𝚎𝚛𝚘 𝚍𝚎 𝚛𝚎𝚐𝚒𝚜𝚝𝚛𝚘* »
-⤷ ${sn}`;
+    let user = global.db.data.users[m.sender] || {};
+    let perfil = await conn.profilePictureUrl(m.sender, "image").catch(_ => logo);
+    let about = (await conn.fetchStatus(m.sender).catch(_ => {}))?.status || "Sin descripción";
+    user.descripcion = about;
+    let fechaBio = moment.tz("America/Bogota").format("DD/MM/YYYY HH:mm");  
+    if (!user.sn) user.sn = Math.floor(Math.random() * 1000000);
+    let chtxt = `⚔️ੈ₊˚༅༴│.👤 *Usuario* » ${m.pushName || "Anónimo"}
+🆔ੈ₊˚༅༴│.🔑 *ID* » ${m.sender}
+⚡ੈ₊˚༅༴│.🍰 *Verificación* » ${user.name || "Sin nombre"}
+🍬ੈ₊˚༅༴│.⚙️ *Edad* » ${user.age || "Sin definir"} años
+☁️ੈ₊˚༅༴│.⌨️ *Descripción* » ${about}
+🍧ੈ₊˚༅༴│.📇 *Última Modificación* » ${fechaBio}
+🍫ੈ₊˚༅༴│.📆 *Fecha* » ${moment.tz("America/Lima").format("DD/MM/YY")}
+❄️ੈ₊˚༅༴│.🌸 *Número de registro* »
+⤷ ${user.sn}`;
 
-    await conn.sendMessage(global.canalIdM, {
-        text: chtxt,
-        contextInfo: {
-            externalAdReply: {
-                title: "【 🌹 𝐍𝐎𝐓𝐈𝐅𝐈𝐂𝐀𝐂𝐈𝐎́𝐍 ⚔️ 】",
-                body: '😊 ¡𝚄𝚗 𝚞𝚜𝚞𝚊𝚛𝚒𝚘 𝚗𝚞𝚎𝚟𝚘 𝚎𝚗 𝚖𝚒 𝚋𝚊𝚜𝚎 𝚍𝚎 𝚍𝚊𝚝𝚘𝚜!',
-                thumbnailUrl: perfil,
-                sourceUrl: redes,
-                mediaType: 1,
-                showAdAttribution: false,
-                renderLargerThumbnail: false
-            }
-        }
-    }, { quoted: null });*/
+    await conn.sendMessage('120363402970883180@g.us', {
+      text: chtxt,
+      contextInfo: {
+        externalAdReply: {
+          title: "【 🌹 NOTIFICACIÓN ⚔️ 】",
+          body: "😊 ¡Un usuario nuevo ha sido verificado!",
+          thumbnailUrl: perfil,
+          sourceUrl: redes,
+          mediaType: 1,
+          showAdAttribution: false,
+          renderLargerThumbnail: false,
+        },
+      },
+    });
 };
 
 handler.help = ['reg']
