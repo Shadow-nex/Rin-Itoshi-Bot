@@ -738,7 +738,7 @@ ${readMore}
       /*
       document: docBuffer,
       fileName: `🌱 Rin`,
-      mimetype: 'image/• PNG',
+      mimetype: 'image/•PNG',
       caption: menuText,
       footer: club,
       jpegThumbnail: thumb,*/
@@ -748,7 +748,7 @@ ${readMore}
       ],
       headerType: 4,
       contextInfo: {      
-      jpegThumbnail: thumb2,
+      jpegThumbnail: icono,
         mentionedJid: [m.sender],
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
