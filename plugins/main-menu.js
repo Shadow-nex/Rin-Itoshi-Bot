@@ -1,6 +1,6 @@
 import axios from 'axios'
 import moment from 'moment-timezone'
-import sharp from 'sharp'
+//import sharp from 'sharp'
 
 let handler = async (m, { conn, args }) => {
   try {
@@ -17,7 +17,7 @@ let handler = async (m, { conn, args }) => {
     let totalreg = Object.keys(global.db.data.users).length
     let totalCommands = Object.keys(global.plugins).length
     
-    
+/*    
     const imgenUrl = logo
     const imgBuffer = await (await fetch(imgenUrl)).buffer()
 
@@ -29,7 +29,7 @@ let handler = async (m, { conn, args }) => {
     const docBuffer = await sharp(imgBuffer)
       .webp({ quality: 90 })
       .toBuffer()
-
+*/
     let videos = [
         'https://files.catbox.moe/vwlhum.mp4',
         'https://files.catbox.moe/tc1zxx.mp4',
@@ -732,22 +732,23 @@ ${readMore}
     await m.react('🌱')
     await conn.sendMessage(m.chat, {
       video: { url: video },
-      //gifPlayback: true,
-      //caption: menuText,
-      //footer: club,
+      gifPlayback: true,
+      caption: menuText,
+      footer: club,
+      /*
       document: docBuffer,
       fileName: `🌱 Rin`,
       mimetype: 'image/• PNG',
       caption: menuText,
       footer: club,
-      jpegThumbnail: thumb,      
+      jpegThumbnail: thumb,*/
       buttons: [
         { buttonId: `.code`, buttonText: { displayText: "🌱 s ᴇ ʀ ʙ ᴏ ᴛ" }, type: 1 },
         { buttonId: `.owner`, buttonText: { displayText: "🍂 ᴏ ᴡ ɴ ᴇ ʀ" }, type: 1 }
       ],
       headerType: 4,
       contextInfo: {      
-      jpegThumbnail: thumb,
+      jpegThumbnail: thumb2,
         mentionedJid: [m.sender],
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
