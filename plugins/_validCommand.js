@@ -4,7 +4,23 @@ export async function before(m, { conn }) {
   const usedPrefix = global.prefix.exec(m.text)[0];
   const command = m.text.slice(usedPrefix.length).trim().split(' ')[0].toLowerCase();
   
-  const fkontak = { "key": { "participants":"0@s.whatsapp.net", "remoteJid": "status@broadcast", "fromMe": false, "id": "Halo" }, "message": { "contactMessage": { "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=51919199620:51919199620\nitem1.X-ABLabel:Ponsel\nEND:VCARD` }}, "participant": "0@s.whatsapp.net"}
+  const thumbRes = await fetch('https://tinyurl.com/ymzqacfy');
+  const thumbBuffer = await thumbRes.buffer();
+  const fkontak = {
+        key: {
+           participants: "0@s.whatsapp.net",
+           remoteJid: "status@broadcast",
+           fromMe: false,
+           id: "Halo"
+        },
+        message: {
+            locationMessage: {
+                name: `🍂 ᴇʀʀᴏʀ ᴅᴇ ᴄᴏᴍᴀɴᴅᴏ ❔`,
+                jpegThumbnail: thumbBuffer
+            }
+        },
+        participant: "0@s.whatsapp.net"
+  };
 
   if (!command || command === 'bot') return;
 
@@ -77,7 +93,7 @@ export async function before(m, { conn }) {
   ];
 
   const texto = mensajesNoEncontrado[Math.floor(Math.random() * mensajesNoEncontrado.length)];
-  const imgurl = 'https://files.catbox.moe/jyz3f8.jpg';
+  const imgurl = 'https://tinyurl.com/yrv6vle6';
 
   await conn.sendMessage(m.chat, {
     text: texto,
