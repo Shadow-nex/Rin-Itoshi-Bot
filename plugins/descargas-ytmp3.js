@@ -1,18 +1,27 @@
 import fetch from 'node-fetch'
+import yts from 'yt-search'
 
 let handler = async (m, { conn, text, command, usedPrefix }) => {
   try {
     if (!text) {
       return conn.reply(
         m.chat,
-        `🌱 Ingresa el nombre de la canción o un enlace de YouTube.\n\n📌 Ejemplo: ${usedPrefix + command} DJ Malam Pagi`,
+        `🌱 Ingresa el nombre de la canción o un enlace de YouTube.\n\n. Ejemplo: ${usedPrefix + command} DJ Malam Pagi`,
         m
       )
     }
 
     await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } })
 
-    const apiUrl = `https://api.vreden.my.id/api/ytplaymp3?query=${encodeURIComponent(text)}`
+    // 🔍 Buscar en YouTube con yt-search
+    let search = await yts(text)
+    let video = search.videos[0] // el primer resultado
+    if (!video) {
+      return conn.reply(m.chat, '❌ No se encontró ningún resultado en YouTube.', m)
+    }
+
+    // 🎵 Llamar a la API usando el título del video
+    const apiUrl = `https://api.vreden.my.id/api/ytplaymp3?query=${encodeURIComponent(video.url)}`
     const res = await fetch(apiUrl)
     const json = await res.json()
 
@@ -26,11 +35,11 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     const textoInfo = `✿  𝗬𝗔𝗦𝗦𝗨 - 𝗬𝗧 𝗠𝗣𝟯 🌲
 
 🍂 *Título:* ${meta.title}
-⏱️ *Duración:* ${meta.duración?.marca_de_tiempo || meta.timestamp || 'Desconocida'}
-🍰 *Canal:* ${meta.autor?.nombre || 'Desconocido'}
-👀 *Vistas:* ${meta.vistas?.toLocaleString('es-PE') || '0'}
-🌱 *Publicado:* ${meta.ago || 'Desconocido'}
-🔗 *Link:* ${meta.url}
+⏱️ *Duración:* ${meta.duración?.marca_de_tiempo || video.timestamp || 'Desconocida'}
+🍰 *Canal:* ${meta.autor?.nombre || video.author?.name || 'Desconocido'}
+👀 *Vistas:* ${meta.vistas?.toLocaleString('es-PE') || video.views?.toLocaleString('es-PE') || '0'}
+🌱 *Publicado:* ${meta.ago || video.ago || 'Desconocido'}
+🔗 *Link:* ${meta.url || video.url}
 
 *➤ El audio está en camino... 🌸💖*`
 
@@ -42,10 +51,10 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
           forwardingScore: 999,
           isForwarded: true,
           externalAdReply: {
-            title: meta.title,
+            title: meta.title || video.title,
             body: "📥 Descargando desde YouTube",
-            thumbnailUrl: meta.imagen,
-            sourceUrl: meta.url,
+            thumbnailUrl: meta.imagen || video.thumbnail,
+            sourceUrl: meta.url || video.url,
             mediaType: 1,
             renderLargerThumbnail: true
           }
@@ -54,6 +63,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       { quoted: m }
     )
 
+    // 📥 Enviar audio
     await conn.sendMessage(
       m.chat,
       {
