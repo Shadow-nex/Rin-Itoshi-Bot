@@ -11,17 +11,14 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       )
     }
 
-    // Reacción de reloj
     await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } })
 
-    // 🔍 Buscar en YouTube con yt-search
     let search = await yts(text)
-    let video = search.videos[0] // primer resultado
+    let video = search.videos[0]
     if (!video) {
       return conn.reply(m.chat, '❌ No se encontró ningún resultado en YouTube.', m)
     }
 
-    // 🎵 Llamar a la API usando la URL del video
     const apiUrl = `https://api.vreden.my.id/api/ytplaymp3?query=${encodeURIComponent(video.url)}`
     const res = await fetch(apiUrl)
     const json = await res.json()
@@ -37,14 +34,13 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
 🍂 *Título:* ${meta.title}
 ⏱️ *Duración:* ${meta.duration?.timestamp || video.timestamp || 'Desconocida'}
-🍰 *Canal:* ${meta.author?.name || video.author?.name || 'Desconocido'}
-👀 *Vistas:* ${meta.views?.toLocaleString('es-PE') || video.views?.toLocaleString('es-PE') || '0'}
-🌱 *Publicado:* ${video.ago || 'Desconocido'}
-🔗 *Link:* ${meta.url || video.url}
+🌱 *Canal:* ${meta.author?.name || video.author?.name || 'Desconocido'}
+🚀 *Vistas:* ${meta.views?.toLocaleString('es-PE') || video.views?.toLocaleString('es-PE') || '0'}
+🧪 *Publicado:* ${video.ago || 'Desconocido'}
+💨 *Link:* ${meta.url || video.url}
 
 *➤ El audio está en camino... 🌸💖*`
 
-    // Enviar la ficha informativa
     await conn.sendMessage(
       m.chat,
       {
@@ -64,8 +60,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       },
       { quoted: m }
     )
-
-    // 📥 Enviar el audio
+/*
     await conn.sendMessage(
       m.chat,
       {
@@ -75,7 +70,25 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
         contextInfo: { isForwarded: true }
       },
       { quoted: m }
-    )
+    )*/
+    
+    await conn.sendMessage(m.chat, {
+        audio: { url: dl.url },
+        fileName: `${meta.title}.mp3`,
+        mimetype: "audio/mpeg",
+        ptt: false,
+        contextInfo: {
+          externalAdReply: {
+            title: video.title,
+            body: 'YouTube - MP3',
+            mediaUrl: video.url,
+            sourceUrl: video.url,
+            thumbnail: video.thumbnail,
+            mediaType: 1,
+            renderLargerThumbnail: true
+          }
+        }
+      }, { quoted: m });
 
     await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } })
   } catch (e) {
