@@ -7,7 +7,7 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
 
   if (!args[0]) return conn.reply(m.chat, `*🧪 Ingresa un título para buscar en YouTube.*\n✧ \`Ejemplo:\` ${usedPrefix}${command} Joji - Ew`, m, fake);
 
-  await m.react('💚');
+  await m.react('🕓');
   try {
     let query = args.join(" ");
     let searchResults = await searchVideos(query);
@@ -26,13 +26,18 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
       thumbnail = await (await fetch('https://telegra.ph/file/36f2a1bd2aaf902e4d1ff.jpg')).buffer();
     }
 
-    const caption = `    *"${video.titulo || 'no encontrado'}"*
+    const caption = "✧─── ･ ｡ﾟ★: .✦ . :★. ───✧",
+    "⧼ ᰔᩚ ⧽  M U S I C  -  Y O U T U B E",
+    "",
+    `» ✧🌱 « *${video.titulo || 'no encontrado'}*`,
+    `> ➩ Canal › *${video.canal || 'no encontrado'}*`,
+    `> ➩ Duración › *${video.duracion || 'no encontrado'}*`,
+    `> ➩ Vistas › *${video.vistas || 'no encontrado'}*`,
+    `> ➩ Publicado › *${video.publicado || 'no encontrado'}*`,
+    `> ➩ Link › *${video.urll}*`,
+    "",
+    "> ✰ Elija *audio* o *video* para descargar ✧"
 
-> ⏱️ *Duración:* ${video.duracion || 'no encontrado'}
-> 📊 *Vistas:* ${video.vistas || 'no encontrado'}
-> 🎤 *Canal:* ${video.canal || 'no encontrado'}
-> 📅 *Publicado:* ${video.publicado || 'no encontrado'}
-> 🔗 *Url:* ${video.url}`;
 
     let ytSections = searchResults.slice(1, 11).map((v, index) => ({
       title: `${index + 1}┃ ${v.titulo}`,
@@ -94,12 +99,12 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
       buttons: [
         {
           buttonId: `${usedPrefix}ytmp3 ${video.url}`,
-          buttonText: { displayText: '💿 Audio' },
+          buttonText: { displayText: '🍂 Audio' },
           type: 1,
         },
         {
           buttonId: `${usedPrefix}ytmp4 ${video.url}`,
-          buttonText: { displayText: '☘️ Video' },
+          buttonText: { displayText: '🌱 Video' },
           type: 1,
         },
         {
