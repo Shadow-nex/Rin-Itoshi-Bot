@@ -36,7 +36,7 @@ const handler = async (m, { conn, text, command }) => {
       duracion = `${parseInt(m2)}m, ${parseInt(s)}s`;
     }
 
-    const api = `https://dark-core-api.vercel.app/api/download/YTMP3?key=api&url=${encodeURIComponent(url)}`;
+    const api = `https://api.vreden.my.id/api/ytplaymp3?query=${encodeURIComponent(text)}`;
     const res = await fetch(api);
     const json = await res.json();
 
