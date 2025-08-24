@@ -93,7 +93,7 @@ export async function before(m, { conn }) {
   ];
 
   const texto = mensajesNoEncontrado[Math.floor(Math.random() * mensajesNoEncontrado.length)];
-  const imgurl = 'https://tinyurl.com/yrv6vle6';
+  const imgurl = logo;
 
   await conn.sendMessage(m.chat, {
     text: texto,
