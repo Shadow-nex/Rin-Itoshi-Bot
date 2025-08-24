@@ -11,8 +11,6 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       )
     }
 
-    await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } })
-
     let search = await yts(text)
     let video = search.videos[0]
     if (!video) {
@@ -30,16 +28,9 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     const meta = json.result.metadata
     const dl = json.result.download
 
-    const textoInfo = `✿  𝗬𝗔𝗦𝗦𝗨 - 𝗬𝗧 𝗠𝗣𝟯 🌲
-
-🍂 *Título:* ${meta.title}
-⏱️ *Duración:* ${meta.duration?.timestamp || video.timestamp || 'Desconocida'}
-🌱 *Canal:* ${meta.author?.name || video.author?.name || 'Desconocido'}
-🚀 *Vistas:* ${meta.views?.toLocaleString('es-PE') || video.views?.toLocaleString('es-PE') || '0'}
-🧪 *Publicado:* ${video.ago || 'Desconocido'}
-💨 *Link:* ${meta.url || video.url}
-
-*➤ El audio está en camino... 🌸💖*`
+    await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } })
+    const textoInfo = `\`\`\`✿  𝗬𝗔𝗦𝗦𝗨 - 𝗬𝗧 𝗠𝗣𝟯 ⚽\n\n🍂 *Título :* ${meta.title}\n⏱️ *Duración :* ${meta.duration?.timestamp || video.timestamp || 'Desconocida'}\n🌱 *Canal :* ${meta.author?.name || video.author?.name || 'Desconocido'}\n🚀 *Vistas :* ${meta.views?.toLocaleString('es-PE') || video.views?.toLocaleString('es-PE') || '0'}\n🧪 *Publicado :* ${video.ago || 'Desconocido'}\n💨 *Link :* ${meta.url || video.url}
+\`\`\`\n≡ Enviando, espera un momento . . .`
 
     await conn.sendMessage(
       m.chat,
@@ -49,7 +40,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
         contextInfo: {
           externalAdReply: {
             title: meta.title || video.title,
-            body: "📥 Descargando desde YouTube",
+            body: "🍂 Descargando desde YouTube 🧪",
             thumbnailUrl: logo,
             sourceUrl: meta.url || video.url,
             mediaType: 1,

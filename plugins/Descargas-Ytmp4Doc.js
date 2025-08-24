@@ -3,13 +3,11 @@ import axios from 'axios';
 
 let handler = async (m, { conn, text, args }) => {
   try {
-    if (!text) return conn.reply(m.chat, `💔 *Por favor, ingresa la URL del vídeo de YouTube.*`, m, fake);
+    if (!text) return conn.reply(m.chat, `🍂 *Por favor, ingresa la URL del vídeo de YouTube.*`, m, fake);
 
     if (!/^(?:https?:\/\/)?(?:www\.|m\.|music\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?/.test(args[0])) {
       return conn.reply(m.chat, `⚠️ *Enlace inválido.* Por favor, ingresa una URL válida de YouTube.`, m);
     }
-
-    await conn.sendMessage(m.chat, { react: { text: '📀', key: m.key } });
 
     const thumbRes = await fetch('https://files.catbox.moe/9exbxh.png');
     const thumbBuffer = await thumbRes.buffer();
@@ -23,17 +21,18 @@ let handler = async (m, { conn, text, args }) => {
     const cleanTitle = title.replace(/[^\w\s]/gi, '').trim().replace(/\s+/g, '_');
     const fileName = `${cleanTitle}.mp4`;
 
+    await conn.sendMessage(m.chat, { react: { text: '📀', key: m.key } });
     await conn.sendMessage(m.chat, {
     text: `🎶 ¡Descargando archivo!
 
 📊 Progreso: [▓▓▓▓▓░░░░░] 50%
 
-📂 Nombre: *${title}*
-⏰ Tiempo: *${duration}*
-💽 Peso: *${sizeStr}*
-🔗 Link: ${args[0]}
+= 📂 Nombre : *${title}*
+= ⏰ Tiempo : *${duration}*
+= 💽 Peso : *${sizeStr}*
+= 🔗 Link : ${args[0]}
 
-⌛ Estado: Casi listo, procesando video...`,
+☘️ Estado: Casi listo, procesando video...`,
     mentions: [m.sender],
     contextInfo: {
       externalAdReply: {

@@ -102,17 +102,16 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     const video = search.videos[0];
     const { title, timestamp, views, ago, author, thumbnail, url: videoUrl } = video || {};
 /*
-    const textoInfo = `🌸✨╭━━━⬣ 『 🎲 𝒀𝑶𝑼𝑻𝑼𝑩𝐸 - 𝑴𝑷4 』⬣━━━╮✨🌸
-┃
-┃ 🍃 *𝕋𝕚𝕥𝕦𝕝𝕠:* ${title}
-┃ ⏳ *𝔻𝕦𝕣𝕒𝕔𝕚ó𝕟:* ${formatDuration(timestamp)}
-┃ 🍰 *𝕔𝕒𝕟𝕒𝕝:* ${author?.name}
-┃ 👀 *𝕧𝕚𝕤𝕥𝕒𝕤:* ${formatViews(views)}
-┃ 🌱 *𝕡𝕦𝕓𝕝𝕚𝕔𝕒𝕕𝕠:* ${ago}
-┃ 🔗 *𝕝𝕚𝕟𝕜:* ${videoUrl}
-┃
-╰━━━━━━⬣
-🌸 *𝐄𝐥 𝐯𝐢𝐝𝐞𝐨 𝐬𝐞 𝐞𝐬𝐭𝐚́ 𝐞𝐧𝐯𝐢𝐚𝐧𝐝𝐨... 𝚊𝚠𝚞𝚞~* 🌸`;
+    const textoInfo = `\`\`\`⊜─⌈ 📻 ◜YouTube MP4◞ 📻 ⌋─⊜
+
+≡ 🎵 Título : ${title}
+≡ 📺 Canal : ${author?.name}
+≡ ⏳ Duración : ${formatDuration(timestamp)}
+≡ 👀 Vistas : ${formatViews(views)}
+≡ 📅 Publicado : ${ago}
+≡ 🔗 Enlace : ${videoUrl}
+≡ 🌳 Calidad : 360
+\`\`\``;
 
     const thumbnailBuffer = await fetch(thumbnail).then(res => res.buffer()).catch(() => null);
 
@@ -158,16 +157,18 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     await m.react('✅️');
 
-    const caption =`╭━━━⬣ 『 🎲 𝒀𝑶𝑼𝑻𝑼𝑩𝐸 - 𝑴𝑷4 』⬣━━━╮
-┃
-┃ 🍃 *𝕋𝕚𝕥𝕦𝕝𝕠:* ${title}
-┃ ⏳ *𝔻𝕦𝕣𝕒𝕔𝕚ó𝕟:* ${formatDuration(timestamp)}
-┃ 🍰 *𝕔𝕒𝕟𝕒𝕝:* ${author?.name}
-┃ 👀 *𝕧𝕚𝕤𝕥𝕒𝕤:* ${formatViews(views)}
-┃ 🌱 *𝕡𝕦𝕓𝕝𝕚𝕔𝕒𝕕𝕠:* ${ago}
-┃ 🔗 *𝕝𝕚𝕟𝕜:* ${videoUrl}
-┃
-╰━━━━━━⬣`; // `*💌 ${titleVid}*\n> ⚖️ Peso: ${formatSize(size)}\n> 🌎 URL: ${text}`;
+    const caption =`\`\`\`⊜─⌈ 📻 ◜YouTube MP4◞ 📻 ⌋─⊜
+
+≡ 🎵 Título : ${title}
+≡ 📺 Canal : ${author?.name}
+≡ ⏳ Duración : ${formatDuration(timestamp)}
+≡ 👀 Vistas : ${formatViews(views)}
+≡ 📅 Publicado : ${ago}
+≡ 🍂 Peso : ${formatSize(size)}
+≡ 🔗 Enlace : ${videoUrl}
+≡ 🌳 Calidad : 360
+\`\`\`
+${dev}`;
     const isSmallVideo = size < VIDEO_THRESHOLD;
 
     const buffer = await (await fetch(url)).buffer();
@@ -185,7 +186,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       }
     );
 
-    await m.react('🟢');
+    await m.react('✅');
     isProcessingHeavy = false;
   } catch (e) {
     await m.react('🔴');

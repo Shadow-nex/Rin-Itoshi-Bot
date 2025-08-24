@@ -9,7 +9,7 @@ var handler = async (m, { conn, usedPrefix, command, text }) => {
 
     let searchA = await search(text);
     let data5 = await download(searchA[0].id);
-    let txt = `  *\`⚽ APK DOWNLOAD\`*\n\n`;
+    let txt = `    乂 \`ᗩᑭK - ᗪOᗯᑎᒪOᗩᗪᗴᖇ\`\n\n`;
     txt += `🍩 *ɴᴏᴍʙʀᴇ:* ${data5.name}\n`;
     txt += `🏮 *ᴘᴀǫᴜᴇᴛᴇ:* ${data5.package}\n`;
     txt += `⚡ *ᴜʟᴛɪᴍᴀ ᴀᴄᴛᴜᴀʟɪᴢᴀᴄɪᴏɴ:* ${data5.lastup}\n`;

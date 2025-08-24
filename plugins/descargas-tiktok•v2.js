@@ -1,5 +1,5 @@
 // - codigo creado x dv.shadow
-// - no quitar creditos 
+// - no quitar creditos xd
 let handler = async (m, { conn, command }) => {
   try {
     let url = `https://dark-core-api.vercel.app/api/random/tiktok?key=api`
@@ -33,7 +33,7 @@ let handler = async (m, { conn, command }) => {
       caption: texto,
       footer: randomFooter,
       buttons: [
-        { buttonId: `.${command}`, buttonText: { displayText: '🔄 Dame otro Sempai!' }, type: 1 }
+        { buttonId: `.${command}`, buttonText: { displayText: '💖 Dame otro Sempai!' }, type: 1 }
       ],
       headerType: 5,
       mentions: [m.sender]
@@ -52,8 +52,8 @@ let handler = async (m, { conn, command }) => {
   }
 }
 
-handler.help = ['tiktokrandom']
+handler.help = ['tiktokrandom2']
 handler.tags = ['descargas']
-handler.command = ['tiktokrandom', 'tiktokrdm', 'tiktokrand']
+handler.command = ['tiktokrandom2', 'tiktokrdm', 'tiktokrand']
 
 export default handler

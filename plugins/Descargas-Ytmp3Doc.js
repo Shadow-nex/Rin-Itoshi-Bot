@@ -57,8 +57,6 @@ const handler = async (m, { conn, text, command }) => {
       return conn.reply(m.chat, `*🧪 Ingresa el nombre del video a descargar.*`, m, fake);
     }
 
-    await conn.sendMessage(m.chat, { react: { text: '📀', key: m.key }});
-
     const search = await yts(text);
     if (!search.all || search.all.length === 0) {
       return m.reply('❌ No se encontraron resultados para tu búsqueda.');
@@ -70,18 +68,19 @@ const handler = async (m, { conn, text, command }) => {
     const downloadUrl = await ddownr.download(url, format);
     const size = await getSize(downloadUrl);
     const sizeStr = size ? await formatSize(size) : 'Desconocido';
-
+ 
+  await conn.sendMessage(m.chat, { react: { text: '📀', key: m.key }});
   await conn.sendMessage(m.chat, {
-    text: `⬇️ 𝗗𝗘𝗦𝗖𝗔𝗥𝗚𝗔 𝗘𝗡 𝗠𝗔𝗥𝗖𝗔 𝗣𝗥𝗢𝗚𝗥𝗘𝗦𝗢
+    text: `🍂 𝗗𝗘𝗦𝗖𝗔𝗥𝗚𝗔 𝗘𝗡 𝗠𝗔𝗥𝗖𝗔 𝗣𝗥𝗢𝗚𝗥𝗘𝗦𝗢
 
-🔹 [▓▓▓▓▓░░░░░░░] 50% Completado
+°^☘️ [▓▓▓▓▓░░░░░░░] 50% Completado
 
-🎼 *Título:* ${title}
-⏰ *Duración:* ${duration}
-📦 *Tamaño:* ${sizeStr}
-🌐 *Link:* ${url}
+= 🌱 *Título :* ${title}
+= ⏰ *Duración :* ${duration}
+= 📦 *Tamaño :* ${sizeStr}
+= ⚡ *Link :* ${url}
 
-⌛ *Estado:* Preparando el audio, espera un momento...`,
+= ⌛ *Estado:* Preparando el audio, espera un momento...`,
     mentions: [m.sender],
     contextInfo: {
       externalAdReply: {
@@ -116,7 +115,7 @@ const handler = async (m, { conn, text, command }) => {
         }
       }, { quoted: m });
 
-      await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key }});
+     await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key }});
     } else {
       return m.reply(`⚠️ No se pudo descargar el audio.`);
     }
@@ -126,8 +125,8 @@ const handler = async (m, { conn, text, command }) => {
   }
 };
 
-handler.command = ['ytmp3doc'];
-handler.help = ['ytmp3doc', 'ytadoc'];
+handler.command = ['ytmp3doc', 'ytadoc'];
+handler.help = ['ytmp3doc'];
 handler.tags = ['descargas'];
 
 export default handler;
