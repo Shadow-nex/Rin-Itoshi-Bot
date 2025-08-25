@@ -1,75 +1,106 @@
-import fs from 'fs'
-import acrcloud from 'acrcloud'
+// plugins/shazam.js
+// Reconocer canción de un audio/nota de voz usando AudD
+// Requiere: npm i node-fetch form-data
+// Opcional (si quieres convertir formatos raros): npm i fluent-ffmpeg @ffmpeg-installer/ffmpeg
 
-let acr = new acrcloud({
-host: 'identify-eu-west-1.acrcloud.com',
-access_key: 'c33c767d683f78bd17d4bd4991955d81',
-access_secret: 'bvgaIAEtADBTbLwiPGYlxupWqkNGIjT7J9Ag2vIu'
-})
+import fetch from 'node-fetch';
+import FormData from 'form-data';
 
-let handler = async (m) => {
-let q = m.quoted ? m.quoted : m
-let mime = (q.msg || q).mimetype || ''
-if (!/audio|video/.test(mime)) {
-return m.reply(`*${xtools} Por favor, responde a un audio o video para identificar la música.*`)
-}
+const AUDD_API_KEY = process.env.AUDD_API_KEY || '18a49217b6dea2e9ce6a143ad7a1d530'; // <- cámbialo o usa variables de entorno
 
-let file = ''
-try {
-await m.react('⚡')
+let handler = async (m, { conn, usedPrefix, command }) => {
+  // Toma el mensaje citado o el propio
+  const q = m.quoted || m;
+  const mime =
+    (q.msg && (q.msg.mimetype || q.msg.mtype || q.mtype)) ||
+    q.mimetype ||
+    '';
 
-let media = await q.download()  
-if (!media) throw '*✖️ No se pudo descargar el archivo de audio/video.*'  
+  if (!/audio|ptt|voice|ogg|opus/i.test(mime) && !(q.audio || q.ptt)) {
+    throw `🎧 Responde a un *audio/nota de voz* con: *${usedPrefix}${command}*`;
+  }
 
-let dur = (q.seconds || 5)
-if (dur < 5) return m.reply('*⚠️ El audio/video debe durar al menos 5 segundos.*')
-if (dur > 20) return m.reply('*⚠️ El archivo que carga es demasiado grande. Sugerimos que lo recorte a 10–20 segundos. Esa duración es suficiente para identificar la música.*')
+  // Descargar el audio a Buffer
+  let buffer;
+  try {
+    // Muchos frameworks ya exponen .download()
+    if (typeof q.download === 'function') {
+      buffer = await q.download();
+    } else if (q.mediaMessage) {
+      buffer = await conn.downloadMediaMessage(q);
+    } else {
+      // Último recurso (algunas bases)
+      buffer = await conn.downloadMediaMessage(m);
+    }
+  } catch (e) {
+    console.error('Error descargando audio:', e);
+    throw '⚠️ No pude descargar el audio. Intenta reenviarlo como nota de voz.';
+  }
 
-let ext = mime.split('/')[1]  
-if (!fs.existsSync('./tmp')) fs.mkdirSync('./tmp')  
-file = `./tmp/${m.sender}-${Date.now()}.${ext}`  
-fs.writeFileSync(file, media)  
+  if (!buffer || !buffer.length) throw '⚠️ Audio vacío o no soportado.';
 
-let buffer = await fs.promises.readFile(file)  
-let res = await acr.identify(buffer)  
-let { code, msg } = res.status  
+  // Enviar a AudD
+  let result;
+  try {
+    const form = new FormData();
+    form.append('api_token', AUDD_API_KEY);
+    form.append('return', 'timecode,apple_music,spotify,deezer');
+    // nombre de archivo “neutro”; AudD detecta el formato automáticamente
+    form.append('file', buffer, { filename: 'audio.ogg' });
 
-if (code !== 0) {  
-  if (msg.toLowerCase().includes('no result')) {  
-    throw '*⚠️ No se encontró ninguna coincidencia de música.*\n*Asegúrate de que el audio o vídeo esté claro y sin ruido.*'  
-  }  
-  throw `*✖️ Error del servidor ACRCloud:* ${msg}`  
-}  
+    const res = await fetch('https://api.audd.io/', {
+      method: 'POST',
+      body: form,
+      // form-data pone cabeceras necesarias automáticamente
+    });
 
-if (!res.metadata?.music?.length) {  
-  throw '*⚠️ No se encontró ninguna coincidencia de música.*'  
-}  
+    const json = await res.json();
+    if (!json || !json.result) {
+      console.log('Respuesta AudD:', json);
+      throw new Error(json?.error?.error_message || 'Sin resultados');
+    }
+    result = json.result;
+  } catch (e) {
+    console.error('Error AudD:', e);
+    throw '😔 No pude reconocer la canción. Vuelve a intentar con un audio más claro (5–15s).';
+  }
 
-let info = res.metadata.music[0]  
-let { title, artists, album, genres, release_date } = info  
+  // Armar respuesta
+  const {
+    title,
+    artist,
+    album,
+    release_date,
+    timecode,
+    song_link,
+    apple_music,
+    spotify,
+    deezer
+  } = result;
 
-let txt = `
-\`\`\`乂 RESULTADO - ACRCLOUD\`\`\`
+  const links = [];
+  if (song_link) links.push(`🔗 ${song_link}`);
+  if (apple_music?.url) links.push(` Apple Music: ${apple_music.url}`);
+  if (spotify?.external_urls?.spotify) links.push(`🟢 Spotify: ${spotify.external_urls.spotify}`);
+  if (deezer?.link) links.push(`🔵 Deezer: ${deezer.link}`);
 
-≡ 🌴 *Título:* ${title}
-≡ 👤 *Artista:* ${artists?.map(v => v.name).join(', ') || 'Desconocido'}
-≡ 🌿 *Álbum:* ${album?.name || 'Desconocido'}
-≡ 🌵 *Género:* ${genres?.map(v => v.name).join(', ') || 'Desconocido'}
-≡ 🌳 *Lanzamiento:* ${release_date || 'Desconocido'}
-`.trim()
+  const decorTop = '╭━━━〔  𝐒𝐇𝐀𝐙𝐀𝐌  〕━━⬣';
+  const decorBot = '╰━━━━━━━━━━━━━━━━━━━━⬣';
 
-m.reply(txt)
+  const msg =
+`${decorTop}
+🎵 *Título:* ${title || 'Desconocido'}
+👤 *Artista:* ${artist || 'Desconocido'}
+💿 *Álbum:* ${album || '—'}
+📅 *Lanzamiento:* ${release_date || '—'}
+⏱️ *Timecode:* ${timecode || '—'}
 
-} catch (e) {
-let msg = typeof e === 'string' ? e : `*✖️ Error:* ${e.message || e}`
-m.reply(msg)
-} finally {
-if (file) {
-try { fs.unlinkSync(file) }
-catch (e) { console.error('Error eliminando archivo temporal:', e) }
-}
-}
-}
+${links.length ? links.join('\n') : 'No se hallaron enlaces.'}
+${decorBot}`;
+
+  await conn.reply(m.chat, msg, m);
+};
+
 handler.help = ['whatmusic'];
 handler.tags = ['tools'];
 handler.command = ['whatmusic', 'shazam'];

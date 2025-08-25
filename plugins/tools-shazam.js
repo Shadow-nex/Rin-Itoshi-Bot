@@ -101,10 +101,8 @@ ${decorBot}`;
   await conn.reply(m.chat, msg, m);
 };
 
-handler.help = ['whatmusic'];
-handler.tags = ['tools'];
-handler.command = ['whatmusic', 'shazam'];
-handler.register = true;
+handler.help = ['shazam'];
+handler.tags = ['tools', 'music'];
+handler.command = /^shazam|what(song)?|whatsong$/i;
 
 export default handler;
-
