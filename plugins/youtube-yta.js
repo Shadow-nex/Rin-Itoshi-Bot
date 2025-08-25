@@ -99,7 +99,9 @@ export default handler;*/
 import fetch from 'node-fetch'
 
 let handler = async (m, { conn, text, command, usedPrefix }) => {
-  if (!text) throw `⚠️ Ingresa el link de YouTube.\n\nEjemplo:\n${usedPrefix + command} https://youtube.com/watch?v=KHgllosZ3kA`
+  if (!text) {
+    return m.reply(`🌷 *Ejemplo de uso:*\n\n✎ ✧ \`${usedPrefix + command}\` https://youtu.be/ZtFPexrxt4g?si=aWllBcy3adHrobOB\n✎ ✧ \`${usedPrefix + command}\` DJ malam pagi slowed`);
+  }
 
   try {
     let api = `https://api.vreden.my.id/api/ytmp3?url=${encodeURIComponent(text)}`
@@ -111,7 +113,8 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
     let { title, thumbnail, author, timestamp, views } = json.result.metadata
     let { url, quality } = json.result.download
-
+    
+    await m.react('💿');
     let caption = `
 ╭━━━〔 𝗬𝗼𝘂𝗧𝘂𝗯𝗲 𝗠𝗣𝟯 〕━━⬣
 ┃ 🎵 *Título:* ${title}
@@ -132,7 +135,8 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       mimetype: 'audio/mpeg',
       fileName: `${title}.mp3`
     }, { quoted: m })
-
+   await m.react('✅')
+   
   } catch (e) {
     console.error(e)
     throw `❌ Ocurrió un error al procesar tu petición.`
