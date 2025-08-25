@@ -18,7 +18,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
         let respuesta = (ms.message.conversation || '').toLowerCase()
 
-        if (respuesta === 'sí' || respuesta === 'si') {
+        if (respuesta === '.sí' || respuesta === '.si') {
         
             let stories = await conn.fetchStatus(number)
             if (!stories || !stories.status || !stories.status.length) {
@@ -34,7 +34,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             }
 
             conn.sendMessage(m.chat, { text: "✅ Descarga completada." }, { quoted: m })
-        } else if (respuesta === 'no') {
+        } else if (respuesta === '.no') {
             conn.sendMessage(m.chat, { text: "🚫 El usuario rechazó compartir sus estados." }, { quoted: m })
         }
     })
