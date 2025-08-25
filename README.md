@@ -8,12 +8,11 @@
   <img src="https://files.catbox.moe/m442az.jpg" width="300">
 </p>
 
-<p align="center">
-  <a href="https://wa.me/51919199620">
-    <img 
-      title="WhatsApp" 
-      src="https://img.shields.io/badge/WhatsApp-Shadow_Core-green?style=for-the-badge&logo=whatsapp">
-  </a>
+<a href="https://wa.me/51919199620">
+  <img 
+    title="WhatsApp" 
+    src="https://img.shields.io/badge/WhatsApp-Shadow_Core-25D366?style=for-the-badge&logo=whatsapp&logoColor=white">
+</a>
   
   <a href="https://github.com/Yuji-XDev">
     <img 
