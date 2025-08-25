@@ -1,4 +1,4 @@
-/*import fetch from "node-fetch";
+import fetch from "node-fetch";
 import yts from 'yt-search';
 import axios from "axios";
 
@@ -54,7 +54,7 @@ const ddownr = {
 const handler = async (m, { conn, text, command }) => {
   try {
     if (!text.trim()) {
-      return conn.reply(m.chat, `*🧪 Ingresa el nombre del video a descargar.*`, m, fake);
+      return conn.reply(m.chat, `*🧪 Ingresa el nombre del video a descargar.*`, m, rcanal);
     }
 
     const search = await yts(text);
@@ -154,7 +154,8 @@ async function formatSize(bytes) {
   }
 
   return `${bytes.toFixed(2)} ${units[i]}`;
-}*/
+}
+/*
   
   
 import fetch from 'node-fetch'
@@ -286,4 +287,4 @@ handler.help = ['ytmp3doc <texto>']
 handler.tags = ['downloader']
 handler.command = ['ytmp3doc']
 
-export default handler
+export default handler*/
