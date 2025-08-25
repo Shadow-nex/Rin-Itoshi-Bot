@@ -211,7 +211,7 @@ npm start
 
 <p align="center">
   <img src="https://github-readme-stats.vercel.app/api?username=Yuji-XDev&repo=Rin-Itoshi-Bot&show_icons=true&theme=tokyonight&bg_color=0D1117&title_color=ff00ff&text_color=00ffff&icon_color=f1c40f&hide_border=true" alt="Estadísticas de GitHub">
- <img src="https://github-readme-streak-stats.herokuapp.com/?user=Yuji-XDev&theme=dark&hide_border=true" alt="🍂 Racha de GitHub">
+
   <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=Yuji-XDev&theme=tokyonight" alt="Detalles del perfil">
 </p>
 
