@@ -1,11 +1,11 @@
-/*// Código creado por Dev.Shadow xD
+// Código creado por Dev.Shadow xD
 // https://github.com/Yuji-XDev
 
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
-    return m.reply(`🌾 *Ejemplo de uso:*\n\n✎ ✧ \`${usedPrefix + command}\` https://youtu.be/ZtFPexrxt4g?si=aWllBcy3adHrobOB\n✎ ✧ \`${usedPrefix + command}\` DJ malam pagi slowed`);
+    return m.reply(`⚡ *Ejemplo de uso:*\n\n✎ ✧ \`${usedPrefix + command}\` https://youtu.be/ZtFPexrxt4g?si=aWllBcy3adHrobOB\n✎ ✧ \`${usedPrefix + command}\` DJ malam pagi slowed`);
   }
 
   await m.react('💿');
@@ -60,17 +60,11 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     await conn.sendMessage(m.chat, {
       image: { url: info.thumb },
-      caption: `╭━━━〔 𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰 𝙴𝙽 𝙲𝚄𝚁𝚂𝙾 ⬇️ 〕━━━⬣
-┃
-┃ 📥 𝙿𝚛𝚘𝚐𝚛𝚎𝚜𝚘: ▓▓▓▓▓▓░░░░░░ 50%
-┃
-┃ 🎵 𝚃𝚒́𝚝𝚞𝚕𝚘: *${info.title}*
-┃ 👤 𝙰𝚞𝚝𝚘𝚛: *${info.author || 'Desconocido'}*
-┃ ⏱️ 𝙳𝚞𝚛𝚊𝚌𝚒𝚘́𝚗: *${info.duration || 'Desconocida'}*
-┃ 📦 𝚃𝚊𝚖𝚊𝚗̃𝚘: *${info.size || 'Calculando...'}*
-┃ ⏳ 𝙴𝚜𝚝𝚊𝚍𝚘: *Preparando audio...*
-┃
-╰━━━━━━━━━━━━━━━━━━━━⬣`
+      caption: `╭━━━〔 𝗬𝗼𝘂𝗧𝘂𝗯𝗲 𝗠𝗣𝟯 〕━━⬣
+┃ 🎵 *Título:* ${info.title}
+┃ 👤 *Canal:* ${info.author || 'Desconocido'}
+┃ ⏱️ *Duración:* ${info.duration || 'Desconocida'}
+╰━━━━━━━━━━━━⬣`
     }, { quoted: m });
  
 
@@ -95,7 +89,7 @@ handler.tags = ['downloader'];
 
 export default handler;
 
-
+/*
 import fetch from 'node-fetch'
 
 let handler = async (m, { conn, text, command, usedPrefix }) => {
@@ -147,72 +141,3 @@ handler.tags = ['downloader']
 handler.command = ['yta']
 
 export default handler*/
-
-import fetch from 'node-fetch'
-
-let handler = async (m, { conn, text, command, usedPrefix }) => {
-  if (!text) {
-    return m.reply(`⚡ *Ejemplo de uso:*\n\n✎ ✧ \`${usedPrefix + command}\` https://youtu.be/ZtFPexrxt4g?si=aWllBcy3adHrobOB\n✎ ✧ \`${usedPrefix + command}\` DJ malam pagi slowed`);
-  }
-
-  try {
-    let urlYT = ''
-    // Detectar si el texto es una URL de YouTube
-    if (/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\//i.test(text)) {
-      urlYT = text
-    } else {
-      // Si es texto -> buscar en YouTube
-      let searchApi = `https://dark-core-api.vercel.app/api/search/youtube?q=${encodeURIComponent(text)}`
-      let searchRes = await fetch(searchApi)
-      let searchJson = await searchRes.json()
-      if (!searchJson.status || !searchJson.data || !searchJson.data[0]) throw `⚠️ No se encontraron resultados en YouTube.`
-
-      urlYT = `https://youtu.be/${searchJson.data[0].videoId}`
-    }
-
-    // Descargar con API
-    let api = `https://api.vreden.my.id/api/ytmp3?url=${encodeURIComponent(urlYT)}`
-    let res = await fetch(api)
-    if (!res.ok) throw `❌ Error al conectar con la API`
-    let json = await res.json()
-
-    if (!json.status || !json.result || !json.result.download?.url) throw `⚠️ No se pudo obtener el audio.`
-
-    let { title, thumbnail, author, timestamp, views } = json.result.metadata
-    let { url, quality } = json.result.download
-    
-    await m.react('🕓')
-    let caption = `
-╭━━━〔 𝗬𝗼𝘂𝗧𝘂𝗯𝗲 𝗠𝗣𝟯 〕━━⬣
-┃ 🎵 *Título:* ${title}
-┃ 👤 *Canal:* ${author?.name || "Desconocido"}
-┃ ⏱️ *Duración:* ${timestamp}
-┃ 👀 *Vistas:* ${views.toLocaleString()}
-┃ 🎧 *Calidad:* ${quality}
-╰━━━━━━━━━━━━⬣
-    `.trim()
-
-    // Imagen + info
-    await conn.sendMessage(m.chat, {
-      image: { url: thumbnail },
-      caption
-    }, { quoted: m })
-
-    // Audio
-    await conn.sendMessage(m.chat, {
-      audio: { url },
-      mimetype: 'audio/mpeg',
-      fileName: `${title}.mp3`
-    }, { quoted: m })
-
-  } catch (e) {
-    console.error(e)
-    throw `❌ Ocurrió un error al procesar tu petición.`
-  }
-}
-
-handler.help = ['yta <url|texto>']
-handler.tags = ['downloader']
-handler.command = ['yta']
-
-export default handler
