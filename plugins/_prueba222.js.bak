@@ -15,7 +15,7 @@ let handler = async (m, { conn, text, command }) => {
     // Botones rápidos
     const buttons = [
       { buttonId: 'tebakgambar', buttonText: { displayText: '🔄 Otra imagen' }, type: 1 },
-      { buttonId: '.hint', buttonText: { displayText: '💡 Pista' }, type: 1 }
+      { buttonId: 'hint', buttonText: { displayText: '💡 Pista' }, type: 1 }
     ];
 
     // Lista tipo Flow
