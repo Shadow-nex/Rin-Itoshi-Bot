@@ -22,10 +22,10 @@
   </a>
   
   <a href="https://youtube.com/@florencioacaro?si=GHARsWmASsGNu8Vz">
-    <img 
-      title="YouTube" 
-      src="https://img.shields.io/badge/YouTube-Shadow_Core-red?style=for-the-badge&logo=youtube">
-  </a>
+  <img 
+    title="YouTube" 
+    src="https://img.shields.io/badge/YouTube-Shadow_Core-FF0000?style=for-the-badge&logo=youtube&logoColor=white">
+</a>
 
   <a href="https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U">
     <img 
