@@ -9,28 +9,24 @@
 </p>
 
 <p align="center">
-  <!-- WhatsApp -->
   <a href="https://wa.me/51919199620">
     <img 
       title="WhatsApp" 
       src="https://img.shields.io/badge/WhatsApp-Shadow_Core-green?style=for-the-badge&logo=whatsapp">
   </a>
-
-  <!-- GitHub -->
+  
   <a href="https://github.com/Yuji-XDev">
     <img 
       title="GitHub" 
       src="https://img.shields.io/badge/GitHub-Shadow_Core-black?style=for-the-badge&logo=github">
   </a>
-
-  <!-- YouTube -->
+  
   <a href="https://youtube.com/@florencioacaro?si=GHARsWmASsGNu8Vz">
     <img 
       title="YouTube" 
       src="https://img.shields.io/badge/YouTube-Shadow_Core-red?style=for-the-badge&logo=youtube">
   </a>
 
-  <!-- Canal de WhatsApp -->
   <a href="https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U">
     <img 
       title="WhatsApp Channel" 
