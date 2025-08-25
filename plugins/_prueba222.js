@@ -1,8 +1,20 @@
 import fetch from 'node-fetch';
 
-let handler = async (m, { conn, text, command }) => {
+// ------------------------
+// Comando principal
+// ------------------------
+let handler = async (m, { conn, command }) => {
+  await sendTebakGambar(m, conn);
+};
+
+handler.command = ['tebakgambar', 'tbg'];
+export default handler;
+
+// ------------------------
+// Función para enviar el juego
+// ------------------------
+async function sendTebakGambar(m, conn) {
   try {
-    // Obtener juego de la API
     const res = await fetch('https://api.vreden.my.id/api/tebakgambar');
     const data = await res.json();
     const image = data.result[0].image;
@@ -14,8 +26,9 @@ let handler = async (m, { conn, text, command }) => {
 
     // Botones rápidos
     const buttons = [
-      { buttonId: 'tebakgambar', buttonText: { displayText: '🔄 Otra imagen' }, type: 1 },
-      { buttonId: '.hint', buttonText: { displayText: '💡 Pista' }, type: 1 }
+      { buttonId: 'btn_tebakgambar', buttonText: { displayText: ' Otra imagen' }, type: 1 },
+      { buttonId: 'btn_hint', buttonText: { displayText: '💡 Pista' }, type: 1 },
+      { buttonId: 'btn_giveup', buttonText: { displayText: '❌ Rendirse' }, type: 1 }
     ];
 
     // Lista tipo Flow
@@ -23,9 +36,9 @@ let handler = async (m, { conn, text, command }) => {
       {
         title: 'Opciones',
         rows: [
-          { title: '🔄 Otra imagen', rowId: 'tebakgambar' },
-          { title: '💡 Pista', rowId: 'hint' },
-          { title: '❌ Rendirse', rowId: 'giveup' }
+          { title: '🔄 Otra imagen', rowId: 'btn_tebakgambar' },
+          { title: '💡 Pista', rowId: 'btn_hint' },
+          { title: '❌ Rendirse', rowId: 'btn_giveup' }
         ]
       }
     ];
@@ -34,7 +47,7 @@ let handler = async (m, { conn, text, command }) => {
       text: `
 ╭━━━〔 🧩 TEBAK GAMBAR 〕━━⬣
 ┃ Intenta adivinar la respuesta de esta imagen.
-┃ Envía tu respuesta o usa los botones/lista.
+┃ Presiona un botón, usa la lista o escribe tu respuesta.
 ╰━━━━━━━━━━━━━━━━⬣
       `.trim(),
       footer: 'Rin Itoshi Bot',
@@ -43,7 +56,7 @@ let handler = async (m, { conn, text, command }) => {
       sections
     };
 
-    // Enviar imagen + botones + lista
+    // Enviar imagen con botones y lista
     await conn.sendMessage(m.chat, {
       image: { url: image },
       caption: listMessage.text,
@@ -53,35 +66,53 @@ let handler = async (m, { conn, text, command }) => {
     });
 
   } catch (err) {
-    m.reply('❌ Ocurrió un error al obtener el juego.');
+    m.reply('❌ Error al obtener el juego.');
     console.error(err);
   }
-};
-
-handler.command = ['tebakgambar', 'tbg'];
-export default handler;
+}
 
 // ------------------------
-// Validación de respuestas
+// Handler de botones y mensajes
 // ------------------------
-let checkHandler = async (m, { conn, text }) => {
-  if (!text) return;
-  if (conn.tebakGambar && conn.tebakGambar[m.chat]) {
-    const answer = conn.tebakGambar[m.chat];
+let buttonHandler = async (m, { conn, buttonId, text }) => {
+  if (!conn.tebakGambar || !conn.tebakGambar[m.chat]) return;
+  const answer = conn.tebakGambar[m.chat];
 
+  // Acciones según botón
+  switch (buttonId) {
+    case 'btn_tebakgambar':
+      return sendTebakGambar(m, conn); // Nueva ronda
+    case 'btn_hint':
+      return m.reply(`💡 Pista: Empieza con "${answer.split(' ')[0]}"`);
+    case 'btn_giveup':
+      delete conn.tebakGambar[m.chat];
+      return m.reply(`❌ La respuesta correcta era: ${answer}`);
+  }
+
+  // Validar respuesta escrita
+  if (text) {
     if (text.toLowerCase() === answer) {
-      m.reply('🎉 ¡Correcto! Has adivinado.');
       delete conn.tebakGambar[m.chat];
-    } else if (text.toLowerCase() === 'hint') {
-      const hint = answer.split(' ')[0];
-      m.reply(`💡 Pista: Empieza con "${hint}"`);
-    } else if (text.toLowerCase() === 'giveup') {
-      m.reply(`❌ La respuesta correcta era: ${answer}`);
-      delete conn.tebakGambar[m.chat];
+      return m.reply('🎉 ¡Correcto! Has adivinado.');
     } else {
-      m.reply('❌ Incorrecto, intenta de nuevo.');
+      return m.reply('❌ Incorrecto, intenta de nuevo.');
     }
   }
 };
 
-export { checkHandler };
+export { buttonHandler };
+
+// ------------------------
+// Integración con Baileys
+// ------------------------
+// Este snippet va en tu manejador global de mensajes:
+conn.ev.on('messages.upsert', async ({ messages }) => {
+  const m = messages[0];
+  const buttonId = m.message?.buttonsResponseMessage?.selectedButtonId;
+  const listId = m.message?.listResponseMessage?.singleSelectReply?.selectedRowId;
+  const text = m.message?.conversation || m.message?.extendedTextMessage?.text;
+
+  if (buttonId || listId || text) {
+    await buttonHandler(m, { conn, buttonId: buttonId || listId, text });
+  }
+});
