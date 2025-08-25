@@ -1,12 +1,14 @@
-import { yupload } from "../lib/yupload.js";
+import { yupload } from "../lib/yupload.js"
+import fetch from "node-fetch"
+import fs from "fs"
 
 const handler = async (m, { conn, text, usedPrefix, command, args }) => {
-  if (!args[0]) throw `🍂 Ingresa un link de YourUpload. Ejemplo:\n${command} https://www.yourupload.com/watch/wYk0lUX3cwGk`
+  if (!args[0]) throw `🍂 Ingresa un link de YourUpload. Ejemplo:\n${usedPrefix + command} https://www.yourupload.com/watch/wYk0lUX3cwGk`
   if (!/^https?:\/\/(www\.)?yourupload\.com\/watch\/[a-zA-Z0-9]+$/.test(args[0])) throw `⚠️ La URL no parece ser válida de YourUpload`
 
   m.react('🕓')
 
-  const { title, views, shareUrl, embedUrl, type, size, uploaded, dl } = await yupload.info(args[0])
+  const { title, views, shareUrl, embedUrl, uploaded, dl } = await yupload.info(args[0])
 
   const body = `
 \`\`\`◜ YourUpload - Download ◞\`\`\`
@@ -20,14 +22,15 @@ const handler = async (m, { conn, text, usedPrefix, command, args }) => {
     
 _# 🌴 Su Archivo se enviará en un momento . . ._`
 
-  let buffer = await (await fetch(menu)).arrayBuffer()
-  conn.sendSylph(m.chat, body, Buffer.from(buffer), footer, "", "", fkontak)
-  let file = await yupload.dl(dl)
-  await conn.sendFile(m.chat, file, title, "", m, null, { asDocument: true })
+  await conn.sendMessage(m.chat, { text: body }, { quoted: m })
+
+  let fileUrl = await yupload.dl(dl)
+
+  await conn.sendFile(m.chat, fileUrl, `${title}.mp4`, "📥 Aquí tienes tu archivo", m, null, { asDocument: true })
+
   m.react('✅')
-  fs.unlinkSync(file)
 }
 
 handler.command = handler.help = ['yupload']
-handler.tags = ["download"];
+handler.tags = ["download"]
 export default handler
