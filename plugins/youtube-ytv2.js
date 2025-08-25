@@ -11,23 +11,22 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     if (!json.status || !json.result?.download?.url) throw new Error('❌ No se pudo obtener el video.')
 
     let { metadata, download } = json.result
-    let caption = `
-╭━━━〔 🎥 *YouTube Video* 〕━━⬣
+    let caption = `\`\`\`╭━━━〔 🎥 *YouTube Video* 〕━━⬣
 ┃ ✦ *Título:* ${metadata.title}
 ┃ ✦ *Duración:* ${metadata.duration.timestamp}
 ┃ ✦ *Vistas:* ${metadata.views.toLocaleString()}
 ┃ ✦ *Canal:* ${metadata.author.name}
 ┃ ✦ *Calidad:* ${download.quality}
-╰━━━━━━━━━━━━━━━━━━⬣
-`.trim()
-
+╰━━━━━━━━━━━━━━━━━━⬣\`\`\``.trim()
+/*
     await conn.sendMessage(m.chat, {
       image: { url: metadata.thumbnail },
       caption
     }, { quoted: m })
-
+*/
     await conn.sendMessage(m.chat, {
       document: { url: download.url },
+      caption: caption,
       mimetype: 'video/mp4',
       fileName: download.filename
     }, { quoted: m })
@@ -40,6 +39,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
 handler.help = ['ytv-v2 <url>']
 handler.tags = ['downloader']
-handler.command = /^ytv-v2$/i
+handler.command = ['ytv-v2']
 
 export default handler
