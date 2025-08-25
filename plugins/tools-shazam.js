@@ -5,16 +5,16 @@ import { tmpdir } from 'os'
 import path from 'path'
 
 let acr = new acrcloud({
-  host: 'identify-eu-west-1.acrcloud.com',
-  access_key: 'c33c767d683f78bd17d4bd4991955d81',
-  access_secret: 'bvgaIAEtADBTbLwiPGYlxupWqkNGIjT7J9Ag2vIu'
+  host: 'identify-us-west-2.acrcloud.com',
+  access_key: '269eb26a57a0303c247b0c95b5f943ac',
+  access_secret: 'sZDOPeBjDPSvwkg6nC2yKOxp4BqDSu0ZtevPtwQR'
 })
 
 let handler = async (m, { conn, usedPrefix, command }) => {
   let q = m.quoted ? m.quoted : m
   let mime = (q.msg || q).mimetype || q.mediaType || ''
   if (!/video|audio/.test(mime)) 
-    return conn.reply(m.chat, `🌷 Etiqueta un *audio o video corto* con *${usedPrefix + command}* para reconocer la música.`, m)
+    return conn.reply(m.chat, `🌷 Etiqueta un *audio o video corto* con *${usedPrefix + command}* para reconocer la música.`, m, fake)
 
   let buffer = await q.download()
   if (!buffer) return conn.reply(m.chat, "❌ No pude descargar el archivo.", m)
