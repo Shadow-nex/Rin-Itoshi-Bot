@@ -38,6 +38,13 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
         image: { url: meta.thumbnail || video.thumbnail },
         caption: textoInfo,
         contextInfo: {
+        mentionedJid: [m.sender],
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: channelRD.id,
+          serverMessageId: 100,
+          newsletterName: channelRD.name
+        },
           externalAdReply: {
             title: meta.title || video.title,
             body: "🍂 Descargando desde YouTube 🧪",
@@ -61,7 +68,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       contextInfo: {
         externalAdReply: {
           title: video.title,
-          body: `Duracion: ${video.timestamp}`,
+          body: `🍁 Duracion: ${video.timestamp}`,
           mediaUrl: video.url,
           sourceUrl: video.url,
           thumbnailUrl: video.thumbnail,
