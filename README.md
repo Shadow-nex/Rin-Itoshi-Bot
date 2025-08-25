@@ -26,11 +26,11 @@
     src="https://img.shields.io/badge/YouTube-Shadow_Core-FF0000?style=for-the-badge&logo=youtube&logoColor=white">
 </a>
 
-<a href="https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U">
-  <img 
-    title="WhatsApp Channel" 
-    src="https://img.shields.io/badge/WhatsApp%20Channel-Shadow_Core-25D366?style=for-the-badge&logo=whatsapp&logoColor=white">
-</a>
+ <a href="https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U">
+   <img 
+     title="WhatsApp Channel" 
+     src="https://img.shields.io/badge/WhatsApp%20Channel-Shadow_Core-25D366?style=for-the-badge&logo=whatsapp&logoColor=white">
+ </a>
 </p>
 
 ---
