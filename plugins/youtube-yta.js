@@ -114,7 +114,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     let { title, thumbnail, author, timestamp, views } = json.result.metadata
     let { url, quality } = json.result.download
     
-    await m.react('💿');
+    await m.react('🕓')
     let caption = `
 ╭━━━〔 𝗬𝗼𝘂𝗧𝘂𝗯𝗲 𝗠𝗣𝟯 〕━━⬣
 ┃ 🎵 *Título:* ${title}
@@ -135,8 +135,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       mimetype: 'audio/mpeg',
       fileName: `${title}.mp3`
     }, { quoted: m })
-   await m.react('✅')
-   
+
   } catch (e) {
     console.error(e)
     throw `❌ Ocurrió un error al procesar tu petición.`
