@@ -25,9 +25,9 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       : "0:00"
     const download = json.download_url
 
-    let caption = `\`\`\`🧪 *Título:* ${name}
-🌷 *Artista:* ${artists}
-⏱️ *Duración:* ${duration} min\`\`\``
+    let caption = `\`\`\`🧪 Título: ${name}
+🌷 Artista: ${artists}
+⏱️ Duración: ${duration} min\`\`\``
 
     let thumb = null
     if (image) {
