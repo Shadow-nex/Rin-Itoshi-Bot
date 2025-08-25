@@ -33,19 +33,11 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     const videoUrl = findMp4Url(data);
     if (!videoUrl) throw new Error("No encontré el .mp4 en la respuesta");
 
-    const title = data.title || data.description || "Sin descripción";
-    const author = data.author || (data.user && data.user.name) || "Desconocido";
-    const likes = data.likes || data.statistics?.likes || "N/A";
-    const comments = data.comments || data.statistics?.comments || "N/A";
-
     const caption = [
       '╭━━━〔  Pinterest DL  〕━━⬣',
-      `┆ 🌀 *Video listo*`,
-      `┆ ✨ Título: ${title}`,
-      `┆ 👤 Autor: ${author}`,
-      `┆ 👍 Likes: ${likes}`,
-      `┆ 💬 Comentarios: ${comments}`,
-      `┆ 🌱 Fuente: ${pinUrl}`,
+      '┆ 🌀 *Video listo*',
+      `┆ ⚽ Fuente: ${pinUrl}`,
+      '┆ 🌱 Plataforma: Pinterest',
       '╰━━━━━━━━━━━━━━━━━━⬣',
     ].join('\n');
 
