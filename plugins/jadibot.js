@@ -46,7 +46,7 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
   const maxSubbots = 10;
   const disponibles = maxSubbots - total;
 
-  const readMore = String.fromCharCode(8206).repeat(4001)
+  //const readMore = String.fromCharCode(8206).repeat(4001)
   const lista = subbotsUnicos.map((bot, i) => {
     return `❖━━━━━━━━━━━━━━━❖
       𖦹𖦹𖦹  𝐒𝐎𝐂𝐊𝐄𝐓 𖦹𖦹𖦹
@@ -66,7 +66,6 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
 
 — 🜼🍂 List de sub Bots activos 🌱🜼❁ུ۪⸙ —
 
-${readMore}
 
 ${lista || '🌙 No hay Sub-Bots conectados por ahora verifique mas tarde.'}`;
 
