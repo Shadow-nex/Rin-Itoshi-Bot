@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+/*import fetch from "node-fetch";
 import yts from 'yt-search';
 import axios from "axios";
 
@@ -154,4 +154,84 @@ async function formatSize(bytes) {
   }
 
   return `${bytes.toFixed(2)} ${units[i]}`;
+  }*/
+  
+  
+  import fetch from 'node-fetch'
+
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text) {
+    return m.reply(`🌸 *Ejemplo de uso:*\n\n✎ ✧ \`${usedPrefix + command}\` miss you`)
+  }
+
+  try {
+    // 🔑 Definimos la API con la query
+    let api = `https://api.nexfuture.com.br/api/downloads/youtube/playaudio/v2?query=${encodeURIComponent(text)}`
+    
+    let res = await fetch(api)
+    if (!res.ok) throw new Error(`❌ Error al obtener datos de la API (${res.status})`)
+
+    let json = await res.json()
+    if (!json.status || !json.resultado?.result) throw new Error("⚠️ No se encontraron resultados.")
+
+    let info = json.resultado.result
+    let video = info.video
+    let channel = info.channel
+    let downloads = info.downloads?.audio
+
+    let title = video.title
+    let url = video.url
+    let duration = video.duration
+    let views = video.shortViewCount || video.views
+    let published = video.published
+    let thumbnail = video.thumbnails?.[1]?.url || video.thumbnails?.[0]?.url
+    let audioUrl = downloads?.config || downloads?.any4k
+
+    let caption = `
+╭━━━〔 🎵 𝐏𝐋𝐀𝐘 𝐀𝐔𝐃𝐈𝐎 〕━━⬣
+┃ ✦ *Título:* ${title}
+┃ ✦ *Canal:* ${channel.name}
+┃ ✦ *Duración:* ${duration}
+┃ ✦ *Vistas:* ${views}
+┃ ✦ *Publicado:* ${published}
+┃ ✦ *Link:* ${url}
+╰━━━━━━━━━━━━⬣
+`
+
+    // 📩 Enviar preview con la portada
+    await conn.sendMessage(m.chat, {
+      image: { url: thumbnail },
+      caption: caption,
+      contextInfo: {
+        externalAdReply: {
+          title: title,
+          body: channel.name,
+          mediaType: 1,
+          thumbnailUrl: thumbnail,
+          sourceUrl: url
+        }
+      }
+    }, { quoted: m })
+
+    // 🎧 Enviar el audio directamente
+    if (audioUrl) {
+      await conn.sendMessage(m.chat, {
+        audio: { url: audioUrl },
+        mimetype: 'audio/mpeg',
+        fileName: `${title}.mp3`
+      }, { quoted: m })
+    } else {
+      m.reply("⚠️ No se encontró enlace de descarga para el audio.")
+    }
+
+  } catch (err) {
+    console.error(err)
+    m.reply(`❌ Ocurrió un error:\n${err.message}`)
+  }
 }
+
+handler.help = ['ytmp3doc <texto>']
+handler.tags = ['downloader']
+handler.command = ['ytmp3doc']
+
+export default handler

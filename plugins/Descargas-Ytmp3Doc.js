@@ -153,7 +153,8 @@ async function formatSize(bytes) {
     i++;
   }
 
-  return `${bytes.toFixed(2)} ${units[i]}`;*/
+  return `${bytes.toFixed(2)} ${units[i]}`;
+}*/
   
   
   import fetch from 'node-fetch'
@@ -234,4 +235,3 @@ handler.tags = ['downloader']
 handler.command = ['ytmp3doc']
 
 export default handler
-}
