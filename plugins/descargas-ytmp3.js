@@ -38,7 +38,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
         image: { url: meta.thumbnail || video.thumbnail },
         caption: textoInfo,
         contextInfo: {
-        mentionedJid: [m.sender],
+        //mentionedJid: [m.sender],
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
           newsletterJid: channelRD.id,
@@ -48,7 +48,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
           externalAdReply: {
             title: meta.title || video.title,
             body: "🍂 Descargando desde YouTube 🧪",
-            thumbnailUrl: logo,
+            thumbnailUrl: 'https://files.catbox.moe/h4lrn3.jpg',
             sourceUrl: meta.url || video.url,
             mediaType: 1,
             renderLargerThumbnail: false
