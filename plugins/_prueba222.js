@@ -7,15 +7,25 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       (text && (text.match(/https?:\/\/\S+/i) || [])[0]) ||
       (m.quoted && m.quoted.text && (m.quoted.text.match(/https?:\/\/\S+/i) || [])[0]);
 
-    if (!pinUrl || !/pinterest\.com\/pin\//i.test(pinUrl)) {
+    if (!pinUrl) {
       return conn.reply(
         m.chat,
-        `🌟 *Descarga Pinterest*\n\n👉 Manda el link de un *Pin* con video.\n\n🧪 Ejemplo:\n${usedPrefix + command} https://pinterest.com/pin/4151824651938194`,
+        `🌟 *Descarga Pinterest*\n\n⚡ Manda el link de un *Pin* con video.\n\n🧪 Ejemplo:\n${usedPrefix + command} https://pinterest.com/pin/4151824651938194`,
         m
       );
     }
 
     await conn.sendMessage(m.chat, { react: { text: '⏳', key: m.key } });
+
+    // Si el link es pin.it lo resolvemos
+    if (/pin\.it\//i.test(pinUrl)) {
+      let res = await fetch(pinUrl, { redirect: 'follow' });
+      pinUrl = res.url; // aquí ya tienes el link real de pinterest.com/pin/...
+    }
+
+    if (!/pinterest\.com\/pin\//i.test(pinUrl)) {
+      throw new Error("El enlace no es válido de Pinterest");
+    }
 
     const endpoint = `https://api.dorratz.com/v3/pinvideo?url=${encodeURIComponent(pinUrl)}`;
     const res = await fetch(endpoint);
