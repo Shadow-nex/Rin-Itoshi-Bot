@@ -14,25 +14,21 @@
       title="WhatsApp" 
       src="https://img.shields.io/badge/WhatsApp-Shadow_Core-25D366?style=for-the-badge&logo=whatsapp&logoColor=white">
   </a>
-
   <a href="https://github.com/Yuji-XDev">
     <img 
       title="GitHub" 
       src="https://img.shields.io/badge/GitHub-Shadow_Core-181717?style=for-the-badge&logo=github&logoColor=white">
   </a>
-
   <a href="https://youtube.com/@florencioacaro?si=GHARsWmASsGNu8Vz">
     <img 
       title="YouTube" 
       src="https://img.shields.io/badge/YouTube-Shadow_Core-FF0000?style=for-the-badge&logo=youtube&logoColor=white">
   </a>
-
   <a href="https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U">
     <img 
       title="WhatsApp Channel" 
       src="https://img.shields.io/badge/WhatsApp%20Channel-Shadow_Core-25D366?style=for-the-badge&logo=whatsapp&logoColor=white">
   </a>
-
   <a href="https://github.com/Yuji-XDev/Rin-Itoshi-Bot/stargazers">
     <img 
       title="GitHub Stars" 
@@ -214,26 +210,9 @@ npm start
 </p>
 
 <p align="center">
-
-  <!-- Popularidad -->
-  <img src="https://img.shields.io/github/stars/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=FDD835" alt="Stars"/>
-  <img src="https://img.shields.io/github/forks/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=blue" alt="Forks"/>
-  <img src="https://img.shields.io/github/watchers/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=green" alt="Watchers"/>
-
-  <br><br>
-
-  <!-- Actividad -->
-  <img src="https://img.shields.io/github/commit-activity/m/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=git&color=orange" alt="Commits"/>
-  <img src="https://img.shields.io/github/contributors/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=purple" alt="Contribuidores"/>
-  <img src="https://img.shields.io/github/issues/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=red" alt="Issues"/>
-
-  <br><br>
-
-  <!-- Info extra -->
-  <img src="https://img.shields.io/github/v/release/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=tag&color=pink" alt="Version"/>
-  <img src="https://img.shields.io/github/last-commit/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=github&color=cyan" alt="Último Commit"/>
-  <img src="https://img.shields.io/github/repo-size/Yuji-XDev/Rin-Itoshi-Bot?style=for-the-badge&logo=database&color=lime" alt="Repo Size"/>
-
+  <img src="https://github-readme-stats.vercel.app/api?username=Yuji-XDev&repo=Rin-Itoshi-Bot&show_icons=true&theme=tokyonight&bg_color=0D1117&title_color=ff00ff&text_color=00ffff&icon_color=f1c40f&hide_border=true" alt="Estadísticas de GitHub">
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=Yuji-XDev&theme=tokyonight&background=0D1117&ring=ff00ff&fire=f1c40f&currStreakLabel=00ffff&hide_border=true" alt="Racha de GitHub">
+  <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=Yuji-XDev&theme=tokyonight" alt="Detalles del perfil">
 </p>
 
 ---
