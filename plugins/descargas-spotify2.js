@@ -21,17 +21,14 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     const duration = json.duration_ms ? (json.duration_ms / 1000).toFixed(0) : 0
     const download = json.download_url
 
-    let caption = `
-╭━━━〔 𝗦𝗣𝗢𝗧𝗜𝗙𝗬 𝟮 〕━━⬣
-┃🎶 *Título:* ${name}
-┃👤 *Artista:* ${artists}
-┃⏱️ *Duración:* ${duration} seg
-┃📥 *Descarga directa abajo* 
-╰━━━━━━━━━━━━━━━━⬣
-`
+    let caption = `\`\`\`🧪 *Título:* ${name}
+🌷 *Artista:* ${artists}
+⏱️ *Duración:* ${duration} seg\`\`\``
 
     await conn.sendMessage(m.chat, {
-      image: { url: image },
+      document: { url: download },
+      mimetype: 'audio/mpeg',
+      fileName: `${name}.mp3`,
       caption: caption
     }, { quoted: m })
 
@@ -49,6 +46,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
 handler.help = ['spotify2 <url>']
 handler.tags = ['dl']
-handler.command = /^spotify2$/i
+handler.command = ['spotify2']
 
 export default handler
