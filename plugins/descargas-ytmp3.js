@@ -41,9 +41,9 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
         //mentionedJid: [m.sender],
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-          newsletterJid: channelRD.id,
+          newsletterJid: '120363401008003732@newsletter',
           serverMessageId: 100,
-          newsletterName: channelRD.name
+          newsletterName: '🗿 Toca aquí 🌱'
         },
           externalAdReply: {
             title: meta.title || video.title,
