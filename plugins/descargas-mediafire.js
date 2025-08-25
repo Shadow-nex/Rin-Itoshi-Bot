@@ -1,46 +1,42 @@
-import fetch from 'node-fetch'
+import fetch from "node-fetch";
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text) {
+    return m.reply(`🌷 Ejemplo de uso:\n\n✎ ✧ \`${usedPrefix + command}\` https://www.mediafire.com/file/wllf4m0dsnsikuh/C6_Bank_1.0.zip/file`);
+  }
+
   try {
-    if (!text) {
-      throw m.reply(`🧪 Ingresa un enlace válido de *Mediafire*.\n\n🌱 Ejemplo: ${usedPrefix + command} https://www.mediafire.com/file/xxxxxx/file`);
-    }
-
-    await conn.sendMessage(m.chat, { react: { text: "🕒", key: m.key } });
-
-    let apiUrl = `https://api.vreden.my.id/api/mediafiredl?url=${encodeURIComponent(text)}`;
-    let res = await fetch(apiUrl);
+    let api = `https://api.nexfuture.com.br/api/downloads/mediafire/dl?url=${encodeURIComponent(text)}`;
+    let res = await fetch(api);
     let json = await res.json();
 
-    if (!json.result || !json.result[0] || !json.result[0].status) {
-      throw `❌ No se pudo obtener información del archivo.\nVerifica que el link sea correcto.`;
+    if (!json.status || !json.resultado?.url) {
+      return m.reply("⚠️ No se pudo obtener el archivo, revisa el enlace.");
     }
 
-    let file = json.result[0];
-    let { nama, size, mime, link } = file;
+    let { nome, mime, size, url } = json.resultado;
 
-    await conn.sendFile(m.chat, link, nama, 
-      `乂  *¡MEDIAFIRE - DESCARGAS!*  乂\n\n` +
-      `📂 *Nombre:* ${nama}\n` +
-      `📦 *Peso:* ${size}\n` +
-      `🔖 *MimeType:* ${mime}\n\n` +
-      `> 📥 Archivo descargado desde Mediafire`, 
-      m
-    );
+    let caption = `
+╭━━━〔 📂 𝙈𝙚𝙙𝙞𝙖𝙛𝙞𝙧𝙚 〕━━⬣
+┃ ✦ *Nombre:* ${nome}
+┃ ✦ *Tipo:* ${mime}
+┃ ✦ *Tamaño:* ${size}
+┃ ✦ *Servidor:* NexFuture API
+╰━━━〔 ✅ 𝘿𝙤𝙬𝙣𝙡𝙤𝙖𝙙 〕━━⬣
+`;
 
-    await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
+    await conn.sendMessage(m.chat, {
+      document: { url },
+      mimetype: mime || "application/octet-stream",
+      fileName: nome || "archivo",
+      caption,
+    }, { quoted: m });
 
-  } catch (err) {
-    console.error(err);
-    m.reply(`❌ Ocurrió un error al intentar descargar el archivo.\n\n⚠️ Verifica el link de *Mediafire*.`);
-    await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
+  } catch (e) {
+    console.error(e);
+    m.reply("❌ Error al procesar el enlace.");
   }
 };
 
-handler.help = ['mediafire <url>']
-handler.tags = ['descargas']
-handler.command = ['mf', 'mediafire']
-handler.register = true
-handler.group = true
-
-export default handler
+handler.command = ["mediafire", "mf"];
+export default handler;
