@@ -45,9 +45,16 @@ let handler = async (m, { conn, args }) => {
     ].getRandom?.() || "https://iili.io/FKVDVAN.jpg"
 
     const text = [
-      "*✦ 𝐈𝐍𝐕𝐎𝐂𝐀𝐂𝐈𝐎́𝐍 𝐌𝐀𝐒𝐈𝐕𝐀 𝐁𝐘 𝐒𝐡𝐚𝐝𝐨𝐰'𝐂𝐨𝐫𝐞 ✦*",
-      "⚜️ 𝐌𝐞𝐧𝐬𝐚𝐣𝐞 𝐜𝐨𝐥𝐞𝐜𝐭𝐢𝐯𝐨 𝐞𝐧 𝐜𝐮𝐫𝐬𝐨...",
-      "🔮 𝐄𝐭𝐢𝐪𝐮𝐞𝐭𝐚𝐧𝐝𝐨 𝐚 𝐥𝐚𝐬 𝐚𝐥𝐦𝐚𝐬 𝐩𝐞𝐫𝐝𝐢𝐝𝐚𝐬"
+   "⚡ *𝐈𝐍𝐕𝐎𝐂𝐀𝐂𝐈𝐎́𝐍 𝐄𝐍 𝐌𝐀𝐒𝐀* ⚡\n📣 ¡Atención, almas convocadas al círculo!",
+   "🔥 *𝐀𝐍𝐔𝐍𝐂𝐈𝐎 𝐂𝐎𝐋𝐄𝐂𝐓𝐈𝐕𝐎* 🔥\n⏳ El tiempo ha llegado, nadie puede faltar.",
+   "🌙 *𝐋𝐋𝐀𝐌𝐀𝐃𝐎 𝐍𝐎𝐂𝐓𝐔𝐑𝐍𝐎* 🌙\n🔔 El eco resuena, respondan a la invocación.",
+   "🌌 *𝐌𝐄𝐍𝐒𝐀𝐉𝐄 𝐆𝐋𝐎𝐁𝐀𝐋* 🌌\n✨ Todos han sido marcados en este instante.",
+   "⚜️ *𝐂𝐎𝐍𝐕𝐎𝐂𝐀𝐓𝐎𝐑𝐈𝐀 𝐎𝐅𝐈𝐂𝐈𝐀𝐋* ⚜️\n🔮 Ninguno escapará al llamado.",
+   "💀 *𝐈𝐍𝐕𝐎𝐂𝐀𝐂𝐈𝐎́𝐍 𝐒𝐈𝐍 𝐄𝐒𝐂𝐀𝐏𝐀𝐓𝐎𝐑𝐈𝐀* 💀\n📢 Los espíritus han sido mencionados.",
+   "🌟 *𝐀𝐋𝐄𝐑𝐓𝐀 𝐌𝐔𝐍𝐃𝐈𝐀𝐋* 🌟\n🚨 Todos han sido etiquetados sin excepción.",
+   "🕊️ *𝐌𝐄𝐍𝐒𝐀𝐉𝐄 𝐃𝐄 𝐋𝐀 𝐎𝐑𝐃𝐄𝐍* 🕊️\n⚔️ El llamado está en curso, atiendan.",
+   "🎭 *𝐓𝐄𝐀𝐓𝐑𝐎 𝐃𝐄 𝐋𝐀𝐒 𝐀𝐍𝐌𝐀𝐒* 🎭\n📖 Se abre el telón, todos los nombres invocados.",
+   "⚔️ *𝐂𝐑𝐈𝐓𝐈𝐂𝐀 𝐋𝐋𝐀𝐌𝐀𝐃𝐀 𝐂𝐎𝐋𝐄𝐂𝐓𝐈𝐕𝐀* ⚔️\n🩸 La sangre del pacto exige su respuesta."
     ].getRandom?.() || "✦ 𝐌𝐄𝐍𝐔 ✦"
 
     const thumbnailBuffer = Buffer.from((await axios.get(imgRandom, { responseType: 'arraybuffer' })).data)
