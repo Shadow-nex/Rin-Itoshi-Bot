@@ -77,6 +77,6 @@ function findMp4Url(any) {
 
 handler.help = ['pinvideo *<link>*']
 handler.tags = ['descargas']
-handler.command = /^(pinvideo)$/i;
+handler.command = ['pinvideo'];
 
 export default handler;
