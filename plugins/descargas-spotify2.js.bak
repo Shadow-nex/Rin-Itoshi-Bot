@@ -28,7 +28,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 🌷 Artista: ${artists}
 ⏱️ Duración: ${duration} min\`\`\``
 
-    // Procesar miniatura si existe
     let thumb = null
     if (image) {
       try {
@@ -40,13 +39,12 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       }
     }
 
-    // Enviar como documento
     await conn.sendMessage(m.chat, {
       document: { url: download },
       mimetype: 'audio/mpeg',
       fileName: `${name}.mp3`,
       caption: caption,
-      ...(thumb ? { jpegThumbnail: thumb } : {}) 
+      ...(thumb ? { jpegThumbnail: thumb } : {})
     }, { quoted: m })
 
 
