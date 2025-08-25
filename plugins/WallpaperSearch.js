@@ -48,10 +48,10 @@ let handler = async (message, { conn, text }) => {
                 message: {
                     interactiveMessage: proto.Message.InteractiveMessage.fromObject({
                         body: proto.Message.InteractiveMessage.Body.fromObject({
-                            text: `📌 rᥱsᥙᥣ𝗍ᥲძ᥆s ძᥱ : ${text}`
+                            text: `🌱 rᥱsᥙᥣ𝗍ᥲძ᥆s ძᥱ : ${text}`
                         }),
                         footer: proto.Message.InteractiveMessage.Footer.fromObject({
-                            text: 'Gᥲᥣᥱríᥲ іmágᥱᥒᥱs ᥒіᥒ᥆ ᥒᥲkᥲᥒ᥆',
+                            text: 'Gᥲᥣᥱríᥲ іmágᥱᥒᥱs',
                         }),
                         header: proto.Message.InteractiveMessage.Header.fromObject({
                             hasMediaAttachment: false
