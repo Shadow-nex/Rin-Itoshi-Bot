@@ -15,6 +15,19 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       let topResults = ytres.slice(0, 5);
       let first = topResults[0];
 
+      await conn.sendMessage(m.chat, {
+        image: { url: first.thumbnail },
+        caption:
+          `📌 *Resultados para:* "${text}"\n\n` +
+          `🎬 *${first.title}*\n` +
+          `⏱️ Duración: ${first.timestamp}\n` +
+          `📅 Publicado: ${first.ago}\n` +
+          `📺 Canal: ${first.author.name}\n` +
+          `👁️‍🗨️ Vistas: ${first.views.toLocaleString()}\n` +
+          `🔗 URL: ${first.url}`,
+        mentions: [m.sender]
+      }, { quoted: m });
+
       let listSections = topResults.map(v => ({
         title: `🔎 ${v.title.slice(0, 50)}`,
         rows: [
@@ -46,29 +59,13 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         ]
       }));
 
-      await conn.sendMessage(m.chat, {
-        image: { url: first.thumbnail },
-        caption:
-          `📌 *Resultados para:* "${text}"\n\n` +
-          `🎬 *${first.title}*\n` +
-          `⏱️ Duración: ${first.timestamp}\n` +
-          `📅 Publicado: ${first.ago}\n` +
-          `📺 Canal: ${first.author.name}\n` +
-          `👁️‍🗨️ Vistas: ${first.views.toLocaleString()}\n` +
-          `🔗 URL: ${first.url}\n\n` +
-          `📜 *Resultados de búsqueda en YouTube*\n` +
-          `🔍 *Término buscado:* ${text}\n` +
-          `🎬 *Total encontrados:* ${ytres.length}\n` +
-          `📄 *Mostrando:* ${topResults.length}\n\n` +
-          `✅ *Seleccione una opción:*`,
-        footer: "YouTube Downloader",
-        templateButtons: [
-          { index: 1, quickReplyButton: { displayText: "🎵 Descargar Audio", id: `${usedPrefix}ytmp33 ${first.url}` } },
-          { index: 2, quickReplyButton: { displayText: "🎥 Descargar Video", id: `${usedPrefix}ytmp44 ${first.url}` } },
-          { index: 3, quickReplyButton: { displayText: "📄 Más Resultados", id: `${usedPrefix}yts ${text}` } }
-        ],
-        sections: listSections, // 👉 Lista dentro del mismo mensaje
-      }, { quoted: m });
+      await conn.sendList(m.chat,
+        "📜 *Resultados de búsqueda en YouTube*",
+        `🔍 *Término buscado:* ${text}\n🎬 *Total encontrados:* ${ytres.length}\n📄 *Mostrando:* ${topResults.length}`,
+        "✅ *Seleccione una opción:*",
+        listSections,
+        m.sender
+      );
 
     } catch (e) {
       console.error(e);
