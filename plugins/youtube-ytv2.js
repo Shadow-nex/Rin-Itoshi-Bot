@@ -1,7 +1,25 @@
-/*import fetch from 'node-fetch'
+import fetch from 'node-fetch'
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) return m.reply(`🌷 Ejemplo de uso:\n\n✎ ✧ \`${usedPrefix + command}\` https://youtu.be/KHgllosZ3kA`)
+  if (!text) return m.reply(`*✎ ✧ y el link?*`)
+  
+     const thumbRes = await fetch('https://files.catbox.moe/j4cbey.jpg');
+     const thumbBuffer = await thumbRes.buffer();
+     const fkontak = {
+         key: {
+             participants: "0@s.whatsapp.net",
+             remoteJid: "status@broadcast",
+             fromMe: false,
+             id: "Halo"
+         },
+         message: {
+             locationMessage: {
+                 name: `🌀 ᴅᴏᴡɴʟᴏᴀᴅ ʏᴏᴜᴛᴜʙᴇ 🍂`,
+                 jpegThumbnail: thumbBuffer
+             }
+         },
+         participant: "0@s.whatsapp.net"
+     };
 
   try {
     let api = `https://api.vreden.my.id/api/ytmp4?url=${encodeURIComponent(text)}`
@@ -10,67 +28,27 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     if (!json.status || !json.result?.download?.url) throw new Error('❌ No se pudo obtener el video.')
 
+    await m.reply('*🌱 Descargando, por favor espera...*');
+
+
     let { metadata, download } = json.result
-    let caption = `\`\`\`╭━━━〔 🎥 *YouTube Video* 〕━━⬣
-┃ ✦ *Título:* ${metadata.title}
-┃ ✦ *Duración:* ${metadata.duration.timestamp}
-┃ ✦ *Vistas:* ${metadata.views.toLocaleString()}
-┃ ✦ *Canal:* ${metadata.author.name}
-┃ ✦ *Calidad:* ${download.quality}
-╰━━━━━━━━━━━━━━━━━━⬣\`\`\``.trim()
+    let caption = `\`\`\`✦ Título: ${metadata.title}
+✦ Duración: ${metadata.duration.timestamp}
+✦ Vistas: ${metadata.views.toLocaleString()}
+✦ Canal: ${metadata.author.name}
+✦ Calidad: ${download.quality}\`\`\``.trim()
 /*
     await conn.sendMessage(m.chat, {
       image: { url: metadata.thumbnail },
       caption
     }, { quoted: m })
-
+*/
     await conn.sendMessage(m.chat, {
       document: { url: download.url },
       caption: caption,
       mimetype: 'video/mp4',
       fileName: download.filename
-    }, { quoted: m })
-
-  } catch (e) {
-    console.error(e)
-    m.reply('⚠️ Error al descargar el video.')
-  }
-}
-
-handler.help = ['ytv-v2 <url>']
-handler.tags = ['downloader']
-handler.command = ['ytv-v2']
-
-export default handler*/
-
-import fetch from 'node-fetch'
-
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) return m.reply(`🌷 Ejemplo de uso:\n\n✎ ✧ \`${usedPrefix + command}\` https://youtu.be/KHgllosZ3kA`)
-
-  try {
-    let api = `https://api.vreden.my.id/api/ytmp4?url=${encodeURIComponent(text)}`
-    let res = await fetch(api)
-    let json = await res.json()
-
-    if (!json.status || !json.result?.download?.url) throw new Error('❌ No se pudo obtener el video.')
-
-    let { metadata, download } = json.result
-    let caption = `╭━━━〔 🎥 *YouTube Video* 〕━━⬣
-┃ ✦ *Título:* ${metadata.title}
-┃ ✦ *Duración:* ${metadata.duration.timestamp}
-┃ ✦ *Vistas:* ${metadata.views.toLocaleString()}
-┃ ✦ *Canal:* ${metadata.author.name}
-┃ ✦ *Calidad:* ${download.quality}
-╰━━━━━━━━━━━━━━━━━━⬣`.trim()
-
-    await conn.sendMessage(m.chat, {
-      video: { url: download.url },
-      caption: caption,
-      mimetype: 'video/mp4',
-      fileName: download.filename,
-      thumbnailUrl: metadata.thumbnail // 👈 aquí se usa la miniatura del video como logo
-    }, { quoted: m })
+    }, { quoted: fkontak })
 
   } catch (e) {
     console.error(e)
