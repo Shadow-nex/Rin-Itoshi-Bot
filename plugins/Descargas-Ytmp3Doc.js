@@ -157,7 +157,15 @@ async function formatSize(bytes) {
 }*/
   
   
-  import fetch from 'node-fetch'
+import fetch from 'node-fetch'
+
+function formatBytes(bytes) {
+  if (!bytes || isNaN(bytes)) return "Desconocido"
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
+  if (bytes === 0) return '0 Byte'
+  const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10)
+  return `${(bytes / Math.pow(1024, i)).toFixed(2)} ${sizes[i]}`
+}
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
@@ -165,9 +173,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 
   try {
-    // 🔑 Definimos la API con la query
     let api = `https://api.nexfuture.com.br/api/downloads/youtube/playaudio/v2?query=${encodeURIComponent(text)}`
-    
     let res = await fetch(api)
     if (!res.ok) throw new Error(`❌ Error al obtener datos de la API (${res.status})`)
 
@@ -185,20 +191,33 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     let views = video.shortViewCount || video.views
     let published = video.published
     let thumbnail = video.thumbnails?.[1]?.url || video.thumbnails?.[0]?.url
-    let audioUrl = downloads?.config || downloads?.any4k
+    let downloadUrl = downloads?.config || downloads?.any4k
+    let fileName = `${title}.mp3`
 
-    let caption = `
-╭━━━〔 🎵 𝐏𝐋𝐀𝐘 𝐀𝐔𝐃𝐈𝐎 〕━━⬣
-┃ ✦ *Título:* ${title}
-┃ ✦ *Canal:* ${channel.name}
-┃ ✦ *Duración:* ${duration}
-┃ ✦ *Vistas:* ${views}
-┃ ✦ *Publicado:* ${published}
-┃ ✦ *Link:* ${url}
-╰━━━━━━━━━━━━⬣
+    let sizeStr = "Desconocido"
+    try {
+      let head = await fetch(downloadUrl, { method: "HEAD" })
+      let size = head.headers.get("content-length")
+      if (size) sizeStr = formatBytes(parseInt(size))
+    } catch (e) {
+      console.log("❌ No se pudo obtener tamaño:", e.message)
+    }
+
+    await conn.sendMessage(m.chat, { react: { text: '📀', key: m.key }})
+    let caption = `🍂 𝗗𝗘𝗦𝗖𝗔𝗥𝗚𝗔 𝗘𝗡 𝗠𝗔𝗥𝗖𝗔 𝗣𝗥𝗢𝗚𝗥𝗘𝗦𝗢
+
+°^☘️ [▓▓▓▓▓░░░░░░░] 50% Completado
+
+= 🌱 *Título :* ${title}
+= 🍂 *Canal:* ${channel.name}
+= ⏰ *Duración :* ${duration}
+= ⚡ *Vistas:* ${views}
+= 🧪 *Publicado:* ${published}
+= 📦 *Tamaño :* ${sizeStr}
+= ⚡ *Link :* ${url}
+
+= ⌛ *Estado:* Preparando el audio, espera un momento...
 `
-
-    // 📩 Enviar preview con la portada
     await conn.sendMessage(m.chat, {
       image: { url: thumbnail },
       caption: caption,
@@ -213,12 +232,24 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       }
     }, { quoted: m })
 
-    // 🎧 Enviar el audio directamente
-    if (audioUrl) {
+
+    if (downloadUrl) {
       await conn.sendMessage(m.chat, {
-        audio: { url: audioUrl },
+        document: { url: downloadUrl },
+        fileName,
         mimetype: 'audio/mpeg',
-        fileName: `${title}.mp3`
+        caption: `*🎵 ${title}*`,
+        contextInfo: {
+          externalAdReply: {
+            title: title,
+            body: `🧪 YOUTUBE DOC 💎`,
+            mediaUrl: url,
+            sourceUrl: url,
+            thumbnailUrl: thumbnail,
+            mediaType: 1,
+            renderLargerThumbnail: false
+          }
+        }
       }, { quoted: m })
     } else {
       m.reply("⚠️ No se encontró enlace de descarga para el audio.")
@@ -230,7 +261,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 }
 
-handler.help = ['ytmp3doc <texto>']
+handler.help = ['ytmp3doc <url>']
 handler.tags = ['downloader']
 handler.command = ['ytmp3doc']
 
