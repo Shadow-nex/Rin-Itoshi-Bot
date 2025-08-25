@@ -1,42 +1,34 @@
-import fetch from "node-fetch";
+import fetch from 'node-fetch'
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) {
-    return m.reply(`🌷 Ejemplo de uso:\n\n✎ ✧ \`${usedPrefix + command}\` https://www.mediafire.com/file/wllf4m0dsnsikuh/C6_Bank_1.0.zip/file`);
-  }
-
+let handler = async (m, { conn, text }) => {
+  if (!text) throw m.reply(`${emoji} Por favor, ingresa un link de Mediafire.`);
+  
+  conn.sendMessage(m.chat, { react: { text: "🕒", key: m.key } });
+  
   try {
-    let api = `https://api.nexfuture.com.br/api/downloads/mediafire/dl?url=${encodeURIComponent(text)}`;
-    let res = await fetch(api);
-    let json = await res.json();
-
-    if (!json.status || !json.resultado?.url) {
-      return m.reply("⚠️ No se pudo obtener el archivo, revisa el enlace.");
+    let response = await fetch(`https://api.nexfuture.com.br/api/downloads/mediafire/dl?url=${encodeURIComponent(text)}`);
+    let data = await response.json();
+    
+    if (data.status) {
+      let fileInfo = data.resultado;
+      let downloadUrl = fileInfo.url;
+      
+      await conn.sendFile(m.chat, downloadUrl, fileInfo.nome, 
+        `乂 *¡MEDIAFIRE - DESCARGAS!* 乂\n\n✩ *Nombre* : ${fileInfo.nome}\n✩ *Peso* : ${fileInfo.size}\n✩ *MimeType* : ${fileInfo.mime}`, 
+        m);
+      await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key }});
+    } else {
+      throw new Error("Error en la respuesta de la API.");
     }
-
-    let { nome, mime, size, url } = json.resultado;
-
-    let caption = `
-╭━━━〔 📂 𝙈𝙚𝙙𝙞𝙖𝙛𝙞𝙧𝙚 〕━━⬣
-┃ ✦ *Nombre:* ${nome}
-┃ ✦ *Tipo:* ${mime}
-┃ ✦ *Tamaño:* ${size}
-┃ ✦ *Servidor:* NexFuture API
-╰━━━〔 ✅ 𝘿𝙤𝙬𝙣𝙡𝙤𝙖𝙙 〕━━⬣
-`;
-
-    await conn.sendMessage(m.chat, {
-      document: { url },
-      mimetype: mime || "application/octet-stream",
-      fileName: nome || "archivo",
-      caption,
-    }, { quoted: m });
-
-  } catch (e) {
-    console.error(e);
-    m.reply("❌ Error al procesar el enlace.");
+  } catch (error) {
+    console.error(error);
+    m.reply("Hubo un error al intentar obtener el archivo. Por favor, verifica el enlace.");
   }
-};
+}
 
-handler.command = ["mediafire", "mf"];
-export default handler;
+handler.help = ['mediafire']
+handler.tags = ['descargas']
+handler.command = ['mf', 'mediafire']
+handler.register = true
+
+export default handler
