@@ -141,6 +141,6 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
 handler.help = ['yta <url>']
 handler.tags = ['downloader']
-handler.command = /^yta$/i
+handler.command = ['yta']
 
 export default handler
