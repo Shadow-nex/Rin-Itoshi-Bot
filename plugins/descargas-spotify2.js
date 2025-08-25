@@ -23,7 +23,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       ? new Date(json.duration_ms).toISOString().substr(14, 5) 
       : "0:00"
     const download = json.download_url
-
+    await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } })
     let caption = `\`\`\`🧪 Título: ${name}
 🌷 Artista: ${artists}
 ⏱️ Duración: ${duration} min\`\`\``
