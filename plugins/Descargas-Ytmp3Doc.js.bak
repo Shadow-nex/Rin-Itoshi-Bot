@@ -167,30 +167,9 @@ function formatBytes(bytes) {
   return `${(bytes / Math.pow(1024, i)).toFixed(2)} ${sizes[i]}`
 }
 
-function translateViews(str) {
-  if (!str) return str
-  return str
-    .replace(/visualizações/gi, "visitas")
-    .replace(/\bmi\b/gi, "M")
-    .replace(/\bbi\b/gi, "B")
-}
-
-function translatePublished(str) {
-  if (!str) return str
-  return str
-    .replace(/há/gi, "hace")
-    .replace(/anos?/gi, "años")
-    .replace(/meses?/gi, "meses")
-    .replace(/dias?/gi, "días")
-    .replace(/semanas?/gi, "semanas")
-    .replace(/horas?/gi, "horas")
-    .replace(/minutos?/gi, "minutos")
-    .replace(/segundos?/gi, "segundos")
-}
-
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
-    return m.reply(`🌸 *Ejemplo de uso:*\n\n✎ ✧ \`${usedPrefix + command}\` stay`)
+    return m.reply(`🌸 *Ejemplo de uso:*\n\n✎ ✧ \`${usedPrefix + command}\` miss you`)
   }
 
   try {
@@ -209,8 +188,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     let title = video.title
     let url = video.url
     let duration = video.duration
-    let views = translateViews(video.shortViewCount || video.views)
-    let published = translatePublished(video.published)
+    let views = video.shortViewCount || video.views
+    let published = video.published
     let thumbnail = video.thumbnails?.[1]?.url || video.thumbnails?.[0]?.url
     let downloadUrl = downloads?.config || downloads?.any4k
     let fileName = `${title}.mp3`
@@ -224,6 +203,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       console.log("❌ No se pudo obtener tamaño:", e.message)
     }
 
+    await conn.sendMessage(m.chat, { react: { text: '📀', key: m.key }})
     let caption = `🍂 𝗗𝗘𝗦𝗖𝗔𝗥𝗚𝗔 𝗘𝗡 𝗠𝗔𝗥𝗖𝗔 𝗣𝗥𝗢𝗚𝗥𝗘𝗦𝗢
 
 °^☘️ [▓▓▓▓▓░░░░░░░] 50% Completado
@@ -238,7 +218,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
 = ⌛ *Estado:* Preparando el audio, espera un momento...
 `
-
     await conn.sendMessage(m.chat, {
       image: { url: thumbnail },
       caption: caption,
@@ -259,7 +238,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         document: { url: downloadUrl },
         fileName,
         mimetype: 'audio/mpeg',
-        caption: `🎵 ${title}`,
+        caption: `*🎵 ${title}*`,
         contextInfo: {
           externalAdReply: {
             title: title,
@@ -282,7 +261,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 }
 
-handler.help = ['ytmp3doc <texto>']
+handler.help = ['ytmp3doc <url>']
 handler.tags = ['downloader']
 handler.command = ['ytmp3doc']
 
