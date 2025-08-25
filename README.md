@@ -168,7 +168,7 @@ cd Rin-Itoshi-Bot && nano config.js
 <details>
  <summary><b> 🍁 Ver comandos para Cloud Shell</b></summary>
 
-[`☄️ Instalar Cloud Shell Clic Aqui`](https://www.mediafire.com/file/bp2l6cci2p30hjv/Cloud+Shell_1.apk/file)
+[`☘️ Instalar Cloud Shell Clic Aqui`](https://www.mediafire.com/file/bp2l6cci2p30hjv/Cloud+Shell_1.apk/file)
 
 ```bash
 apt update && apt upgrade
@@ -194,7 +194,7 @@ npm start
 ### **`➮ Enlaces útiles`**
 
 <details>
-<summary><b> 💎 Contáctos</b></summary>
+<summary><b> 🌷 Contáctos</b></summary>
 
 * WhatsApp: [`Aquí`](https:/Wa.me/51919199620)
 * Correo: [`Aquí`](blackoficial2025@gmail.com)
