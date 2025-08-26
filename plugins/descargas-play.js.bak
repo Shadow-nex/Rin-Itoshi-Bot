@@ -46,14 +46,12 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
     await conn.reply(m.chat, infoMessage, m, external)
 
-    // PLAY AUDIO
     if (['playaudio'].includes(command)) {
       try {
         const res = await fetch(`https://api.vreden.my.id/api/ytmp3?url=${url}`)
         const json = await res.json()
         if (!json.result?.download?.url) throw '⚠ No se obtuvo un enlace válido.'
 
-        // Obtener tamaño del audio
         const size = await getSize(json.result.download.url)
         const sizeStr = size ? await formatSize(size) : 'Desconocido'
 
@@ -80,7 +78,6 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       }
     }
 
-    // PLAY VIDEO
     else if (['playvideo'].includes(command)) {
       try {
         const res = await fetch(`https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`)
@@ -88,7 +85,6 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
         if (!json.status || !json.data?.download?.url) throw '⚠ No se obtuvo enlace de video.'
 
-        // Obtener tamaño del video
         const size = await getSize(json.data.download.url)
         const sizeStr = size ? await formatSize(size) : 'Desconocido'
 

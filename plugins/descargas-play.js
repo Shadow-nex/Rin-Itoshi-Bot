@@ -90,19 +90,18 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
         await m.react('✅');
 
-        let caption = `
-╭━━━〔  📹  DESCARGA COMPLETA 〕━━⬣
-┃ ✦ *Título:* ${json.data.title}
-┃ ❏ *Canal:* ${json.data.author}
-┃ ⌬ *Categoría:* ${json.data.category || "Desconocida"}
-┃ ⬡ *Duración:* ${formatTime(json.data.duration)}
-┃ ✧ *Calidad:* ${json.data.quality || "HD"}
-┃ ⨳ *Tamaño:* ${sizeStr}
-┃ 🜸 *Vistas:* ${formatViews(json.data.views)}
-┃ ◈ *Likes:* ${json.data.likes || "No disponible"}
-┃ ⌭ *Comentarios:* ${json.data.comments || "No disponible"}
-┃ ❖ *Publicado:* ${json.data.published || "No disponible"}
-╰━━━━━━━━━━━━━━━━━━⬣
+        let caption = ` 🧪  DESCARGA COMPLETA 🌱
+> ✦ *Título:* ${json.data.title}
+> ❏ *Canal:* ${json.data.author}
+> ⌬ *Categoría:* ${json.data.category || "Desconocida"}
+> ⬡ *Duración:* ${formatTime(json.data.duration)}
+> ✧ *Calidad:* ${json.data.quality || "HD"}
+> ⨳ *Tamaño:* ${sizeStr}
+> 🜸 *Vistas:* ${formatViews(json.data.views)}
+> ◈ *Likes:* ${json.data.likes || "No disponible"}
+> ⌭ *Comentarios:* ${json.data.comments || "No disponible"}
+> ❖ *Publicado:* ${ago || 'Desconocido'}
+
 🌱 *Enlace:* https://youtu.be/${json.data.id}
         `.trim()
 
