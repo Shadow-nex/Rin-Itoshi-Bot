@@ -45,7 +45,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     await conn.reply(m.chat, infoMessage, m, external)
-
+/*
     if (['playaudio'].includes(command)) {
       try {
         const res = await fetch(`https://api.vreden.my.id/api/ytmp3?url=${url}`)
@@ -72,7 +72,37 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       } catch (e) {
         return conn.reply(m.chat, '*⚠︎ No se pudo enviar el audio. El archivo podría ser demasiado pesado o hubo un error en la generación del enlace.*', m)
       }
+    }*/
+    if (['playaudio'].includes(command)) {
+      try {
+        const res = await fetch(`https://delirius-apiofc.vercel.app/download/ytmp3?url=${url}`)
+        const json = await res.json()
+
+        if (!json.status || !json.data?.download?.url) throw '*⚠ No se obtuvo un enlace válido.*'
+
+        await m.react('✅');
+        await conn.sendMessage(m.chat, {
+          audio: { url: json.data.download.url },
+          mimetype: 'audio/mpeg',
+          fileName: json.data.download.filename || `${json.data.title}.mp3`,
+          contextInfo: {
+            externalAdReply: {
+              title: json.data.title,
+              body: '⚽ RIN ITOSHI - IA 🌀',
+              mediaType: 1,
+              thumbnail: thumb,
+              mediaUrl: url,
+              sourceUrl: url,
+              renderLargerThumbnail: true
+            }
+          }
+        }, { quoted: m })
+
+      } catch (e) {
+        return conn.reply(m.chat, '*⚠︎ No se pudo enviar el audio. El archivo podría ser demasiado pesado o hubo un error en la generación del enlace.*', m)
+      }
     }
+    
 
     else if (['playvideo'].includes(command)) {
       try {
