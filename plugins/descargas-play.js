@@ -20,9 +20,6 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     const vistas = formatViews(views)
     const canal = author?.name || 'Desconocido'
     
-    const size = await getSize(url)
-    const sizeStr = size ? await formatSize(size) : 'Desconocido'
-    
     await m.react('⏱️');
     const infoMessage = `🌷 \`Titulo:\`  *<${title || 'Desconocido'}>*\n\n` +
       `> 📺 \`Canal\` » *${canal}*\n` +
@@ -55,11 +52,15 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         const json = await res.json()
         if (!json.result?.download?.url) throw '⚠ No se obtuvo un enlace válido.'
 
+        const size = await getSize(json.result.download.url)
+        const sizeStr = size ? await formatSize(size) : 'Desconocido'
+
         await m.react('✅');
         await conn.sendMessage(m.chat, {
-          audio: { url: json.result.download.url },
+          document: { url: json.result.download.url },
           mimetype: 'audio/mpeg',
           fileName: `${json.result.title}.mp3`,
+          caption: `🎵 *${json.result.title}*\n\n⨳ *Tamaño:* ${sizeStr}`,
           contextInfo: {
             externalAdReply: {
               title: title,
@@ -84,6 +85,9 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
         if (!json.status || !json.data?.download?.url) throw '⚠ No se obtuvo enlace de video.'
 
+        const size = await getSize(json.data.download.url)
+        const sizeStr = size ? await formatSize(size) : 'Desconocido'
+
         await m.react('✅');
 
         let caption = `
@@ -99,7 +103,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃ ⌭ *Comentarios:* ${json.data.comments || "No disponible"}
 ┃ ❖ *Publicado:* ${json.data.published || "No disponible"}
 ╰━━━━━━━━━━━━━━━━━━⬣
- *Enlace:* https://youtu.be/${json.data.id}
+🌱 *Enlace:* https://youtu.be/${json.data.id}
         `.trim()
 
         await conn.sendFile(
@@ -128,6 +132,7 @@ handler.tags = ['descargas']
 
 export default handler
 
+
 function formatViews(views) {
   if (views === undefined) return "No disponible"
   if (views >= 1e9) return `${(views / 1e9).toFixed(1)}B (${views.toLocaleString()})`
@@ -142,9 +147,9 @@ function formatTime(seconds) {
   return `${min}:${sec.toString().padStart(2, '0')}`
 }
 
-async function getSize(url) {
+async function getSize(downloadUrl) {
   try {
-    const response = await axios.head(url);
+    const response = await axios.head(downloadUrl, { maxRedirects: 5 });
     const length = response.headers['content-length'];
     return length ? parseInt(length, 10) : null;
   } catch (error) {
