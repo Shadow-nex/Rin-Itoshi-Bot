@@ -1,36 +1,63 @@
+import fetch from "node-fetch"
+
 let handler = async (m, { conn, usedPrefix }) => {
   const imgurl = icono;
-  const texto = `🌙・*:.｡. o(≧▽≦)o .｡.:*・🌸
 
-🪐 ${usedPrefix}setbirth
+  let frase = "No hay datos disponibles uwu~"; 
+  try {
+    let res = await fetch("https://zenquotes.io/api/random"); 
+    let json = await res.json();
+    frase = `"${json[0].q}" — ${json[0].a}`;
+  } catch (e) {
+    console.log("Error cargando frase:", e);
+  }
+
+  const texto = `
+╭━━━〔 🌙 ᴘᴇʀғɪʟ & ᴅᴀᴛᴇs 🌸 〕━━⬣
+${'```'}
+🌙・*:.｡. o(≧▽≦)o .｡.:*・🌸
+${'```'}
+
+🪐 ${usedPrefix}setbirth  
    ➳ *ᴀɢʀᴇɢᴀʀ ᴄᴜᴍᴘʟᴇᴀɴ̃ᴏꜱ* ~ nyan~
 
-💣 ${usedPrefix}delbirth
+💣 ${usedPrefix}delbirth  
    ➳ *ʙᴏʀʀᴀʀ ᴄᴜᴍᴘʟᴇᴀɴ̃ᴏꜱ* ~ ʕ•́ᴥ•̀ʔっ♡
 
-📜 ${usedPrefix}setdesc
+━━━━━━━━━━━━━━━━━━
+
+📜 ${usedPrefix}setdesc  
    ➳ *ᴇsᴄʀɪʙɪʀ ʙɪᴏɢʀᴀғɪ́ᴀ* ~ uwu
 
-🗑️ ${usedPrefix}deldesc
+🗑️ ${usedPrefix}deldesc  
    ➳ *ᴇʟɪᴍɪɴᴀʀ ʙɪᴏɢʀᴀғɪ́ᴀ* ~ senpai nooo~
 
-🎭 ${usedPrefix}setgenre
+━━━━━━━━━━━━━━━━━━
+
+🎭 ${usedPrefix}setgenre  
    ➳ *ᴅᴇғɪɴɪʀ ɢᴇ́ɴᴇʀᴏ* ~ desu~☆
 
-🛑 ${usedPrefix}delgenre
+🛑 ${usedPrefix}delgenre  
    ➳ *ʙᴏʀʀᴀʀ ɢᴇ́ɴᴇʀᴏ* ~ (つ✧ω✧)つ
 
-💎 ${usedPrefix}marry
+━━━━━━━━━━━━━━━━━━
+
+💎 ${usedPrefix}marry  
    ➳ *ᴄᴀsᴀʀsᴇ ᴄᴏɴ ᴀʟɢᴜɪᴇɴ* ~ ʕ♡ᴥ♡ʔ
 
-⚡ ${usedPrefix}divorce
+⚡ ${usedPrefix}divorce  
    ➳ *ᴅɪᴠᴏʀᴄɪᴀʀsᴇ* ~ (｡•́︿•̀｡)
+
+━━━━━━━━━━━━━━━━━━
+✨ 𝙁𝙧𝙖𝙨𝙚 𝘿𝙚𝙡 𝘿í𝙖:  
+『 ${frase} 』
+╰━━━──༺♡༻──━━━⬣
 `;
 
   await conn.sendMessage(m.chat, {
     image: { url: imgurl },
     caption: texto,
-    footer: '☘️ rin itoshi MD',
+    footer: '☘️ ʀɪɴ ɪᴛᴏsʜɪ MD',
     buttons: [
       { buttonId: '#menu', buttonText: { displayText: '📜 ᴍᴇɴᴜ' }, type: 1 },
       { buttonId: '#perfil', buttonText: { displayText: '👤 ᴘᴇʀғɪʟ' }, type: 1 },
@@ -41,7 +68,6 @@ let handler = async (m, { conn, usedPrefix }) => {
       externalAdReply: {
         title: global.packname,
         body: global.dev,
-        thumbnailUrl: global.icono || imgurl,
         mediaType: 1,
         renderLargerThumbnail: false,
         showAdAttribution: true,
