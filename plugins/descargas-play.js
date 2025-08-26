@@ -99,7 +99,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃ ⌭ *Comentarios:* ${json.data.comments || "No disponible"}
 ┃ ❖ *Publicado:* ${json.data.published || "No disponible"}
 ╰━━━━━━━━━━━━━━━━━━⬣
-🔗 *Enlace:* https://youtu.be/${json.data.id}
+ *Enlace:* https://youtu.be/${json.data.id}
         `.trim()
 
         await conn.sendFile(

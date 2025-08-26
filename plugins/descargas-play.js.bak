@@ -19,8 +19,11 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     const { title, thumbnail, timestamp, views, ago, url, author } = video
     const vistas = formatViews(views)
     const canal = author?.name || 'Desconocido'
+    
+    const size = await getSize(url)
+    const sizeStr = size ? await formatSize(size) : 'Desconocido'
+    
     await m.react('⏱️');
-
     const infoMessage = `🌷 \`Titulo:\`  *<${title || 'Desconocido'}>*\n\n` +
       `> 📺 \`Canal\` » *${canal}*\n` +
       `> 👁️ \`Vistas\` » *${vistas || 'Desconocido'}*\n` +
@@ -90,7 +93,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃ ⌬ *Categoría:* ${json.data.category || "Desconocida"}
 ┃ ⬡ *Duración:* ${formatTime(json.data.duration)}
 ┃ ✧ *Calidad:* ${json.data.quality || "HD"}
-┃ ⨳ *Tamaño:* ${json.data.filesizeF || "Desconocido"}
+┃ ⨳ *Tamaño:* ${sizeStr}
 ┃ 🜸 *Vistas:* ${formatViews(json.data.views)}
 ┃ ◈ *Likes:* ${json.data.likes || "No disponible"}
 ┃ ⌭ *Comentarios:* ${json.data.comments || "No disponible"}
