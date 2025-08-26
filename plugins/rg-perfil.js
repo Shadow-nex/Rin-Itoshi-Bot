@@ -27,32 +27,37 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     let perfil = await conn.profilePictureUrl(userId, 'image').catch(_ => 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg');
 
-    let profileText = `
-╔═━━━──༺༻──━━━═╗
-     🧿 𝐏𝐑𝐎𝐅𝐈𝐋 𝐀𝐒𝐓𝐑𝐀𝐋 🧿
-      ⟡ ℝ𝕚𝕟 𝕀𝕥𝕠𝕤𝕙𝕚 𝔹𝕠𝕥 𝔼𝕟𝕖𝕣𝕘𝕪 ⟡
-╚═━━━──༺༻──━━━═╝
+    let profileText = `✦ ━━━━━ • 𓇼 • ━━━━━ ✦
+      🔮 𝐏𝐄𝐑𝐅𝐈𝐋 𝐂𝐎𝐒𝐌𝐈𝐂𝐎 🔮
+   ✧ ˚₊ ⊹ Rin Itoshi Bot ⊹ ₊˚ ✧
+✦ ━━━━━ • 𓇼 • ━━━━━ ✦
 
-> 𖥔 ︳*🪪 𝐈𝐃 𝐃𝐞 𝐔𝐬𝐮𝐚𝐫𝐢𝐨:* @${userId.split('@')[0]}
-> 𖥔 ︳*🌙 𝐍𝐨𝐦𝐛𝐫𝐞 𝐌𝐢𝐬𝐭𝐢𝐜𝐨:* *${name}*
-> 𖥔 ︳*🌀 𝐄𝐬𝐞𝐧𝐜𝐢𝐚 𝐢𝐧𝐭𝐞𝐫𝐢𝐨𝐫:* _${description}_
+☄️︙*🪪 Identidad Estelar:* @${userId.split('@')[0]}
+☄️︙*🌙 Nombre Arcano:* *${name}*
+☄️︙*🌀 Esencia Vital:* _${description}_
 
- \`🜁 𝐂𝐎𝐍𝐅𝐈𝐆𝐔𝐑𝐀𝐂𝐈𝐎𝐍 𝐕𝐈𝐓𝐀𝐋\`
-> ║◦ *🎂 Edad Cósmica:* ${user.age || 'Incierta'}
-> ║◦ *📆 Fecha Estelar:* ${cumpleanos}
-> ║◦ *⚧️ Energía:* ${genero}
-> ║◦ *💖 Lazo Álmico:* ${pareja}
+┏━━━✦ °• ⚝ •° ✦━━━┓
+   ⚙️ 𝐂𝐎𝐍𝐅𝐈𝐆𝐔𝐑𝐀𝐂𝐈𝐎𝐍
+        𝐄𝐒𝐏𝐈𝐑𝐈𝐓𝐔𝐀𝐋
+┗━━━✦ °• ⚝ •° ✦━━━┛
 
-─• *\`𝐑𝐄𝐂𝐔𝐑𝐒𝐎𝐒\`* •─
-∘🪙.• *${moneda}:* ${coins.toLocaleString()} ${moneda}
-∘🍂.• *Nivel Dimensional:* ${nivel}
-∘🌷.• *Exp Astral:* ${exp.toLocaleString()}
-∘🌿.• *Rango:* ${role}
+➺ 🎂 *Edad Estelar:* ${user.age || 'Incierta'}
+➺ 📆 *Ciclo Cósmico:* ${cumpleanos}
+➺ ⚧️ *Polaridad:* ${genero}
+➺ 💖 *Vínculo Álmico:* ${pareja}
 
-° *🏦 ${moneda} bank:* ${bankCoins.toLocaleString()} ${moneda}
-° *🔮 Premium Astral:* ${user.premium ? '🟢 Activo' : '🔴 Inactivo'}
+┏━━━✦ °• ⚝ •° ✦━━━┓
+      ✦ 𝐑𝐄𝐂𝐔𝐑𝐒𝐎𝐒 ✦
+┗━━━✦ °• ⚝ •° ✦━━━┛
+⋄ 🪙 *${moneda}:* ${coins.toLocaleString()} ${moneda}
+⋄ 🍂 *Nivel Dimensional:* ${nivel}
+⋄ 🌷 *Exp Cósmica:* ${exp.toLocaleString()}
+⋄ 🌿 *Rango:* ${role}
 
-> 🌠 𝐈𝐍𝐓𝐄𝐑𝐏𝐑𝐄𝐓𝐀𝐂𝐈𝐎𝐍 𝐅𝐈𝐍𝐀𝐋:`.trim();
+✦ 🏦 *Banco ${moneda}:* ${bankCoins.toLocaleString()} ${moneda}
+✦ 🔮 *Premium Cósmico:* ${user.premium ? '🟢 Activo' : '🔴 Inactivo'}
+
+☾ 🌌 𝐑𝐞𝐬𝐨𝐧𝐚𝐧𝐜𝐢𝐚 𝐅𝐢𝐧𝐚𝐥 ☽`.trim();
 
     await conn.sendMessage(m.chat, { 
         text: profileText,
