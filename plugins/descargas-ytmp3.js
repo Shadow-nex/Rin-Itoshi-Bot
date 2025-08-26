@@ -1,3 +1,5 @@
+// - codigo hecho x dv.shadow 🌱
+// - Rin Itoshi ⚽
 import fetch from 'node-fetch'
 import yts from 'yt-search'
 import axios from "axios";
@@ -33,8 +35,8 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     const sizeStr = size ? await formatSize(size) : 'Desconocido'
 
     await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } })
-    const textoInfo = `\`\`\`✿  𝗬𝗔𝗦𝗦𝗨 - 𝗬𝗧 𝗠𝗣𝟯 ⚽\n\n🍂 Título : ${meta.title}\n⏱️ Duración : ${meta.duration?.timestamp || video.timestamp || 'Desconocida'}\n🌱 Canal : ${meta.author?.name || video.author?.name || 'Desconocido'}\n🚀 Vistas : ${meta.views?.toLocaleString('es-PE') || video.views?.toLocaleString('es-PE') || '0'}\n🧪 Publicado : ${video.ago || 'Desconocido'}\n💨 Link : ${meta.url || video.url}\n📦 Tamaño : ${sizeStr}
-\`\`\`\n≡ Enviando, espera un momento . . .`
+    const textoInfo = `\`\`\`✿  𝗬𝗔𝗦𝗦𝗨 - 𝗬𝗧 𝗠𝗣𝟯 ⚽\n\n🍂 Título : ${meta.title}\n⏱️ Duración : ${meta.duration?.timestamp || video.timestamp || 'Desconocida'}\n🌱 Canal : ${meta.author?.name || video.author?.name || 'Desconocido'}\n🚀 Vistas : ${meta.views?.toLocaleString('es-PE') || video.views?.toLocaleString('es-PE') || '0'}\n🌷 Tamaño : ${sizeStr}\n🧪 Publicado : ${video.ago || 'Desconocido'}\n💨 Link : ${meta.url || video.url}
+\`\`\`\n*≡ Enviando, espera un momento . . .*`
 
     await conn.sendMessage(
       m.chat,
