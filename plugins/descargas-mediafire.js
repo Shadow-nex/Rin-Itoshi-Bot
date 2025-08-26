@@ -3,46 +3,36 @@ import fetch from "node-fetch";
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
     if (!text) {
-      return conn.reply(m.chat, `⚠️ Ingresa un enlace de **MediaFire Folder**.\n\n📌 Ejemplo:\n${usedPrefix + command} https://www.mediafire.com/folder/4zhvcue3l75xa/Delirius+Test`, m);
+      return conn.reply(m.chat, `⚽ Ingresa un enlace de **MediaFire**.\n\n💥 Ejemplo:\n${usedPrefix + command} https://www.mediafire.com/file/vmnhppl99gxpzwr/118963055_376112626887969_4242661724965974580_n.jpg/file`, m);
     }
 
-    // URL API con el link ingresado
     const api = `https://delirius-apiofc.vercel.app/download/mediafire?url=${encodeURIComponent(text)}`;
     let res = await fetch(api);
     let json = await res.json();
 
-    if (!json.status || !json.data) {
-      return conn.reply(m.chat, `❌ No se pudo obtener información de la carpeta.`, m);
+    if (!json.status || !json.data || !json.data[0]) {
+      return conn.reply(m.chat, `❌ No se pudo obtener información del archivo.`, m);
     }
+
+    let file = json.data[0];
+
+    let dl = await fetch(file.link, { redirect: "follow" });
+    let finalUrl = dl.url;
 
     let info = `╭━━━〔 📂 MediaFire Downloader 〕━━⬣
-┃ 👤 *Creador:* ${json.creator}
-┃ 📁 *Carpeta:* ${json.folder}
-┃ 📊 *Total archivos:* ${json.data.length}
-╰━━━━━━━━━━━━━━━━━━━━⬣\n\n`;
+┃ 🍂 *Nombre:* ${file.filename}
+┃ 📏 *Tamaño:* ${file.size} bytes
+┃ 📄 *Tipo:* ${file.mime}
+┃ 📅 *Subido:* ${file.uploaded}
+╰━━━━━━━━━━━━━━━━━━━━⬣`;
 
-    // Mostrar lista de archivos con detalles
-    for (let i = 0; i < json.data.length; i++) {
-      let file = json.data[i];
-      info += `📌 *${file.filename}*\n`;
-      info += `┆📏 Tamaño: ${file.size} bytes\n`;
-      info += `┆📄 Tipo: ${file.mime}\n`;
-      info += `┆📅 Subido: ${file.uploaded}\n`;
-      info += `┆🔗 [Descargar](${file.link})\n\n`;
-    }
-
-    // Mandar info primero
     await conn.sendMessage(m.chat, { text: info }, { quoted: m });
 
-    // Luego enviar los archivos (máx 3-5 para no saturar WhatsApp)
-    for (let i = 0; i < Math.min(json.data.length, 5); i++) {
-      let file = json.data[i];
-      await conn.sendMessage(m.chat, {
-        document: { url: file.link },
-        mimetype: file.mime,
-        fileName: file.filename
-      }, { quoted: m });
-    }
+    await conn.sendMessage(m.chat, {
+      document: { url: finalUrl },
+      mimetype: file.mime,
+      fileName: file.filename
+    }, { quoted: m });
 
   } catch (err) {
     console.error(err);
