@@ -34,10 +34,6 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     const size = await getSize(dl.url)
     const sizeStr = size ? await formatSize(size) : 'Desconocido'
     
-    const thumbUrl = `https://i.ytimg.com/vi/${meta.thumbnail || video.thumbnail}/hqdefault.jpg`
-    const inithumb = await getBuffer(thumbUrl)
-    
-
     await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } })
     const textoInfo = `\`\`\`✿  𝗬𝗔𝗦𝗦𝗨 - 𝗬𝗧 𝗠𝗣𝟯 ⚽\n\n🍂 Título : ${meta.title}\n⏱️ Duración : ${meta.duration?.timestamp || video.timestamp || 'Desconocida'}\n🌱 Canal : ${meta.author?.name || video.author?.name || 'Desconocido'}\n🚀 Vistas : ${meta.views?.toLocaleString('es-PE') || video.views?.toLocaleString('es-PE') || '0'}\n🌷 Tamaño : ${sizeStr}\n🧪 Publicado : ${video.ago || 'Desconocido'}\n💨 Link : ${meta.url || video.url}
 \`\`\`\n*≡ Enviando, espera un momento . . .*`
@@ -58,7 +54,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
           externalAdReply: {
             title: meta.title || video.title,
             body: "🍂 Descargando desde YouTube 🧪",
-            thumbnailUrl: inithumb, // 'https://files.catbox.moe/h4lrn3.jpg',
+            thumbnailUrl: 'https://files.catbox.moe/h4lrn3.jpg',
             sourceUrl: meta.url || video.url,
             mediaType: 1,
             renderLargerThumbnail: true
