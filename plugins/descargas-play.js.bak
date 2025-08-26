@@ -50,7 +50,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       try {
         const res = await fetch(`https://api.vreden.my.id/api/ytmp3?url=${url}`)
         const json = await res.json()
-        if (!json.result?.download?.url) throw '⚠ No se obtuvo un enlace válido.'
+        if (!json.result?.download?.url) throw '*⚠ No se obtuvo un enlace válido.*'
 
        await m.react('✅');
        await conn.sendMessage(m.chat, {
@@ -70,7 +70,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
          }
        }, { quoted: m })
       } catch (e) {
-        return conn.reply(m.chat, '⚠︎ No se pudo enviar el audio. El archivo podría ser demasiado pesado o hubo un error en la generación del enlace.', m)
+        return conn.reply(m.chat, '*⚠︎ No se pudo enviar el audio. El archivo podría ser demasiado pesado o hubo un error en la generación del enlace.*', m)
       }
     }
 
