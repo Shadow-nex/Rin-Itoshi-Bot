@@ -201,8 +201,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
         await m.react('✅');
 
-        let caption = `
-╭━━━〔  📹  DESCARGA DE VIDEO  〕━━⬣
+        let caption = `\`\`\`╭━━━〔  📹  DESCARGA COMPLETA 〕━━⬣
 ┃ ✦ *Título:* ${json.data.title}
 ┃ ✦ *Canal:* ${json.data.author}
 ┃ ✦ *Categoría:* ${json.data.category || "Desconocida"}
@@ -211,7 +210,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃ ✦ *Likes:* ${json.data.likes || "No disponible"}
 ┃ ✦ *Comentarios:* ${json.data.comments || "No disponible"}
 ╰━━━━━━━━━━━━━━━━━━⬣
-🔗 *Enlace:* https://youtu.be/${json.data.id}
+🔗 *Enlace:* https://youtu.be/${json.data.id}\`\`\`
         `.trim()
 
         await conn.sendFile(
