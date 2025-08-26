@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys';
 
 const handler = async (m, { conn, args, usedPrefix, command }) => {
-  const club = '🎧 𝙍𝙞𝙣 𝙞𝙩𝙤𝙨𝙝𝙞 𝗨𝗹𝘁𝗿𝗮 𝗠𝗗';
+  const club = '✨ 𝐄𝐥𝐢𝐣𝐚 𝐮𝐧𝐚 𝐨𝐩𝐜𝐢𝐨́𝐧 ✨\n  🎧 › *Audio*\n  📹 › *Video*';
 
   if (!args[0]) return conn.reply(m.chat, `*🧪 Ingresa un título para buscar en YouTube.*\n✧ \`Ejemplo:\` ${usedPrefix}${command} Joji - Ew`, m, fake);
 
@@ -27,16 +27,16 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
     }
 
     const caption = `✧─── ･ ｡ﾟ★: .✦ . :★. ───✧
-⧼ ᰔᩚ ⧽  M U S I C  -  Y O U T U B E
+⧼ ᰔᩚ ⧽  𝐌𝐔𝐒𝐈𝐂 - 𝐘𝐎𝐔𝐓𝐔𝐁𝐄 🎶
 
-» ✧🌱 « *${video.titulo || 'no encontrado'}*
-> ➩ Canal › *${video.canal || 'no encontrado'}*
-> ➩ Duración › *${video.duracion || 'no encontrado'}*
-> ➩ Vistas › *${video.vistas || 'no encontrado'}*
-> ➩ Publicado › *${video.publicado || 'no encontrado'}*
-> ➩ Link › *${video.url}*
-    
-> ✰ Elija *audio* o *video* para descargar ✧`;
+╭━━━〔 📀  𝐈𝐍𝐅𝐎 𝐃𝐄𝐋 𝐕𝐈𝐃𝐄𝐎 〕━━⬣
+┃ ✦ 𝗧𝗶́𝘁𝘂𝗹𝗼 › *${video.titulo || 'No encontrado'}*
+┃ ✦ 𝗖𝗮𝗻𝗮𝗹 › *${video.canal || 'No encontrado'}*
+┃ ✦ 𝗗𝘂𝗿𝗮𝗰𝗶𝗼́𝗻 › *${video.duracion || 'No encontrado'}*
+┃ ✦ 𝗩𝗶𝘀𝘁𝗮𝘀 › *${video.vistas || 'No encontrado'}*
+┃ ✦ 𝗣𝘂𝗯𝗹𝗶𝗰𝗮𝗱𝗼 › *${video.publicado || 'No encontrado'}*
+┃ ✦ 𝗘𝗻𝗹𝗮𝗰𝗲 › ${video.url}
+╰━━━━━━━━━━━━━━━━━━⬣`;
 
 
     let ytSections = searchResults.slice(1, 11).map((v, index) => ({
