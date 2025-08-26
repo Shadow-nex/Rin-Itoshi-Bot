@@ -1,5 +1,5 @@
 let handler = async (m, { conn, args }) => {
-  if (!m.quoted) return conn.reply(m.chat, '*🌱 Responde a un mensaje para reenviarlo.*', m)
+  if (!m.quoted) return conn.reply(m.chat, '*🍂 Responde a un mensaje para reenviarlo.*', m)
 
   let q = m.quoted ? m.quoted : m
   let msg = await m.getQuotedObj()
@@ -9,16 +9,16 @@ let handler = async (m, { conn, args }) => {
   if (modo === 'bot') {
     if (/image|video|audio|document/.test(mime)) {
       let media = await q.download()
-      await conn.sendFile(m.chat, media, '', q.text || '', m)
+      await conn.sendFile(m.chat, media, '', q.text || '', m, { quoted: m })
     } else if (q.text) {
       await conn.sendMessage(m.chat, { text: q.text }, { quoted: m })
     }
   } else {
-    await conn.copyNForward(m.chat, msg, true)
+    await conn.copyNForward(m.chat, msg, true, { quoted: m })
   }
 }
 
-handler.help = ['reenviar (bot)']
+handler.help = ['reenviar']
 handler.tags = ['tools']
 handler.command = ['reenviar', 'forward']
 
