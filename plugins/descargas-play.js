@@ -50,31 +50,27 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       try {
         const res = await fetch(`https://api.vreden.my.id/api/ytmp3?url=${url}`)
         const json = await res.json()
-        if (!json.result?.download?.url) throw '⚠ No se obtuvo un enlace válido.'
+        if (!json.result?.download?.url) throw '*⚠ No se obtuvo un enlace válido.*'
 
-        const size = await getSize(json.result.download.url)
-        const sizeStr = size ? await formatSize(size) : 'Desconocido'
-
-        await m.react('✅');
-        await conn.sendMessage(m.chat, {
-          document: { url: json.result.download.url },
-          mimetype: 'audio/mpeg',
-          fileName: `${json.result.title}.mp3`,
-          caption: `🎵 *${json.result.title}*\n\n⨳ *Tamaño:* ${sizeStr}`,
-          contextInfo: {
-            externalAdReply: {
-              title: title,
-              body: '⚽ RIN ITOSHI - IA 🌀',
-              mediaType: 1,
-              thumbnail: thumb,
-              mediaUrl: url,
-              sourceUrl: url,
-              renderLargerThumbnail: false
-            }
-          }
-        }, { quoted: m })
+       await m.react('✅');
+       await conn.sendMessage(m.chat, {
+         audio: { url: json.result.download.url },
+         mimetype: 'audio/mpeg',
+         fileName: `${json.result.title}.mp3`,
+         contextInfo: {
+           externalAdReply: {
+             title: title,
+             body: '⚽ RIN ITOSHI - IA 🌀',
+             mediaType: 1,
+             thumbnail: thumb,
+             mediaUrl: url,
+             sourceUrl: url,
+             renderLargerThumbnail: false
+           }
+         }
+       }, { quoted: m })
       } catch (e) {
-        return conn.reply(m.chat, '⚠︎ No se pudo enviar el audio. El archivo podría ser demasiado pesado o hubo un error en la generación del enlace.', m)
+        return conn.reply(m.chat, '*⚠︎ No se pudo enviar el audio. El archivo podría ser demasiado pesado o hubo un error en la generación del enlace.*', m)
       }
     }
 
