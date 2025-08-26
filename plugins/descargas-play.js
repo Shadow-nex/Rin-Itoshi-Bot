@@ -16,7 +16,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     if (!video) return conn.reply(m.chat, '✧ No se encontraron resultados para tu búsqueda.', m)
 
     const { title, thumbnail, timestamp, views, ago, url, author } = video
-    const vistas = formatNumber(views)
+    const vistas = formatViews(views)
     const canal = author?.name || 'Desconocido'
     await m.react('⏱️');
 
@@ -72,7 +72,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         return conn.reply(m.chat, '⚠︎ No se pudo enviar el audio. El archivo podría ser demasiado pesado o hubo un error en la generación del enlace.', m)
       }
     }
-    
+
     else if (['playvideo'].includes(command)) {
       try {
         const res = await fetch(`https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`)
@@ -82,16 +82,20 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
         await m.react('✅');
 
-        let caption = `\`\`\`╭━━━〔  📹  DESCARGA COMPLETA 〕━━⬣
+        let caption = `
+╭━━━〔  📹  DESCARGA COMPLETA 〕━━⬣
 ┃ ✦ *Título:* ${json.data.title}
-┃ ✦ *Canal:* ${json.data.author}
-┃ ✦ *Categoría:* ${json.data.category || "Desconocida"}
-┃ ✦ *Duración:* ${formatTime(json.data.duration)}
-┃ ✦ *Vistas:* ${formatNumber(json.data.views)}
-┃ ✦ *Likes:* ${formatNumber(json.data.likes) || "No disponible"}
-┃ ✦ *Comentarios:* ${formatNumber(json.data.comments) || "No disponible"}
+┃ ❏ *Canal:* ${json.data.author}
+┃ ⌬ *Categoría:* ${json.data.category || "Desconocida"}
+┃ ⬡ *Duración:* ${formatTime(json.data.duration)}
+┃ ✧ *Calidad:* ${json.data.quality || "HD"}
+┃ ⨳ *Tamaño:* ${json.data.filesizeF || "Desconocido"}
+┃ 🜸 *Vistas:* ${formatViews(json.data.views)}
+┃ ◈ *Likes:* ${json.data.likes || "No disponible"}
+┃ ⌭ *Comentarios:* ${json.data.comments || "No disponible"}
+┃ ❖ *Publicado:* ${json.data.published || "No disponible"}
 ╰━━━━━━━━━━━━━━━━━━⬣
-🔗 *Enlace:* https://youtu.be/${json.data.id}\`\`\`
+🔗 *Enlace:* https://youtu.be/${json.data.id}
         `.trim()
 
         await conn.sendFile(
@@ -120,10 +124,12 @@ handler.tags = ['descargas']
 
 export default handler
 
-
-function formatNumber(num) {
-  if (!num) return "No disponible"
-  return num.toLocaleString("es-ES")
+function formatViews(views) {
+  if (views === undefined) return "No disponible"
+  if (views >= 1e9) return `${(views / 1e9).toFixed(1)}B (${views.toLocaleString()})`
+  if (views >= 1e6) return `${(views / 1e6).toFixed(1)}M (${views.toLocaleString()})`
+  if (views >= 1e3) return `${(views / 1e3).toFixed(1)}K (${views.toLocaleString()})`
+  return views.toString()
 }
 
 function formatTime(seconds) {
