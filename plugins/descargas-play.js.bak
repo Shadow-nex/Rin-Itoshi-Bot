@@ -19,7 +19,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     const vistas = formatViews(views)
     const canal = author?.name || 'Desconocido'
     await m.react('⏱️');
-    const infoMessage = `  🌷   *<${title || 'Desconocido'}>*\n\n` +
+    const infoMessage = `     *<${title || 'Desconocido'}>*\n\n` +
       `> 📺 Canal » *${canal}*\n` +
       `> 👁️ Vistas » *${vistas || 'Desconocido'}*\n` +
       `> ⏱ Duración » *${timestamp || 'Desconocido'}*\n` +
