@@ -168,7 +168,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 ≡ 🔗 Enlace : ${videoUrl}
 ≡ 🌳 Calidad : 360
 \`\`\`
-${dev}`;
+> ${club}`;
     const isSmallVideo = size < VIDEO_THRESHOLD;
 
     const buffer = await (await fetch(url)).buffer();

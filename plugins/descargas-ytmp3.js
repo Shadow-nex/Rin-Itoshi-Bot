@@ -70,7 +70,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       audio: audioBuffer,
       fileName: `${meta.title}.mp3`,
       mimetype: "audio/mpeg",
-      ptt: false,
+      ptt: false, // cambie a true si kiere xd
       contextInfo: {
         externalAdReply: {
           title: video.title,
