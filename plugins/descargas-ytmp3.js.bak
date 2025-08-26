@@ -27,9 +27,12 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
     const meta = json.result.metadata
     const dl = json.result.download
+    
+    const size = await getSize(meta.url || video.url);
+    const sizeStr = size ? await formatSize(size) : 'Desconocido';
 
     await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } })
-    const textoInfo = `\`\`\`✿  𝗬𝗔𝗦𝗦𝗨 - 𝗬𝗧 𝗠𝗣𝟯 ⚽\n\n🍂 Título : ${meta.title}\n⏱️ Duración : ${meta.duration?.timestamp || video.timestamp || 'Desconocida'}\n🌱 Canal : ${meta.author?.name || video.author?.name || 'Desconocido'}\n🚀 Vistas : ${meta.views?.toLocaleString('es-PE') || video.views?.toLocaleString('es-PE') || '0'}\n🧪 Publicado : ${video.ago || 'Desconocido'}\n💨 Link : ${meta.url || video.url}
+    const textoInfo = `\`\`\`✿  𝗬𝗔𝗦𝗦𝗨 - 𝗬𝗧 𝗠𝗣𝟯 ⚽\n\n🍂 Título : ${meta.title}\n⏱️ Duración : ${meta.duration?.timestamp || video.timestamp || 'Desconocida'}\n🌱 Canal : ${meta.author?.name || video.author?.name || 'Desconocido'}\n🚀 Vistas : ${meta.views?.toLocaleString('es-PE') || video.views?.toLocaleString('es-PE') || '0'}\n🧪 Publicado : ${video.ago || 'Desconocido'}\n💨 Link : ${meta.url || video.url}.   ${sizeStr}
 \`\`\`\n≡ Enviando, espera un momento . . .`
 
     await conn.sendMessage(
@@ -38,13 +41,13 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
         image: { url: meta.thumbnail || video.thumbnail },
         caption: textoInfo,
         contextInfo: {
-        //mentionedJid: [m.sender],
+        /*mentionedJid: [m.sender],
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
           newsletterJid: '120363401008003732@newsletter',
           serverMessageId: 100,
           newsletterName: '🗿 Toca aquí 🌱'
-        },
+        },*/
           externalAdReply: {
             title: meta.title || video.title,
             body: "🍂 Descargando desde YouTube 🧪",
@@ -91,3 +94,28 @@ handler.tags = ['descargas']
 handler.help = ['ytmp3 <texto o link>', 'song <texto>']
 
 export default handler
+
+async function getSize(url) {
+  try {
+    const response = await axios.head(url);
+    const length = response.headers['content-length'];
+    return length ? parseInt(length, 10) : null;
+  } catch (error) {
+    console.error("Error al obtener el tamaño:", error.message);
+    return null;
+  }
+}
+
+async function formatSize(bytes) {
+  const units = ['B', 'KB', 'MB', 'GB'];
+  let i = 0;
+
+  if (!bytes || isNaN(bytes)) return 'Desconocido';
+
+  while (bytes >= 1024 && i < units.length - 1) {
+    bytes /= 1024;
+    i++;
+  }
+
+  return `${bytes.toFixed(2)} ${units[i]}`;
+}
