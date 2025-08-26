@@ -1,52 +1,84 @@
-import fetch from 'node-fetch'
 import yts from 'yt-search'
+import fetch from 'node-fetch'
+
+const getBuffer = async (url) => {
+  const res = await fetch(url)
+  return await res.buffer()
+}
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) {
-    return m.reply(`🍃 Ingresa el nombre de la canción o un link de YouTube.\n\n✎ Ejemplo: *${usedPrefix + command}* Fade Alan Walker`)
-  }
-
   try {
-    // Buscar canción en YouTube
-    let search = await yts(text)
-    let video = search.videos[0]
-    if (!video) return m.reply('❌ No encontré resultados.')
+    if (!text) {
+      return m.reply(
+        `🍂 Ingresa el nombre de la canción o un link de YouTube.\n\n` +
+        `✎ Ejemplo: *${usedPrefix + command}* Fade Alan Walker`
+      )
+    }
 
-    let title = video.title
-    let url = video.url
-    let duration = video.timestamp
-    let views = video.views.toLocaleString('en-US')
+    await conn.sendMessage(m.chat, { react: { text: "⏱️", key: m.key } })
 
-    // Descargar usando la "app API"
-    let api = `https://ochinpo-helper.hf.space/download?url=${encodeURIComponent(url)}&type=audio`
+    // Buscar en YouTube
+    const busqueda = await yts(text)
+    const data = busqueda.all.filter(v => v.type === 'video')
+    if (data.length === 0) return m.reply("❌ No encontré resultados.")
 
-    let caption = `
-╭━━━〔 🎶  𝐃𝐞𝐬𝐜𝐚𝐫𝐠𝐚 𝐝𝐞 𝐀𝐮𝐝𝐢𝐨  🎶 〕━━⬣
-┃ ✦ *Título:* ${title}
-┃ ✦ *Duración:* ${duration}
-┃ ✦ *Vistas:* ${views}
-┃ ✦ *Link:* ${url}
-╰━━━━━━━━━━━━━━━━━━⬣
-    `.trim()
+    const res = data[0]
+    const thumbUrl = `https://i.ytimg.com/vi/${res.videoId}/hqdefault.jpg`
+    const inithumb = await getBuffer(thumbUrl)
 
-    await conn.sendMessage(
-      m.chat,
-      {
-        audio: { url: api },
-        mimetype: 'audio/mpeg',
-        fileName: `${title}.mp3`,
-        caption
+    // Mensaje decorado
+    const caption = 
+`╔◡╍┅•.⊹︵᷼𖥓┅╲۪⦙᷼᷼͝͝⦙╱𖥓 ︵᷼⊹┅╍◡╗
+┋ ⣿̶⃚̶̸〪ׅ⃕݊⃧͝ *DESCARGA DE AUDIO YOUTUBE* ┋
+╚◠┅┅˙•⊹.⁀𖥓 ╍╲۪ ⦙᷼᷼͝͝⦙ ╱𖥓 ◠˙⁀⊹˙╍┅◠╝
+
+🎶 *Título:* ${res.title}
+📺 *Canal:* ${res.author.name}
+👀 *Vistas:* ${res.views}
+⏱️ *Duración:* ${res.timestamp}
+🔗 *Enlace:* ${res.url}
+
+⏳ Enviando audio...
+`
+
+    // Enviar preview con thumbnail
+    await conn.sendMessage(m.chat, {
+      contextInfo: {
+        externalAdReply: {
+          showAdAttribution: true,
+          title: '🎵 ' + res.title,
+          body: '⏱️ ' + new Date().toLocaleString(),
+          mediaType: 2,
+          renderLargerThumbnail: true,
+          thumbnail: inithumb,
+          mediaUrl: res.url,
+          sourceUrl: res.url
+        }
       },
-      { quoted: m }
-    )
-  } catch (e) {
-    console.log(e)
-    m.reply('⚠️ Ocurrió un error al procesar tu solicitud.')
+      image: { url: thumbUrl },
+      caption
+    }, { quoted: m })
+
+    // Descargar audio desde la API
+    const audioUrl = `https://ochinpo-helper.hf.space/download?url=${encodeURIComponent(res.url)}&type=audio`
+
+    const nt = await conn.sendMessage(m.chat, {
+      audio: { url: audioUrl },
+      mimetype: 'audio/mpeg',
+      fileName: `${res.title}.mp3`,
+      ptt: true // si quieres que sea nota de voz
+    }, { quoted: m })
+
+    await conn.sendMessage(m.chat, { react: { text: '🎶', key: nt.key } })
+
+  } catch (err) {
+    console.error(err)
+    m.reply(`❌ Ocurrió un error: ${err.message}`)
   }
 }
 
-handler.help = ['ytaudio <texto|link>']
+handler.help = ['playochi <texto|link>', 'ytaudioochi <texto|link>']
 handler.tags = ['downloader']
-handler.command = /^playochi|ytmp3ochi|ytaudioochi$/i
+handler.command = /^playochi|ytaudioochi$/i
 
 export default handler
