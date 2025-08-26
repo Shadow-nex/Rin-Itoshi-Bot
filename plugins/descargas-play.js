@@ -1,5 +1,6 @@
 import fetch from "node-fetch"
 import yts from "yt-search"
+import axios from "axios";
 
 const youtubeRegexID = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/
 
@@ -18,8 +19,11 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     const { title, thumbnail, timestamp, views, ago, url, author } = video
     const vistas = formatViews(views)
     const canal = author?.name || 'Desconocido'
+    
+    const size = await getSize(url)
+    const sizeStr = size ? await formatSize(size) : 'Desconocido'
+    
     await m.react('⏱️');
-
     const infoMessage = `🌷 \`Titulo:\`  *<${title || 'Desconocido'}>*\n\n` +
       `> 📺 \`Canal\` » *${canal}*\n` +
       `> 👁️ \`Vistas\` » *${vistas || 'Desconocido'}*\n` +
@@ -89,7 +93,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃ ⌬ *Categoría:* ${json.data.category || "Desconocida"}
 ┃ ⬡ *Duración:* ${formatTime(json.data.duration)}
 ┃ ✧ *Calidad:* ${json.data.quality || "HD"}
-┃ ⨳ *Tamaño:* ${json.data.filesizeF || "Desconocido"}
+┃ ⨳ *Tamaño:* ${sizeStr}
 ┃ 🜸 *Vistas:* ${formatViews(json.data.views)}
 ┃ ◈ *Likes:* ${json.data.likes || "No disponible"}
 ┃ ⌭ *Comentarios:* ${json.data.comments || "No disponible"}
@@ -136,4 +140,29 @@ function formatTime(seconds) {
   const min = Math.floor(seconds / 60)
   const sec = seconds % 60
   return `${min}:${sec.toString().padStart(2, '0')}`
+}
+
+async function getSize(url) {
+  try {
+    const response = await axios.head(url);
+    const length = response.headers['content-length'];
+    return length ? parseInt(length, 10) : null;
+  } catch (error) {
+    console.error("Error al obtener el tamaño:", error.message);
+    return null;
+  }
+}
+
+async function formatSize(bytes) {
+  const units = ['B', 'KB', 'MB', 'GB'];
+  let i = 0;
+
+  if (!bytes || isNaN(bytes)) return 'Desconocido';
+
+  while (bytes >= 1024 && i < units.length - 1) {
+    bytes /= 1024;
+    i++;
+  }
+
+  return `${bytes.toFixed(2)} ${units[i]}`;
 }
