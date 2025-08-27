@@ -4,15 +4,21 @@ import moment from 'moment-timezone'
 
 let handler = async (m, { conn, usedPrefix, command }) => {
 
+  // Variables necesarias
+  let logo = logo
+  let img = logo
+  let fkontak = { key: { fromMe: false, participant: "0@s.whatsapp.net" }, message: { contactMessage: { displayName: "Rin Itoshi" } } }
+  let md = '🌐 Repositorio: github.com/ShadowXYZ/Bot'
+  let textbot = '💬 Gracias por usar Rin Itoshi Bot ✨'
+
   // ✦✦✦✦ REGLAS DEL BOT ✦✦✦✦
   if (['botreglas', 'reglasdelbot', 'reglasbot', 'reglas'].includes(command)) {
     
-    // Info dinámica del bot
     let uptime = process.uptime() * 1000
     let muptime = clockString(uptime)
-    let userCount = Object.keys(global.db.data.users).length || 0
-    let chats = Object.keys(conn.chats).length
-    let groups = Object.values(conn.chats).filter(c => c.id.endsWith('@g.us')).length
+    let userCount = Object.keys(global.db?.data?.users || {}).length || 0
+    let chats = Object.keys(conn.chats || {}).length
+    let groups = Object.values(conn.chats || {}).filter(c => c.id.endsWith('@g.us')).length
 
     const texto = `
 ╭══🎴『 𝙍𝙀𝙂𝙇𝘼𝙈𝙀𝙉 𝑹𝒊𝒏 𝑰𝒕𝒐𝒔𝒉𝒊 』🎴══╮
@@ -49,12 +55,10 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 > ${textbot}
     `.trim();
 
-    await conn.sendFile(m.chat, logo, 'botrules.jpg', texto, fkontak);
-/*
-    let audioURL = 'https://files.catbox.moe/abcd123.mp3'
-    await conn.sendMessage(m.chat, { audio: { url: audioURL }, mimetype: 'audio/mpeg', ptt: true }, { quoted: m })
+    await conn.sendMessage(m.chat, { image: { url: logo }, caption: texto }, { quoted: fkontak })
+
   }
-*/
+
   // ✦✦✦✦ REGLAS DE GRUPO ✦✦✦✦
   else if (['gruporeglas', 'reglasgp'].includes(command)) {
     if (!m.isGroup) return conn.reply(m.chat, '❗ Este comando solo se puede usar en grupos.', m);
@@ -83,7 +87,7 @@ ${groupInfo.desc?.trim() || 'No hay reglas establecidas en la descripción del g
 ╰═══════════════════════════⬣
       `.trim();
 
-      await conn.sendFile(m.chat, url || img, 'group.jpg', texto, m, false, { mentions: conn.parseMention(texto) });
+      await conn.sendMessage(m.chat, { image: { url: url || img }, caption: texto, mentions: conn.parseMention(texto) }, { quoted: m })
 
     } catch (e) {
       console.error(e);
@@ -99,7 +103,6 @@ handler.register = true
 handler.coin = 4
 
 export default handler
-
 
 function clockString(ms) {
   let d = isNaN(ms) ? '--' : Math.floor(ms / 86400000)
