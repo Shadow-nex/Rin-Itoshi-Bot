@@ -39,7 +39,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 ✦ Calidad: ${download.quality}\`\`\``.trim()
 
     let thumbBuffer = null;
-    if (thumbnail) {
+    if (metadata.thumbnail) {
       try {
         const resp = await fetch(metadata.thumbnail);
         thumbBuffer = Buffer.from(await resp.arrayBuffer());
