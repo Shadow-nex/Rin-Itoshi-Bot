@@ -1,98 +1,41 @@
-// da weba hacer uno 
-import fetch from 'node-fetch'
-
-let handler = async (m, { conn, text }) => {
-if (!text) return m.reply(`Ingresa una petición`)
-
-try {
-let api = await fetch(`https://deliriussapi-oficial.vercel.app/search/applemusic?text=${encodeURIComponent(text)}`)
-let json = await api.json()
-let JT = 'Applemusic  -  Search'
-json.forEach((video, index) => {
-JT += `\n\n`
-JT += `*Nro* : ${index + 1}\n`
-JT += `*Título* : ${video.title}\n`
-JT += `*Tipo* : ${video.type}\n`
-JT += `*Artista* : ${video.artists}\n`
-JT += `*Url* : ${video.url}\n`
-})
-
-await conn.sendFile(m.chat, json[0].image, 'hasumiBotFreeCodes.jpg', JT, m);
-} catch (error) {
-console.error(error)
-}}
-
-handler.command = ['applemusicsearch']
-
-export default handler
-
-/*
-import axios from 'axios';
-import cheerio from 'cheerio';
+import fetch from "node-fetch";
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-
-  if (!text) return m.reply(`《★》Ingrese El Nombre De Alguna Canción.`);
-
-
-const appleMusic = {
-  search: async (query) => {
-    const url = `https://music.apple.com/us/search?term=${query}`;
-    try {
-        const { data } = await axios.get(url);
-        const $ = cheerio.load(data);
-        const results = [];
-        $('.desktop-search-page .section[data-testid="section-container"] .grid-item').each((index, element) => {
-            const title = $(element).find('.top-search-lockup__primary__title').text().trim();
-            const subtitle = $(element).find('.top-search-lockup__secondary').text().trim();
-            const link = $(element).find('.click-action').attr('href');
-
-            results.push({
-                title,
-                subtitle,
-                link
-            });
-        });
-
-        return results;
-    } catch (error) {
-        console.error("Error:", error.response ? error.response.data : error.message);
-        return { success: false, message: error.message };
+  try {
+    if (!text) {
+      return conn.reply(
+        m.chat,
+        `🌀 Ingresa un nombre de canción o álbum.\n\n🌱 Ejemplo:\n${usedPrefix + command} Feel Special Twice`,
+        m
+      );
     }
-  },
-  detail: async (url) => {
-    try {
-        const { data } = await axios.get(url);
-        const $ = cheerio.load(data);
-        const albumTitle = $('h1[data-testid="non-editable-product-title"]').text().trim();
-        const artistName = $('a[data-testid="click-action"]').first().text().trim();
-        const releaseInfo = $('div.headings__metadata-bottom').text().trim();
-        const description = $('div[data-testid="description"]').text().trim();
 
-        const result = {
-            albumTitle,
-            artistName,
-            releaseInfo,
-            description
-        };
+    let url = `https://delirius-apiofc.vercel.app/search/applemusic?text=${encodeURIComponent(text)}`;
+    let res = await fetch(url);
+    let data = await res.json();
 
-        return result;
-    } catch (error) {
-      console.error("Error:", error.response ? error.response.data : error.message);
-      return { success: false, message: error.message };
+    if (!data || data.length === 0) {
+      return conn.reply(m.chat, "❌ No se encontraron resultados en Apple Music.", m);
     }
+
+    let msg = "🍏 *Resultados en Apple Music:*\n\n";
+    data.forEach((item, i) => {
+      msg += `*${i + 1}.* ${item.title}\n`;
+      msg += `   🎶 Tipo: ${item.tipo}\n`;
+      msg += `   👤 Artistas: ${item.artistas}\n`;
+      msg += `   🔗 ${item.url}\n\n`;
+    });
+
+    await conn.sendMessage(m.chat, {
+      image: { url: data[0].imagen },
+      caption: msg.trim()
+    }, { quoted: m });
+
+  } catch (err) {
+    console.error(err);
+    conn.reply(m.chat, "⚠️ Error al buscar en Apple Music.", m);
   }
-}
+};
 
-
-let dataos = await appleMusic.search(text)
-let searchResults = dataos.map((v, i) => `${i + 1}. *${v.title}*\n   Link: ${v.link}`).join('\n\n');
-m.reply(searchResults)
-
-}
-handler.help = ['applemusicsearch *<texto>*'];
-handler.tags = ['buscador'];
-handler.command = /^(applemusicsearch|applemsearch|applemusics)$/i;
-
+handler.command = ['applemusicsearch'];
 export default handler;
-*/
