@@ -39,9 +39,9 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 ✦ Calidad: ${download.quality}\`\`\``.trim()
 
     let thumbBuffer = null;
-    if (metadata.thumbnail) {
+    if (thumbnail) {
       try {
-        const resp = await fetch(metadata.thumbnail);
+        const resp = await fetch(thumbnail);
         thumbBuffer = Buffer.from(await resp.arrayBuffer());
       } catch (err) {
         console.log('No se pudo obtener la miniatura:', err.message);
