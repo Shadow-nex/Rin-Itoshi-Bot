@@ -1,25 +1,7 @@
 import fetch from 'node-fetch'
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
+let handler = async (m, { conn, text }) => {
   if (!text) return m.reply(`*✎ y el link?*`)
-/*  
-     const thumbRes = await fetch('https://files.catbox.moe/j4cbey.jpg');
-     const thumbBuffer = await thumbRes.buffer();
-     const fkontak = {
-         key: {
-             participants: "0@s.whatsapp.net",
-             remoteJid: "status@broadcast",
-             fromMe: false,
-             id: "Halo"
-         },
-         message: {
-             locationMessage: {
-                 name: `🌀 ᴅᴏᴡɴʟᴏᴀᴅ ʏᴏᴜᴛᴜʙᴇ 🍂`,
-                 jpegThumbnail: thumbBuffer
-             }
-         },
-         participant: "0@s.whatsapp.net"
-     };*/
 
   try {
     let api = `https://api.vreden.my.id/api/ytmp4?url=${encodeURIComponent(text)}`
@@ -28,8 +10,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     if (!json.status || !json.result?.download?.url) throw new Error('❌ No se pudo obtener el video.')
 
-    await m.reply('*🌱 Descargando, por favor espera...*');
-
+    await m.reply('*🌱 Descargando, por favor espera...*')
 
     let { metadata, download } = json.result
     let caption = `\`\`\`✦ Título: ${metadata.title}
@@ -38,29 +19,25 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 ✦ Canal: ${metadata.author.name}
 ✦ Calidad: ${download.quality}\`\`\``.trim()
 
-    let thumbBuffer = null;
-    if (thumbnail) {
+    // Miniatura
+    let thumbBuffer = null
+    if (metadata.thumbnail) {
       try {
-        const resp = await fetch(thumbnail);
-        thumbBuffer = Buffer.from(await resp.arrayBuffer());
+        const resp = await fetch(metadata.thumbnail)
+        thumbBuffer = Buffer.from(await resp.arrayBuffer())
       } catch (err) {
-        console.log('No se pudo obtener la miniatura:', err.message);
+        console.log('No se pudo obtener la miniatura:', err.message)
       }
     }
-    
-/*
-    await conn.sendMessage(m.chat, {
-      image: { url: metadata.thumbnail },
-      caption
-    }, { quoted: m })
-*/
+
+    // Envío como documento (video)
     await conn.sendMessage(m.chat, {
       document: { url: download.url },
       caption: caption,
       mimetype: 'video/mp4',
-      fileName: download.filename
-      jpegThumbnail: thumbBuffer,
-    }, { quoted: fkontak })
+      fileName: download.filename,
+      jpegThumbnail: thumbBuffer // <-- ya corregido
+    }, { quoted: m })
 
   } catch (e) {
     console.error(e)
