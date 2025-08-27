@@ -2,7 +2,7 @@ import fetch from 'node-fetch'
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) return m.reply(`*✎ y el link?*`)
-  
+/*  
      const thumbRes = await fetch('https://files.catbox.moe/j4cbey.jpg');
      const thumbBuffer = await thumbRes.buffer();
      const fkontak = {
@@ -19,7 +19,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
              }
          },
          participant: "0@s.whatsapp.net"
-     };
+     };*/
 
   try {
     let api = `https://api.vreden.my.id/api/ytmp4?url=${encodeURIComponent(text)}`
