@@ -9,7 +9,7 @@ var handler = async (m, { conn }) => {
     const pluginsDir = './plugins'
     const files = fs.readdirSync(pluginsDir).filter(file => file.endsWith('.js'))
 
-    let response = `📂 *Revisión de Syntax Errors:*\n\n`
+    let response = `📂 *Revisión de Syntax Errors:* ⚡\n\n`
     let hasErrors = false
 
     for (const file of files) {
