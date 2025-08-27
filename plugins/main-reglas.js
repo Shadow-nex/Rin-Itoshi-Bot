@@ -77,10 +77,10 @@ ${groupInfo.desc?.trim() || 'No hay reglas establecidas en la descripción del g
 ╰═════════════════════════⬣
       `.trim();
 
-      await conn.sendMessage(m.chat, { image: { url: url || img }, caption: texto, mentions: conn.parseMention(texto) }, { quoted: m });
+      await conn.sendMessage(m.chat, { image: { url: url || img }, caption: texto, mentions: conn.parseMention(texto) }, { quoted: m })
 
-     await conn.sendMessage(m.chat, { audio: { url: 'https://n.uguu.se/jGUWWmwU.opus' }, mimetype: 'audio/mpeg', ptt: true, }, { quoted: m });
-  }
+     await conn.sendMessage(m.chat, { audio: { url: 'https://files.catbox.moe/55r702.mp4' }, mimetype: 'audio/mpeg', ptt: true, }, { quoted: m })
+     
     } catch (e) {
       console.error(e);
       await conn.reply(m.chat, '❌ No se pudieron obtener las reglas del grupo. Asegúrate de usar este comando en un grupo válido.', m);
