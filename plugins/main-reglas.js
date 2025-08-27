@@ -7,7 +7,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
   // Variables necesarias
   let logo = logo
   let img = logo
-  let fkontak = { key: { fromMe: false, participant: "0@s.whatsapp.net" }, message: { contactMessage: { displayName: "Rin Itoshi" } } }
+  let fkontak = m
   let md = '🌐 Repositorio: github.com/ShadowXYZ/Bot'
   let textbot = '💬 Gracias por usar Rin Itoshi Bot ✨'
 
