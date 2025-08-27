@@ -33,7 +33,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ╭─❖ 💠 *𝐈𝐍𝐅𝐎 𝐃𝐄𝐋 𝐁𝐎𝐓* 💠 ❖─╮
 🧑‍💻 Creador: Shadow.xyz
 🤖 Nombre: Rin Itoshi
-📦 Versión: 2.2.5
+📦 Versión: ${vs}
 📊 Usuarios registrados: ${userCount}
 💬 Chats activos: ${chats} (${groups} grupos)
 ⏱️ Tiempo activo: ${muptime}
