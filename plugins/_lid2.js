@@ -26,11 +26,11 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     }
 
     let name = await conn.getName(user.jid);
-    let status = await conn.fetchStatus(user.jid).catch(() => null); // estado del perfil
-    let ppUrl = await conn.profilePictureUrl(user.jid, 'image').catch(() => null); // foto de perfil
-    let presence = await conn.presenceSubscribe(user.jid).catch(() => null); // presencia (en línea/escribiendo)
+    let status = await conn.fetchStatus(user.jid).catch(() => null);
+    let ppUrl = await conn.profilePictureUrl(user.jid, 'image').catch(() => null);
+    let presence = await conn.presenceSubscribe(user.jid).catch(() => null);
 
-    let texto = `╭━━━〔 *🔍 WHATSAPP LID* 〕━━⬣
+    let texto = `╭━━━〔 *⚡ WHATSAPP LID* 〕━━⬣
 ┃ ✨ *Nombre:* ${name || 'No disponible'}
 ┃ 🔖 *Número:* wa.me/${user.jid.replace(/[^0-9]/g, '')}
 ┃ 🧩 *LID:* ${user.lid}
@@ -41,6 +41,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 ╰━━━━━━━━━━━━━━━━━━⬣`;
 
     conn.reply(m.chat, texto, m, fake);
+    conn.reply(m.chat, user.lid, m);
   } catch (e) {
     console.error(e);
     conn.reply(m.chat, '❌ *Ocurrió un error inesperado al obtener el LID.*', m);
