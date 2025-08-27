@@ -71,6 +71,6 @@ function handler(m, { text, usedPrefix, command }) {
 
 handler.help = ['letra2 <estilo> <texto>']
 handler.tags = ['fun']
-handler.command = /^letra2$/i
+handler.command = ['letra2']
 
 export default handler
