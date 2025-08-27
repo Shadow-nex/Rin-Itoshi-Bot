@@ -8,11 +8,21 @@ let handler = async (m, { conn }) => {
           let child = stdout.toString("utf-8");
           let ssd = child.replace(/Memory:/, "Ram:");
 
-          conn.reply(m.chat, `┏━❖『 ⚡ 𝐄𝐒𝐓𝐀𝐃𝐎 𝐎𝐍𝐋𝐈𝐍𝐄 』❖━┓
-┃ 🖤 *Sistema activo y estable.*
-┃ ⚡ 𝐓𝐢𝐞𝐦𝐩𝐨: ${latensi.toFixed(4)}ms
-┃ ❝  *! Pong ¡*❞
-┗━━━━━━━━━━━━━━━━━━━┛`, m, rcanal);
+    await conn.sendMessage(m.chat, {
+      text: `☆ 🌱 \`ᴛɪᴇᴍᴘᴏ:\` ${latensi.toFixed(4)}ms`,
+      mentions: [m.sender],
+      contextInfo: {
+        externalAdReply: {
+          title: '🍄 Rɪɴ Iᴛᴏsʜɪ ᴍᴅ 🌹 | 🪾 ʙʏ ᴅᴠ.sʜᴀᴅᴏᴡ 🪴',
+          body: club,
+          thumbnailUrl: avatar,
+          sourceUrl: redes,
+          mediaType: 1,
+          renderLargerThumbnail: true
+        }
+      }
+    }, { quoted: m });
+
             });
 }
 handler.help = ['ping']
