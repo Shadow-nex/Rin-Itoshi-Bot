@@ -4,11 +4,8 @@ import moment from 'moment-timezone'
 
 let handler = async (m, { conn, usedPrefix, command }) => {
 
-  // Variables necesarias
   let logo = 'https://files.catbox.moe/fft2hr.jpg'
   let img = 'https://files.catbox.moe/fft2hr.jpg'
-  let md = '🌐 Repositorio: github.com/ShadowXYZ/Bot'
-  let textbot = '💬 Gracias por usar Rin Itoshi Bot ✨'
 
   // ✦✦✦✦ REGLAS DEL BOT ✦✦✦✦
   if (['botreglas', 'reglasdelbot', 'reglasbot', 'reglas'].includes(command)) {
@@ -43,14 +40,13 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 💬 Chats activos: ${chats} (${groups} grupos)
 ⏱️ Tiempo activo: ${muptime}
 📅 Fecha: ${moment.tz('America/Lima').format('DD/MM/YYYY HH:mm')}
-╰──────────────────────────╯
+╰────────────────────────╯
 
-╭─❖ ⭐ *𝐑𝐄𝐂𝐎𝐌𝐄𝐍𝐃𝐀𝐂𝐈𝐎𝐍* ⭐ ❖─╮
+─❖ ⭐ *𝐑𝐄𝐂𝐎𝐌𝐄𝐍𝐃𝐀𝐂𝐈𝐎𝐍* ⭐ ❖─
 \`\`\`⭐ Si te gusta el bot, visita el repositorio
    y apóyalo con una estrella.\`\`\`
-╰──────────────────────────╯
 
-> ${md}
+> 🌐 Repositorio: ${md}
 > ${textbot}
     `.trim();
 
@@ -83,7 +79,7 @@ ${admins}
 📝 *Descripción:*
 ${groupInfo.desc?.trim() || 'No hay reglas establecidas en la descripción del grupo.'}
 
-╰═══════════════════════════⬣
+╰═════════════════════════⬣
       `.trim();
 
       await conn.sendMessage(m.chat, { image: { url: url || img }, caption: texto, mentions: conn.parseMention(texto) }, { quoted: m })
