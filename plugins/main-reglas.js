@@ -5,9 +5,8 @@ import moment from 'moment-timezone'
 let handler = async (m, { conn, usedPrefix, command }) => {
 
   // Variables necesarias
-  let logo = logo
-  let img = logo
-  let fkontak = m
+  let logo = 'https://files.catbox.moe/fft2hr.jpg'
+  let img = 'https://files.catbox.moe/fft2hr.jpg'
   let md = '🌐 Repositorio: github.com/ShadowXYZ/Bot'
   let textbot = '💬 Gracias por usar Rin Itoshi Bot ✨'
 
