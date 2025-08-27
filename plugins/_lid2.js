@@ -1,71 +1,66 @@
-import moment from 'moment-timezone';
+import moment from 'moment-timezone'
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
   try {
-    let number;
+    let number
 
     if (m.quoted?.sender) {
-      number = m.quoted.sender;
-    } 
-    else if (m.mentionedJid?.length) {
-      number = m.mentionedJid[0];
-    } 
-    else if (args[0]) {
-      let raw = args[0].replace(/\D/g, ''); 
+      number = m.quoted.sender
+    } else if (m.mentionedJid?.length) {
+      number = m.mentionedJid[0]
+    } else if (args[0]) {
+      let raw = args[0].replace(/\D/g, '') 
       if (raw.length < 8) {
-        return conn.reply(m.chat, `🚩 *Número inválido, revisa bien.*`, m, fake);
+        return conn.reply(m.chat, `🚩 *Número inválido, revisa bien.*`, m, fake)
       }
-      number = raw + '@s.whatsapp.net';
-    } 
-    else {
+      number = raw + '@s.whatsapp.net'
+    } else {
       return conn.reply(
         m.chat,
-        `🍁 *Usa el comando así:*\n\n┌ 𝘌𝘫𝘦𝘮𝘱𝘭𝘰:\n├ ${usedPrefix + command} +51999999999\n├ ${usedPrefix + command} @usuario\n└ Responde a un mensaje`,
+        `🍁 *Usa el comando así:*\n\n┌ Ejemplo:\n├ ${usedPrefix + command} +51999999999\n├ ${usedPrefix + command} @usuario\n└ Responde a un mensaje`,
         m,
         fake
-      );
+      )
     }
 
-    let exists = await conn.onWhatsApp(number);
+    let exists = await conn.onWhatsApp(number)
     if (!exists?.length) {
-      return conn.reply(m.chat, '❌ *Ese número no está registrado en WhatsApp.*', m, fake);
+      return conn.reply(m.chat, '❌ *Ese número no está registrado en WhatsApp.*', m, fake)
     }
 
-    let user = exists[0];
-    if (!user?.jid || !user?.lid) {
-      return conn.reply(m.chat, '❌ *No se pudo obtener el LID.*', m, fake);
+    let user = exists[0]
+    if (!user?.jid) {
+      return conn.reply(m.chat, '❌ *No se pudo obtener información de ese número.*', m, fake)
     }
 
-    let name = await conn.getName(user.jid).catch(() => null);
+    let name = await conn.getName(user.jid).catch(() => null)
 
-    let isOwner = ['51919199620@s.whatsapp.net'].includes(user.jid);
-    let tipoCuenta = user.biz ?? false ? '📦 *Business*' : '🙎‍♂️ *Personal*';
+    let isOwner = ['51919199620@s.whatsapp.net'].includes(user.jid)
+    let tipoCuenta = user.biz ? '📦 *Business*' : '🙎‍♂️ *Personal*'
 
-    let fecha = moment().tz('America/Lima').format('DD/MM/YYYY');
-    let hora = moment().tz('America/Lima').format('HH:mm:ss');
+    let fecha = moment().tz('America/Lima').format('DD/MM/YYYY')
+    let hora = moment().tz('America/Lima').format('HH:mm:ss')
 
     let texto = `
-╭━━━〔 *⚡ WHATSAPP LID* 〕━━⬣
+╭━━━〔 *⚡ WHATSAPP INFO* 〕━━⬣
 ┃ ✨ *Nombre:* ${name ?? 'No disponible'}
 ┃ 🔖 *Número:* wa.me/${user.jid.replace(/\D/g, '')}
-┃ 🧩 *LID:* ${user.lid}
 ┃ 🏷️ *Cuenta:* ${tipoCuenta}
 ┃ 👑 *Es Owner?* ${isOwner ? '✅ Sí' : '❌ No'}
 ┃ 📅 *Fecha:* ${fecha}
 ┃ ⏰ *Hora:* ${hora}
-╰━━━━━━━━━━━━━━━━━━⬣`;
+╰━━━━━━━━━━━━━━━━━━⬣`
 
-    await conn.reply(m.chat, texto, m, fake);
-    //await conn.reply(m.chat, user.lid, m);
+    await conn.reply(m.chat, texto, m, fake)
 
   } catch (e) {
-    console.error('Error en comando lid:', e);
-    conn.reply(m.chat, '❌ *Ocurrió un error inesperado al obtener el LID.*', m, fake);
+    console.error('Error en comando lid:', e)
+    conn.reply(m.chat, '❌ *Ocurrió un error al ejecutar el comando.*', m, fake)
   }
-};
+}
 
-handler.command = ['lid'];
-handler.help = ['lid'];
-handler.tags = ['tools'];
+handler.command = ['lid']
+handler.help = ['lid']
+handler.tags = ['tools']
 
-export default handler;
+export default handler

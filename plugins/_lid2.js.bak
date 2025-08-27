@@ -56,6 +56,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 ╰━━━━━━━━━━━━━━━━━━⬣`;
 
     await conn.reply(m.chat, texto, m, fake);
+    //await conn.reply(m.chat, user.lid, m);
 
   } catch (e) {
     console.error('Error en comando lid:', e);
