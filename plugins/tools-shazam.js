@@ -65,5 +65,3 @@ handler.tags = ['tools']
 handler.command = ['shazam', 'whatmusic']
 handler.register = true
 export default handler
-
-j
