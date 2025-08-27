@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) return m.reply(`*✎ y el link?*`)
+  if (!text) return m.reply(`*✎ ✧ y el link?*`)
   
      const thumbRes = await fetch('https://files.catbox.moe/j4cbey.jpg');
      const thumbBuffer = await thumbRes.buffer();
