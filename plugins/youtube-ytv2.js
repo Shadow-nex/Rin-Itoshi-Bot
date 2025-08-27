@@ -19,7 +19,6 @@ let handler = async (m, { conn, text }) => {
 ✦ Canal: ${metadata.author.name}
 ✦ Calidad: ${download.quality}\`\`\``.trim()
 
-    // Miniatura
     let thumbBuffer = null
     if (metadata.thumbnail) {
       try {
@@ -30,13 +29,12 @@ let handler = async (m, { conn, text }) => {
       }
     }
 
-    // Envío como documento (video)
     await conn.sendMessage(m.chat, {
       document: { url: download.url },
       caption: caption,
       mimetype: 'video/mp4',
       fileName: download.filename,
-      jpegThumbnail: thumbBuffer // <-- ya corregido
+      jpegThumbnail: thumbBuffer
     }, { quoted: m })
 
   } catch (e) {
