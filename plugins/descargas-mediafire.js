@@ -41,12 +41,12 @@ async function mediaFire(url) {
 }
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
-  // Restricción VIP/PREMIUM
+/*  // Restricción VIP/PREMIUM
   let user = global.db.data.users[m.sender]
   if (!user.premium && !user.vip) {
     return m.reply(`🚩 Este comando es exclusivo para usuarios *VIP/Premium*`)
   }
-
+*/
   if (!args[0]) {
     return m.reply(`🚩 Ingrese el enlace de un archivo de Mediafire`)
   }
