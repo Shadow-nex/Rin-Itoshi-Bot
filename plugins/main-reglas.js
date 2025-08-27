@@ -27,24 +27,20 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ┃ ✘ Contacta al creador en caso de errores o dudas.
 ╰═══════════════════════⬣
 
-╭─❖ ⚜️ *𝐀𝐕𝐈𝐒𝐎 𝐄𝐒𝐏𝐄𝐂𝐈𝐀𝐋* ⚜️ ❖─╮
-\`\`\`❗ Si incumples cualquiera de estas reglas,
-   el bot tomará medidas automáticas.\`\`\`
-╰──────────────────────────╯
+─❖ ⚜️ *𝐀𝐕𝐈𝐒𝐎 𝐄𝐒𝐏𝐄𝐂𝐈𝐀𝐋* ⚜️ ❖─
+\`\`\`❗ Si incumples cualquiera de estas reglas, el bot tomará medidas automáticas.\`\`\`
 
-╭─❖ 💠 *𝐈𝐍𝐅𝐎 𝐃𝐄𝐋 𝐁𝐎𝐓* 💠 ❖─╮
-🧑‍💻 Creador: Shadow.xyz
-🤖 Nombre: Rin Itoshi
-📦 Versión: 2.2.5
-📊 Usuarios registrados: ${userCount}
-💬 Chats activos: ${chats} (${groups} grupos)
-⏱️ Tiempo activo: ${muptime}
-📅 Fecha: ${moment.tz('America/Lima').format('DD/MM/YYYY HH:mm')}
-╰────────────────────────╯
+─❖ 💠 *𝐈𝐍𝐅𝐎 𝐃𝐄𝐋 𝐁𝐎𝐓* 💠 ❖─
+🧑‍💻 *Creador:* Shadow.xyz
+🤖 *Nombre:* Rin Itoshi
+📦 *Versión:* 2.2.5
+📊 *Usuarios registrados:* ${userCount}
+💬 *Chats activos:* ${chats} (${groups} grupos)
+⏱️ *Tiempo activo:* ${muptime}
+📅 *Fecha: ${moment.tz('America/Lima').format('DD/MM/YYYY HH:mm')}
 
 ─❖ ⭐ *𝐑𝐄𝐂𝐎𝐌𝐄𝐍𝐃𝐀𝐂𝐈𝐎𝐍* ⭐ ❖─
-\`\`\`⭐ Si te gusta el bot, visita el repositorio
-   y apóyalo con una estrella.\`\`\`
+\`\`\`⭐ Si te gusta el bot, visita el repositorio y apóyalo con una estrella.\`\`\`
 
 > 🌐 Repositorio: ${md}
 > ${textbot}
