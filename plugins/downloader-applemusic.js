@@ -1,47 +1,66 @@
-import fetch from 'node-fetch';
+import axios from "axios";
+import fs from "fs";
+import path from "path";
+import { pipeline } from "stream";
+import { promisify } from "util";
 
-const handler = async (m, { conn, command, text, usedPrefix }) => {
-  if (!text) {
-    return m.reply(`✧ Ejemplo de uso:\n${usedPrefix}${command} https://music.apple.com/us/album/glimpse-of-us/1625328890?i=1625328892`);
-  }
+const streamPipeline = promisify(pipeline);
 
-  await conn.sendMessage(m.chat, { react: { text: '🕒', key: m.key } });
-
+let handler = async (m, { conn, args, usedPrefix, command }) => {
   try {
-    const response = await fetch(`https://fastrestapis.fasturl.cloud/downup/applemusicdown?url=${encodeURIComponent(text)}`);
-    const data = await response.json();
-
-    if (!data.result || !data.result.downloadUrl) {
-      return m.reply('❌ No se encontró la URL del audio. Verifica el enlace.');
+    const url = args[0];
+    if (!url) {
+      return conn.reply(m.chat, `🧪 Ingresa una URL de *Apple Music*.\n\n🍂 Ejemplo:\n${usedPrefix + command} https://music.apple.com/es/album/...`, m);
     }
 
-    const { downloadUrl, title, artist, thumbnail } = data.result;
+    await conn.reply(m.chat, `🔎 Obteniendo información de la canción...`, m);
+
+    const api = `https://delirius-apiofc.vercel.app/download/applemusicdl?url=${encodeURIComponent(url)}`;
+    const { data } = await axios.get(api, { timeout: 20000 });
+
+    if (!data?.status || !data?.data?.download) throw new Error("No se pudo obtener información de la canción.");
+
+    const track = data.data;
+    const downloadUrl = track.download;
+    const safeTitle = (track.name || "track").replace(/[\\/:"*?<>|]+/g, "_");
+    const fileName = `${safeTitle} - ${track.artists}.mp3`.slice(0, 180);
+
+    const tmpDir = path.join(process.cwd(), "tmp");
+    if (!fs.existsSync(tmpDir)) fs.mkdirSync(tmpDir, { recursive: true });
+    const filePath = path.join(tmpDir, `${Date.now()}_${fileName}`);
+
+    const response = await axios.get(downloadUrl, { responseType: "stream", timeout: 0 });
+    await streamPipeline(response.data, fs.createWriteStream(filePath));
+
+    const caption = `
+╭━━━〔 🎵 𝐀𝐏𝐏𝐋𝐄 𝐌𝐔𝐒𝐈𝐂 𝐃𝐋 🎵 〕━━⬣
+┃ ✧ *${track.name}*
+┃ 👥 ${track.artists}
+┃ ⏱️ ${track.duration || "Desconocida"}
+╰━━━━━━━━━━━━━━━━⬣
+`;
 
     await conn.sendMessage(m.chat, {
-      audio: { url: downloadUrl },
-      mimetype: 'audio/mpeg',
-      ptt: false,
-      contextInfo: {
-        externalAdReply: {
-          title: title || 'Apple Music',
-          body: artist || '🎵 Música descargada',
-          mediaUrl: text,
-          sourceUrl: text,
-          thumbnail: await (await fetch(thumbnail)).buffer(),
-          mediaType: 1,
-          renderLargerThumbnail: true
-        }
-      }
+      image: { url: track.image },
+      caption: caption,
     }, { quoted: m });
 
-  } catch (error) {
-    console.error('[ERROR APPLEMUSIC]', error);
-    m.reply('❌ Hubo un error al descargar la música. Intenta con otro enlace o más tarde.');
+    await conn.sendMessage(m.chat, {
+      audio: fs.createReadStream(filePath),
+      mimetype: "audio/mpeg",
+      fileName: fileName
+    }, { quoted: m });
+
+    try { fs.unlinkSync(filePath); } catch {}
+
+  } catch (e) {
+    console.error(e);
+    conn.reply(m.chat, `❌ Error: ${e.message}`, m);
   }
 };
 
-handler.help = ['applemusic <link>'];
-handler.tags = ['downloader'];
-handler.command = ['applemusic'];
+handler.help = ["applemusicdl"];
+handler.tags = ["downloader"];
+handler.command = ['applemusicdl', 'applemusic'];
 
 export default handler;
