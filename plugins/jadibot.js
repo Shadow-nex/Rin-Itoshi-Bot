@@ -35,10 +35,10 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
     horas %= 24;
 
     let resultado = '';
-    if (dias) resultado += `${dias} d, `;
-    if (horas) resultado += `${horas} h, `;
-    if (minutos) resultado += `${minutos} m, `;
-    if (segundos) resultado += `${segundos} s`;
+    if (dias) resultado += `${dias} D, `;
+    if (horas) resultado += `${horas} H, `;
+    if (minutos) resultado += `${minutos} M, `;
+    if (segundos) resultado += `${segundos} S`;
     return resultado.trim();
   }
 
@@ -76,7 +76,7 @@ await conn.sendMessage(m.chat, {
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
       newsletterJid: channelRD.id,
-      serverMessageId: 100,
+      serverMessageId: 99999,
       newsletterName: channelRD.name
     },
     externalAdReply: {
