@@ -24,21 +24,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       : "0:00"
     const download = json.download_url
     await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } })
-    if (!text) {
-      return conn.sendMessage(m.chat, {
-        text: `🍂 *B U C A N D O. . . ...`,
-        footer: 'Rin Itoshi',
-        contextInfo: {
-          externalAdReply: {
-            title: 'Spotify Downloader',
-            body: club,
-            thumbnailUrl: icono,
-            sourceUrl: 'https://api.dorratz.com'
-          }
-        }
-      }, { quoted: m });
-    }
-  
     let caption = `\`\`\`🧪 Título: ${name}
 🌷 Artista: ${artists}
 ⏱️ Duración: ${duration} min\`\`\``
