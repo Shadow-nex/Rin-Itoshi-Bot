@@ -65,13 +65,31 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃ 👤 *Canal:* ${info.author || 'Desconocido'}
 ┃ ⏱️ *Duración:* ${info.duration || 'Desconocida'}
 ╰━━━━━━━━━━━━⬣`
-    }, { quoted: m });*/
+    }, { quoted: m });
  
 
     await conn.sendMessage(m.chat, {
       audio: { url: info.download },
       fileName: info.filename,
       mimetype: 'audio/mpeg'
+    }, { quoted: m });*/
+    
+    await conn.sendMessage(m.chat, {
+      audio: { url: info.download },
+      fileName: info.filename,
+      mimetype: "audio/mpeg",
+      ptt: false,
+      contextInfo: {
+        externalAdReply: {
+          title: info.title,
+          body: `🌱 Duracion: ${info.duration || 'Desconocida'} | canal:  ${info.author || 'Desconocido'}`,
+          mediaUrl: 'https://youtube.com',
+          sourceUrl: 'https://youtube.com',
+          thumbnailUrl: info.thumb,
+          mediaType: 1,
+          renderLargerThumbnail: true
+        }
+      }
     }, { quoted: m });
 
     await m.react('✅');
@@ -88,56 +106,3 @@ handler.help = ['yta <url o texto>'];
 handler.tags = ['downloader'];
 
 export default handler;
-
-/*
-import fetch from 'node-fetch'
-
-let handler = async (m, { conn, text, command, usedPrefix }) => {
-  if (!text) {
-    return m.reply(`🌷 *Ejemplo de uso:*\n\n✎ ✧ \`${usedPrefix + command}\` https://youtu.be/ZtFPexrxt4g?si=aWllBcy3adHrobOB\n✎ ✧ \`${usedPrefix + command}\` DJ malam pagi slowed`);
-  }
-
-  try {
-    let api = `https://api.vreden.my.id/api/ytmp3?url=${encodeURIComponent(text)}`
-    let res = await fetch(api)
-    if (!res.ok) throw `❌ Error al conectar con la API`
-    let json = await res.json()
-
-    if (!json.status || !json.result || !json.result.download?.url) throw `⚠️ No se pudo obtener el audio.`
-
-    let { title, thumbnail, author, timestamp, views } = json.result.metadata
-    let { url, quality } = json.result.download
-    
-    await m.react('🕓')
-    let caption = `
-╭━━━〔 𝗬𝗼𝘂𝗧𝘂𝗯𝗲 𝗠𝗣𝟯 〕━━⬣
-┃ 🎵 *Título:* ${title}
-┃ 👤 *Canal:* ${author?.name || "Desconocido"}
-┃ ⏱️ *Duración:* ${timestamp}
-┃ 👀 *Vistas:* ${views.toLocaleString()}
-┃ 🎧 *Calidad:* ${quality}
-╰━━━━━━━━━━━━⬣
-    `.trim()
-
-    await conn.sendMessage(m.chat, {
-      image: { url: thumbnail },
-      caption
-    }, { quoted: m })
-
-    await conn.sendMessage(m.chat, {
-      audio: { url },
-      mimetype: 'audio/mpeg',
-      fileName: `${title}.mp3`
-    }, { quoted: m })
-
-  } catch (e) {
-    console.error(e)
-    throw `❌ Ocurrió un error al procesar tu petición.`
-  }
-}
-
-handler.help = ['yta <url>']
-handler.tags = ['downloader']
-handler.command = ['yta']
-
-export default handler*/
