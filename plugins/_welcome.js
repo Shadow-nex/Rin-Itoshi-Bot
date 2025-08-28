@@ -22,47 +22,34 @@ export async function before(m, { conn, participants, groupMetadata }) {
   if (m.messageStubType == 27) groupSize++;
   else if (m.messageStubType == 28 || m.messageStubType == 32) groupSize--;
 
-  let fecha = moment().tz("America/Lima").format("DD/MM/YYYY")
-  let hora = moment().tz("America/Lima").format("HH:mm")
-
-  let reglas = `
-1️⃣ Respeta a todos los miembros.  
-2️⃣ No spam ni links peligrosos.  
-3️⃣ Evita discusiones innecesarias.  
-4️⃣ No enviar contenido +18.  
-5️⃣ Usa los comandos con moderación.  
-`.trim()
-
+    let fechaObj = new Date()
+    let hora = new Date().toLocaleTimeString('es-PE', { timeZone: 'America/Lima' })
+    let fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Lima' })
+    let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' })
+   
   if (chat.welcome && m.messageStubType == 27) {
-    let bienvenida = `╭━〔 ✦ 🌟 𝑩𝒊𝒆𝒏𝒗𝒆𝒏𝒊𝒅𝒐 🌟 ✦ 〕━╮
-┃ ☘️ *Grupo:* ${groupMetadata.subject}
-┃ 🙋 *Usuario:* @${m.messageStubParameters[0].split`@`[0]}
-┃ 📅 *Fecha ingreso:* ${fecha}
-┃ ⏰ *Hora ingreso:* ${hora}
-┃ 👥 *Miembros actuales:* ${groupSize}
-┃
-┃ 📖 *Descripción:* 
-┃ ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}
-┃
-┃ 📜 *Reglas*
-┃ ${reglas.split("\n").map(r => "┃ " + r).join("\n")}
-┃
-┃ 💡 Usa *#help* para ver comandos.
-╰━━━━━━━━━━━━━━━━━━━━━━╯`    
+    let bienvenida = ` 💖 B I E N V E N I D O 🌀
+≡ 🌱 \`ɢʀᴜᴘᴏ:\` *${groupMetadata.subject}*
+≡ 🌂 \`ᴜsᴇʀ:\` *@${m.messageStubParameters[0].split`@`[0]}*
+≡ ⚽ \`ғᴇᴄʜᴀ ɪɴɢʀᴇsᴏ:\` *${dia}, ${fecha}*
+≡ 📡 \`ʜᴏʀᴀ ɪɴɢʀᴇsᴏ:\` *${hora}*
+≡ 🌷 \`ᴍɪᴇᴍʙʀᴏs ᴀᴄᴛᴜᴀʟᴇs:\` *${groupSize}*
+
+🍂 *Descripción:*
+${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}`    
     await conn.sendMini(m.chat, '✦◜ ៹ 𝑵𝒆𝒘 𝑴𝒆𝒎𝒃𝒆𝒓 ៹ ◞✦', dev, bienvenida, img, img, redes, fkontak)
   }
   
   if (chat.welcome && (m.messageStubType == 28 || m.messageStubType == 32)) {
-    let bye = `╭━〔 ✦ 🌸 𝐃𝐞𝐬𝐩𝐞𝐝𝐢𝐝𝐚 🌸 ✦ 〕━╮
-┃ 🧪 *Grupo:* ${groupMetadata.subject}
-┃ 👋 *Usuario:* @${m.messageStubParameters[0].split`@`[0]}
-┃ 📅 *Fecha salida:* ${fecha}
-┃ ⏰ *Hora salida:* ${hora}
-┃ 👥 *Miembros actuales:* ${groupSize}
-┃
-┃ 🐾 Te esperamos pronto de regreso.
-┃ 💡 Usa *#help* para ver comandos.
-╰━━━━━━━━━━━━━━━━━━━━━━╯`
+    let bye = ` 🌂 A D I O S 🌱
+≡ 🧪 \`ɢʀᴜᴘᴏ:\` *${groupMetadata.subject}*
+≡ 👋 \`ᴜsᴇʀ:\` *@${m.messageStubParameters[0].split`@`[0]}*
+≡ 📅 \`ғᴇᴄʜᴀ sᴀʟɪᴅᴀ:\` *${dia}, ${fecha}*
+≡ ⏰ \`ʜᴏʀᴀ sᴀʟɪᴅᴀ:\` *${hora}*
+≡ 👥 \`ᴍɪᴇᴍʙʀᴏs:\` *${groupSize}*
+
+> 🐾 Te esperamos pronto de regreso.
+> 🍂 Usa *#help* para ver comandos.`
     await conn.sendMini(m.chat, '✦◜ ៹ 𝑩𝒚𝒆 𝑴𝒆𝒎𝒃𝒆𝒓 ៹ ◞✦', dev, bye, img, img, redes, fkontak)
   }
 }
