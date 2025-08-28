@@ -39,6 +39,7 @@ const PORT = process.env.PORT || process.env.SERVER_PORT || 3000
 
 let { say } = cfonts
 
+/*
 console.log(chalk.bold.redBright(`\n▨────────────────────────▨`))
 console.log(chalk.magentaBright('\n🌱 Iniciando bot...'))
 console.log(chalk.bold.redBright(`\n▨────────────────────────▨`))
@@ -52,7 +53,86 @@ say('Made with By shadow', {
 font: 'console',
 align: 'center',
 colors: ['cyan', 'magenta', 'yellow']
-})
+})*/
+
+// ─── Banner de Inicio ──────────────────────────────
+const sleep = ms => new Promise(r => setTimeout(r, ms))
+
+async function showBanner() {
+  const title = `
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+░░░░░░░░░░▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄░░░░░░░░░
+░░░░░░░░▄▀░░░░░░░░░░░░▄░░░░░░░▀▄░░░░░░░
+░░░░░░░░█░░▄░░░░▄░░░░░░░░░░░░░░█░░░░░░░
+░░░░░░░░█░░░░░░░░░░░░▄█▄▄░░▄░░░█░▄▄▄░░░
+░▄▄▄▄▄░░█░░░░░░▀░░░░▀█░░▀▄░░░░░█▀▀░██░░
+░██▄▀██▄█░░░▄░░░░░░░██░░░░▀▀▀▀▀░░░░██░░
+░░▀██▄▀██░░░░░░░░▀░██▀░░░░░░░░░░░░░▀██░
+░░░░▀████░▀░░░░▄░░░██░░░▄█░░░░▄░▄█░░██░
+░░░░░░░▀█░░░░▄░░░░░██░░░░▄░░░▄░░▄░░░██░
+░░░░░░░▄█▄░░░░░░░░░░░▀▄░░▀▀▀▀▀▀▀▀░░▄▀░░
+░░░░░░█▀▀█████████▀▀▀▀████████████▀░░░░
+░░░░░░████▀░░███▀░░░░░░▀███░░▀██▀░░░░░░
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+  `.split('\n').map(l => chalk.hex('#ff00cc').bold(l)).join('\n')
+
+  const subtitle = chalk.hex('#00eaff').bold('✦ RIN-ITOSHI BOT ✦').padStart(40)
+  const aiMsg = chalk.hex('#ffb300').bold('shadow')
+
+  const tips = [
+    chalk.hex('#ffb300')('🌷 Tip: Usa /help para ver los comandos disponibles.'),
+    chalk.hex('#00eaff')('🌂 Síguenos en GitHub para actualizaciones.'),
+    chalk.hex('#ff00cc')('✨ Disfruta de la experiencia premium.')
+  ]
+
+  const loadingFrames = [
+    '⠋ Cargando módulos...', '⠙ Cargando módulos...', '⠹ Cargando módulos...',
+    '⠸ Cargando módulos...', '⠼ Cargando módulos...', '⠴ Cargando módulos...',
+    '⠦ Cargando módulos...', '⠧ Cargando módulos...', '⠇ Cargando módulos...',
+    '⠏ Cargando módulos...'
+  ].map(f => chalk.magentaBright(f))
+
+  console.clear()
+  console.log(boxen(title + '\n' + subtitle, {
+    padding: 1,
+    margin: 1,
+    borderStyle: 'double',
+    borderColor: 'whiteBright',
+    backgroundColor: 'black',
+    title: 'Rin Itoshi Bot',
+    titleAlignment: 'center'
+  }))
+
+  say('RIN ITOSHI', { font: 'simple', align: 'left', gradient: ['green', 'white'] })
+  say('Made with By Shadow', { font: 'console', align: 'center', colors: ['cyan','magenta','yellow'] })
+  
+  console.log('\n' + aiMsg + '\n')
+
+  for (let i = 0; i < 18; i++) {
+    process.stdout.write('\r' + loadingFrames[i % loadingFrames.length])
+    await sleep(70)
+  }
+  process.stdout.write('\r' + ' '.repeat(40) + '\r')
+
+  console.log(
+    chalk.bold.cyanBright(
+      boxen(
+        chalk.bold('¡Bienvenido a Rin Itoshi Bot!\n') +
+        chalk.hex('#00eaff')('El bot está arrancando, por favor espere...') +
+        '\n' +
+        tips.join('\n'),
+        { padding: 1, margin: 1, borderStyle: 'round', borderColor: 'yellow' }
+      )
+    )
+  )
+
+  const sparkles = [chalk.hex('#ff00cc')('✦'), chalk.hex('#00eaff')('✦'), chalk.hex('#ffb300')('✦')]
+  console.log('\n' + Array.from({ length: 30 }, (_, i) => sparkles[i % sparkles.length]).join('') + '\n')
+}
+
+// Ejecutar banner al inicio
+await showBanner()
+
 protoType()
 serialize()
 
