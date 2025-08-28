@@ -1,84 +1,88 @@
 import axios from 'axios';
 
 let handler = async (m, { conn, text }) => {
-
-  if (!text) return m.reply(`🍂 Ingresa el nombre de una canción o una URL de Spotify.`);
+  if (!text) return m.reply(`🍂 Ingresa el nombre de una canción o una URL de Spotify.\n\nEjemplo:\n.Spotify hola remix`);
 
   try {
-    let song;
-    const isSpotifyUrl = text.startsWith('https://open.spotify.com/');
-    if (isSpotifyUrl) {
-      song = { url: text };
-    } else {
-      const results = await spotifyxv(text);
-      if (!results.length) return m.reply('No se encontró la canción.');
-      song = results[0];
+    let songUrl;
+
+    // ✅ Caso 1: Si pasa un link de Spotify
+    if (text.startsWith('https://open.spotify.com/')) {
+      songUrl = text;
+    } 
+    // ✅ Caso 2: Si pasa texto (ej: hola remix)
+    else {
+      const results = await spotifySearch(text);
+      if (!results.length) return m.reply('⚠️ No se encontró la canción.');
+      songUrl = results[0].url;
     }
 
     await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } });
-     
-    const res = await axios.get(`https://api.stellarwa.xyz/dow/spotify?url=${song.url}&apikey=proyectsV2`);
+
+    // Descargar usando Delirius API
+    const res = await axios.get(`https://delirius-apiofc.vercel.app/download/spotifydl?url=${songUrl}`);
     const data = res.data?.data;
-    if (!data?.download) return m.reply('No se pudo obtener el enlace de descarga.');
+    if (!data?.url) return m.reply('❌ No se pudo obtener el enlace de descarga.');
 
-    const info = `[ ✿ ] Descargando › *${data.title}*\n\n` +
-                 `> [✩] Artista › *${data.artist}*\n` +
-                 (song.album ? `> ✰ Álbum › *${song.album}*\n` : '') +
-                 `> 🌱 Duración › *${data.duration}*\n` +
-                 `> 🍂 Enlace › *${song.url}*`;
+    const info = `╭━━━〔 *Spotify DL* 〕━━⬣
+┃ ✦ *Título:* ${data.title}
+┃ ✦ *Artista:* ${data.author}
+┃ ✦ *Duración:* ${msToTime(data.duration)}
+┃ ✦ *Enlace:* ${songUrl}
+╰━━━━━━━━━━━━━━⬣`;
 
+    // Imagen + Info
     await conn.sendMessage(m.chat, { image: { url: data.image }, caption: info }, { quoted: m });
-    
-   /*
+
+    // Audio
     await conn.sendMessage(m.chat, {
-      audio: { url: data.download },
-      ptt: true,
-      fileName: `${data.title}.mp3`,
-      mimetype: 'audio/mpeg'
-    }, { quoted: m });
-    */
-    await conn.sendMessage(m.chat, {
-      audio: { url: data.download },
+      audio: { url: data.url },
       mimetype: 'audio/mpeg',
-      ptt: false,
       fileName: `${data.title}.mp3`,
+      ptt: false,
       contextInfo: {
         externalAdReply: {
           title: data.title,
-          body: `Duración: ${data.duration}`,
+          body: `Artista: ${data.author}`,
           mediaType: 1,
           thumbnailUrl: data.image,
-          mediaUrl: song.url,
-          sourceUrl: song.url,
+          mediaUrl: songUrl,
+          sourceUrl: songUrl,
           renderLargerThumbnail: true
         }
       }
     }, { quoted: m });
-    
+
     await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
 
   } catch (e) {
+    console.log(e);
     await m.reply('❌ Error al procesar la canción.');
   }
 };
 
-handler.tags = ['descargas'];
 handler.help = ['spotify'];
-handler.command = ['spotify'];
+handler.tags = ['descargas'];
+handler.command = ['spotify', 'spotidown'];
 export default handler;
 
-async function spotifyxv(query) {
+async function spotifySearch(query) {
   const res = await axios.get(`https://api.stellarwa.xyz/search/spotify?query=${encodeURIComponent(query)}&apikey=proyectsV2`);
   if (!res.data?.status || !res.data?.data?.length) return [];
 
-  const firstTrack = res.data.data[0];
+  return res.data.data.map(track => ({
+    title: track.title,
+    artist: track.artist,
+    album: track.album,
+    duration: track.duration,
+    url: track.url,
+    image: track.image || ''
+  }));
+}
 
-  return [{
-    name: firstTrack.title,
-    artista: [firstTrack.artist],
-    album: firstTrack.album,
-    duracion: firstTrack.duration,
-    url: firstTrack.url,
-    imagen: firstTrack.image || ''
-  }];
+// Convertir milisegundos a mm:ss
+function msToTime(ms) {
+  let minutes = Math.floor(ms / 60000);
+  let seconds = ((ms % 60000) / 1000).toFixed(0);
+  return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 }
