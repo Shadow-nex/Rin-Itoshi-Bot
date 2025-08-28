@@ -91,6 +91,6 @@ ${usedPrefix + command} https://sticker.ly/s/4I2FC0 "Cute Pack" "Rin Itoshi"`)
 
 handler.help = ['stickerly <url> [nombre] [autor]']
 handler.tags = ['sticker']
-handler.command = /^stickerly$/i
+handler.command = ['stickerly']
 
 export default handler
