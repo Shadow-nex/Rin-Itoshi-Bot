@@ -6,12 +6,9 @@ let handler = async (m, { conn, text }) => {
   try {
     let songUrl;
 
-    // ✅ Caso 1: Si pasa un link de Spotify
     if (text.startsWith('https://open.spotify.com/')) {
       songUrl = text;
-    } 
-    // ✅ Caso 2: Si pasa texto (ej: hola remix)
-    else {
+    } else {
       const results = await spotifySearch(text);
       if (!results.length) return m.reply('⚠️ No se encontró la canción.');
       songUrl = results[0].url;
@@ -19,24 +16,23 @@ let handler = async (m, { conn, text }) => {
 
     await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } });
 
-    // Descargar usando Delirius API
     const res = await axios.get(`https://delirius-apiofc.vercel.app/download/spotifydl?url=${songUrl}`);
     const data = res.data?.data;
     if (!data?.url) return m.reply('❌ No se pudo obtener el enlace de descarga.');
 
-    const info = `╭━━━〔 *Spotify DL* 〕━━⬣
+    const info = `╭━━━〔 *Spotify DL 🍂* 〕━━⬣
 ┃ ✦ *Título:* ${data.title}
 ┃ ✦ *Artista:* ${data.author}
 ┃ ✦ *Duración:* ${msToTime(data.duration)}
 ┃ ✦ *Enlace:* ${songUrl}
 ╰━━━━━━━━━━━━━━⬣`;
 
-    // Imagen + Info
     await conn.sendMessage(m.chat, { image: { url: data.image }, caption: info }, { quoted: m });
 
-    // Audio
+    let audioBuffer = await axios.get(data.url, { responseType: 'arraybuffer' }).then(r => r.data);
+
     await conn.sendMessage(m.chat, {
-      audio: { url: data.url },
+      audio: audioBuffer,
       mimetype: 'audio/mpeg',
       fileName: `${data.title}.mp3`,
       ptt: false,
@@ -80,7 +76,6 @@ async function spotifySearch(query) {
   }));
 }
 
-// Convertir milisegundos a mm:ss
 function msToTime(ms) {
   let minutes = Math.floor(ms / 60000);
   let seconds = ((ms % 60000) / 1000).toFixed(0);

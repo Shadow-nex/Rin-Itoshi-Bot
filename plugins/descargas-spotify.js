@@ -20,7 +20,7 @@ let handler = async (m, { conn, text }) => {
     const data = res.data?.data;
     if (!data?.url) return m.reply('❌ No se pudo obtener el enlace de descarga.');
 
-    const info = `╭━━━〔 *Spotify DL 🍂* 〕━━⬣
+    const info = `╭━━━〔 *Spotify DL* 〕━━⬣
 ┃ ✦ *Título:* ${data.title}
 ┃ ✦ *Artista:* ${data.author}
 ┃ ✦ *Duración:* ${msToTime(data.duration)}
@@ -29,25 +29,31 @@ let handler = async (m, { conn, text }) => {
 
     await conn.sendMessage(m.chat, { image: { url: data.image }, caption: info }, { quoted: m });
 
-    let audioBuffer = await axios.get(data.url, { responseType: 'arraybuffer' }).then(r => r.data);
+    // 🔥 Descargar en buffer en vez de usar url directo
+let audioBuffer = await axios.get(data.url, {
+  responseType: 'arraybuffer',
+  headers: {
+    'User-Agent': 'Mozilla/5.0', // algunos servers lo piden
+  }
+}).then(r => r.data);
 
-    await conn.sendMessage(m.chat, {
-      audio: audioBuffer,
-      mimetype: 'audio/mpeg',
-      fileName: `${data.title}.mp3`,
-      ptt: false,
-      contextInfo: {
-        externalAdReply: {
-          title: data.title,
-          body: `Artista: ${data.author}`,
-          mediaType: 1,
-          thumbnailUrl: data.image,
-          mediaUrl: songUrl,
-          sourceUrl: songUrl,
-          renderLargerThumbnail: true
-        }
-      }
-    }, { quoted: m });
+await conn.sendMessage(m.chat, {
+  audio: audioBuffer,
+  mimetype: 'audio/mpeg',
+  fileName: `${data.title}.mp3`,
+  ptt: false,
+  contextInfo: {
+    externalAdReply: {
+      title: data.title,
+      body: `Artista: ${data.author}`,
+      mediaType: 1,
+      thumbnailUrl: data.image,
+      mediaUrl: songUrl,
+      sourceUrl: songUrl,
+      renderLargerThumbnail: true
+    }
+  }
+}, { quoted: m });
 
     await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
 
