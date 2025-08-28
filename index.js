@@ -56,34 +56,60 @@ colors: ['cyan', 'magenta', 'yellow']
 })*/
 
 const sleep = ms => new Promise(r => setTimeout(r, ms))
+
+async function animarTextoGlitch(texto, delay = 65) {
+  const efectos = '░▒▓█▌▐|/<>~*⚡☠☢⌬'
+  let resultado = ''
+  for (let i = 0; i < texto.length; i++) {
+    resultado += texto[i]
+    const ruido = efectos[Math.floor(Math.random() * efectos.length)]
+    let linea = resultado + chalk.gray(ruido.repeat(Math.floor(Math.random() * 2)))
+    process.stdout.write('\r' + chalk.hex('#ff0088')(linea))
+    await sleep(delay)
+  }
+  console.log()
+}
+
+async function barraCargaCyberpunk() {
+  const frames = [
+    '[⏳] Estableciendo conexión...',
+    '[💾] Cargando módulos esenciales...',
+    '[⚡] Sincronizando memoria...',
+    '[🔥] Energizando núcleo...',
+    '[🌌] Enlace con servidor completado...',
+    '[✅] RIN-ITOSHI BOT LISTO.'
+  ]
+  for (let frame of frames) {
+    process.stdout.write('\r' + chalk.cyanBright(frame))
+    await sleep(400)
+  }
+  console.log()
+}
+
+async function animacionTerminal() {
+  const comandos = [
+    'root@rin:~$ sudo iniciar --bot',
+    '⌬ Escaneando dependencias...',
+    '⌬ Cargando librerías...',
+    '⌬ Verificando seguridad...',
+    '⌬ Autenticación completada...',
+    '⌬ Estado: ONLINE ✔'
+  ]
+  for (let cmd of comandos) {
+    for (let i = 0; i < cmd.length; i++) {
+      process.stdout.write(chalk.greenBright(cmd[i]))
+      await sleep(20)
+    }
+    process.stdout.write('\n')
+    await sleep(200)
+  }
+}
+
 async function showBanner() {
-  // Separador inicial
+  console.clear()
   console.log(chalk.bold.redBright(`\n▨────────────────────────▨`))
   console.log(chalk.magentaBright('\n🌱 Iniciando bot...'))
   console.log(chalk.bold.redBright(`\n▨────────────────────────▨`))
-
-  const title = `
-░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-░░░░░░░░░░▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄░░░░░░░░░
-░░░░░░░░▄▀░░░░░░░░░░░░▄░░░░░░░▀▄░░░░░░░
-░░░░░░░░█░░▄░░░░▄░░░░░░░░░░░░░░█░░░░░░░
-░░░░░░░░█░░░░░░░░░░░░▄█▄▄░░▄░░░█░▄▄▄░░░
-░▄▄▄▄▄░░█░░░░░░▀░░░░▀█░░▀▄░░░░░█▀▀░██░░
-░██▄▀██▄█░░░▄░░░░░░░██░░░░▀▀▀▀▀░░░░██░░
-░░▀██▄▀██░░░░░░░░▀░██▀░░░░░░░░░░░░░▀██░
-░░░░▀████░▀░░░░▄░░░██░░░▄█░░░░▄░▄█░░██░
-░░░░░░░▀█░░░░▄░░░░░██░░░░▄░░░▄░░▄░░░██░
-░░░░░░░▄█▄░░░░░░░░░░░▀▄░░▀▀▀▀▀▀▀▀░░▄▀░░
-░░░░░░█▀▀█████████▀▀▀▀████████████▀░░░░
-░░░░░░████▀░░███▀░░░░░░▀███░░▀██▀░░░░░░
-░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-  `.split('\n').map(l => chalk.hex('#ff00cc').bold(l)).join('\n')
-
-  const subtitle = chalk.hex('#00eaff').bold('✦ RIN-ITOSHI BOT ✦').padStart(40)
-  const aiMsg = chalk.hex('#ffb300').bold('shadow.xyz')
-
-  console.log(title + '\n' + subtitle)
-  console.log('\n' + aiMsg + '\n')
 
   say('RIN ITOSHI', {
     font: 'simple',
@@ -97,18 +123,11 @@ async function showBanner() {
     colors: ['cyan', 'magenta', 'yellow']
   })
 
-  const loadingFrames = [
-    '⠋ Cargando módulos...', '⠙ Cargando módulos...', '⠹ Cargando módulos...',
-    '⠸ Cargando módulos...', '⠼ Cargando módulos...', '⠴ Cargando módulos...',
-    '⠦ Cargando módulos...', '⠧ Cargando módulos...', '⠇ Cargando módulos...',
-    '⠏ Cargando módulos...'
-  ].map(f => chalk.magentaBright(f))
+  await animarTextoGlitch("⌬ Activando núcleo...", 60)
+  await barraCargaCyberpunk()
+  await animacionTerminal()
 
-  for (let i = 0; i < 18; i++) {
-    process.stdout.write('\r' + loadingFrames[i % loadingFrames.length])
-    await sleep(100)
-  }
-  process.stdout.write('\r' + ' '.repeat(40) + '\r')
+  console.log(chalk.bold.greenBright('\n⚡ RIN-ITOSHI BOT totalmente operativo. ⚡\n'))
 }
 
 await showBanner()
