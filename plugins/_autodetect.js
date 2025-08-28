@@ -14,56 +14,55 @@ let usuario = `@${m.sender.split`@`[0]}`
 let pp = await conn.profilePictureUrl(m.chat, 'image').catch(_ => null) || 'https://files.catbox.moe/xr2m6u.jpg'
 let nombre, foto, edit, newlink, status, admingp, noadmingp
 
-nombre = `╔══✦•❖•✦══╗
-   ✨ Cambio de Nombre
-╚══✦•❖•✦══╝
+nombre = `⋆｡˚ ❀ ˚｡⋆｡˚✦˚｡⋆｡˚ ❀ ˚｡⋆
+   💎 𝑪𝒂𝒎𝒃𝒊𝒐 𝒅𝒆 𝑵𝒐𝒎𝒃𝒓𝒆 💎
+⋆｡˚ ❀ ˚｡⋆｡˚✦˚｡⋆｡˚ ❀ ˚｡⋆
 👤 Usuario: *${usuario}*
-🆕 Nuevo nombre:
-『 *${m.messageStubParameters[0]}* 』
+🆕 Nuevo nombre: 『 *${m.messageStubParameters[0]}* 』
 — ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ —`
 
-foto = `╔══✦•❖•✦══╗
-   🖼️ Foto Actualizada
-╚══✦•❖•✦══╝
+foto = `✧･ﾟ: ✧･ﾟ:☁️:･ﾟ✧:･ﾟ✧
+      🌷 Foto del Grupo 🌷
+✧･ﾟ: ✧･ﾟ:☁️:･ﾟ✧:･ﾟ✧
 👤 Usuario: *${usuario}*
-📸 Imagen del grupo cambiada.
+📸 Imagen actualizada con éxito.
 — ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ —`
 
-edit = `╔══✦•❖•✦══╗
-   ⚙️ Configuración de Grupo
-╚══✦•❖•✦══╝
+edit = `╭─────────────➤
+   ⚙️ 𝑪𝒐𝒏𝒇𝒊𝒈 𝑮𝒓𝒖𝒑𝒐 ⚙️
+╰─────────────➤
 👤 Usuario: *${usuario}*
 ${m.messageStubParameters[0] == 'on'
-? '🔒 Solo administradores pueden configurar.'
-: '🔓 Todos los miembros pueden configurar.'}
+? '🌱 Solo administradores pueden editar.'
+: '🍂 Todos los miembros pueden configurar.'}
 — ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ —`
 
-newlink = `╔══✦•❖•✦══╗
-   🔗 Enlace Renovado
-╚══✦•❖•✦══╝
+newlink = `❖───────────────❖
+     🌂 Enlace Nuevo 🌂
+❖───────────────❖
 👤 Generado por: *${usuario}*
-🌍 Nuevo enlace de invitación disponible.
+💖 Aquí tienes la nueva invitación.
 — ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ —`
 
-status = `╔══✦•❖•✦══╗
+status = `✦━━━━━━━✦
    🛡️ Estado del Grupo
-╚══✦•❖•✦══╝
+✦━━━━━━━✦
 👤 Acción de: *${usuario}*
 ${m.messageStubParameters[0] == 'on'
-? '🔒 Grupo cerrado — Solo administradores pueden escribir.'
-: '🔓 Grupo abierto — Todos los miembros pueden escribir.'}
+? '⚽💨 Grupo cerrado — Solo administradores pueden escribir.'
+: '☘️ Grupo abierto — Todos pueden escribir.'}
 — ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ —`
 
-admingp = `╔══✦•❖•✦══╗
-   👑 Nuevo Administrador
-╚══✦•❖•✦══╝
+admingp = `⋆｡˚ 🐁 ˚｡⋆｡˚✦˚｡⋆｡˚ 🐁 ˚｡⋆
+   👑 𝐍𝐮𝐞𝐯𝐨 𝐀𝐝𝐦𝐢𝐧
+⋆｡˚ 🐁 ˚｡⋆｡˚✦˚｡⋆｡˚ 🐁 ˚｡⋆
 🔰 *@${m.messageStubParameters[0].split`@`[0]}*
-📌 Nombrado por: *${usuario}*
+🌀 Nombrado por: *${usuario}*
 — ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ —`
 
-noadmingp = `╔══✦•❖•✦══╗
-   ⚠️ Admin Removido
-╚══✦•❖•✦══╝
+noadmingp = `⋆｡˚ 💥 ˚｡⋆｡˚✦˚｡⋆｡˚ 💥 ˚｡⋆
+   ⚠️ 𝐀𝐝𝐦𝐢𝐧 𝐑𝐞𝐦𝐨𝐯𝐢𝐝𝐨
+⋆｡˚ 💥 ˚｡⋆｡˚✦˚｡⋆｡˚ 💥 ˚｡⋆
 🔻 *@${m.messageStubParameters[0].split`@`[0]}*
 🗑️ Removido por: *${usuario}*
 — ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ —`

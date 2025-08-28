@@ -28,7 +28,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
     let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' })
    
   if (chat.welcome && m.messageStubType == 27) {
-    let bienvenida = ` 💖 B I E N V E N I D O 🌀
+    let bienvenida = `    💖 B I E N V E N I D O 🌀
 ≡ 🌱 \`ɢʀᴜᴘᴏ:\` *${groupMetadata.subject}*
 ≡ 🌂 \`ᴜsᴇʀ:\` *@${m.messageStubParameters[0].split`@`[0]}*
 ≡ ⚽ \`ғᴇᴄʜᴀ ɪɴɢʀᴇsᴏ:\` *${dia}, ${fecha}*
@@ -41,7 +41,7 @@ ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}`
   }
   
   if (chat.welcome && (m.messageStubType == 28 || m.messageStubType == 32)) {
-    let bye = ` 🌂 A D I O S 🌱
+    let bye = `    🌂 A D I O S 🌱
 ≡ 🧪 \`ɢʀᴜᴘᴏ:\` *${groupMetadata.subject}*
 ≡ 👋 \`ᴜsᴇʀ:\` *@${m.messageStubParameters[0].split`@`[0]}*
 ≡ 📅 \`ғᴇᴄʜᴀ sᴀʟɪᴅᴀ:\` *${dia}, ${fecha}*
