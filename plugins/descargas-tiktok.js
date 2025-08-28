@@ -19,25 +19,22 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
         }
 
         const thumbRes = await fetch('https://files.catbox.moe/knns14.jpg');
-const thumbBuffer = await thumbRes.buffer();
-
-const fkontak = {
-    key: {
-        participants: "120363025000000@s.whatsapp.net", // simula un número de WhatsApp Business
-        remoteJid: "status@broadcast", // sigue siendo broadcast para estados
-        fromMe: false,
-        id: "BusinessStatus12345" // un id “aleatorio” que no pertenezca a WhatsApp oficial
-    },
-    message: {
-        locationMessage: {
-            name: `🌀 ᴅᴏᴡɴʟᴏᴀᴅ ᴛɪᴋᴛᴏᴋ | 🌱 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 𝙈ᴅ 🍂`,
-            jpegThumbnail: thumbBuffer,
-            degreesLatitude: 0.1, // necesario para que WhatsApp acepte el mensaje
-            degreesLongitude: 0.1
-        }
-    },
-    participant: "120363025000000@s.whatsapp.net" // mismo número que arriba
-};
+        const thumbBuffer = await thumbRes.buffer();
+        const fkontak = {
+            key: {
+                participants: "0@s.whatsapp.net",
+                remoteJid: "status@broadcast",
+                fromMe: false,
+                id: "Halo"
+            },
+            message: {
+                locationMessage: {
+                    name: `🌀 ᴅᴏᴡɴʟᴏᴀᴅ ᴛɪᴋᴛᴏᴋ | 🌱 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 𝙈𝘿 🍂`,
+                    jpegThumbnail: thumbBuffer
+                }
+            },
+            participant: "0@s.whatsapp.net"
+        };
 
         const data = tiktokData.data;
         const videoURL = data.play;
@@ -49,6 +46,20 @@ const fkontak = {
             return `${mins} min ${secs} seg`;
         };
 
+        const getFileSize = async (url) => {
+            try {
+                const res = await fetch(url, { method: 'HEAD' });
+                const size = res.headers.get('content-length');
+                if (!size) return 'Desconocido';
+                const mb = (parseInt(size) / (1024 * 1024)).toFixed(2);
+                return `${mb} MB`;
+            } catch {
+                return 'Desconocido';
+            }
+        };
+
+        const videoSize = await getFileSize(videoURL);
+
         if (videoURL) {
             await conn.sendFile(m.chat, videoURL, "tiktok.mp4", `
 ㅤ۟∩　ׅ　★ ໌　ׅ　🅣𝗂𝗄𝖳𝗈𝗄 🅓ownload　ׄᰙ
@@ -56,6 +67,7 @@ const fkontak = {
 𖣣ֶㅤ֯⌗ 🫟  ׄ ⬭ *Título:* ${data.title || 'Sin descripción uwu'}
 𖣣ֶㅤ֯⌗ 🧑🏻  ׄ ⬭ *Autor:* ${data.author?.unique_id || 'Desconocido'}
 𖣣ֶㅤ֯⌗ ⏱️  ׄ ⬭ *Duración:* ${formatDuration(data.duration)}
+𖣣ֶㅤ֯⌗ 📦  ׄ ⬭ *Tamaño:* ${videoSize}
 𖣣ֶㅤ֯⌗ 🍁  ׄ ⬭ *Likes:* ${formatNumber(data.digg_count)}
 𖣣ֶㅤ֯⌗ 🎋  ׄ ⬭ *Comentarios:* ${formatNumber(data.comment_count)}
 𖣣ֶㅤ֯⌗ 🌱  ׄ ⬭ *Vistas:* ${formatNumber(data.play_count)}
