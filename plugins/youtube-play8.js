@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys';
 
 const handler = async (m, { conn, args, usedPrefix, command }) => {
-  const club = '✨ 𝐄𝐥𝐢𝐣𝐚 𝐮𝐧𝐚 𝐨𝐩𝐜𝐢𝐨́𝐧 ✨\n  🎧 › *Audio*\n  📹 › *Video*';
+  const club = '┃✨ 𝐄𝐥𝐢𝐣𝐚 𝐮𝐧𝐚 𝐨𝐩𝐜𝐢𝐨́𝐧 ✨\n┃  🎧 › *Audio*\n┃  📹 › *Video*\n╰━━━━━━━━━━━━━━━━━━⬣';
 
   if (!args[0]) return conn.reply(m.chat, `*🧪 Ingresa un título para buscar en YouTube.*\n✧ \`Ejemplo:\` ${usedPrefix}${command} Joji - Ew`, m, fake);
 
@@ -26,17 +26,13 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
       thumbnail = await (await fetch('https://telegra.ph/file/36f2a1bd2aaf902e4d1ff.jpg')).buffer();
     }
 
-    const caption = `✧─── ･ ｡ﾟ★: .✦ . :★. ───✧
-⧼ ᰔᩚ ⧽  𝐌𝐔𝐒𝐈𝐂 - 𝐘𝐎𝐔𝐓𝐔𝐁𝐄 🎶
-
-╭━━━〔 📀  𝐈𝐍𝐅𝐎 𝐃𝐄𝐋 𝐕𝐈𝐃𝐄𝐎 〕━━⬣
+    const caption = `╭━━━〔 📀  𝐌𝐔𝐒𝐈𝐂 - 𝐘𝐎𝐔𝐓𝐔𝐁𝐄 〕━━⬣
 ┃ ✦ 𝗧𝗶́𝘁𝘂𝗹𝗼 › *${video.titulo || 'No encontrado'}*
 ┃ ✦ 𝗖𝗮𝗻𝗮𝗹 › *${video.canal || 'No encontrado'}*
 ┃ ✦ 𝗗𝘂𝗿𝗮𝗰𝗶𝗼́𝗻 › *${video.duracion || 'No encontrado'}*
 ┃ ✦ 𝗩𝗶𝘀𝘁𝗮𝘀 › *${video.vistas || 'No encontrado'}*
 ┃ ✦ 𝗣𝘂𝗯𝗹𝗶𝗰𝗮𝗱𝗼 › *${video.publicado || 'No encontrado'}*
-┃ ✦ 𝗘𝗻𝗹𝗮𝗰𝗲 › ${video.url}
-╰━━━━━━━━━━━━━━━━━━⬣`;
+┃ ✦ 𝗘𝗻𝗹𝗮𝗰𝗲 › ${video.url}`;
 
 
     let ytSections = searchResults.slice(1, 11).map((v, index) => ({
@@ -98,7 +94,7 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
       },
       buttons: [
         {
-          buttonId: `${usedPrefix}ytmp3 ${video.url}`,
+          buttonId: `${usedPrefix}yta ${video.url}`,
           buttonText: { displayText: '🍂 Audio' },
           type: 1,
         },

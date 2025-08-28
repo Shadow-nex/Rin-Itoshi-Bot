@@ -57,7 +57,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     if (!info) throw '❌ No se pudo obtener información de ninguna API.';
-
+/*
     await conn.sendMessage(m.chat, {
       image: { url: info.thumb },
       caption: `╭━━━〔 𝗬𝗼𝘂𝗧𝘂𝗯𝗲 𝗠𝗣𝟯 〕━━⬣
@@ -65,7 +65,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃ 👤 *Canal:* ${info.author || 'Desconocido'}
 ┃ ⏱️ *Duración:* ${info.duration || 'Desconocida'}
 ╰━━━━━━━━━━━━⬣`
-    }, { quoted: m });
+    }, { quoted: m });*/
  
 
     await conn.sendMessage(m.chat, {
