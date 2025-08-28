@@ -25,13 +25,13 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     const download = json.download_url
     await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } })
     await conn.sendMessage(m.chat, {
-      text: '🍂 *B U C A N D O. . . ...',
+      text: '🍂 *B U C A N D O. . . ...*',
       mentions: [m.sender],
       contextInfo: {
         externalAdReply: {
           title: '🍄 Rɪɴ Iᴛᴏsʜɪ ᴍᴅ 🌹 | 🪾 ʙʏ ᴅᴠ.sʜᴀᴅᴏᴡ 🪴',
           body: club,
-          thumbnailUrl: 'https://files.catbox.moe/q8b2br.jpg',
+          thumbnailUrl: image,
           sourceUrl: 'https://api.dorratz.com',
           mediaType: 1,
           renderLargerThumbnail: false
