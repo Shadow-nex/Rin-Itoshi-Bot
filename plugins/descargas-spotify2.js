@@ -32,7 +32,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
           title: '🍄 Rɪɴ Iᴛᴏsʜɪ ᴍᴅ 🌹 | 🪾 ʙʏ ᴅᴠ.sʜᴀᴅᴏᴡ 🪴',
           body: club,
           thumbnailUrl: 'https://files.catbox.moe/q8b2br.jpg',
-          sourceUrl: 'https://api.dorratz.com'
+          sourceUrl: 'https://api.dorratz.com',
           mediaType: 1,
           renderLargerThumbnail: false
         }
