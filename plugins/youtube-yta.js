@@ -83,8 +83,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         externalAdReply: {
           title: info.title,
           body: `🌱 Duracion: ${info.duration || 'Desconocida'} | canal:  ${info.author || 'Desconocido'}`,
-          mediaUrl: 'https://youtube.com',
-          sourceUrl: 'https://youtube.com',
+          mediaUrl: 'https://api.vreden.my.id',
+          sourceUrl: 'https://api.vreden.my.id',
           thumbnailUrl: info.thumb,
           mediaType: 1,
           renderLargerThumbnail: true
