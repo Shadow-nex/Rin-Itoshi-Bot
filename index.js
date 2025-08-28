@@ -127,7 +127,7 @@ async function showBanner() {
   await barraCargaCyberpunk()
   await animacionTerminal()
 
-  console.log(chalk.bold.greenBright('\n⚡ RIN-ITOSHI BOT totalmente operativo. ⚡\n'))
+  console.log(chalk.bold.greenBright('\n⚽ RIN-ITOSHI BOT totalmente operativo. ⚽\n'))
 }
 
 await showBanner()
