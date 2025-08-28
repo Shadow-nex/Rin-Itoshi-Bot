@@ -1,37 +1,36 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'fs'
 
 let handler = async (m, { conn }) => {
-    try {
-        const dbPath = path.join('./database.json');
+  try {
+    m.reply(`🌀 REINICIANDO SYSTEM......`)
 
-        if (fs.existsSync(dbPath)) {
-            let db = JSON.parse(fs.readFileSync(dbPath));
-            if (db.lastRestartChat) {
-                await conn.sendMessage(db.lastRestartChat, { text: '「✅」 El bot ya está online!' });
-                delete db.lastRestartChat;
-                fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
-                return;
-            }
-        }
+    fs.writeFileSync('./restarting.txt', m.chat)
 
-        m.reply('🍂 Reiniciando El Bot....');
-        
-        let db = fs.existsSync(dbPath) ? JSON.parse(fs.readFileSync(dbPath)) : {};
-        db.lastRestartChat = m.chat;
-        fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
+    setTimeout(() => {
+      process.exit(0)
+    }, 3000)
 
-        setTimeout(() => process.exit(0), 2000);
-
-    } catch (error) {
-        console.log(error);
-        conn.reply(m.chat, `${error}`, m);
-    }
+  } catch (error) {
+    console.error(error)
+    conn.reply(m.chat, `❌ Error: ${error}`, m)
+  }
 }
 
-handler.help = ['restart'];
-handler.tags = ['owner'];
-handler.command = ['restart', 'reiniciar'];
-handler.rowner = true;
+setTimeout(async () => {
+  const fs = await import('fs')
+  const path = './restarting.txt'
+  if (fs.existsSync(path)) {
+    const chatId = fs.readFileSync(path, 'utf-8')
+    global.conn?.sendMessage?.(chatId, {
+      text: '「✅」 El bot ya está online!',
+    }).catch(console.error)
+    fs.unlinkSync(path)
+  }
+}, 3000)
 
-export default handler;
+handler.help = ['restart']
+handler.tags = ['owner']
+handler.command = ['restart', 'reiniciar']
+handler.rowner = true
+
+export default handler
