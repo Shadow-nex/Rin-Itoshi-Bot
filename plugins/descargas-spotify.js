@@ -121,7 +121,7 @@ const handler = async (m, { conn, text }) => {
 handler.help = ['spotify', 'music'];
 handler.tags = ['descargas'];
 handler.command = ['spotify', 'splay'];
-handler.group = true;
+//handler.group = true;
 
 export default handler;
 
