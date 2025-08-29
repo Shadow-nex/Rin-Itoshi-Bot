@@ -96,11 +96,7 @@ ${channel}
       footer: club,
       buttons: [
         { buttonId: `${usedPrefix}owner`, buttonText: { displayText: "⚡ Creador" }, type: 1 },
-        { buttonId: `${usedPrefix}menu`, buttonText: { displayText: "☘️ Menu | All" }, type: 1 },
-        {
-                                "name": "cta_url", // 🔗 Botón URL
-                                "buttonParamsJson": `{"display_text":"🌐 Página Web","url":"https://tusitio.com"}`
-                            },
+        { buttonId: `${usedPrefix}menu`, buttonText: { displayText: "☘️ Menu | All" }, type: 1 }
       ],
       headerType: 4,
       contextInfo: {
