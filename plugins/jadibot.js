@@ -88,7 +88,7 @@ await conn.sendMessage(m.chat, {
       newsletterName: channelRD.name
     },
     externalAdReply: {
-      title: '🌀 ѕσ¢ƙєтѕ αcтιvσѕ',
+      title: '🌀 ѕσ¢ƙєтѕ αcтιvσѕ 🌂',
       body: `🍂 Conectados: ${total}/${maxSubbots}`,
       thumbnailUrl: 'https://tinyurl.com/28st4n83',
       mediaUrl: 'https://tinyurl.com/28st4n83',
