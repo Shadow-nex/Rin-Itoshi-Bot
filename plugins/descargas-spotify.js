@@ -55,12 +55,12 @@ const handler = async (m, { conn, text }) => {
     }
 
     const image = track.album.images[0]?.url || null;
-    const caption = `💿 *Título:* ${track.name}
-🎨 *Artista:* ${track.artists.map((a) => a.name).join(", ")}
-📚 *Álbum:* ${track.album.name}
-📅 *Fecha:* ${track.album.release_date}
-⏱️ *Duración:* ${(track.duration_ms / 60000).toFixed(2)} min
-🔗 *Link:* ${track.external_urls.spotify}`;
+    const caption = `[ ✿ ] *Descargando* ${track.name}
+> [⚽] *Artista:* ${track.artists.map((a) => a.name).join(", ")}
+> [🍂] *Álbum:* ${track.album.name}
+> [🌳] *Fecha:* ${track.album.release_date}
+> [💥] *Duración:* ${(track.duration_ms / 60000).toFixed(2)} min
+> [🔋] *Link:* ${track.external_urls.spotify}`;
 
     
     await conn.sendMessage(
@@ -96,7 +96,7 @@ const handler = async (m, { conn, text }) => {
         contextInfo: {
           externalAdReply: {
             title: track.name,
-            body: `Álbum: ${track.album.name}`,
+            body: `Duracion: ${(track.duration_ms / 60000).toFixed(2)}`,
             thumbnailUrl: image,
             mediaUrl: track.external_urls.spotify,
             sourceUrl: track.external_urls.spotify,
