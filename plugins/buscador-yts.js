@@ -70,7 +70,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
           },
           interactiveMessage: proto.Message.InteractiveMessage.fromObject({
             body: proto.Message.InteractiveMessage.Body.create({
-              text: `*🌱 Resultados de:* \`${text}\`\n> Mostrando ${videos.length} resultados`
+              text: `*🌱 Resultados de:* \`${text}\`\n> Mostrando: ${videos.length} resultados`
             }),
             footer: proto.Message.InteractiveMessage.Footer.create({
               text: '_YouTube - Search_'
