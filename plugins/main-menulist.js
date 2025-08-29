@@ -25,28 +25,28 @@ const handler = async (m, { conn, usedPrefix }) => {
 
 🌸 *𝐈𝐍𝐅𝐎 - 𝐁𝐎𝐓* 🌸
 ───────────────────
-🍂 𝗖ʀᴇᴀᴅᴏʀ : *Dev.Shadow*
-🧸 𝗖ᴏɴᴛᴀᴄᴛᴏ : *wa.link/z1w9sq*
-💾 𝗩ᴇʀꜱɪᴏɴ : *2.2.5*
-👥 𝗨ꜱᴜᴀʀɪᴏꜱ : *${totalUsers}*
-🧰 𝗖ᴏᴍᴀɴᴅᴏꜱ : *${totalCommands}*
-🔐 𝗠ᴏᴅᴏ : *Privado*
-📚 𝗟ɪʙʀᴇʀɪᴀ : *Baileys-MD*
-⏱️ 𝗔ᴄᴛɪᴠᴏ : *${uptime}*
+✦✧ 🍂 \`𝗖ʀᴇᴀᴅᴏʀ\` : *shadow.xyz*
+✶✦ 🧸 \`𝗖ᴏɴᴛᴀᴄᴛᴏ\` : *wa.link/z1w9sq*
+✶✦ 💾 \`𝗩ᴇʀꜱɪᴏɴ\` : *2.2.5*
+✦✧ 👥 \`𝗨ꜱᴜᴀʀɪᴏꜱ\` : *${totalUsers}*
+✶✦ 🧰 \`𝗖ᴏᴍᴀɴᴅᴏꜱ\` : *${totalCommands}*
+✦✧ 🔐 \`𝗠ᴏᴅᴏ\` : *Privado*
+✶✦ 📚 \`𝗟ɪʙʀᴇʀɪᴀ\` : *Baileys-MD*
+✦✧ ⏱️ \`𝗔ᴄᴛɪᴠᴏ\` : *${uptime}*
 
 🌸 *𝐈𝐍𝐅𝐎 - 𝐔𝐒𝐄𝐑* 🌸
 ───────────────────
-🆔 𝗜ᴅ : *${conn.getName(m.sender)}*
-💸 𝗠ᴏɴᴇᴅᴀꜱ : *${user.coin || 0}*
-📊 𝗡ɪᴠᴇʟ : *${user.level || 0}*
-⚡ 𝗘xᴘ : *${user.exp || 0}*
-👑 𝗥ᴀɴɢᴏ : *${user.role || 'Sin Rango'}*
+✶✦ 🆔 \`𝗜ᴅ\` : *${conn.getName(m.sender)}*
+✦✧ 💸 \`𝗠ᴏɴᴇᴅᴀꜱ\` : *${user.coin || 0}*
+✶✦ 📊 \`𝗡ɪᴠᴇʟ\` : *${user.level || 0}*
+✦✧ ⚡ \`𝗘xᴘ\` : *${user.exp || 0}*
+✶✦ 👑 \`𝗥ᴀɴɢᴏ\` : *${user.role || 'Sin Rango'}*
 
 🌸 *𝐈𝐍𝐅𝐎 - 𝐅𝐄𝐂𝐇𝐀* 🌸
 ───────────────────
-📆 𝗙ᴇᴄʜᴀ : *${fecha}*
-💎 𝗗ɪᴀ : *${dia}*
-⏰ 𝗛ᴏʀᴀ : *${hora}*
+✦✧ 📆 \`𝗙ᴇᴄʜᴀ\` : *${fecha}*
+✶✦ 💎 \`𝗗ɪᴀ\` : *${dia}*
+✦✧ ⏰ \`𝗛ᴏʀᴀ\` : *${hora}*
 
 *✨╰━━❁ ¡Gracias por usar Rin Itoshi Bot! ❁━━╯✨*`;
 
