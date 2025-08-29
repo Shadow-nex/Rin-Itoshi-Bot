@@ -21,40 +21,41 @@ const handler = async (m, { conn, usedPrefix }) => {
     const user = global.db.data.users[m.sender] || {};
     const taguser = '@' + (m.sender.pushname ? m.sender.pushname : m.sender.split('@s.whatsapp.net')[0])
 
-    const texto = `*☆═━┈◈ ╰  𝕽𝖎𝖓 𝕴𝖙𝖔𝖘𝖍𝖎 𝕭𝖔𝖙 𝕸𝕯 ╯ ◈┈━═☆*
+    const texto = `*✨╭━━❁ 𝕽𝖎𝖓 𝕴𝖙𝖔𝖘𝖍𝖎 𝕭𝖔𝖙 𝕸𝕯 ❁━━╮✨*
 
- ─·˚₊· ͟͟͞͞꒰➳ \`ɪɴғᴏ - ʙᴏᴛ\` 𑁭𑁘
+🌸 *𝐈𝐍𝐅𝐎 - 𝐁𝐎𝐓* 🌸
+───────────────────
+🍂 𝗖ʀᴇᴀᴅᴏʀ : *Dev.Shadow*
+🧸 𝗖ᴏɴᴛᴀᴄᴛᴏ : *wa.link/z1w9sq*
+💾 𝗩ᴇʀꜱɪᴏɴ : *2.2.5*
+👥 𝗨ꜱᴜᴀʀɪᴏꜱ : *${totalUsers}*
+🧰 𝗖ᴏᴍᴀɴᴅᴏꜱ : *${totalCommands}*
+🔐 𝗠ᴏᴅᴏ : *Privado*
+📚 𝗟ɪʙʀᴇʀɪᴀ : *Baileys-MD*
+⏱️ 𝗔ᴄᴛɪᴠᴏ : *${uptime}*
 
-> ┊ 🍂 𝗖ʀᴇᴀᴅᴏʀ : *Dev.Shadow*
-> ┊ 🧸 𝗖ᴏɴᴛᴀᴄᴛᴏ : *wa.link/z1w9sq*
-> ┊ 💾 𝗩ᴇʀꜱɪᴏɴ : *2.2.5*
-> ┊ 👥 𝗨ꜱᴜᴀʀɪᴏꜱ : *${totalUsers}*
-> ┊ 🧰 𝗖ᴏᴍᴀɴᴅᴏꜱ : *${totalCommands}*
-> ┊ 🔐 𝗠ᴏᴅᴏ : *Privado*
-> ┊ 📚 𝗟ɪʙʀᴇʀɪᴀ : *Baileys‑MD*
-> ┊ ⏱️ 𝗔ᴄᴛɪᴠᴏ : *${uptime}*
+🌸 *𝐈𝐍𝐅𝐎 - 𝐔𝐒𝐄𝐑* 🌸
+───────────────────
+🆔 𝗜ᴅ : *${conn.getName(m.sender)}*
+💸 𝗠ᴏɴᴇᴅᴀꜱ : *${user.coin || 0}*
+📊 𝗡ɪᴠᴇʟ : *${user.level || 0}*
+⚡ 𝗘xᴘ : *${user.exp || 0}*
+👑 𝗥ᴀɴɢᴏ : *${user.role || 'Sin Rango'}*
 
+🌸 *𝐈𝐍𝐅𝐎 - 𝐅𝐄𝐂𝐇𝐀* 🌸
+───────────────────
+📆 𝗙ᴇᴄʜᴀ : *${fecha}*
+💎 𝗗ɪᴀ : *${dia}*
+⏰ 𝗛ᴏʀᴀ : *${hora}*
 
- ─·˚₊· ͟͟͞͞꒰➳ \`ɪɴғᴏ - ᴜsᴇʀ\` 𑁭𑁘
+*✨╰━━❁ ¡Gracias por usar Rin Itoshi Bot! ❁━━╯✨*`;
 
-> ┊ 🆔 𝗜ᴅ: *${conn.getName(m.sender)}*
-> ┊ 💸 𝗠ᴏɴᴇᴅᴀꜱ:  *${user.coin || 0}*
-> ┊ 📊 𝗡ɪᴠᴇʟ:  *${user.level || 0}*
-> ┊ ⚡ 𝗘xᴘ: *${user.exp || 0}*
-> ┊ 👑 𝗥ᴀɴɢᴏ: *${user.role || 'Sin Rango'}*
-
- ─·˚₊· ͟͟͞͞꒰➳ \`ɪɴғᴏ - ғᴇᴄʜᴀ\` 𑁭𑁘
-
-> ┊ 📆 𝗙ᴇᴄʜᴀ: *${fecha}*
-> ┊ 💎 𝗗ɪᴀ:    *${dia}*
-> ┊ ⏰ 𝗛ᴏʀᴀ:  *${hora}*`;
-
-    const imgUrl = 'https://files.catbox.moe/4dple4.jpg'; // cambie x su imagen xd
+    const imgUrl = 'https://tinyurl.com/29d2bflx'; // cambie x su imagen xd
     const imagenBuffer = await (await fetch(imgUrl)).buffer();
     const thumb2 = await sharp(imagenBuffer).resize(400, 400).jpeg({ quality: 70 }).toBuffer();
     
     
-    const imgenUrl = 'https://files.catbox.moe/9l7hcn.jpg'; // cambie x su imagen
+    const imgenUrl = 'https://tinyurl.com/2c2wh7v2'; // cambie x su imagen
     const imgBuffer = await (await fetch(imgenUrl)).buffer();
      
     const thumb = await sharp(imgBuffer).resize(400, 400).jpeg({ quality: 70 }).toBuffer();
