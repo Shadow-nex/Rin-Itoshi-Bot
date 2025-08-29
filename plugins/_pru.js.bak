@@ -13,7 +13,7 @@ let handler = async (m, { conn, command }) => {
             mentionedJid: [m.sender],
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363401008003732@newsletter', // Reemplaza con tu canal si aplica
+                newsletterJid: 'CHANNEL_ID', // Reemplaza con tu canal si aplica
                 serverMessageId: 100,
                 newsletterName: 'CHANNEL_NAME'
             }
