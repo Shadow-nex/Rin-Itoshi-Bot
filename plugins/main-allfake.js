@@ -53,7 +53,7 @@ global.done = '✅'
 global.error = '✖️'
 global.msm = '⚠︎'
 
-global.emoji = '🍀'
+global.emoji = '🌱'
 global.emoji2 = '☆⌒(ゝ。∂)'
 global.emoji3 = '(✧ω✧)'
 global.emoji4 = '(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧'
