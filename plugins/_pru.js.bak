@@ -1,7 +1,7 @@
 import { proto } from '@whiskeysockets/baileys';
 
 let handler = async (m, { conn, command }) => {
-    let imgUrl = 'https://files.catbox.moe/4q363w.jpg';
+    let imgUrl = logo;
     let rtx2 = '✨ ¡Hola! Este es un mensaje especial con tu código secreto ✨';
     let secret = '🔑 1234ABCD'; // Aquí tu código secreto dinámico si quieres
 
