@@ -55,14 +55,12 @@ const handler = async (m, { conn, text }) => {
     }
 
     const image = track.album.images[0]?.url || null;
-    const caption = `╭─🎧 *Spotify Music Info*
-│💿 *Título:* ${track.name}
-│🎨 *Artista:* ${track.artists.map((a) => a.name).join(", ")}
-│📚 *Álbum:* ${track.album.name}
-│📅 *Fecha:* ${track.album.release_date}
-│⏱️ *Duración:* ${(track.duration_ms / 60000).toFixed(2)} min
-│🔗 *Link:* ${track.external_urls.spotify}
-╰─────────────`;
+    const caption = `💿 *Título:* ${track.name}
+🎨 *Artista:* ${track.artists.map((a) => a.name).join(", ")}
+📚 *Álbum:* ${track.album.name}
+📅 *Fecha:* ${track.album.release_date}
+⏱️ *Duración:* ${(track.duration_ms / 60000).toFixed(2)} min
+🔗 *Link:* ${track.external_urls.spotify}`;
 
     
     await conn.sendMessage(
