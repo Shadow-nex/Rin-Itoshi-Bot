@@ -1,83 +1,68 @@
-import axios from 'axios';
+import fetch from "node-fetch";
 
-let handler = async (m, { conn, text }) => {
-  if (!text) return m.reply(`🍂 Ingresa el nombre de una canción o una URL de Spotify.\n\nEjemplo:\n.Spotify hola remix`);
+const spotifyApis = [
+  { name: "Delirius", url: "https://delirius-apiofc.vercel.app/download/spotifydl?url=" },
+  { name: "Vreden", url: "https://api.vreden.my.id/api/spotify?url=" },
+  { name: "Dorratz", url: "https://api.dorratz.com/spotifydl?url=" }
+];
 
-  try {
-    let songUrl;
+const handler = async (m, { conn, text }) => {
+  if (!text) return conn.reply(m.chat, "⚡ Ingresa el link de Spotify.", m);
 
-    if (text.startsWith('https://open.spotify.com/')) {
-      songUrl = text;
-    } else {
-      const results = await spotifySearch(text);
-      if (!results.length) return m.reply('⚠️ No se encontró la canción.');
-      songUrl = results[0].url;
-    }
-
-    await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } });
-
-    const res = await axios.get(`https://delirius-apiofc.vercel.app/download/spotifydl?url=${songUrl}`);
-    const data = res.data?.data;
-    if (!data?.url) return m.reply('❌ No se pudo obtener el enlace de descarga.');
-
-    const info = `╭━━━〔 *Spotify DL 🍂* 〕━━⬣
-┃ ✦ *Título:* ${data.title}
-┃ ✦ *Artista:* ${data.author}
-┃ ✦ *Duración:* ${msToTime(data.duration)}
-┃ ✦ *Enlace:* ${songUrl}
-╰━━━━━━━━━━━━━━⬣`;
-
-    await conn.sendMessage(m.chat, { image: { url: data.image }, caption: info }, { quoted: m });
-
-    let audioBuffer = await axios.get(data.url, { responseType: 'arraybuffer' }).then(r => r.data);
-
-    await conn.sendMessage(m.chat, {
-      audio: audioBuffer,
-      mimetype: 'audio/mpeg',
-      fileName: `${data.title}.mp3`,
-      ptt: false,
-      contextInfo: {
-        externalAdReply: {
-          title: data.title,
-          body: `Artista: ${data.author}`,
-          mediaType: 1,
-          thumbnailUrl: data.image,
-          mediaUrl: songUrl,
-          sourceUrl: songUrl,
-          renderLargerThumbnail: true
-        }
+  let data;
+  for (let api of spotifyApis) {
+    try {
+      const res = await fetch(api.url + encodeURIComponent(text));
+      const json = await res.json();
+      
+      if (api.name === "Delirius" && json.status) {
+        data = {
+          title: json.data.title,
+          artist: json.data.author,
+          duration: json.data.duration,
+          image: json.data.image,
+          download: json.data.url
+        };
       }
-    }, { quoted: m });
+      if (api.name === "Vreden" && json.status === 200 && json.result.status) {
+        data = {
+          title: json.result.title,
+          artist: json.result.artists,
+          duration: 0,
+          image: json.result.cover,
+          download: json.result.music
+        };
+      }
+      if (api.name === "Dorratz" && json.download_url) {
+        data = {
+          title: json.name,
+          artist: json.artists,
+          duration: json.duration_ms,
+          image: json.image,
+          download: json.download_url
+        };
+      }
 
-    await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
-
-  } catch (e) {
-    console.log(e);
-    await m.reply('❌ Error al procesar la canción.');
+      if (data) break;
+    } catch (e) {
+      console.log(`Error en ${api.name}:`, e.message || e);
+    }
   }
+
+  if (!data) return conn.reply(m.chat, "❌ No se pudo obtener la canción de ninguna API.", m);
+
+  await conn.sendMessage(m.chat, {
+    image: { url: data.image },
+    caption: `🎧 Título: ${data.title}\n🎤 Artista: ${data.artist}\n⏱ Duración: ${data.duration}\n🔗 Link: ${text}`
+  }, { quoted: m });
+
+  await conn.sendMessage(m.chat, {
+    audio: { url: data.download },
+    mimetype: "audio/mpeg",
+    fileName: `${data.title}.mp3`
+  }, { quoted: m });
 };
 
-handler.help = ['spotify'];
+handler.command = handler.help = ['spotify'];
 handler.tags = ['descargas'];
-handler.command = ['spotify', 'spotidown'];
 export default handler;
-
-async function spotifySearch(query) {
-  const res = await axios.get(`https://api.stellarwa.xyz/search/spotify?query=${encodeURIComponent(query)}&apikey=proyectsV2`);
-  if (!res.data?.status || !res.data?.data?.length) return [];
-
-  return res.data.data.map(track => ({
-    title: track.title,
-    artist: track.artist,
-    album: track.album,
-    duration: track.duration,
-    url: track.url,
-    image: track.image || ''
-  }));
-}
-
-function msToTime(ms) {
-  let minutes = Math.floor(ms / 60000);
-  let seconds = ((ms % 60000) / 1000).toFixed(0);
-  return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-}
