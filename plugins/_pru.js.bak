@@ -1,40 +1,41 @@
-import { proto } from '@whiskeysockets/baileys';
+import { generateWAMessageFromContent, proto, jidNormalizedUser } from '@whiskeysockets/baileys';
 
-let handler = async (m, { conn, command }) => {
-    let imgUrl = logo;
+let handler = async (m, { conn }) => {
+    let imgUrl = logo; // tu URL de imagen
     let rtx2 = '✨ ¡Hola! Este es un mensaje especial con tu código secreto ✨';
-    let secret = '🔑 1234ABCD'; // Aquí tu código secreto dinámico si quieres
+    let secret = '🔑 1234ABCD';
 
-    // Enviar imagen con caption y botón
-    await conn.sendMessage(m.chat, {
-        image: { url: imgUrl },
-        caption: rtx2,
-        contextInfo: {
-            mentionedJid: [m.sender],
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363401008003732@newsletter', // Reemplaza con tu canal si aplica
-                serverMessageId: 100,
-                newsletterName: 'CHANNEL_NAME'
+    // Crear contenido de plantilla (template message)
+    const template = {
+        templateMessage: {
+            hydratedTemplate: {
+                hydratedContentText: rtx2,
+                locationMessage: { 
+                    jpegThumbnail: (await conn.fetchImage(imgUrl)) 
+                },
+                hydratedFooterText: '® ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ | © sʜᴀᴅᴏᴡ.xʏᴢ',
+                hydratedButtons: [
+                    {
+                        quickReplyButton: {
+                            displayText: '🔑 Copiar código',
+                            id: `.codigo ${secret}`
+                        }
+                    }
+                ]
             }
-        },
-        footer: '® ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ | © sʜᴀᴅᴏᴡ.xʏᴢ',
-        templateButtons: [
-            {
-                index: 1,
-                quickReplyButton: {
-                    displayText: '🔑 Copiar código',
-                    id: `.codigo ${secret}`
-                }
-            }
-        ]
-    }, { quoted: m });
+        }
+    };
 
-    // También puedes responder con el código como mensaje normal
-    await conn.reply(m.chat, `*Tu código es:* ${secret}`, m);
+    // Enviar mensaje
+    const msg = generateWAMessageFromContent(m.chat, template, { quoted: m });
+
+    await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
+
+    // También puedes enviar el código como texto normal
+    await conn.sendMessage(m.chat, { text: `*Tu código es:* ${secret}` }, { quoted: m });
 };
 
-handler.command = ['miComando']; // Aquí defines el comando
+handler.command = ['miComando'];
 handler.help = ['miComando'];
 handler.tags = ['general'];
 

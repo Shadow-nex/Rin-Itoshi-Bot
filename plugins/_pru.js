@@ -18,7 +18,7 @@ let handler = async (m, { conn }) => {
                     {
                         quickReplyButton: {
                             displayText: '🔑 Copiar código',
-                            id: `.codigo ${secret}`
+                            id: `${secret}`
                         }
                     }
                 ]
