@@ -17,7 +17,7 @@ const handler = async (m, { conn, usedPrefix }) => {
     const dia = now.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' });
 
     const totalUsers = Object.keys(global.db.data.users).length;
-    const totalCommands = Object.values(global.plugins).filter(p => p.help && p.tags).length;
+    let totalCommands = Object.keys(global.plugins).length;
     const user = global.db.data.users[m.sender] || {};
     const taguser = '@' + (m.sender.pushname ? m.sender.pushname : m.sender.split('@s.whatsapp.net')[0])
 
