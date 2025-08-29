@@ -96,7 +96,7 @@ const handler = async (m, { conn, text }) => {
         contextInfo: {
           externalAdReply: {
             title: track.name,
-            body: `Duracion: ${(track.duration_ms / 60000).toFixed(2)}`,
+            body: `SPOTIFY • MUSIC`,
             thumbnailUrl: image,
             mediaUrl: track.external_urls.spotify,
             sourceUrl: track.external_urls.spotify,
