@@ -45,7 +45,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
               buttonParamsJson: JSON.stringify({
                 display_text: "🎵 Descargar Audio",
                 id: "ytmp3",
-                copy_code: `.ytmp3 ${video.url}`
+                copy_code: `.ytmp3 ${lovideo.url}`
               })
             },
             {
@@ -73,7 +73,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
               text: `*🌱 Resultados de:* \`${text}\``
             }),
             footer: proto.Message.InteractiveMessage.Footer.create({
-              text: '_YouTube - Search_'
+              text: '🌲 _YouTube - Search_ 🍁'
             }),
             header: proto.Message.InteractiveMessage.Header.create({
               hasMediaAttachment: false
