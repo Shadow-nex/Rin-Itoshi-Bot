@@ -60,41 +60,24 @@ const handler = async (m, { conn, text }) => {
   const search = await yts(text);
   if (!search.all.length) return conn.reply(m.chat, "❌ No se encontraron resultados.", m);
 
-  videoCache[m.sender] = {
-    results: search.all.slice(0, 10),
-    timestamp: Date.now(),
-  };
+  const results = search.all.slice(0, 10);
+  videoCache[m.sender] = { results, timestamp: Date.now() };
 
-  // Construir mensajes con miniaturas y botones
-  for (let i = 0; i < videoCache[m.sender].results.length; i++) {
-    const video = videoCache[m.sender].results[i];
+  let messageText = "🎵 *Resultados de búsqueda:* \n\n";
+  results.forEach((video, i) => {
     const title = video.title || "Desconocido";
     const url = video.url || "No disponible";
     const duration = video.timestamp || "Desconocida";
     const author = video.author?.name || "Desconocido";
     const views = video.views ? video.views.toLocaleString() : "Desconocidas";
     const uploaded = video.ago || "Desconocida";
-    const thumbnail = video.image || null;
 
-    let caption = `*${i + 1}.* ${title}
-⏱ Duración: ${duration}
-👤 Canal: ${author}
-👀 Vistas: ${views}
-📅 Subido: ${uploaded}
-🔗 ${url}`;
+    messageText += `*${i + 1}.* ${title}\n⏱ Duración: ${duration}\n👤 Canal: ${author}\n👀 Vistas: ${views}\n📅 Subido: ${uploaded}\n🔗 ${url}\n\n`;
+  });
 
-    let buttons = [
-      { buttonId: `A ${i + 1}`, buttonText: { displayText: "🎶 Audio" }, type: 1 },
-      { buttonId: `V ${i + 1}`, buttonText: { displayText: "📽 Video" }, type: 1 },
-    ];
+  messageText += "✏️ Responde con `A <número>` para audio o `V <número>` para video.\nEjemplo: `A 1` o `V 3`";
 
-    await conn.sendMessage(m.chat, {
-      image: thumbnail ? { url: thumbnail } : undefined,
-      caption,
-      buttons,
-      headerType: 4,
-    }, { quoted: m });
-  }
+  await conn.reply(m.chat, messageText, m);
 };
 
 handler.command = ["ytss","ytsearch3"];
@@ -130,9 +113,7 @@ handler.before = async (m, { conn }) => {
     let fileName = `${apiData.title || "archivo"}.${mediaType === "audio" ? "mp3" : "mp4"}`;
     let asDocument = fileSizeMB !== "Desconocido" && parseFloat(fileSizeMB) > MAX_FILE_SIZE_MB;
 
-    if (asDocument) {
-      await conn.reply(m.chat, "⚠️ El archivo es demasiado grande, se enviará como documento.", m);
-    }
+    if (asDocument) await conn.reply(m.chat, "⚠️ El archivo es demasiado grande, se enviará como documento.", m);
 
     let infoMessage = `
 🎬 *Título:* ${apiData.title || "Desconocido"}
