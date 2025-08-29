@@ -154,8 +154,8 @@ handler.before = async (m, { conn }) => {
 💾 *Tamaño:* ${fileSizeMB}
 🔗 *URL de descarga:* ${downloadUrl}
 `;
-   
-    // ===== Envío combinado audio/video/documento =====
+
+    let apiData.thumbnail = logo;
     if (asDocument) {
       await conn.sendMessage(m.chat, {
         document: { url: downloadUrl },
@@ -175,9 +175,9 @@ handler.before = async (m, { conn }) => {
         contextInfo: {
           externalAdReply: {
             title: apiData.title || "Desconocido",
-            body: `🌱 Duración: ${duration} | Canal: ${apiData.channel || "Desconocido"}`,
-            mediaUrl: 'https://api.vreden.my.id',
-            sourceUrl: 'https://api.vreden.my.id',
+            body: `🌱 Duración: ${duration} | shadow.xyz`,
+            mediaUrl: 'https://youtube.com',
+            sourceUrl: 'https://youtube.com',
             thumbnailUrl: apiData.thumbnail || null,
             mediaType: 1,
             renderLargerThumbnail: true
