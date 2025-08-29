@@ -155,7 +155,7 @@ handler.before = async (m, { conn }) => {
 🔗 *URL de descarga:* ${downloadUrl}
 `;
 
-    let apiData.thumbnail = logo,
+    let apiData.thumbnail = logo
     if (asDocument) {
       await conn.sendMessage(m.chat, {
         document: { url: downloadUrl },
