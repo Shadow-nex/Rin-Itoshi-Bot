@@ -9,9 +9,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   await m.react('🕓');
 
   try {
-    // 🔎 Buscar en YouTube
     const results = await yts(text);
-    const videos = results.videos.slice(0, 8); // Limitar resultados
+    const videos = results.videos.slice(0, 8);
 
     if (!videos.length) throw '⚠️ *No se encontraron resultados para tu búsqueda.*';
 
@@ -29,7 +28,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
       cards.push({
         body: proto.Message.InteractiveMessage.Body.fromObject({
-          text: `◦ *Título:* ${video.title}\n◦ *Autor:* ${video.author.name}\n◦ *Duración:* ${video.timestamp}\n◦ *Vistas:* ${video.views.toLocaleString()}`
+          text: `[ ✿ ]◦ *Título:* ${video.title}\n> [🍂]◦ *Autor:* ${video.author.name}\n> [🌱]◦ *Duración:* ${video.timestamp}\n> [🌷]◦ *Vistas:* ${video.views.toLocaleString()}`
         }),
         footer: proto.Message.InteractiveMessage.Footer.fromObject({
           text: ''
@@ -62,7 +61,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       });
     }
 
-    // 📌 Armar mensaje carrusel
     const msg = generateWAMessageFromContent(m.chat, {
       viewOnceMessage: {
         message: {
@@ -72,7 +70,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
           },
           interactiveMessage: proto.Message.InteractiveMessage.fromObject({
             body: proto.Message.InteractiveMessage.Body.create({
-              text: `*🔎 Resultados de:* \`${text}\``
+              text: `*🌱 Resultados de:* \`${text}\``
             }),
             footer: proto.Message.InteractiveMessage.Footer.create({
               text: '_YouTube - Search_'
