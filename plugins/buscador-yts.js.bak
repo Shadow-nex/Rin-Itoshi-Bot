@@ -11,6 +11,16 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
 
   const randomVideo = videos[Math.floor(Math.random() * videos.length)];
 
+  // 📌 Tabla con resultados
+  let listado = videos.map((v, i) => 
+    `╭─⊰ *${i + 1}.* ${v.title}\n` +
+    `│ ⌬ Autor: ${v.author.name}\n` +
+    `│ ⌬ Duración: ${v.timestamp}\n` +
+    `│ ⌬ Vistas: ${v.views.toLocaleString()}\n` +
+    `│ ⌬ Link: ${v.url}\n` +
+    `╰───────────────`
+  ).join("\n\n");
+
   const media = await prepareWAMessageMedia(
     { image: { url: randomVideo.thumbnail } },
     { upload: conn.waUploadToServer }
@@ -18,7 +28,15 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
 
   const interactiveMessage = {
     body: {
-      text: `> *Resultados:* \`${videos.length}\`\n\n*${randomVideo.title}*\n\n≡ 🌵 *\`Autor:\`* ${randomVideo.author.name}\n≡ 🍁 *\`Vistas:\`* ${randomVideo.views.toLocaleString()}\n≡ 🌿 *\`Enlace:\`* ${randomVideo.url}`
+      text: `┏━━━❰ 乂 *YOUTUBE - SEARCH* 乂 ❱━━━┓\n\n` +
+            `🎬 *Video destacado:*\n\n` +
+            `≡ 📌 *Título:* ${randomVideo.title}\n` +
+            `≡ 🌵 *Autor:* ${randomVideo.author.name}\n` +
+            `≡ 🍁 *Vistas:* ${randomVideo.views.toLocaleString()}\n` +
+            `≡ 🌿 *Duración:* ${randomVideo.timestamp}\n` +
+            `≡ 🔗 *Enlace:* ${randomVideo.url}\n\n` +
+            `┗━━━━━━━━━━━━━━━━━━━━┛\n\n` +
+            `📜 *Lista completa de resultados:*\n\n${listado}`
     },
     footer: { text: 'sᴜᴋᴜɴᴀ ʙᴏᴛ ᴍᴅ' },
     header: {
@@ -38,13 +56,13 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
                 {
                   header: video.title,
                   title: video.author.name,
-                  description: `𝖣𝖾𝗌𝖼𝖺𝗋𝗀𝖺𝗋 𝖺𝗎𝖽𝗂𝗈 | Duración: ${video.timestamp}`,
+                  description: `⬇️ Descargar audio | Duración: ${video.timestamp}`,
                   id: `.ytmp3 ${video.url}`
                 },
                 {
                   header: video.title,
                   title: video.author.name,
-                  description: `𝖣𝖾𝗌𝖼𝖺𝗋𝗀𝖺𝗋 𝗏𝗂𝖽𝖾𝗈 | Duración: ${video.timestamp}`,
+                  description: `⬇️ Descargar video | Duración: ${video.timestamp}`,
                   id: `.ytmp4 ${video.url}`
                 }
               ]

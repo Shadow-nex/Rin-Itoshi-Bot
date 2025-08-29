@@ -1,86 +1,104 @@
-import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys';
+import fetch from 'node-fetch';
 import yts from 'yt-search';
+import baileys from '@whiskeysockets/baileys';
 
-const handler = async (m, { conn, usedPrefix, command, text }) => {
-  if (!text) throw `*🌴 Por favor, ingresa un texto para buscar en Youtube.*\n> *\`Ejemplo:\`* ${usedPrefix + command} Bing Bang`;
+const { generateWAMessageContent, generateWAMessageFromContent, proto } = baileys;
 
-  const results = await yts(text);
-  const videos = results.videos.slice(0, 10);
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text) return m.reply(`*🌴 Por favor, ingresa un texto para buscar en YouTube.*\n> *Ejemplo:* ${usedPrefix + command} Bing Bang`);
+  await m.react('🕓');
 
-  if (!videos.length) throw '⚠️ *No se encontraron resultados para tu búsqueda.*';
+  try {
+    // 🔎 Buscar en YouTube
+    const results = await yts(text);
+    const videos = results.videos.slice(0, 8); // Limitar resultados
 
-  const randomVideo = videos[Math.floor(Math.random() * videos.length)];
+    if (!videos.length) throw '⚠️ *No se encontraron resultados para tu búsqueda.*';
 
-  // 📌 Tabla con resultados
-  let listado = videos.map((v, i) => 
-    `╭─⊰ *${i + 1}.* ${v.title}\n` +
-    `│ ⌬ Autor: ${v.author.name}\n` +
-    `│ ⌬ Duración: ${v.timestamp}\n` +
-    `│ ⌬ Vistas: ${v.views.toLocaleString()}\n` +
-    `│ ⌬ Link: ${v.url}\n` +
-    `╰───────────────`
-  ).join("\n\n");
+    async function createImage(url) {
+      const { imageMessage } = await generateWAMessageContent(
+        { image: { url } },
+        { upload: conn.waUploadToServer }
+      );
+      return imageMessage;
+    }
 
-  const media = await prepareWAMessageMedia(
-    { image: { url: randomVideo.thumbnail } },
-    { upload: conn.waUploadToServer }
-  );
+    let cards = [];
+    for (let video of videos) {
+      let image = await createImage(video.thumbnail);
 
-  const interactiveMessage = {
-    body: {
-      text: `┏━━━❰ 乂 *YOUTUBE - SEARCH* 乂 ❱━━━┓\n\n` +
-            `🎬 *Video destacado:*\n\n` +
-            `≡ 📌 *Título:* ${randomVideo.title}\n` +
-            `≡ 🌵 *Autor:* ${randomVideo.author.name}\n` +
-            `≡ 🍁 *Vistas:* ${randomVideo.views.toLocaleString()}\n` +
-            `≡ 🌿 *Duración:* ${randomVideo.timestamp}\n` +
-            `≡ 🔗 *Enlace:* ${randomVideo.url}\n\n` +
-            `┗━━━━━━━━━━━━━━━━━━━━┛\n\n` +
-            `📜 *Lista completa de resultados:*\n\n${listado}`
-    },
-    footer: { text: 'sᴜᴋᴜɴᴀ ʙᴏᴛ ᴍᴅ' },
-    header: {
-      title: '```乂 YOUTUBE - SEARCH```',
-      hasMediaAttachment: true,
-      imageMessage: media.imageMessage
-    },
-    nativeFlowMessage: {
-      buttons: [
-        {
-          name: 'single_select',
-          buttonParamsJson: JSON.stringify({
-            title: 'Opciones de descarga',
-            sections: videos.map(video => ({
-              title: `${video.title}`,
-              rows: [
-                {
-                  header: video.title,
-                  title: video.author.name,
-                  description: `⬇️ Descargar audio | Duración: ${video.timestamp}`,
-                  id: `.ytmp3 ${video.url}`
-                },
-                {
-                  header: video.title,
-                  title: video.author.name,
-                  description: `⬇️ Descargar video | Duración: ${video.timestamp}`,
-                  id: `.ytmp4 ${video.url}`
-                }
-              ]
-            }))
+      cards.push({
+        body: proto.Message.InteractiveMessage.Body.fromObject({
+          text: `◦ *Título:* ${video.title}\n◦ *Autor:* ${video.author.name}\n◦ *Duración:* ${video.timestamp}\n◦ *Vistas:* ${video.views.toLocaleString()}`
+        }),
+        footer: proto.Message.InteractiveMessage.Footer.fromObject({
+          text: ''
+        }),
+        header: proto.Message.InteractiveMessage.Header.fromObject({
+          title: '',
+          hasMediaAttachment: true,
+          imageMessage: image
+        }),
+        nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
+          buttons: [
+            {
+              name: 'cta_copy',
+              buttonParamsJson: JSON.stringify({
+                display_text: "🎵 Descargar Audio",
+                id: "ytmp3",
+                copy_code: `.ytmp3 ${video.url}`
+              })
+            },
+            {
+              name: 'cta_copy',
+              buttonParamsJson: JSON.stringify({
+                display_text: "📹 Descargar Video",
+                id: "ytmp4",
+                copy_code: `.ytmp4 ${video.url}`
+              })
+            }
+          ]
+        })
+      });
+    }
+
+    // 📌 Armar mensaje carrusel
+    const msg = generateWAMessageFromContent(m.chat, {
+      viewOnceMessage: {
+        message: {
+          messageContextInfo: {
+            deviceListMetadata: {},
+            deviceListMetadataVersion: 2
+          },
+          interactiveMessage: proto.Message.InteractiveMessage.fromObject({
+            body: proto.Message.InteractiveMessage.Body.create({
+              text: `*🔎 Resultados de:* \`${text}\``
+            }),
+            footer: proto.Message.InteractiveMessage.Footer.create({
+              text: '_YouTube - Search_'
+            }),
+            header: proto.Message.InteractiveMessage.Header.create({
+              hasMediaAttachment: false
+            }),
+            carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({
+              cards
+            })
           })
         }
-      ],
-      messageParamsJson: ''
-    }
-  };
+      }
+    }, { quoted: m });
 
-  const userJid = conn?.user?.jid || m.key.participant || m.chat;
-  const msg = generateWAMessageFromContent(m.chat, { interactiveMessage }, { userJid, quoted: m });
-  conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
+    await m.react('✅');
+    await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
+
+  } catch (e) {
+    console.error(e);
+    await m.reply('❌ Error en la búsqueda o envío del mensaje.');
+  }
 };
 
-handler.help = ['yts <texto>'];
+handler.help = ['ytsearch <texto>'];
 handler.tags = ['buscador'];
-handler.command = ['yts', 'ytsearch'];
+handler.command = ['ytsearch', 'yts'];
 
 export default handler;
