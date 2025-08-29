@@ -11,7 +11,7 @@ let handler = async (m, { conn }) => {
                 },
                 interactiveMessage: proto.Message.InteractiveMessage.fromObject({
                     body: proto.Message.InteractiveMessage.Body.create({
-                        text: "*╭━━━〔 🌴 Menú Principal 🌴 〕━━⬣*\n\nBienvenido a *Rin Itoshi Bot* ✨\nElige una opción del menú 👇"
+                        text: "*╭━━━〔 🌴 List de Menus Disponibles 🌴 〕━━⬣*\n\nBienvenido a *Rin Itoshi Bot*\n #menudl -- Menu de descargas\n #menusearch -- Menu search"
                     }),
                     footer: proto.Message.InteractiveMessage.Footer.create({
                         text: "_ʀɪɴ ɪᴛᴏꜱʜɪ ʙᴏᴛ ✨_"
@@ -22,23 +22,23 @@ let handler = async (m, { conn }) => {
                     nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
                         buttons: [
                             {
-                                "name": "cta_url", // 🔗 Botón URL
-                                "buttonParamsJson": `{"display_text":"🌐 Página Web","url":"https://tusitio.com"}`
+                                "name": "cta_url",
+                                "buttonParamsJson": `{"display_text":"🌐 Página Web","url":"https://github.com/Yuji-XDev"}`
                             },
                             {
-                                "name": "quick_reply", // ⚡ Botón rápido
+                                "name": "quick_reply",
                                 "buttonParamsJson": `{"display_text":"📜 Lista de comandos","id":"menu_comandos"}`
                             },
                             {
-                                "name": "single_select", // 📂 Botón lista tipo Flow
+                                "name": "single_select",
                                 "buttonParamsJson": JSON.stringify({
                                     title: "⚙️ Configuración",
                                     sections: [
                                         {
                                             title: "Opciones",
                                             rows: [
-                                                { header: "👤 Perfil", title: "Ver Perfil", id: "perfil" },
-                                                { header: "⚡ Estado", title: "Mi Estado", id: "estado" }
+                                                { header: "👤 Perfil", title: "Ver Perfil", id: ".perfil" },
+                                                { header: "⚡ Estado", title: "Mi Estado", id: ".estado" }
                                             ]
                                         }
                                     ]
@@ -54,5 +54,5 @@ let handler = async (m, { conn }) => {
     await conn.relayMessage(m.chat, menu.message, { messageId: menu.key.id })
 }
 
-handler.command = ['men', 'men']
+handler.command = ['menus']
 export default handler
