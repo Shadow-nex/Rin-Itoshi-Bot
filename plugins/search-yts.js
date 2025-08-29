@@ -124,20 +124,27 @@ handler.before = async (m, { conn }) => {
     return conn.reply(m.chat, "❌ La lista de búsqueda ha expirado. Usa /yts nuevamente.", m);
   }
 
-  const { url, timestamp: duration } = videoCache[m.sender].results[index];
+  const videoData = videoCache[m.sender].results[index];
+  const urlVideo = videoData.url;
+  const duration = videoData.timestamp || "Desconocida";
 
   try {
     let mediaType = type.toUpperCase() === "A" ? formatAudio : formatVideo;
     let responseMessage = mediaType === "audio" ? "*🎶 Descargando audio, espera un momento...*" : "*📽 Descargando video, espera un momento...*";
     await conn.reply(m.chat, responseMessage, m);
 
-    let apiData = await fetchAPI(url, mediaType);
+    let apiData = await fetchAPI(urlVideo, mediaType);
     if (!apiData || !apiData.download) return conn.reply(m.chat, "⚠️ Error al obtener el enlace de descarga.", m);
 
     let downloadUrl = await shortenURL(apiData.download);
 
-    const size = await getSize(apiData.download);
-    const fileSizeMB = await formatSize(size);
+    let size, fileSizeMB;
+    try {
+      size = await getSize(downloadUrl);
+      fileSizeMB = await formatSize(size);
+    } catch {
+      fileSizeMB = "Desconocido";
+    }
 
     let fileName = `${apiData.title || "archivo"}.${mediaType === "audio" ? "mp3" : "mp4"}`;
     let asDocument = fileSizeMB !== "Desconocido" && parseFloat(fileSizeMB) > MAX_FILE_SIZE_MB;
