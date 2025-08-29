@@ -1,123 +1,90 @@
-import fetch from 'node-fetch';
-import yts from "yt-search";
-import axios from 'axios';
-const { generateWAMessageContent, generateWAMessageFromContent, proto } = (await import('@whiskeysockets/baileys')).default;
-import FormData from "form-data";
-import Jimp from "jimp";
+import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys';
+import yts from 'yt-search';
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-    if (!text) return m.reply(`*\`• Ejemplo: ${usedPrefix + command} Bad bunny\`*`);
+const handler = async (m, { conn, usedPrefix, command, text }) => {
+  if (!text) throw `*🌴 Por favor, ingresa un texto para buscar en Youtube.*\n> *Ejemplo:* ${usedPrefix + command} Bing Bang`;
 
-    await m.react('🕒');
+  const results = await yts(text);
+  const videos = results.videos.slice(0, 10);
 
-    async function createImage(img) {
-        const { imageMessage } = await generateWAMessageContent({
-            image: img
-        }, {
-            upload: conn.waUploadToServer
-        });
-        return imageMessage;
-    }
+  if (!videos.length) throw '⚠️ No se encontraron resultados para tu búsqueda.';
 
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-    }
+  const randomVideo = videos[Math.floor(Math.random() * videos.length)];
 
-    let push = [];
-    let results = await yts(text);
-    let videos = results.videos.slice(0, 6); // Ambil 5 hasil teratas
-    shuffleArray(videos); // Mengacak hasil video
+  let listado = videos.map((v, i) => `
+╭─⊰ *${i + 1}.* ${v.title}
+│ ⌬ \`Autor:\` ${v.author.name}
+│ ⌬ \`Duración:\` ${v.timestamp}
+│ ⌬ \`Vistas:\` ${v.views.toLocaleString()}
+│ ⌬ \`Link:\` ${v.url}
+╰───────────────`).join("\n\n");
 
-    let i = 1;
-    for (let video of videos) {
-        let imageUrl = video.thumbnail;
-        let imageK = await fetch(imageUrl);
-        let imageB = await imageK.buffer();
-      let pr = await remini(imageB, "enhance")
-        push.push({
-            body: proto.Message.InteractiveMessage.Body.fromObject({
-                text: `\n> 🔥 *\`Título :\`* ${video.title}\n> 🔥 *\`Duración :\`* ${video.timestamp}\n> 🔥 *\`Vistas :\`* ${video.views}\n> 🔥 *\`link :\`* ${video.url}`
-            }),
-            footer: proto.Message.InteractiveMessage.Footer.fromObject({
-                text: 'I S A G I - B O T' // Sesuaikan dengan watermark Anda
-            }),
-            header: proto.Message.InteractiveMessage.Header.fromObject({
-                title: `\`[ YOUTUBE - SEARCH ]\``,
-                hasMediaAttachment: true,
-                imageMessage: await createImage(pr) // Thumbnail video
-            }),
-            nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
-                buttons: [
-                    {
-                        "name": "cta_url",
-                        "buttonParamsJson": `{"display_text":"Mirar en YouTube","url":"${video.url}"}`
-                    }
-                ]
-            })
-        });
-    }
+  const media = await prepareWAMessageMedia(
+    { image: { url: randomVideo.thumbnail } },
+    { upload: conn.waUploadToServer }
+  );
 
-    const bot = generateWAMessageFromContent(m.chat, {
-        viewOnceMessage: {
-            message: {
-                messageContextInfo: {
-                    deviceListMetadata: {},
-                    deviceListMetadataVersion: 2
+  const interactiveMessage = {
+    body: {
+      text: `┏━❰ 乂 *YOUTUBE - SEARCH* 乂 ❱━┓
+
+🎬 *Video destacado:*
+
+≡ 📌 *Título:* ${randomVideo.title}
+≡ 🌵 *Autor:* ${randomVideo.author.name}
+≡ 🍁 *Vistas:* ${randomVideo.views.toLocaleString()}
+≡ 🌿 *Duración:* ${randomVideo.timestamp}
+≡ 🔗 *Enlace:* ${randomVideo.url}
+
+┗━━━━━━━━━━━━━━━━━━━━┛
+
+📜 *Lista completa de resultados:*
+
+${listado}`
+    },
+    footer: { text: 'rin itoshi' },
+    header: {
+      title: '乂 YOUTUBE - SEARCH',
+      hasMediaAttachment: true,
+      imageMessage: media.imageMessage
+    },
+    nativeFlowMessage: {
+      buttons: [
+        {
+          name: 'single_select',
+          buttonParamsJson: JSON.stringify({
+            title: 'Opciones de descarga',
+            sections: videos.map(video => ({
+              title: video.title,
+              rows: [
+                {
+                  header: video.title,
+                  title: video.author.name,
+                  description: `⬇️ Descargar audio | Duración: ${video.timestamp}`,
+                  id: `.ytmp3 ${video.url}`
                 },
-                interactiveMessage: proto.Message.InteractiveMessage.fromObject({
-                    body: proto.Message.InteractiveMessage.Body.create({
-                        text: "*`\Resultados De Tu Búsqueda\`*"
-                    }),
-                    footer: proto.Message.InteractiveMessage.Footer.create({
-                        text: '_\`ʏ\` \`ᴛ\` \`-\` \`ꜱ\` \`ᴇ\` \`ᴀ\` \`ʀ\` \`ᴄ\` \`ʜ\`_' // Sesuaikan dengan watermark Anda
-                    }),
-                    header: proto.Message.InteractiveMessage.Header.create({
-                        hasMediaAttachment: false
-                    }),
-                    carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({
-                        cards: [...push] // Mengisi carousel dengan hasil video
-                    })
-                    
-                })
-            }
+                {
+                  header: video.title,
+                  title: video.author.name,
+                  description: `⬇️ Descargar video | Duración: ${video.timestamp}`,
+                  id: `.ytmp4 ${video.url}`
+                }
+              ]
+            }))
+          })
         }
-    }, {});
+      ],
+      messageParamsJson: ''
+    }
+  };
 
-    await m.react('✅');
-    await conn.relayMessage(m.chat, bot.message, { messageId: bot.key.id });
-}
+  const userJid = conn?.user?.jid || m.key.participant || m.chat;
+  const msg = generateWAMessageFromContent(m.chat, { interactiveMessage }, { userJid, quoted: m });
+  conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
+};
 
-handler.help = ["ytsearch2 <text>"];
-handler.tags = ["buscador"];
-handler.command = ['ytsearch2', 'yts2'];
+handler.help = ['yts2 <texto>'];
+handler.tags = ['buscador'];
+handler.command = ['yts2', 'ytsearch2'];
 
 export default handler;
-
-async function remini(imageData, operation) {
-  return new Promise(async (resolve, reject) => {
-    const availableOperations = ["enhance", "recolor", "dehaze"]
-    if (availableOperations.includes(operation)) {
-      operation = operation
-    } else {
-      operation = availableOperations[0]
-    }
-    const baseUrl = "https://inferenceengine.vyro.ai/" + operation + ".vyro"
-    const formData = new FormData()
-    formData.append("image", Buffer.from(imageData), {filename: "enhance_image_body.jpg", contentType: "image/jpeg"})
-    formData.append("model_version", 1, {"Content-Transfer-Encoding": "binary", contentType: "multipart/form-data; charset=utf-8"})
-    formData.submit({url: baseUrl, host: "inferenceengine.vyro.ai", path: "/" + operation, protocol: "https:", headers: {"User-Agent": "okhttp/4.9.3", Connection: "Keep-Alive", "Accept-Encoding": "gzip"}},
-      function (err, res) {
-        if (err) reject(err);
-        const chunks = [];
-        res.on("data", function (chunk) {chunks.push(chunk)});
-        res.on("end", function () {resolve(Buffer.concat(chunks))});
-        res.on("error", function (err) {
-        reject(err);
-        });
-      },
-    )
-  })
-                          }
