@@ -72,7 +72,7 @@ const handler = async (m, { conn, text }) => {
     const views = video.views ? video.views.toLocaleString() : "Desconocidas";
     const uploaded = video.ago || "Desconocida";
 
-    messageText += `*${i + 1}.* ${title}\n⏱ Duración: ${duration}\n👤 Canal: ${author}\n👀 Vistas: ${views}\n📅 Subido: ${uploaded}\n🔗 ${url}\n\n`;
+    messageText += `\n*${i + 1}.* *${title}*\n> 🚀 \`Duración:\` *${duration}*\n> 💥 \`Canal:\` *${author}*\n> 🌷 \`Vistas:\` *${views}*\n> ⚡ \`Subido:\` *${uploaded}*\n> 🔗 ${url}\n\n`;
   });
 
   messageText += "✏️ Responde con `A <número>` para audio o `V <número>` para video.\nEjemplo: `A 1` o `V 3`";
@@ -116,8 +116,8 @@ handler.before = async (m, { conn }) => {
     if (asDocument) await conn.reply(m.chat, "⚠️ El archivo es demasiado grande, se enviará como documento.", m);
 
     let infoMessage = `
-🎬 *Título:* ${apiData.title || "Desconocido"}
-👤 *Canal:* ${apiData.channel || "Desconocido"}
+🌱 *Título:* ${apiData.title || "Desconocido"}
+🍂 *Canal:* ${apiData.channel || "Desconocido"}
 ⏱ *Duración:* ${apiData.duration || "Desconocida"}
 💾 *Tamaño:* ${fileSizeMB} MB
 🔗 *URL de descarga:* ${downloadUrl}
