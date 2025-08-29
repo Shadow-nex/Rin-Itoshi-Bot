@@ -45,7 +45,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
               buttonParamsJson: JSON.stringify({
                 display_text: "🎵 Descargar Audio",
                 id: "ytmp3",
-                copy_code: `.ytmp3 ${lovideo.url}`
+                copy_code: `.ytmp3 ${video.url}`
               })
             },
             {
