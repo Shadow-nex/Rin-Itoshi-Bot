@@ -54,5 +54,5 @@ let handler = async (m, { conn }) => {
     await conn.relayMessage(m.chat, menu.message, { messageId: menu.key.id })
 }
 
-handler.command = ['men', 'men']
+handler.command = ['men']
 export default handler
