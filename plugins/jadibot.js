@@ -90,7 +90,7 @@ await conn.sendMessage(m.chat, {
     externalAdReply: {
       title: '🌀 ѕσ¢ƙєтѕ αcтιvσѕ',
       body: `🍂 Conectados: ${total}/${maxSubbots}`,
-      thumbnailUrl: icono,
+      thumbnailUrl: 'https://tinyurl.com/28st4n83',
       mediaUrl: banner,
       sourceUrl: redes,
       mediaType: 1,
