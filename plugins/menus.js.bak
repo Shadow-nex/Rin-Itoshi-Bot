@@ -3,7 +3,7 @@ import { generateWAMessageFromContent, proto, prepareWAMessageMedia } from '@whi
 let handler = async (m, { conn }) => {
 
     // Preparamos la imagen
-    const media = await prepareWAMessageMedia({ image: { url: 'https://tinyurl.com/28st4n83' } }, { upload: conn.waUploadToServer })
+    const media = await prepareWAMessageMedia({ image: { url: 'https://i.imgur.com/tuImagen.jpg' } }, { upload: conn.waUploadToServer })
 
     const menu = generateWAMessageFromContent(m.chat, {
         viewOnceMessage: {
