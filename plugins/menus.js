@@ -11,7 +11,7 @@ let handler = async (m, { conn }) => {
                 },
                 interactiveMessage: proto.Message.InteractiveMessage.fromObject({
                     body: proto.Message.InteractiveMessage.Body.create({
-                        text: "*╭━━━〔 🌴 List de Menus Disponibles 🌴 〕━━⬣*\n\nBienvenido a *Rin Itoshi Bot*\n #menudl -- Menu de descargas\n #menusearch -- Menu search"
+                        text: "*╭━━━〔 🌴 List de Menus Disponibles 🌴 〕━━⬣*\n\nBienvenido a *Rin Itoshi Bot*\n #menudl -- Menu de descargas\n #menusearch -- Menu search\n #menulist - Menu list\n #menurpg - Menu rpg\n #menuowner - Menu de owners\n #menuperfil - Opciones para editar tu perfil"
                     }),
                     footer: proto.Message.InteractiveMessage.Footer.create({
                         text: "_ʀɪɴ ɪᴛᴏꜱʜɪ ʙᴏᴛ ✨_"
