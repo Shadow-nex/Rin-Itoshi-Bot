@@ -73,7 +73,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
               text: `*🌱 Resultados de:* \`${text}\``
             }),
             footer: proto.Message.InteractiveMessage.Footer.create({
-              text: '🌲 _YouTube - Search_ 🍁'
+              text: '_YouTube - Search_'
             }),
             header: proto.Message.InteractiveMessage.Header.create({
               hasMediaAttachment: false
