@@ -91,7 +91,7 @@ await conn.sendMessage(m.chat, {
       title: '🌀 ѕσ¢ƙєтѕ αcтιvσѕ',
       body: `🍂 Conectados: ${total}/${maxSubbots}`,
       thumbnailUrl: 'https://tinyurl.com/28st4n83',
-      mediaUrl: banner,
+      mediaUrl: 'https://tinyurl.com/28st4n83',
       sourceUrl: redes,
       mediaType: 1,
       renderLargerThumbnail: true,
