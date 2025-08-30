@@ -9,25 +9,6 @@ import fetch from 'node-fetch';
 const handler = async (m, { conn, usedPrefix }) => {
   await m.react('🌱');
   
-  const estilo = { 
-    key: {  
-      fromMe: false, 
-      participant: `0@s.whatsapp.net`, 
-      ...(false ? { remoteJid: "5219992095479-1625305606@g.us" } : {}) 
-    }, 
-    message: { 
-      orderMessage: { 
-        itemCount: -999999, 
-        status: 1, 
-        surface: 1, 
-        message: packname || 'Rin Itoshi Bot',
-        orderTitle: 'Bang', 
-        thumbnail: img ? await (await import("fs")).promises.readFile(img) : null, 
-        sellerJid: '0@s.whatsapp.net'
-      }
-    }
-  }  
-  
   try {
     const uptime = clockString(process.uptime() * 1000);
     const now = new Date();
@@ -207,7 +188,7 @@ const handler = async (m, { conn, usedPrefix }) => {
           renderLargerThumbnail: true
         }
       }
-    }, { quoted: estilo });
+    }, { quoted: fkontak });
 
   } catch (e) {
     console.error(e);
