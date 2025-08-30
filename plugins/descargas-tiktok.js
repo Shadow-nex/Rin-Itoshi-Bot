@@ -16,21 +16,24 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
         }
         const thumbRes = await fetch('https://files.catbox.moe/knns14.jpg');
         const thumbBuffer = await thumbRes.buffer();
-        const fkontak = {
+const fkontak = {
   key: {
     participants: "0@s.whatsapp.net",
     remoteJid: "status@broadcast",
     fromMe: false,
-    id: "MenuFurina"
+    id: "menu-furina"
   },
   message: {
     locationMessage: {
-      name: 'Meta AI • Estado',
+      degreesLatitude: 0, // puedes dejarlo en 0
+      degreesLongitude: 0, // igual en 0
+      name: "🌀 MENU ALL • FURINA 🌱", // este es el texto que aparece debajo de "Meta AI • Estado"
       jpegThumbnail: thumbBuffer
     }
   },
   participant: "0@s.whatsapp.net"
 }
+
 
         const data = tiktokData.data;
         const videoURL = data.play;
