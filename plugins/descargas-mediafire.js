@@ -1,48 +1,57 @@
 import fetch from 'node-fetch'
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) throw `✳️ Ingresa un enlace de *MediaFire*\n\n📌 Ejemplo:\n${usedPrefix + command} https://www.mediafire.com/file/...`
+let handler = async (m, { conn, text }) => {
+  const user = global.db.data.users[m.sender] || {}
+  const emoji = '🌟'
+  const apikey = 'proyectsV2' // 🔑 Tu API KEY definida aquí
 
+  /* Verificación de usuarios VIP
+  if (!user.premium || (user.premiumTime && user.premiumTime < Date.now())) {
+    return conn.reply(
+      m.chat,
+      `🚩 Este comando es exclusivo para usuarios VIP.\n\n${emoji} Usa *vip* para obtener acceso.`,
+      m
+    )
+  }
+*/
+  if (!text) return m.reply(`${emoji} Por favor, ingresa un link de Mediafire.`)
+  
+  await conn.sendMessage(m.chat, { react: { text: "🕒", key: m.key } })
+  
   try {
-    let apiKey = 'proyectsV2' // 🔑 Tu API Key definida
-    let url = `https://api.stellarwa.xyz/dow/mediafire?url=${encodeURIComponent(text)}&apikey=${apiKey}`
-
-    let res = await fetch(url)
+    let res = await fetch(`https://api.stellarwa.xyz/dow/mediafire?url=${encodeURIComponent(text)}&apikey=${apikey}`)
     let json = await res.json()
 
-    if (!json.status) throw `❌ No se pudo obtener el archivo.`
+    if (!json.status) throw new Error("No se pudo obtener el archivo.")
 
-    let { title, peso, fecha, dl } = json.data
+    let { title, peso, fecha, tipo, dl } = json.data
 
-    let info = `╭━━━〔 📥 MediaFire Downloader 〕━━⬣
-┃ 📂 Archivo: ${title}
-┃ 📦 Tamaño: ${peso}
-┃ 📅 Fecha: ${fecha}
-╰━━━━━━━━━━━━━━━━━━⬣`
+    await conn.sendFile(
+      m.chat,
+      dl,
+      title,
+      `乂  *¡MEDIAFIRE - DESCARGAS!*  乂
 
-    // Aviso primero con la info
-    await conn.sendMessage(m.chat, {
-      text: info,
-      footer: "✨ Rin Itoshi Bot",
-      headerType: 1
-    }, { quoted: m })
+✩ *Nombre* : ${title}
+✩ *Peso* : ${peso}
+✩ *Fecha* : ${fecha}
+✩ *MimeType* : ${tipo}
 
-    // Descargar y enviar como documento 📂
-    let fileBuffer = await (await fetch(dl)).buffer()
-    await conn.sendMessage(m.chat, {
-      document: fileBuffer,
-      fileName: title,
-      mimetype: 'application/octet-stream'
-    }, { quoted: m })
+${emoji} Archivo descargado con éxito.`,
+      m
+    )
 
+    await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } })
   } catch (e) {
     console.error(e)
-    throw `⚠️ Error al procesar el enlace.`
+    m.reply(`❌ Error al descargar el archivo.\n${e.message}`)
   }
 }
 
-handler.help = ['mediafire <url>']
-handler.tags = ['downloader']
-handler.command = /^mediafire$/i
+handler.help = ['mediafire']
+handler.tags = ['descargas']
+handler.command = ['mf', 'mediafire']
+handler.register = true
+handler.group = true
 
 export default handler
