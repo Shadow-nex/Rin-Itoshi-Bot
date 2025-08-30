@@ -1,26 +1,5 @@
 let handler = async (m, { conn, command, usedPrefix }) => {
   let img = './src/catalogo.jpg'
-  
-  // Definimos el estilo ANTES de usarlo
-  const estilo = { 
-    key: {  
-      fromMe: false, 
-      participant: `0@s.whatsapp.net`, 
-      ...(false ? { remoteJid: "5219992095479-1625305606@g.us" } : {}) 
-    }, 
-    message: { 
-      orderMessage: { 
-        itemCount: -999999, 
-        status: 1, 
-        surface: 1, 
-        message: packname || 'Rin Itoshi Bot', // packname debe existir
-        orderTitle: 'Bang', 
-        thumbnail: img ? await (await import("fs")).promises.readFile(img) : null, 
-        sellerJid: '0@s.whatsapp.net'
-      }
-    }
-  }
-
   let staff = ` 🌷⃢🌟⃞𝑬𝒒𝒖𝒊𝒑𝒐 𝒅𝒆 𝑨𝒚𝒖𝒅𝒂𝒏𝒕𝒆𝒔🌟⃞🌷⃢
 
 ╭━➤🏜️ 𝑹𝒊𝒏 𝑰𝒕𝒐𝒔𝒉𝒊 𝑩𝒐𝒕 𝑴𝑫 ︵ٜ⊹۬︵
@@ -41,7 +20,7 @@ let handler = async (m, { conn, command, usedPrefix }) => {
 ┃🚫 𝑨𝒄𝒕𝒖𝒂𝒍𝒎𝒆𝒏𝒕𝒆 𝒏𝒐 𝒉𝒂𝒚 𝒄𝒐𝒍𝒂𝒃𝒐𝒓𝒂𝒅𝒐𝒓𝒆𝒔
 ╰━━━━━━━━━━━━━━━━━━━━━`
 
-  await conn.sendFile(m.chat, img, 'staff.jpg', staff.trim(), estilo)
+  await conn.sendFile(m.chat, img, 'staff.jpg', staff.trim(), m)
 }
   
 handler.help = ['staff']
