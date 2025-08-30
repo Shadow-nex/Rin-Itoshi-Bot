@@ -1,38 +1,48 @@
 import fetch from 'node-fetch'
 
-let handler = async (m, { conn, text }) => {
-  //const user = global.db.data.users[m.sender] || {}
-  const emoji = '🌟'
-/*
-  if (!user.premium || (user.premiumTime && user.premiumTime < Date.now())) {
-    return conn.reply(
-      m.chat,
-      `🚩 Este comando es exclusivo para usuarios VIP.\n\n${emoji} Usa *vip* para obtener acceso.`,
-      m
-    )
-  }
-*/
-  if (!text) return m.reply(`${emoji} Por favor, ingresa un link de mediafire.`)
-  
-  await conn.sendMessage(m.chat, { react: { text: "🕒", key: m.key } })
-  let ouh = await fetch(`https://api.agatz.xyz/api/mediafire?url=${text}`)
-  let gyh = await ouh.json()
-  
-  await conn.sendFile(
-    m.chat,
-    gyh.data[0].link,
-    gyh.data[0].nama,
-    `乂  *¡MEDIAFIRE - DESCARGAS!*  乂\n\n✩ *Nombre* : ${gyh.data[0].nama}\n✩ *Peso* : ${gyh.data[0].size}\n✩ *MimeType* : ${gyh.data[0].mime}\n> ${dev}`,
-    m
-  )
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text) throw `✳️ Ingresa un enlace de *MediaFire*\n\n📌 Ejemplo:\n${usedPrefix + command} https://www.mediafire.com/file/...`
 
-  await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } })
+  try {
+    let apiKey = 'proyectsV2' // 🔑 Tu API Key definida
+    let url = `https://api.stellarwa.xyz/dow/mediafire?url=${encodeURIComponent(text)}&apikey=${apiKey}`
+
+    let res = await fetch(url)
+    let json = await res.json()
+
+    if (!json.status) throw `❌ No se pudo obtener el archivo.`
+
+    let { title, peso, fecha, dl } = json.data
+
+    let info = `╭━━━〔 📥 MediaFire Downloader 〕━━⬣
+┃ 📂 Archivo: ${title}
+┃ 📦 Tamaño: ${peso}
+┃ 📅 Fecha: ${fecha}
+╰━━━━━━━━━━━━━━━━━━⬣`
+
+    // Aviso primero con la info
+    await conn.sendMessage(m.chat, {
+      text: info,
+      footer: "✨ Rin Itoshi Bot",
+      headerType: 1
+    }, { quoted: m })
+
+    // Descargar y enviar como documento 📂
+    let fileBuffer = await (await fetch(dl)).buffer()
+    await conn.sendMessage(m.chat, {
+      document: fileBuffer,
+      fileName: title,
+      mimetype: 'application/octet-stream'
+    }, { quoted: m })
+
+  } catch (e) {
+    console.error(e)
+    throw `⚠️ Error al procesar el enlace.`
+  }
 }
 
-handler.help = ['mediafire']
-handler.tags = ['descargas']
-handler.command = ['mf', 'mediafire']
-handler.register = true
-//handler.group = true
+handler.help = ['mediafire <url>']
+handler.tags = ['downloader']
+handler.command = /^mediafire$/i
 
 export default handler
