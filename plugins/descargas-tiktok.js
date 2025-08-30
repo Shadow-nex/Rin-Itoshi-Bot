@@ -14,26 +14,24 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
         if (!tiktokData || !tiktokData.data || !tiktokData.data.play) {
             return conn.reply(m.chat, "❌ Uff... No pude traer tu video onichan 😿", m);
         }
+
         const thumbRes = await fetch('https://files.catbox.moe/knns14.jpg');
         const thumbBuffer = await thumbRes.buffer();
-const fkontak = {
-  key: {
-    participants: "0@s.whatsapp.net",
-    remoteJid: "status@broadcast",
-    fromMe: false,
-    id: "menu-furina"
-  },
-  message: {
-    locationMessage: {
-      degreesLatitude: 0, // puedes dejarlo en 0
-      degreesLongitude: 0, // igual en 0
-      name: "🌀 MENU ALL • FURINA 🌱", // este es el texto que aparece debajo de "Meta AI • Estado"
-      jpegThumbnail: thumbBuffer
-    }
-  },
-  participant: "0@s.whatsapp.net"
-}
-
+        const fkontak = {
+            key: {
+                participants: "0@s.whatsapp.net",
+                remoteJid: "status@broadcast",
+                fromMe: false,
+                id: "Halo"
+            },
+            message: {
+                locationMessage: {
+                    name: `🌀 ᴅᴏᴡɴʟᴏᴀᴅ ᴛɪᴋᴛᴏᴋ | 🌱 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 𝙈𝘿 🍂`,
+                    jpegThumbnail: thumbBuffer
+                }
+            },
+            participant: "0@s.whatsapp.net"
+        };
 
         const data = tiktokData.data;
         const videoURL = data.play;
