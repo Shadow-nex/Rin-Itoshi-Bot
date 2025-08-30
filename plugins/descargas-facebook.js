@@ -2,7 +2,7 @@ import { igdl } from 'ruhend-scraper';
 
 const handler = async (m, { text, conn, args, usedPrefix, command }) => {
   if (!args[0]) {
-    return conn.reply(m.chat, '*`Ingresa el link del vídeo a descargar ❤️‍🔥`*', m, fake);
+    return conn.reply(m.chat, '*\`Ingresa El link Del vídeo a descargar ❤️‍🔥\`*', m, fake);
   }
 
   await m.react('🕒');
@@ -20,7 +20,7 @@ const handler = async (m, { text, conn, args, usedPrefix, command }) => {
 
   let data;
   try {
-    data = result.find(i => i.resolution === "720p (HD)") || result.find(i => i.resolution === "360p (SD)") || result[0];
+    data = result.find(i => i.resolution === "720p (HD)") || result.find(i => i.resolution === "360p (SD)");
   } catch (error) {
     return conn.reply(m.chat, '*`Error al procesar los datos.`*', m);
   }
@@ -31,32 +31,17 @@ const handler = async (m, { text, conn, args, usedPrefix, command }) => {
 
   await m.react('✅');
   let video = data.url;
-  
-  let caption = `
-╭━━━〔 📥 Descarga Instagram 〕━━⬣
-┃👤 *Autor:* ${res.author || "Desconocido"}
-┃🏷️ *Título:* ${res.title || "Sin título"}
-┃🎞️ *Resolución:* ${data.resolution || "N/A"}
-┃📦 *Tamaño:* ${data.filesize || "N/A"}
-┃🔗 *Enlace:* ${args[0]}
-╰━━━━━━━━━━━━━━━━━━⬣
-  `.trim();
 
   try {
-    await conn.sendMessage(m.chat, {
-      video: { url: video },
-      caption: caption,
-      fileName: 'igdl.mp4',
-      mimetype: 'video/mp4'
-    }, { quoted: m });
+    await conn.sendMessage(m.chat, { video: { url: video }, caption: club, fileName: 'fb.mp4', mimetype: 'video/mp4' }, { quoted: m });
   } catch (error) {
-    await m.react('❌');
     return conn.reply(m.chat, '*`Error al enviar el video.`*', m);
+  await m.react('❌');
   }
 };
 
-handler.help = ['instagram', 'igdl'];
+handler.help = ['facebook'];
 handler.tags = ['descargas'];
-handler.command = ['instagram', 'ig', 'igdl'];
+handler.command = ['facebook', 'fb'];
 
-export default handler;
+export default handler;                                                                                                                                                                                                                                          
