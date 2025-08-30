@@ -52,6 +52,6 @@ handler.help = ['mediafire']
 handler.tags = ['descargas']
 handler.command = ['mf', 'mediafire']
 handler.register = true
-handler.group = true
+//handler.group = true
 
 export default handler
