@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 let handler = async (m, { conn, text }) => {
   const user = global.db.data.users[m.sender] || {}
   const emoji = '🌟'
-  const apikey = 'proyectsV2' // 🔑 Tu API KEY definida aquí
+  const apikey = 'proyectsV2'
 
   /* Verificación de usuarios VIP
   if (!user.premium || (user.premiumTime && user.premiumTime < Date.now())) {
@@ -52,6 +52,6 @@ handler.help = ['mediafire']
 handler.tags = ['descargas']
 handler.command = ['mf', 'mediafire']
 handler.register = true
-//handler.group = true
+handler.group = true
 
 export default handler
