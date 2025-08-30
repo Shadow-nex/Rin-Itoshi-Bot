@@ -41,7 +41,7 @@ let handler = async (m, { conn, command, usedPrefix }) => {
 ┃🚫 𝑨𝒄𝒕𝒖𝒂𝒍𝒎𝒆𝒏𝒕𝒆 𝒏𝒐 𝒉𝒂𝒚 𝒄𝒐𝒍𝒂𝒃𝒐𝒓𝒂𝒅𝒐𝒓𝒆𝒔
 ╰━━━━━━━━━━━━━━━━━━━━━`
 
-  await conn.sendFile(m.chat, img, 'staff.jpg', staff.trim(), estilo )
+  await conn.sendFile(m.chat, img, 'staff.jpg', staff.trim(), estilo)
 }
   
 handler.help = ['staff']
