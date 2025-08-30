@@ -14,7 +14,8 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
         if (!tiktokData || !tiktokData.data || !tiktokData.data.play) {
             return conn.reply(m.chat, "❌ Uff... No pude traer tu video onichan 😿", m);
         }
-
+        const thumbRes = await fetch('https://files.catbox.moe/knns14.jpg');
+        const thumbBuffer = await thumbRes.buffer();
         const fkontak = {
   key: {
     participants: "0@s.whatsapp.net",
