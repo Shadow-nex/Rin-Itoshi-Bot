@@ -4,15 +4,13 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
     return conn.reply(
       m.chat,
-      `🚫 *Formato incorrecto.*\n\n📌 Usa: ${usedPrefix + command} <enlace de TikTok>`,
+      `🚫 *Formato incorrecto.*\n\n🍂 \`Usa:\` ${usedPrefix + command} <enlace de TikTok>`,
       m
     );
   }
 
   try {
     await m.react("🕒");
-
-    // Consumimos la API de Delirius
     let url = `https://delirius-apiofc.vercel.app/download/tiktok?url=${encodeURIComponent(text)}`;
     let { data } = await axios.get(url);
 
@@ -20,7 +18,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       return conn.reply(m.chat, "⚠️ No se pudo descargar el video.", m);
     }
 
-    // Definimos keys de respuesta
     const {
       id,
       region,
@@ -40,23 +37,20 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     const { org, hd, wm, size_org, size_hd } = meta.media[0];
 
     // Armamos el caption
-    let caption = `
-╭━━━〔 *📥 TIKTOK DOWNLOADER* 〕━━⬣
-┃ 🎬 *Título:* ${title || "-"}
-┃ 👤 *Autor:* ${author?.nickname || "-"} (${author?.username || "@"})
-┃ 🆔 *ID:* ${id}
-┃ 🌍 *Región:* ${region}
-┃ 🕒 *Duración:* ${duration || 0}s
-┃ 📅 *Publicado:* ${published}
-┃ 🎵 *Audio:* ${music?.title || "-"} - ${music?.author || "-"}
-┃ 
-┃ 👁️‍🗨️ *Reproducciones:* ${repro}
-┃ ❤️ *Likes:* ${like}
-┃ 💬 *Comentarios:* ${comment}
-┃ 🔄 *Compartidos:* ${share}
-┃ ⬇️ *Descargas:* ${download}
-╰━━━━━━━━━━━━━━⬣
-    `.trim();
+    let caption = ` 🜸✧ TIKTOK DOWNLOADER ✧🜸
+> ❏ \`Título:\` *${title || "-"}*
+> ⌬ \`Autor:\` *${author?.nickname || "-"} (${author?.username || "@"})*
+> ⬡ \`ID:\` *${id}*
+> ✧ \`Región:\` *${region}*
+> 🜸 \`Duración:\` *${duration || 0}s*
+> ❏ \`Publicado:\` *${published}*
+> ⌬ \`Audio:\` *${music?.title || "-"} - ${music?.author || "-"}*
+>
+> ⬡ \`Reproducciones:\` *${repro}*
+> ✧ \`Likes:\` *${like}*
+> 🜸 \`Comentarios:\` *${comment}*
+> ❏ \`Compartidos:\` *${share}*
+> ⌬ \`Descargas:\` *${download}*`.trim();
 
     // Enviamos el video con botones
     await conn.sendMessage(
@@ -64,7 +58,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       {
         video: { url: org },
         caption,
-        footer: "✨ by Rin Itoshi",
+        footer: "© ᴘᴏᴡᴇʀᴇᴅ ʙʏ sʜᴀᴅᴏᴡ.xʏᴢ | ʀɪɴ ɪᴛᴏsʜɪ",
         buttons: [
           {
             buttonId: `.tiktokmp3 ${text}`,
@@ -74,11 +68,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
           {
             buttonId: `.tiktokhd ${hd}`,
             buttonText: { displayText: "📺 Descargar en HD" },
-            type: 1,
-          },
-          {
-            buttonId: `.tiktokwm ${wm}`,
-            buttonText: { displayText: "💧 Con Marca de Agua" },
             type: 1,
           },
         ],
