@@ -57,17 +57,22 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 async function showBanner() {
     const title = `
-██████╗ ██╗███╗   ██╗     ██╗████████╗ ██████╗ ███████╗██╗  ██╗
-██╔══██╗██║████╗  ██║     ██║╚══██╔══╝██╔═══██╗██╔════╝██║  ██║
-██████╔╝██║██╔██╗ ██║     ██║   ██║   ██║   ██║███████╗███████║
-██╔═══╝ ██║██║╚██╗██║██   ██║   ██║   ██║   ██║╚════██║██╔══██║
-██║     ██║██║ ╚████║╚█████╔╝   ██║   ╚██████╔╝███████║██║  ██║
-╚═╝     ╚═╝╚═╝  ╚═══╝ ╚════╝    ╚═╝    ╚═════╝ ╚══════╝╚═╝  ╚═╝
+   |＼ 　　　／|​
+　 ​|　ヽー-く　|​
+　 ​|　　　　　 |​
+　 ​|　 Ｏ　　Ｏ|​
+　 ​ヽ_"　　-   ノ​
+　　​/　　　 i—​ 🥃
+​(＼｜　i　　|＿ノ
+​\`＼ヽ_ノ　　|
+　 ​\`ｰ/　　/   |
+　   ​｜　 /　 | 
+  　 ​ヽ＿人_ノ
     `.split('\n').map(line => chalk.hex('#00f7ff').bold(line)).join('\n')
 
     const subtitle = chalk.hex('#ff3366').bold('✦ RIN ITOSHI BOT ✦').padStart(50)
-    const poweredMsg = chalk.hex('#ffcc00').italic('powered by Shadow.xyz')
-    const aiMsg = chalk.hex('#00f7ff').bold('⚡ Inteligencia artificial integrada')
+    const poweredMsg = chalk.hex('#ffcc00').italic('🌱 powered by Shadow.xyz')
+    const aiMsg = chalk.hex('#00f7ff').bold('──────────────────────────────────────────────────────')
     const tips = [
         chalk.hex('#ffcc00')('⌬ Tip: Usa /menu para ver todas las funciones.'),
         chalk.hex('#00f7ff')('✧ Sígueme en GitHub para ver updates.'),
@@ -119,14 +124,12 @@ async function showBanner() {
     })
     console.log('\n' + aiMsg + '\n')
 
-    // Animación de carga
     for (let i = 0; i < 20; i++) {
         process.stdout.write('\r' + loadingFrames[i % loadingFrames.length])
         await sleep(80)
     }
     process.stdout.write('\r' + ' '.repeat(40) + '\r') 
 
-    // Mensaje de bienvenida
     console.log(
         chalk.bold.blueBright(
             boxen(
@@ -143,8 +146,7 @@ async function showBanner() {
             )
         )
     )
-    
-    // Decoración final tipo "energia"
+
     const symbols = [
         chalk.hex('#ff3366')('✧'), chalk.hex('#00f7ff')('⌬'), chalk.hex('#ffcc00')('⬡'),
         chalk.hex('#00f7ff')('✧'), chalk.hex('#ff3366')('⌬'), chalk.hex('#ffcc00')('⬡')
@@ -155,9 +157,8 @@ async function showBanner() {
     }
     console.log('\n' + line + '\n')
 }
-
-// Ejecutar
 await showBanner()
+
 protoType()
 serialize()
 
