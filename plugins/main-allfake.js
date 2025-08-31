@@ -78,9 +78,8 @@ var canal = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
 var comunidad = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
 var git = 'https://github.com/Yuji-XDev'
 var github = 'https://github.com/Yuji-XDev/Rin-Itoshi-Bot'
-var tiktok = 'https://tiktok.com/@the.black.xz'
 let correo = 'blackoficial2025@gmail.com'
-global.redes = [canal, comunidad, git, github, tiktok, correo].getRandom()
+global.redes = [canal, comunidad, git, github, correo].getRandom()
 
 let category = "imagen"
 const db = './src/database/db.json'
@@ -122,7 +121,7 @@ global.icono = [
 'https://files.catbox.moe/i97oje.jpg'
 ].getRandom()
 
-global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: 100, newsletterName: channelRD.name, }, externalAdReply: { showAdAttribution: true, title: packname, body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: false }, }, }}
+global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: 100, newsletterName: channelRD.name, }, externalAdReply: { showAdAttribution: true, title: packname, body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: true }, }, }}
 
 //global.rcanal = {contextInfo: {forwardingScore: 2025, isForwarded: true, externalAdReply: {title: packname, body: author, sourceUrl: redes, thumbnailUrl: icono}}}
 //}
