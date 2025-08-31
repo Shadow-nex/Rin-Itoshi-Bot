@@ -22,7 +22,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
 ✧━━━━━━━━━━━━━━━━━━✧`;
 
     const botones = [
-      { buttonId: `${usedPrefix}ping`, buttonText: { displayText: '🌳 Velocidad del Bot' }, type: 1 },
+      { buttonId: `${usedPrefix}ping`, buttonText: { displayText: '🔥 Velocidad' }, type: 1 },
       { buttonId: `${usedPrefix}unreg`, buttonText: { displayText: '🍁 Eliminar Registro' }, type: 1 },
     ];
 
