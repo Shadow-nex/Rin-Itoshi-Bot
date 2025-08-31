@@ -1,8 +1,7 @@
 import axios from "axios"
-import fs from "fs"
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
-  if (!args[0]) throw `✦ 𝙐𝙨𝙤 𝙘𝙤𝙧𝙧𝙚𝙘𝙩𝙤:\n${usedPrefix + command} https://youtu.be/TdrL3QxjyVw`
+  if (!args[0]) throw `✦ Uso correcto:\n${usedPrefix + command} https://youtu.be/TdrL3QxjyVw`
 
   try {
     let url = args[0]
@@ -12,32 +11,18 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     if (!data.status) throw `⚠️ No se pudo descargar el audio.`
 
     let {
-      creator,
-      status,
-      data: {
-        title,
-        id,
-        author,
-        image,
-        image_max_resolution,
-        private: isPrivate,
-        views,
-        likes,
-        comments,
-        category,
-        duration,
-        download
-      }
-    } = data
+      title,
+      author,
+      image,
+      views,
+      likes,
+      comments,
+      category,
+      duration,
+      download
+    } = data.data
 
-    let {
-      filename,
-      quality,
-      size,
-      bytes_size,
-      extension,
-      url: downloadUrl
-    } = download
+    let { filename, quality, size, url: downloadUrl } = download
 
     let info = `*[YOUTUBE - YTMP3DOC]*
 > ✦ *Título:* ${title}
@@ -53,14 +38,17 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     `.trim()
 
     await conn.sendMessage(m.chat, { text: info }, { quoted: m })
+
+    let response = await axios.get(downloadUrl, { responseType: "arraybuffer" })
+    let buffer = response.data
     let thumb = (await axios.get(image, { responseType: "arraybuffer" })).data
 
     await conn.sendMessage(m.chat, {
-      document: { url: downloadUrl },
+      document: buffer,
       mimetype: "audio/mpeg",
       fileName: filename,
       jpegThumbnail: thumb,
-      caption: `🎵 ${title}`
+      caption: ` ${title}`
     }, { quoted: m })
 
   } catch (e) {
