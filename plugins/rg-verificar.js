@@ -23,14 +23,14 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
 
     const botones = [
       { buttonId: `${usedPrefix}ping`, buttonText: { displayText: '🌳 Velocidad del Bot' }, type: 1 },
-      { buttonId: `${usedPrefix}unreg`, buttonText: { displayText: '🌷 Unreg' }, type: 1 },
+      { buttonId: `${usedPrefix}unreg`, buttonText: { displayText: '🍁 Eliminar Registro' }, type: 1 },
     ];
 
     return await conn.sendMessage(m.chat, {
       image: { url: icono },
       caption: texto,
       mentions: [m.sender],
-      footer: '˜”*°•.˜”*°• RIN ITOSHI BOT •°*”˜.•°*”˜',
+      footer: club,
       buttons: botones,
       headerType: 4,
       contextInfo: {
@@ -64,7 +64,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
       image: { url: icono },
       caption: mensaje,
       mentions: [m.sender],
-      footer: '˜”*°•.˜”*°• RIN ITOSHI BOT •°*”˜.•°*”˜',
+      footer: club,
       buttons: botones,
       headerType: 4,
       contextInfo: {
