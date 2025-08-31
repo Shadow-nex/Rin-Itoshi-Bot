@@ -38,7 +38,7 @@ const { chain } = lodash
 const PORT = process.env.PORT || process.env.SERVER_PORT || 3000
 
 let { say } = cfonts
-/*
+
 console.log(chalk.bold.redBright(`\n▨────────────────────────▨`))
 console.log(chalk.magentaBright('\n🌱 Iniciando bot...'))
 console.log(chalk.bold.redBright(`\n▨────────────────────────▨`))
@@ -52,60 +52,7 @@ say('Made with By shadow', {
 font: 'console',
 align: 'center',
 colors: ['cyan', 'magenta', 'yellow']
-})*/
-const cyberGradient = gradient(['#00fff7', '#ff00ff', '#ffae00'])
-
-const bar = new cliProgress.SingleBar({
-  format: (options, params, payload) => {
-    const complete = Math.round(params.progress * options.barsize)
-    const incomplete = options.barsize - complete
-    const filled = cyberGradient('█'.repeat(complete))
-    const empty = chalk.gray('░'.repeat(incomplete))
-    return `${filled}${empty} ${params.value}%`
-  },
-  hideCursor: true,
-  barsize: 30
 })
-
-console.log(chalk.bold.redBright(`\n▨────────────────────────▨`))
-console.log(chalk.magentaBright('\n🌱 Preparando el inicio...\n'))
-
-bar.start(100, 0)
-
-let value = 0
-const timer = setInterval(() => {
-  value += 5
-  bar.update(value)
-
-  if (value === 25) console.log(chalk.magentaBright('⚡ Cargando módulos...'))
-  if (value === 50) console.log(chalk.greenBright('📡 Conectando a WhatsApp...'))
-  if (value === 75) console.log(chalk.yellowBright('🔑 Autenticando sesión...'))
-
-  if (value >= 100) {
-    clearInterval(timer)
-    bar.stop()
-
-    const spinner = ora(cyberGradient('Finalizando...')).start()
-    setTimeout(() => {
-      spinner.succeed(chalk.bold.green('✅ Bot iniciado correctamente!'))
-      console.log(chalk.bold.redBright(`\n▨────────────────────────▨`))
-
-      say('RIN ITOSHI', {
-        font: 'simple',
-        align: 'left',
-        gradient: ['green', 'white']
-      })
-      say('Made with ❤️ By Shadow', {
-        font: 'console',
-        align: 'center',
-        colors: ['cyan', 'magenta', 'yellow']
-      })
-
-      const glitch = chalkAnimation.glitch('\n🚀 Listo para despegar...\n')
-      setTimeout(() => glitch.stop(), 5000)
-    }, 1500)
-  }
-}, 200)
 protoType()
 serialize()
 
