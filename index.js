@@ -119,7 +119,7 @@ async function showBanner() {
         letterSpacing: 1,
         lineHeight: 1
     })
-    say('by Shadow.xyz', {
+    say('🍁 by Shadow.xyz', {
         font: 'console',
         align: 'center',
         colors: ['yellow'],
