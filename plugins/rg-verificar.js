@@ -27,7 +27,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
     ];
 
     return await conn.sendMessage(m.chat, {
-      image: { url: icono },
+      image: { url: 'https://tinyurl.com/24a3c343' },
       caption: texto,
       mentions: [m.sender],
       footer: club,
@@ -61,7 +61,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
      ];
 
     return await conn.sendMessage(m.chat, {
-      image: { url: icono },
+      image: { url: 'https://tinyurl.com/24a3c343' },
       caption: mensaje,
       mentions: [m.sender],
       footer: club,
@@ -144,7 +144,7 @@ tu energía ha sido aceptada en el sistema 🌸✨`.trim();
           title: '✦͢🌹⌗ 𝐔𝐒𝐔𝐀𝐑𝐈𝐎 𝐕𝐄𝐑𝐈𝐅𝐈𝐂𝐀𝐃𝐎 💎✨',
           body: '꒰🍃꒱ ᴛᴜ ᴄᴜᴇɴᴛᴀ ʜᴀ ꜱɪᴅᴏ ᴀᴄᴛɪᴠᴀᴅᴀ ᴄᴏɴ éꜱᴇxɪᴛᴏ\n☯︎ ʙʏ: 𝑺𝒉𝒂𝑫𝒐𝒘•𝑪𝒐𝒓𝒆',
           mediaType: 1,
-          thumbnailUrl: icono,
+          thumbnailUrl: 'https://tinyurl.com/2c4kbyk3',
           mediaUrl: redes,
           sourceUrl: redes,
           renderLargerThumbnail: true
