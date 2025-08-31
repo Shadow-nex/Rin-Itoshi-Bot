@@ -1,3 +1,20 @@
+Si estás buscando el *episodio 11 completo de _Otonari no Tenshi-sama ni Itsunomanika Dame Ningen ni Sareteita Ken_ * en *sub español*, hay algunas opciones que podrían interesarte:
+
+🎬 *YouTube*: Hay un video que incluye una *reacción completa al episodio 11*, con fragmentos del capítulo y análisis. No es el episodio íntegro sin cortes, pero sí muestra gran parte del contenido. Puedes verlo en este enlace:
+👉 [Reacción al episodio 11 en YouTube](https://www.youtube.com/watch?v=baJz-yuzC6k)⁽¹⁾
+
+📱 *TikTok*: También hay una *parte 1 del episodio 11* subida por el usuario _series.masha_. Aunque está dividido en partes, puedes encontrar el resto en su perfil:
+👉 [Parte 1 en TikTok](https://www.tiktok.com/@series.masha/video/7525636519634210053)⁽²⁾
+
+💡 *Consejo*: Si prefieres verlo sin cortes y con buena calidad, lo más seguro es buscarlo en plataformas oficiales como *Crunchyroll* o *AnimeFLV*, donde suelen estar disponibles con subtítulos en español.
+
+¿Quieres que te ayude a encontrar el episodio 12 también? Ese tiene una escena clave que cierra el arco romántico con broche de oro.
+
+--------
+[1] ¿AMBOS TIENEN DESEOS CARNALES?-Otonari no Tenshi... (https://www.youtube.com/watch?v=baJz-yuzC6k)
+[2] parte 1 episodio 11 anime Romance otonari no tenshi Sama... (https://www.tiktok.com/@series.masha/video/7525636519634210053)
+
+
 <p align="center">
   <a href="#">
     <img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=35&duration=3000&pause=1000&color=FF00FF,00FFFF,FFFF00,FF0000,00FF00&center=true&vCenter=true&width=700&lines=🍂+RIN+ITOSHI+%7C+BY+SHADOW+⚽" alt="RIN ITOSHI • BY SHADOW 🍂"/>
