@@ -100,6 +100,7 @@ const handler = async (m, { conn, text }) => {
 
   messageText += "✏️ Responde con `A <número>` para audio o `V <número>` para video.\nEjemplo: `A 1` o `V 3`";
 
+// 📌 Enviar mensaje con lista de resultados
   await conn.sendMessage(
     m.chat,
     { text: messageText },
@@ -118,12 +119,12 @@ const handler = async (m, { conn, text }) => {
   );
 };
 
-handler.command = ["ytss","ytsearch3"];
+handler.command = ["ytss", "ytsearch3"];
 handler.tags = ["downloader"];
 handler.help = ["ytss <texto>"];
 
 handler.before = async (m, { conn }) => {
-  if (!m.quoted || !m.quoted.text.includes("🎵 *Resultados de búsqueda:*")) return;
+  if (!m.quoted || !m.quoted.text.includes("⚽ *Resultados de búsqueda:*")) return;
 
   const match = m.text.trim().match(/^([AV])\s*(\d+)$/i);
   if (!match) return;
