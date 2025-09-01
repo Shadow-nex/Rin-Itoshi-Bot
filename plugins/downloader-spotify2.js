@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+/*import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   const thumbnailCard = icono;
@@ -81,4 +81,63 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.command = ['music'];
 handler.help = ['music <canción>'];
 handler.tags = ['downloader'];
+export default handler;*/
+
+
+import fetch from "node-fetch";
+import fs from "fs";
+import { default as baileys } from "@whiskeysockets/baileys";
+
+const APIKEY = "sylphy-8ff8";
+const BASE_URL = "https://api.sylphy.xyz";
+
+let handler = async (m, { conn, args, command }) => {
+  if (!args[0]) {
+    return m.reply(`✦ Uso: *${command}* <link o nombre de canción>\nEjemplo: ${command} https://open.spotify.com/track/6UR5tB1wVm7qvH4xfsHr8m`);
+  }
+
+  try {
+    let text = args.join(" ");
+    let urlSearch = `${BASE_URL}/search/spotify?q=${encodeURIComponent(text)}&apikey=${APIKEY}`;
+
+    let res = await fetch(urlSearch);
+    let json = await res.json();
+
+    if (!json.status || !json.data) {
+      return m.reply("❌ No se encontraron resultados.");
+    }
+
+    let track = json.data[0];
+    let infoMsg = `🎵 *Título:* ${track.title}\n👤 *Artista:* ${track.artist}\n⏱️ *Duración:* ${track.duration}\n🔗 ${track.url}`;
+
+    await conn.sendMessage(m.chat, { text: infoMsg }, { quoted: m });
+
+    let urlDownload = `${BASE_URL}/download/spotify?url=${encodeURIComponent(track.url)}&apikey=${APIKEY}`;
+    let res2 = await fetch(urlDownload);
+    let json2 = await res2.json();
+
+    if (!json2.status || !json2.data || json2.data.message) {
+      return m.reply("⚠️ No se pudo descargar la canción (posible límite de la API).");
+    }
+
+    let audioUrl = json2.data.url; 
+    let audioRes = await fetch(audioUrl);
+    let buffer = await audioRes.arrayBuffer();
+
+    await conn.sendMessage(m.chat, { 
+      audio: Buffer.from(buffer), 
+      mimetype: "audio/mpeg", 
+      fileName: `${track.title}.mp3` 
+    }, { quoted: m });
+
+  } catch (e) {
+    console.error(e);
+    m.reply("❌ Ocurrió un error al procesar la solicitud.");
+  }
+};
+
+handler.command = ['music'];
+handler.help = ['music <canción>'];
+handler.tags = ['downloader'];
+
 export default handler;
