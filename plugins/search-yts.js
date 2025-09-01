@@ -86,7 +86,7 @@ const handler = async (m, { conn, text }) => {
   const results = search.all.slice(0, 10);
   videoCache[m.sender] = { results, timestamp: Date.now() };
 
-  let messageText = "🎵 *Resultados de búsqueda:* \n\n";
+  let messageText = "⚽ *Resultados de búsqueda:* \n\n";
   results.forEach((video, i) => {
     const title = video.title || "Desconocido";
     const url = video.url || "No disponible";
@@ -100,26 +100,10 @@ const handler = async (m, { conn, text }) => {
 
   messageText += "✏️ Responde con `A <número>` para audio o `V <número>` para video.\nEjemplo: `A 1` o `V 3`";
 
-// 📌 Enviar mensaje con lista de resultados
-  await conn.sendMessage(
-    m.chat,
-    { text: messageText },
-    {
-      quoted: m,
-      mentions: [m.sender],
-      contextInfo: {
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363401008003732@newsletter',
-          serverMessageId: 100,
-          newsletterName: 'ᴄʜᴀɴɴᴇʟ - ᴏғғɪᴄɪᴀʟ'
-        }
-      }
-    }
-  );
+  await conn.reply(m.chat, messageText, m);
 };
 
-handler.command = ["ytss", "ytsearch3"];
+handler.command = ["ytss","ytsearch3"];
 handler.tags = ["downloader"];
 handler.help = ["ytss <texto>"];
 
