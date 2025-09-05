@@ -20,7 +20,7 @@
 },
 "homepage": "https://github.com/Yuji-XDev/Rin-Itoshi-Bot",
 "author": {
-"name": "alv"
+"name": "Shadow-xyz"
 },
 "repository": {
 "type": "git",
@@ -42,7 +42,7 @@
 "boxen": "^7.1.1",
 "cfonts": "^3.3.0",
 "chalk": "^5.1.0",
-"sharp": "^0.33.4",
+"sharp": "^0.34.3",
 "cheerio": "npm:cheerio@1.0.0-rc.12",
 "didyoumean": "^1.2.2",
 "file-type": "^18.0.0",
