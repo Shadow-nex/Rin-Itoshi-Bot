@@ -4,12 +4,12 @@ import { proto } from '@whiskeysockets/baileys';
 import PhoneNumber from 'awesome-phonenumber';
 
 const handler = async (m, { conn }) => {
-  const name = '🌱 𝙎𝙃𝘼𝘿𝙊𝙒 - 𝘾𝙧𝙚𝙖𝙙𝙤𝙧 ⚡';
+  const name = '🌱 𝙎𝙃𝘼𝘿𝙊𝙒.𝙓𝙔𝙕 - 𝘾𝙧𝙚𝙖𝙙𝙤𝙧 ⚡';
   const numCreador = '51919199620';
   const empresa = 'Rin Itoshi Bot Inc.';
-  const about = '🧪 Desarrollador de Rin itoshi Ultra - MD';
+  const about = '💖 Desarrollador de Rin itoshi Ultra - MD';
   const correo = 'blackoficial2025@gmail.com';
-  const web = 'https://gituhb.com/Yuji-XDev';
+  const web = 'https://shadow-xyz.vercel.app/';
   const direccion = 'Tokyo, Japón 🇯🇵';
   const fotoPerfil = 'https://files.catbox.moe/fft2hr.jpg';
 
@@ -34,7 +34,7 @@ END:VCARD`.trim();
     displayName: name,
     vcard
   };
-
+  m.react('🍂');
   await conn.sendMessage(m.chat, {
     contacts: {
       displayName: name,
@@ -43,7 +43,7 @@ END:VCARD`.trim();
     contextInfo: {
     mentionedJid: [m.sender],
       externalAdReply: {
-        title: '🧪 Contacto del Creador oniichan 💌',
+        title: '⚡ Contacto del Creador oniichan 💌',
         body: 'Toca aquí para guardar el contacto o hablar con él',
         mediaType: 1,
         thumbnailUrl: fotoPerfil,

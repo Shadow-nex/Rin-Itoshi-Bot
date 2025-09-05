@@ -43,8 +43,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 \`\`\`⭐ Si te gusta el bot, visita el repositorio y apóyalo con una estrella.\`\`\`
 
 > 🌐 Repositorio: ${md}
-> ${textbot}
-    `.trim();
+> ${textbot}`.trim();
 
     await conn.sendMessage(m.chat, { image: { url: logo }, caption: texto }, { quoted: fkontak })
   }
@@ -61,9 +60,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
       let creador = groupInfo.owner ? `@${groupInfo.owner.split('@')[0]}` : 'Desconocido';
       let fechaCreacion = new Date(groupInfo.creation * 1000).toLocaleString('es-ES', { timeZone: 'America/Lima' });
 
-      const texto = `
-╭═══ 📜『 𝑹𝒆𝒈𝒍𝒂𝒔 𝒅𝒆𝒍 𝑮𝒓𝒖𝒑𝒐 』📜═══╮
-
+      const texto = `╭═══ 📜『 𝑹𝒆𝒈𝒍𝒂𝒔 𝒅𝒆𝒍 𝑮𝒓𝒖𝒑𝒐 』📜═══╮
 🏷️ *Nombre:* ${groupInfo.subject}
 👑 *Creador:* ${creador}
 👥 *Miembros:* ${groupInfo.participants.length}
@@ -73,9 +70,7 @@ ${admins}
 
 📝 *Descripción:*
 ${groupInfo.desc?.trim() || 'No hay reglas establecidas en la descripción del grupo.'}
-
-╰═════════════════════════⬣
-      `.trim();
+╰═════════════════════════⬣\n> © ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ | ☆ ʙʏ sʜᴀᴅᴏᴡ.xʏᴢ`.trim();
 
       await conn.sendMessage(m.chat, { image: { url: url || img }, caption: texto, mentions: conn.parseMention(texto) }, { quoted: m })
 

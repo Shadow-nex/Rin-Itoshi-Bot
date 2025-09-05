@@ -74,6 +74,10 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       mimetype: 'audio/mpeg'
     }, { quoted: m });*/
     
+    //const res = info[0]
+    //const thumbUrl = `https://i.ytimg.com/vi/${res.videoId}/hqdefault.jpg`
+    //const inithumb = await getBuffer(thumbUrl)
+    
     await conn.sendMessage(m.chat, {
       audio: { url: info.download },
       fileName: info.filename,

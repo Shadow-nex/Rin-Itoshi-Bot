@@ -1,91 +1,68 @@
-// codigo bug xd
+import fs from 'fs';
+import path from 'path';
+import fetch from 'node-fetch';
+import crypto from 'crypto';
+import { FormData, Blob } from 'formdata-node';
+import { fileTypeFromBuffer } from 'file-type';
 
-import fetch from 'node-fetch'
-import sharp from 'sharp'
-
-let handler = async (m, { conn, text }) => {
-  if (!text) return m.reply("✨ Pásame la URL de la imagen.\nEjemplo: .miniatura https://ejemplo.com/imagen.jpg")
-
+const handler = async (m, { conn, text }) => {
+  let buffer;
   try {
-    const res = await fetch(text)
-    if (!res.ok) throw new Error("No se pudo descargar la imagen")
-    const buffer = await res.buffer()
-
-    let quality = 80
-    let thumb
-    do {
-      thumb = await sharp(buffer)
-        .resize(200, 200, { fit: 'inside' })
-        .jpeg({ quality, chromaSubsampling: '4:2:0' })
-        .toBuffer()
-      quality -= 10
-    } while (thumb.length > 64 * 1024 && quality > 10)
-
-    const base64Thumb = thumb.toString("base64")
-
-    await conn.sendMessage(m.chat, {
-      image: thumb,
-      caption: `✅ Aquí tienes tu imagen lista para WhatsApp (≤64KB)\n\n📦 Peso: ${(thumb.length / 1024).toFixed(1)} KB\n\n\`\`\`Código Base64:\`\`\`\n${base64Thumb.substring(0,200)}...`
-    }, { quoted: m })
-
-  } catch (e) {
-    console.error(e)
-    m.reply("❌ Error al procesar la imagen.")
-  }
-}
-
-handler.command = /^miniatura|mini$/i
-export default handler
-/*
-
-
-import fetch from 'node-fetch'
-import { createCanvas, loadImage } from 'canvas'
-
-let handler = async (m, { conn, text }) => {
-  if (!text) return m.reply("🌱 Pásame la URL de la imagen.\nEjemplo: .miniatura https://ejemplo.com/imagen.jpg")
-
-  try {
-    const res = await fetch(text)
-    if (!res.ok) throw new Error("No se pudo descargar la imagen")
-    const buffer = await res.buffer()
-
-    const img = await loadImage(buffer)
-
-    const maxWidth = 200
-    const maxHeight = 200
-    let width = img.width
-    let height = img.height
-
-    if (width > maxWidth || height > maxHeight) {
-      const scale = Math.min(maxWidth / width, maxHeight / height)
-      width = Math.round(width * scale)
-      height = Math.round(height * scale)
+    if (m.quoted && (m.quoted.msg || {}).mimetype?.startsWith('image/')) {
+      
+      buffer = await m.quoted.download();
+    } else if (text && text.match(/^https?:\/\/.*\.(jpg|jpeg|png|gif)$/i)) {
+      
+      const res = await fetch(text);
+      if (!res.ok) throw new Error(`No se pudo descargar la imagen`);
+      buffer = await res.buffer();
+    } else {
+      return m.reply(`❌ *Responde a una imagen o envía un link directo a una imagen válida con el comando* _.comprimir_`);
     }
 
-    const canvas = createCanvas(width, height)
-    const ctx = canvas.getContext('2d')
-    ctx.drawImage(img, 0, 0, width, height)
+    m.react('📤');
 
-    let quality = 0.8
-    let thumb
-    do {
-      thumb = canvas.toBuffer('image/jpeg', { quality })
-      quality -= 0.1
-    } while (thumb.length > 64 * 1024 && quality > 0.1)
+    const urlCatbox = await catbox(buffer); 
 
-    const base64Thumb = thumb.toString("base64")
+    const apiURL = `https://api.siputzx.my.id/api/iloveimg/compress?image=${encodeURIComponent(urlCatbox)}`;
+    const response = await fetch(apiURL);
+    if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
+    const compressed = await response.buffer();
 
     await conn.sendMessage(m.chat, {
-      image: thumb,
-      caption: `🌷 Aquí tienes tu imagen lista para WhatsApp (≤64KB)\n\n📦 Peso: ${(thumb.length / 1024).toFixed(1)} KB\n\n\`\`\`Código Base64:\`\`\`\n${base64Thumb.substring(0,200)}...`
-    }, { quoted: m })
+      image: compressed,
+      caption: `🎯 *¡Imagen comprimida!*\n✨ *Optimizada por LoveIMG*`
+    }, { quoted: m });
 
-  } catch (e) {
-    console.error(e)
-    m.reply("❌ Error al procesar la imagen.")
+    m.react('✅');
+  } catch (err) {
+    console.error(err);
+    m.react('❌');
+    m.reply(`❌ *Ocurrió un error al comprimir la imagen.*\n\n🪵 *Detalle:* ${err.message}`);
   }
-}
+};
 
-handler.command = /^miniatura|mini$/i
-export default handler*/
+handler.help = ['comprimir'];
+handler.tags = ['herramientas'];
+handler.command = ['compress', 'comprimir'];
+
+export default handler;
+
+async function catbox(content) {
+  const { ext, mime } = (await fileTypeFromBuffer(content)) || {};
+  const blob = new Blob([content.toArrayBuffer()], { type: mime });
+  const formData = new FormData();
+  const random = crypto.randomBytes(5).toString('hex');
+  formData.append('reqtype', 'fileupload');
+  formData.append('fileToUpload', blob, `${random}.${ext}`);
+
+  const res = await fetch('https://catbox.moe/user/api.php', {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Linux; Android)',
+    }
+  });
+
+  return await res.text();
+}

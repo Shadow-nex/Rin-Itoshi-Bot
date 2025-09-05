@@ -1,8 +1,6 @@
 import { generateWAMessageFromContent, proto, prepareWAMessageMedia } from '@whiskeysockets/baileys'
 
 let handler = async (m, { conn }) => {
-
-    // Preparamos la imagen
     const media = await prepareWAMessageMedia({ image: { url: 'https://tinyurl.com/28st4n83' } }, { upload: conn.waUploadToServer })
 
     const menu = generateWAMessageFromContent(m.chat, {
@@ -14,7 +12,7 @@ let handler = async (m, { conn }) => {
                 },
                 interactiveMessage: proto.Message.InteractiveMessage.fromObject({
                     body: proto.Message.InteractiveMessage.Body.create({
-                        text: "*╭━━━〔 🌴 List de Menus Disponibles 🌴 〕━━⬣*\n\nBienvenido a *Rin Itoshi Bot*\n #menudl -- Menu de descargas\n #menusearch -- Menu search\n #menulist - Menu list\n #menurpg - Menu rpg\n #menuowner - Menu de owners\n #menuperfil - Opciones para editar tu perfil"
+                        text: "╔═════════════════════╗\n║⬩𓊆◦ 𝙼𝙴𝙽𝚄𝚂 - 𝙳𝙸𝚂𝙿𝙾𝙽𝙸𝙱𝙻𝙴𝚂 ◦𓊇⬩\n╚═════════════════════╝\n\n❯l︴• \`menulist\`\n❯l︴• \`menuowner - dev\`\n❯l︴• \`menudescargas - menudl\`\n❯l︴• \`menusticker\`\n❯l︴• \`menusearch - menuse\`\n❯l︴• \`menulogos\`\n❯l︴• \`menunsfw - menu18\`\n❯l︴• \`menugrupo - menugp\`\n❯l︴• \`menuaudios - menu2\`\n❯l︴• \`menurpg\`\n❯l︴• \`menufun\`\n❯l︴• \`menutools\`\n❯l︴• \`menup\`"
                     }),
                     footer: proto.Message.InteractiveMessage.Footer.create({
                         text: "_ʀɪɴ ɪᴛᴏꜱʜɪ ʙᴏᴛ ✨_"
@@ -31,7 +29,7 @@ let handler = async (m, { conn }) => {
                             },
                             {
                                 "name": "quick_reply",
-                                "buttonParamsJson": `{"display_text":"📜 Lista de comandos","id":"menu_comandos"}`
+                                "buttonParamsJson": `{"display_text":"📜 Lista de comandos","id":".totalfunciones"}`
                             },
                             {
                                 "name": "single_select",

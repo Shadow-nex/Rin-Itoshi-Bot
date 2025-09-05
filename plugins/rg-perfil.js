@@ -36,19 +36,14 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 ☄️︙*🌙 Nombre Arcano:* *${name}*
 ☄️︙*🌀 Esencia Vital:* _${description}_
 
-┏━━━✦ °• ⚝ •° ✦━━━┓
-   ⚙️ 𝐂𝐎𝐍𝐅𝐈𝐆𝐔𝐑𝐀𝐂𝐈𝐎𝐍
-        𝐄𝐒𝐏𝐈𝐑𝐈𝐓𝐔𝐀𝐋
-┗━━━✦ °• ⚝ •° ✦━━━┛
 
+   ⚙️ 𝐂𝐎𝐍𝐅𝐈𝐆𝐔𝐑𝐀𝐂𝐈𝐎𝐍 𝐄𝐒𝐏𝐈𝐑𝐈𝐓𝐔𝐀𝐋
 ➺ 🎂 *Edad Estelar:* ${user.age || 'Incierta'}
 ➺ 📆 *Ciclo Cósmico:* ${cumpleanos}
 ➺ ⚧️ *Polaridad:* ${genero}
 ➺ 💖 *Vínculo Álmico:* ${pareja}
 
-┏━━━✦ °• ⚝ •° ✦━━━┓
       ✦ 𝐑𝐄𝐂𝐔𝐑𝐒𝐎𝐒 ✦
-┗━━━✦ °• ⚝ •° ✦━━━┛
 ⋄ 🪙 *${moneda}:* ${coins.toLocaleString()} ${moneda}
 ⋄ 🍂 *Nivel Dimensional:* ${nivel}
 ⋄ 🌷 *Exp Cósmica:* ${exp.toLocaleString()}

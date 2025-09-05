@@ -8,7 +8,7 @@ let handler = async (m, { conn }) => {
     let child = stdout.toString("utf-8");
     let ssd = child.replace(/Memory:/, "Ram:");
     
-    await m.reply('*🍂 Cargando ping?*');
+    await m.reply('*🍂 Calculando ping?*');
     await conn.sendMessage(m.chat, {
       text: `☆ 🌱 \`ᴛɪᴇᴍᴘᴏ:\` ${latensi.toFixed(4)}ms`,
       mentions: [m.sender],

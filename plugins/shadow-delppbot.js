@@ -3,10 +3,6 @@ import fetch from 'node-fetch'
 let handler = async (m, { conn, isOwner }) => {
   try {
 
-    if (global.conn.user.jid !== conn.user.jid) {
-      return conn.reply(m.chat, '⚠️ Solo el *Bot Principal* puede usar este comando.', m, rcanal)
-    }
-
     const transparentImg = Buffer.from(
       'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=',
       'base64'

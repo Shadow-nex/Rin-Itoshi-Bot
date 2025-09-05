@@ -47,18 +47,19 @@ let rtx = `╭─〔 💠 𝗥𝗜𝗡 𝗜𝗧𝗢𝗦𝗛𝗜 - 𝗕𝗢𝗧 �
 │
 ├─⏳ *Este QR expira en:* *45 segundos*
 ╰━━━━━━━━━━━━━━━━━━━━━━━╯`;
-let rtx2 = `✧─── 〔 🔑 𝗦𝗨𝗕 𝗕𝗢𝗧 ~ 𝗖𝗢𝗗𝗘 〕───✧
 
-      📜 𝑷𝒂𝒔𝒐𝒔 𝒅𝒆 𝒄𝒐𝒏𝒆𝒙𝒊𝒐́𝒏 📜
+let rtx2 = `✧──〔 🔑 𝗖𝗢𝗡𝗘𝗫𝗜𝗢𝗡 𝗗𝗘 𝗦𝗨𝗕 𝗕𝗢𝗧 〕──✧
+           ⋆⸼˟꘏ 𝗠𝗢𝗗𝗘 ~ 𝗖𝗢𝗗𝗘 ‧₊˚ ̥˚◌
+✧────────────────────────────✧
+      📜 𝙿𝙰𝚂𝙾𝚂 𝙳𝙴 𝙲𝙾𝙽𝙴𝚇𝙸𝙾𝙽 📜
 ══════════════════════
-🌱 ➊~ Pulsa los ⋮ tres puntos (arriba a la derecha)  
-🌀 ➋~ Entra en *Dispositivos vinculados*  
-🍂 ➌~ Selecciona *Vincular con número de teléfono*  
-🌷 ➍~ Ingresa tu *código especial* ⚡
+🌱 ➊~ \`\`\`Pulsa los ⋮ tres puntos (arriba a la derecha)\`\`\` 
+🌀 ➋~ \`\`\`Entra en Dispositivos vinculados\`\`\`
+🍂 ➌~ \`\`\`Selecciona vincular con número de teléfono\`\`\`
+🌷 ➍~ \`\`\`Ingresa tu código especial ⚡\`\`\`
 ═══════════════════════
 
-🚨 𝐀𝐯𝐢𝐬𝐨: *No uses tu cuenta principal* 🚀
-✧──────────────────────────✧`;
+> 🚨 𝐀𝐯𝐢𝐬𝐨: *No uses tu cuenta principal* 🚀`;
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -70,7 +71,7 @@ if (!globalThis.db.data.settings[conn.user.jid].jadibotmd)
 return m.reply(`${emoji3} El Comando *${command}* está desactivado temporalmente.`, m, fake)
 
 let time = global.db.data.users[m.sender].Subs + 120000
-if (new Date - global.db.data.users[m.sender].Subs < 120000) return conn.reply(m.chat, `${emoji} Debes esperar ${msToTime(time - new Date())} para volver a vincular un *Sub-Bot.*`, m, fake)
+if (new Date - global.db.data.users[m.sender].Subs < 120000) return conn.reply(m.chat, `${emojis} Debes esperar ${msToTime(time - new Date())} para volver a vincular un *Sub-Bot.*`, m, fake)
 const subBots = [...new Set([...global.conns.filter((conn) => conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED).map((conn) => conn)])]
 const subBotsCount = subBots.length
 if (subBotsCount === 10) {
@@ -176,9 +177,8 @@ secret = secret.match(/.{1,4}/g)?.join("-")
         },
         isForwarded: true
       }
-    }, { quoted: m });
+    }, { quoted: fkontak });
 
-//txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
 codeBot = await conn.reply(m.chat, `*${secret}*`, m);
 
 console.log(secret)

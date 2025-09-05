@@ -92,7 +92,7 @@ const handler = async (m, { conn, text }) => {
       {
         audio: { url: info.url },
         mimetype: "audio/mpeg",
-        ptt: false,
+        ptt: false,  // true para nota de voz
         contextInfo: {
           externalAdReply: {
             title: track.name,

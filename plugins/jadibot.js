@@ -15,7 +15,7 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
   
 
   const _muptime = process.uptime() * 1000;
-  const rinuptime = clockString(_muptime);
+  const uptime = clockString(_muptime);
 
   const vistos = new Set();
   const subbotsUnicos = connsActivas.filter(conn => {
@@ -48,34 +48,34 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
 
   //const readMore = String.fromCharCode(8206).repeat(4001)
   const lista = subbotsUnicos.map((bot, i) => {
-    return `      𖦹𖦹𖦹  𝐒𝐎𝐂𝐊𝐄𝐓 𖦹𖦹𖦹
-⋆｡ﾟ☁︎｡⋆｡ ﾟ☾ \`#${i + 1}\` ﾟ｡⋆ ｡ﾟ☁︎｡⋆｡ ﾟ☾ ﾟ｡⋆
-
-> ✦ 🍂 \`ᴜsᴜᴀʀɪᴏ:\` ${bot.user?.name || 'Sub-Bot 🍂'}
-> ✦ 🌷 \`ʟɪɴᴋ:\` https://wa.me/${(bot.user?.jid || '').replace(/[^0-9]/g, '')}
-> ✦ 🌱 \`ᴇɴ ʟɪɴᴇᴀ:\` ${bot.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - bot.uptime) : 'Desconocido'}`;
+    return `╭━═┅═━──────────◈
+│ャ □ ➛ 𝚂𝙾𝙲𝙺𝙴𝚃 - ${i + 1} ﾟ｡◌
+│┌──
+││\`ᴜsᴜᴀʀɪᴏ:\` ${bot.user?.name || '𝚂𝚄𝙱 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸'}
+││\`ʟɪɴᴋ:\` wa.me/${(bot.user?.jid || '').replace(/[^0-9]/g, '')}
+││\`ᴇʟ ʟɪɴᴇᴀ:\` ${bot.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - bot.uptime) : 'Desconocido'}
+│└─────•◌•₊˚ 
+╰━═┅═━──────────◈`;
   }).join('\n\n');
 
-  const textoSubbots = `╔═══❖•ೋ° ⚡ °ೋ•❖═══╗
-       💖 𝐒𝐎𝐂𝐊𝐄𝐓𝐒 𝐀𝐂𝐓𝐈𝐕𝐎𝐒 🌀
-╚═══❖•ೋ° ⚡ °ೋ•❖═══╝
+  const textoSubbots = `
+ ﹍﹍⏜͡︵(╲  ִ ⚽ ִ  ╱)︵͡⏜﹍﹍
+┃⋆⸼˟꘏⪩ ᴘᴀɴᴇʟ ᴅᴇ sᴜʙ ʙᴏᴛs ⪨꙳ʾ˒˓ʿʾ˒˓ʿ┃
+┗━━━━━━━━━━━━━━━━━━━━━┛
+࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚
 
-⏳ *Tiempo Activo:*  
-   ➺ _${rinuptime}_  
-
-💎 *Sesiones Libres:*  
-   ➺ _${disponibles}_  
-
-🤖 *Sub-Bots Conectados:*  
-   ➺ _${total}_  
-
-
-       ✦━─┈ ⊹ ┈─━✦  
-🌱 *Lista de SubBots Activos*  
-       ✦━─┈ ⊹ ┈─━✦
+╔╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╗
+╏✎ °ʀᴜɴᴛɪᴍᴇ: _${uptime}_
+╏✎ °sᴇssɪᴏɴs ʟɪʙʀᴇs: _${disponibles}_
+╏✎ °sᴏᴄᴋᴇᴛs ᴄᴏɴᴇᴄᴛᴀᴅᴏs: _${total}_
+╚╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╝
 
 
-${lista || '🌙 No hay Sub-Bots conectados por ahora verifique mas tarde.'}`;
+    🌱 \`\`\`LIST DE SUBS CONECTADOS\`\`\`🔋
+
+${lista || '🌙 No hay Sub-Bots conectados por ahora verifique mas tarde.'}
+
+> ${club}`;
 
 await conn.sendMessage(m.chat, {
   text: textoSubbots,

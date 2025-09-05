@@ -97,10 +97,23 @@ const handler = async (m, { conn, text, command }) => {
       const fileName = `${title.replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/ +/g, '_')}.${format}`;
       const caption = `⚡ Descarga Completa: *${title}*`;
 
+/*
+    let thumbBuffer = null
+    if (image) {
+      try {
+        const resp = await fetch(image)
+        thumbBuffer = Buffer.from(await resp.arrayBuffer())
+      } catch (err) {
+        console.log('No se pudo obtener la miniatura:', err.message)
+      }
+    }*/
+
+
       await conn.sendMessage(m.chat, {
         document: { url: downloadUrl },
         fileName,
         mimetype: 'audio/mpeg',
+       // jpegThumbnail: thumbBuffer
         caption,
         contextInfo: {
           externalAdReply: {

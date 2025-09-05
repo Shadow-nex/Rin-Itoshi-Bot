@@ -70,7 +70,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       audio: audioBuffer,
       fileName: `${meta.title}.mp3`,
       mimetype: "audio/mpeg",
-      ptt: false, // cambie a true si kiere xd
+      ptt: false,  // true para nota de voz
       contextInfo: {
         externalAdReply: {
           title: video.title,
@@ -86,7 +86,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
     await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } })
   } catch (e) {
-    console.error('❌ Error en ytplaymp3:', e)
+    console.error('[❌ Error en ytmp3]', e)
     await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } })
     await conn.reply(m.chat, `❌ *Error:* ${e.message}`, m)
   }

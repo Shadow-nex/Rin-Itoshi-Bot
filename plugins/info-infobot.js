@@ -33,15 +33,7 @@ ${'```' + Object.keys(process.memoryUsage())
    .map((key) => `🌸 ✦ ${key}: ${format(process.memoryUsage()[key])}`)
    .join('\n') + '```'}`
 
-    await conn.sendFile(
-        m.chat,
-        banner,
-        'info.jpg',
-        info,
-        fkontak,
-        false,
-        { contextInfo: { mentionedJid: [owner[0][0] + '@s.whatsapp.net'] } }
-    )
+   await conn.sendFile(m.chat, banner, 'info.jpg', info, fkontak,  false, { contextInfo: { mentionedJid: [owner[0][0] + '@s.whatsapp.net'] } })
 }
 
 handler.help = ['botinfo']

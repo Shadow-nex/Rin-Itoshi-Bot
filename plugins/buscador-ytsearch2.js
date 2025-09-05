@@ -11,13 +11,7 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
 
   const randomVideo = videos[Math.floor(Math.random() * videos.length)];
 
-  let listado = videos.map((v, i) => `
-╭─⊰ *${i + 1}.* ${v.title}
-│ ⌬ \`Autor:\` ${v.author.name}
-│ ⌬ \`Duración:\` ${v.timestamp}
-│ ⌬ \`Vistas:\` ${v.views.toLocaleString()}
-│ ⌬ \`Link:\` ${v.url}
-╰───────────────`).join("\n\n");
+  let listado = videos.map((v, i) => `╭─⊰ *${i + 1}.* ${v.title}\n│⌬ *Autor:* ${v.author.name}\n│⌬ *Duración:* ${v.timestamp}\n│⌬ *Vistas:* ${v.views.toLocaleString()}\n│⌬ *Link:* ${v.url}\n╰───────────────`).join("\n\n");
 
   const media = await prepareWAMessageMedia(
     { image: { url: randomVideo.thumbnail } },
@@ -26,25 +20,22 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
 
   const interactiveMessage = {
     body: {
-      text: `┏━❰ 乂 *YOUTUBE - SEARCH* 乂 ❱━┓
+      text: `🎬 *RESULTADOS ENCONTRADOS:* \`${videos.length}\`
 
-🎬 *Video destacado:*
-
-≡ 📌 *Título:* ${randomVideo.title}
-≡ 🌵 *Autor:* ${randomVideo.author.name}
-≡ 🍁 *Vistas:* ${randomVideo.views.toLocaleString()}
-≡ 🌿 *Duración:* ${randomVideo.timestamp}
-≡ 🔗 *Enlace:* ${randomVideo.url}
-
+≡ 📌 *\`Título:\`* ${randomVideo.title}
+≡ 🌵 *\`Autor:\`* ${randomVideo.author.name}
+≡ 🍁 *\`Vistas:\`* ${randomVideo.views.toLocaleString()}
+≡ 🌿 *\`Duración:\`* ${randomVideo.timestamp}
+≡ 🔗 *\`Enlace:\`* ${randomVideo.url}
 ┗━━━━━━━━━━━━━━━━━━━━┛
 
 📜 *Lista completa de resultados:*
 
 ${listado}`
     },
-    footer: { text: 'rin itoshi' },
+    footer: { text: dev },
     header: {
-      title: '乂 YOUTUBE - SEARCH',
+      title: '┏━❰ 乂 *YOUTUBE - SEARCH* 乂 ❱━┓',
       hasMediaAttachment: true,
       imageMessage: media.imageMessage
     },
@@ -60,13 +51,13 @@ ${listado}`
                 {
                   header: video.title,
                   title: video.author.name,
-                  description: `⬇️ Descargar audio | Duración: ${video.timestamp}`,
+                  description: `🎧 Descargar audio | Duración: ${video.timestamp}`,
                   id: `.ytmp3 ${video.url}`
                 },
                 {
                   header: video.title,
                   title: video.author.name,
-                  description: `⬇️ Descargar video | Duración: ${video.timestamp}`,
+                  description: `📹 Descargar video | Duración: ${video.timestamp}`,
                   id: `.ytmp4 ${video.url}`
                 }
               ]

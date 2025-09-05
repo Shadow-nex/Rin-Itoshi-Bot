@@ -1,4 +1,3 @@
-
 const handler = async (m, { text, conn }) => {
     try {
         if (!text) return m.reply("《✦》 ¡Por favor, introduce el enlace del canal de WhatsApp!");
@@ -13,19 +12,22 @@ const handler = async (m, { text, conn }) => {
 
         if (!res || !res.id) return m.reply("❌ Falló la obtención de datos del canal. ¡Verifica el enlace nuevamente!");
 
-        let jose = `❀ *Detalles del Canal de WhatsApp* ❀\n\n`
-            + `ᰔᩚ *ID:* ${res.id}\n`
-            + `ᰔᩚ *Nombre:* ${res.name}\n`
-            + `ᰔᩚ *Total de Seguidores:* ${res.subscribers.toLocaleString()}\n`
-            + `ᰔᩚ *Estado:* ${res.state}\n`
+        let SHADOW = `🌱 *Detalles del Canal de WhatsApp* 📡\n\n`
+            + `🍂 *ID:* ${res.id}\n`
+            + `⚡ *Nombre:* ${res.name}\n`
+            + `⚽ *Total de Seguidores:* ${res.subscribers.toLocaleString()}\n`
+            + `☘️ *Estado:* ${res.state}\n`
             + `✅ *Verificado:* ${res.verification === "VERIFIED" ? "✔ Verificado" : "❌ No Verificado"}\n`;
 
-        return m.reply(jose);
+        return m.reply(SHADOW);
     } catch (error) {
         console.error(error);
         return m.reply("⚠️ Ocurrió un error al obtener los datos del canal. Inténtalo de nuevo más tarde.");
     }
 };
 
-handler.command = ["cekidch", "idch"];
+handler.command = ['cekidch', 'idch'];
+handler.help = ['cekidch'];
+handler.tags = ['stalk'];
+
 export default handler;
