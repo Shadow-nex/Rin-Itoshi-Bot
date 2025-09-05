@@ -95,7 +95,19 @@ termux-setup-storage
 ```
 
 ```bash
+pkg update && pkg upgrade -y
+```
+
+```bash
+pkg install git nodejs ffmpeg imagemagick yarn -y
+```
+
+```bash
 git clone https://github.com/Yuji-XDev/Rin-Itoshi-Bot && cd Rin-Itoshi-Bot
+```
+
+```bash
+yarn install
 ```
 
 ```bash
