@@ -21,7 +21,7 @@ const handler = async (m, { conn, usedPrefix }) => {
     const user = global.db.data.users[m.sender] || {};
     const taguser = '@' + (m.sender.pushname ? m.sender.pushname : m.sender.split('@s.whatsapp.net')[0])
 
-    const msmmenu = `⿻̟֟፝݊͜⃝⁩⚽꫶⃝꙰⿻͜𝐑𝐈𝐍͜ 𝐈͜𝐓𝐎𝐒༙͜ᝲ𝐇𝐈🍧⃟─̶̲̲̲̲̲̲̲̲̲֟፝͠
+    const menutxt = `⿻̟֟፝݊͜⃝⁩⚽꫶⃝꙰⿻͜𝐑𝐈𝐍͜ 𝐈͜𝐓𝐎𝐒༙͜ᝲ𝐇𝐈🍧⃟─̶̲̲̲̲̲̲̲̲̲֟፝͠
   🍨⃟≛⃝🫐๋⭑sʜᴀᴅᴏᴡ.xʏᴢ ⊹༙ᝲ🧪𝆺𝅥𝆹𝅥𝆬! 	✰ :
 
 ┌───────────
@@ -59,8 +59,7 @@ const handler = async (m, { conn, usedPrefix }) => {
 │☆┊≡ 🕓 𝙷𝙾𝚁𝙰: *${hora}*
 │☆┊≡
 │☆╰┄┄┄┄┄◦
-└────────────⪛⪜🍭⃝⃗𐇵҉🅽𝝾𝞃𝝰𐇵҉🌸 
-> \`\`\`•                                      •\`\`\``;
+└────────────`;
 
     const imgUrl = 'https://tinyurl.com/29d2bflx'; // cambie x su imagen xd
     const imagenBuffer = await (await fetch(imgUrl)).buffer();
@@ -168,7 +167,7 @@ const handler = async (m, { conn, usedPrefix }) => {
       document: docBuffer,
       fileName: `ꭈׁׅꪱׁׅꪀׁׅ ꪱׁׅtׁׅᨵׁׅ꯱ׁׅ֒hׁׅ֮ꪱׁׅ ϐׁׅ֒ᨵׁׅtׁׅ  ꩇׁׅ݊ժׁׅ݊`,
       mimetype: 'image/PNG',
-      caption: msmmenu,
+      caption: menutxt,
       jpegThumbnail: thumb2,
       footer: '© ʀɪɴ ɪᴛᴏsʜɪ ᴜʟᴛʀᴀ ʙᴏᴛ | ° ʙʏ sʜᴀᴅᴏᴡ.xʏᴢ',
       buttons: [
