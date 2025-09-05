@@ -1,7 +1,7 @@
 /*
 • @David-Chian
 - https://github.com/David-Chian
-*/
+
 
 import { googleImage } from '@bochilteam/scraper';
 import baileys from '@whiskeysockets/baileys';
@@ -78,3 +78,4 @@ handler.command = ['imagen', 'image', 'img'];
 handler.register = true;
 
 export default handler;
+*/
