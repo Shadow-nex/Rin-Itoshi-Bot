@@ -12,7 +12,7 @@ import moment from 'moment-timezone'
 global.botNumber = ''
 
 //✎﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏
-
+//https://dash.boxmineworld.com/register?ref=1cJJygsj
 global.owner = [
 // <-- Número @s.whatsapp.net -->
   ['51919199620', '🜲 Propietario 🜲', true],
