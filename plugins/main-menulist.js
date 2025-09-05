@@ -189,9 +189,9 @@ const handler = async (m, { conn, usedPrefix }) => {
         mentionedJid: [m.sender],
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-          newsletterJid: channelRD.id,
+          newsletterJid: '120363401008003732@newsletter',
           serverMessageId: 100,
-          newsletterName: channelRD.name
+          newsletterName: '⚽𐚁 ֹ ִ Rin Itoshi - Official ୧ ֹ ִ⚽ᩚ꤬ᰍ'
         },
         isForwarded: true,
         forwardingScore: 999,
