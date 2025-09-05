@@ -11,7 +11,15 @@ Contenido adaptado por:
 - elrebelde21 >> https://github.com/elrebelde21
 */
 
-const { useMultiFileAuthState, DisconnectReason, makeCacheableSignalKeyStore, fetchLatestBaileysVersion, proto, Browsers } = (await import("@whiskeysockets/baileys"));
+const { 
+  useMultiFileAuthState, 
+  DisconnectReason, 
+  makeCacheableSignalKeyStore, 
+  fetchLatestBaileysVersion, 
+  proto, 
+  Browsers,
+  generateWAMessageFromContent
+} = (await import("@whiskeysockets/baileys"));
 import qrcode from "qrcode"
 import NodeCache from "node-cache"
 import fs from "fs"
@@ -180,29 +188,31 @@ secret = secret.match(/.{1,4}/g)?.join("-")
     }, { quoted: fkontak });
 
 //codeBot = await conn.reply(m.chat, `*${secret}*`, m);
-    const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
-      viewOnceMessage: {
-        message: {
-          interactiveMessage: {
-            body: { text: '✨ *CÓDIGO DE VINCULACIÓN* 🌱' },
-            footer: { text: `𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 | \`𝚂𝙷𝙰𝙳𝙾𝚆.𝚇𝚈𝚉\`` },
-            header: { hasMediaAttachment: false },
-            nativeFlowMessage: {
-              buttons: [
-                {
-                  name: "cta_copy",
-                  buttonParamsJson: JSON.stringify({
-                    display_text: "📋 Copiar el código",
-                    copy_code: secret
-                  })
-                }
-              ]
+const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
+  viewOnceMessage: {
+    message: {
+      interactiveMessage: {
+        body: { text: '✨ *CÓDIGO DE VINCULACIÓN* 🌱' },
+        footer: { text: `𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 | \`𝚂𝙷𝙰𝙳𝙾𝚆.𝚇𝚈𝚉\`` },
+        header: { hasMediaAttachment: false },
+        nativeFlowMessage: {
+          buttons: [
+            {
+              name: "cta_copy",
+              buttonParamsJson: JSON.stringify({
+                display_text: "📋 Copiar el código",
+                id: "copy_code",
+                copy_code: `*${secret}*`
+              })
             }
-          }
+          ]
         }
       }
-    }), { quoted: m })
-codeBot = await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+    }
+  }
+}), { quoted: m })
+
+await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
 
 console.log(secret)
 }
