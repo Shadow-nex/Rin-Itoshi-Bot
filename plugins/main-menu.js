@@ -1,6 +1,6 @@
 import axios from 'axios'
 import moment from 'moment-timezone'
-//import sharp from 'sharp'
+import fs from 'fs'
 
 let handler = async (m, { conn, args }) => {
   try {
@@ -16,60 +16,40 @@ let handler = async (m, { conn, args }) => {
     let uptime = clockString(_uptime)
     let totalreg = Object.keys(global.db.data.users).length
     let totalCommands = Object.keys(global.plugins).length
-    
-/*    
-    const imgenUrl = logo
-    const imgBuffer = await (await fetch(imgenUrl)).buffer()
 
-    const thumb = await sharp(imgBuffer)
-      .resize(400, 400)
-      .jpeg({ quality: 70 })
-      .toBuffer()
-
-    const docBuffer = await sharp(imgBuffer)
-      .webp({ quality: 90 })
-      .toBuffer()
-*/
     let videos = [
         'https://files.catbox.moe/vwlhum.mp4',
         'https://files.catbox.moe/tc1zxx.mp4',
         'https://files.catbox.moe/o3ggg8.mp4',
         'https://files.catbox.moe/uzi4do.mp4'
     ]
-  
     let video = videos[Math.floor(Math.random() * videos.length)]
 
-    const imgRandom = [
-      "https://iili.io/FKVDVAN.jpg",
-      "https://iili.io/FKVbUrJ.jpg"
-    ].getRandom?.() || "https://iili.io/FKVDVAN.jpg"
-
-    const text = [
-   "⚡ *𝐈𝐍𝐕𝐎𝐂𝐀𝐂𝐈𝐎́𝐍 𝐄𝐍 𝐌𝐀𝐒𝐀* ⚡\n📣 ¡Atención, almas convocadas al círculo!",
-   "🔥 *𝐀𝐍𝐔𝐍𝐂𝐈𝐎 𝐂𝐎𝐋𝐄𝐂𝐓𝐈𝐕𝐎* 🔥\n⏳ El tiempo ha llegado, nadie puede faltar.",
-   "🌙 *𝐋𝐋𝐀𝐌𝐀𝐃𝐎 𝐍𝐎𝐂𝐓𝐔𝐑𝐍𝐎* 🌙\n🔔 El eco resuena, respondan a la invocación.",
-   "🌌 *𝐌𝐄𝐍𝐒𝐀𝐉𝐄 𝐆𝐋𝐎𝐁𝐀𝐋* 🌌\n✨ Todos han sido marcados en este instante.",
-   "⚜️ *𝐂𝐎𝐍𝐕𝐎𝐂𝐀𝐓𝐎𝐑𝐈𝐀 𝐎𝐅𝐈𝐂𝐈𝐀𝐋* ⚜️\n🔮 Ninguno escapará al llamado.",
-   "💀 *𝐈𝐍𝐕𝐎𝐂𝐀𝐂𝐈𝐎́𝐍 𝐒𝐈𝐍 𝐄𝐒𝐂𝐀𝐏𝐀𝐓𝐎𝐑𝐈𝐀* 💀\n📢 Los espíritus han sido mencionados.",
-   "🌟 *𝐀𝐋𝐄𝐑𝐓𝐀 𝐌𝐔𝐍𝐃𝐈𝐀𝐋* 🌟\n🚨 Todos han sido etiquetados sin excepción.",
-   "🕊️ *𝐌𝐄𝐍𝐒𝐀𝐉𝐄 𝐃𝐄 𝐋𝐀 𝐎𝐑𝐃𝐄𝐍* 🕊️\n⚔️ El llamado está en curso, atiendan.",
-   "🎭 *𝐓𝐄𝐀𝐓𝐑𝐎 𝐃𝐄 𝐋𝐀𝐒 𝐀𝐍𝐌𝐀𝐒* 🎭\n📖 Se abre el telón, todos los nombres invocados.",
-   "⚔️ *𝐂𝐑𝐈𝐓𝐈𝐂𝐀 𝐋𝐋𝐀𝐌𝐀𝐃𝐀 𝐂𝐎𝐋𝐄𝐂𝐓𝐈𝐕𝐀* ⚔️\n🩸 La sangre del pacto exige su respuesta."
-    ].getRandom?.() || "✦ 𝐌𝐄𝐍𝐔 ✦"
-
-    const thumbnailBuffer = Buffer.from((await axios.get(imgRandom, { responseType: 'arraybuffer' })).data)
-
-    const shadow = {
-      key: { participants: "0@s.whatsapp.net", fromMe: false, id: "Halo" },
-      message: {
-        locationMessage: {
-          name: text,
-          jpegThumbnail: thumbnailBuffer
-        }
+    const shadow_xyz = {
+      key: {
+        fromMe: false,
+        participant: "0@s.whatsapp.net",
+        remoteJid: "status@broadcast"
       },
-      participant: "0@s.whatsapp.net"
+      message: {
+        productMessage: {
+          product: {
+            productImage: {
+              mimetype: "image/jpeg",
+              jpegThumbnail: fs.readFileSync("https://h.uguu.se/pBkksjpQ.jpg")
+            },
+            title: "⚡ PRUEBA | RIN ITOSHI ⚡",
+            description: "Funciones y comandos disponibles",
+            currencyCode: "USD",
+            priceAmount1000: 5000,
+            retailerId: "menu-funciones",
+            productImageCount: 1
+          },
+          businessOwnerJid: "13135550202@s.whatsapp.net"
+        }
+      }
     }
-
+ 
     await conn.sendMessage(m.chat, {
       text: '╭─〔 🍂 𝐂𝐀𝐑𝐆𝐀𝐍𝐃𝐎... 🌷 〕─⬣\n┃ 🌱 *𝒄𝒐𝒏𝒆𝒄𝒕𝒂𝒏𝒅𝒐 𝒂 𝒍𝒂 𝒃𝒂𝒔𝒆 𝒅𝒆 𝒅𝒂𝒕𝒐𝒔...*\n┃ 📡 *sɪɴᴄʀᴏɴɪᴢᴀɴᴅᴏ ᴍᴇɴᴜ...*\n╰─ ─ ─ ─ ─ ─ ─ ─ ─ ╴ ╴ ╴ ╴',
       mentions: [m.sender],
@@ -720,13 +700,6 @@ ${readMore}
       gifPlayback: true,
       caption: menuText,
       footer: club,
-      /*
-      document: docBuffer,
-      fileName: `🌱 Rin`,
-      mimetype: 'image/•PNG',
-      caption: menuText,
-      footer: club,
-      jpegThumbnail: thumb,*/
       buttons: [
         { buttonId: `.code`, buttonText: { displayText: "🌱 s ᴇ ʀ ʙ ᴏ ᴛ" }, type: 1 },
         { buttonId: `.owner`, buttonText: { displayText: "🍂 ᴏ ᴡ ɴ ᴇ ʀ" }, type: 1 }
@@ -750,7 +723,7 @@ ${readMore}
           renderLargerThumbnail: true
         }
       }
-    }, { quoted: shadow })
+    }, { quoted: shadow_xyz })
 
   } catch (e) {
     console.error(e)

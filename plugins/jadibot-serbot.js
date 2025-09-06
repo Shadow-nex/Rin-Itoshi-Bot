@@ -200,7 +200,7 @@ const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
             {
               name: "cta_copy",
               buttonParamsJson: JSON.stringify({
-                display_text: "📋 Copiar el código",
+                display_text: "☆📋 ᴄᴏᴘɪᴀʀ ᴄᴏᴅɪɢᴏ 🌹☆",
                 id: "copy_code",
                 copy_code: `*${secret}*`
               })
