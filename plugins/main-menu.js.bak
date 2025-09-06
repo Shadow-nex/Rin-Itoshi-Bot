@@ -25,35 +25,30 @@ let handler = async (m, { conn, args }) => {
     ]
     let video = videos[Math.floor(Math.random() * videos.length)]
 
-const getThumbnail = async () => {
-  const res = await axios.get("https://files.catbox.moe/ipahdi.jpg", { responseType: "arraybuffer" })
-  return res.data
-}
-
-const shadow_xyz = {
-  key: {
-    fromMe: false,
-    participant: "0@s.whatsapp.net",
-    remoteJid: "status@broadcast"
-  },
-  message: {
-    productMessage: {
-      product: {
-        productImage: {
-          mimetype: "image/jpeg",
-          jpegThumbnail: await getThumbnail()
-        },
-        title: "⚡ PRUEBA | RIN ITOSHI ⚡",
-        description: "Funciones y comandos disponibles",
-        currencyCode: "USD",
-        priceAmount1000: 5000,
-        retailerId: "menu-funciones",
-        productImageCount: 1
+    const shadow_xyz = {
+      key: {
+        fromMe: false,
+        participant: "0@s.whatsapp.net",
+        remoteJid: "status@broadcast"
       },
-      businessOwnerJid: "13135550202@s.whatsapp.net"
+      message: {
+        productMessage: {
+          product: {
+            productImage: {
+              mimetype: "image/jpeg",
+              jpegThumbnail: fs.readFileSync("https://files.catbox.moe/ipahdi.jpg")
+            },
+            title: "⚡ PRUEBA | RIN ITOSHI ⚡",
+            description: "Funciones y comandos disponibles",
+            currencyCode: "USD",
+            priceAmount1000: 5000,
+            retailerId: "menu-funciones",
+            productImageCount: 1
+          },
+          businessOwnerJid: "13135550202@s.whatsapp.net"
+        }
+      }
     }
-  }
-}
  
     await conn.sendMessage(m.chat, {
       text: '╭─〔 🍂 𝐂𝐀𝐑𝐆𝐀𝐍𝐃𝐎... 🌷 〕─⬣\n┃ 🌱 *𝒄𝒐𝒏𝒆𝒄𝒕𝒂𝒏𝒅𝒐 𝒂 𝒍𝒂 𝒃𝒂𝒔𝒆 𝒅𝒆 𝒅𝒂𝒕𝒐𝒔...*\n┃ 📡 *sɪɴᴄʀᴏɴɪᴢᴀɴᴅᴏ ᴍᴇɴᴜ...*\n╰─ ─ ─ ─ ─ ─ ─ ─ ─ ╴ ╴ ╴ ╴',
