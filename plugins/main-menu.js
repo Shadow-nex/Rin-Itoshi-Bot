@@ -722,7 +722,7 @@ ${readMore}
         externalAdReply: {
           title: '      ⿻̟֟፝݊͜⃝⁩⚽꫶⃝꙰⿻͜𝐑𝐈𝐍͜ 𝐈͜𝐓𝐎𝐒༙͜ᝲ𝐇𝐈🍧⃟─̶̲̲̲̲̲̲̲̲̲֟፝͠',
           body: '      🍨⃟≛⃝🫐๋⭑sʜᴀᴅᴏᴡ.xʏᴢ ⊹༙ᝲ🧪𝆺𝅥𝆹𝅥𝆬! 	✰ :',
-          thumbnailUrl: 'https://files.catbox.moe/us0m4f.jpg',
+          thumbnailUrl: 'https://d.uguu.se/GFyqTdLR.jpg',
           sourceUrl: redes,
           mediaType: 1,
           renderLargerThumbnail: true
