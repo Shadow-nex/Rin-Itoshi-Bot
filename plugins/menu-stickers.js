@@ -1,38 +1,41 @@
 let handler = async (m, { conn }) => {
-  let imgurl = 'https://files.catbox.moe/nmseef.png';
-  const Menu = `⊹🎄 𝑪𝒐𝒎𝒂𝒏𝒅𝒐𝒔 𝒑𝒂𝒓𝒂 𝒍𝒂 𝒄𝒓𝒆𝒂𝒄𝒊𝒐𝒏 𝒚 𝒑𝒆𝒓𝒔𝒐𝒏𝒂𝒍𝒊𝒛𝒂𝒄𝒊𝒐𝒏 𝒅𝒆 𝒔𝒕𝒊𝒄𝒌𝒆𝒓𝒔 🌴⊹
-
-യ ׄ🍄˚ #ʙʀᴀᴛ *<ᴛᴇxᴛᴏ>*
-> ✦ ᴄᴏɴᴠɪᴇʀᴛᴇ ᴜɴ ᴛᴇxᴛᴏ ᴀ sᴛɪᴄᴋᴇʀ.
-
-യ ׄ🏞️˚ #ʙʀᴀᴛᴠɪᴅ *<ᴛᴇxᴛᴏ>*
-> ✦ ɴᴏsᴇ ᴘᴀ ǫ sɪʀᴠᴇ ᴇsᴛᴏ xᴅ.
-
-യ ׄ👾˚ #ᴇᴍᴏᴊɪᴍɪx *<ᴇᴍᴏᴊɪ+ᴇᴍᴏᴊɪ>*
-> ✦ ᴄʀᴇᴀ ᴜɴ sᴏʟᴏ ᴇᴍᴏᴊɪ ᴄᴏɴ ᴅᴏs.
-
-യ ׄ☄️˚ #ᴘғᴘ *@ᴜsᴇʀ*
-> ✦ ᴏʙᴛᴇɴ ʟᴀ ɪᴍᴀɢᴇɴ ᴅᴇ ᴜɴ ᴜsᴜᴀʀɪᴏ.
-
-യ ׄ⛩️˚ #ǫᴄ
-> ✦ ᴄʀᴇᴀ ᴜɴ sᴛɪᴄᴋᴇʀ ᴘᴇʀsᴏɴᴀʟɪᴢᴀᴅᴏ.
-
-യ ׄ🌥️˚ #sᴇᴛᴍᴇᴛᴀ
-> ✦ ᴘᴇʀsᴏɴᴀʟɪᴢᴀ ʟᴏs ɴᴏᴍʙʀᴇs ᴅᴇ ʟᴏs sᴛɪᴄᴋᴇʀs ǫᴜᴇ ᴀɢᴀ ᴇʟ ʙᴏᴛ.
- 
-യ ׄ🐛˚ #s ---- #sᴛɪᴄᴋᴇʀ
-> ✦ ᴄᴏɴᴠɪᴇʀᴛᴇ ᴜɴᴀ ɪᴍᴀɢᴇɴ ᴀ sᴛɪᴄᴋᴇʀ.
-
-യ ׄ💥˚ #ᴛᴏɪᴍɢ *(ʀᴇᴘʟʏ)*
-> ✦ ᴄᴏɴᴠɪᴇʀᴛᴇ ᴜɴ sᴛɪᴄᴋᴇʀ ᴀ ɪᴍᴀɢᴇɴ.
-
-യ ׄ👻˚ #ᴡᴍ
-> ✦ ᴘᴇʀsᴏɴᴀʟɪᴢᴀ ʟᴏᴀ ɴᴏᴍʙʀᴇs ᴅᴇ ʟᴏs sᴛɪᴄᴋᴇʀs ǫᴜᴇ ʀᴇsᴘᴏɴᴅᴀs.
-
-യ ׄ🌚˚ #ᴀᴛᴛᴘ
-> ✦ ᴄʀᴇᴀ ᴜɴ sᴛɪᴄᴋᴇʀ.
-
-> ${dev}
+  let imgurl = banner;
+  const Menu = `
+╭━━━〔 🌴 *STICKERS MENU* 🌴 〕━━⬣
+┃ 𖦹 ⊹ 🎄 𝑪𝒐𝒎𝒂𝒏𝒅𝒐𝒔 𝒑𝒂𝒓𝒂 𝒔𝒕𝒊𝒄𝒌𝒆𝒓𝒔
+┃
+┃ ✦ 🍄 #ʙʀᴀᴛ <texto>
+┃    ▸ Convierte texto en sticker.
+┃
+┃ ✦ 🏞️ #ʙʀᴀᴛᴠɪᴅ <texto>
+┃    ▸ Sticker estilo brat en video.
+┃
+┃ ✦ 👾 #ᴇᴍᴏᴊɪᴍɪx <emoji+emoji>
+┃    ▸ Fusión de emojis en uno.
+┃
+┃ ✦ ☄️ #ᴘғᴘ @user
+┃    ▸ Obtén foto de perfil de un usuario.
+┃
+┃ ✦ ⛩️ #ǫᴄ
+┃    ▸ Crea un sticker con texto decorado.
+┃
+┃ ✦ 🌥️ #sᴇᴛᴍᴇᴛᴀ
+┃    ▸ Personaliza los nombres de stickers.
+┃
+┃ ✦ 🐛 #s / #sᴛɪᴄᴋᴇʀ
+┃    ▸ Convierte imagen en sticker.
+┃
+┃ ✦ 💥 #ᴛᴏɪᴍɢ (responde)
+┃    ▸ Sticker a imagen.
+┃
+┃ ✦ 👻 #ᴡᴍ
+┃    ▸ Marca personalizada en stickers.
+┃
+┃ ✦ 🌚 #ᴀᴛᴛᴘ <texto>
+┃    ▸ Crea sticker a partir de texto.
+┃
+╰━━━〔 ⚡ ${global.packname || 'Rin itoshi Bot'} ⚡〕━━⬣
+> 𓆩 ${global.dev || 'Shadow-xyzi'} 𓆪
 `.trim();
 
   await conn.sendMessage(m.chat, {
@@ -41,11 +44,11 @@ let handler = async (m, { conn }) => {
     contextInfo: {
       mentionedJid: [m.sender],
       externalAdReply: {
-        title: packname,
-        body: dev,
-        thumbnailUrl: icono,
+        title: global.packname,
+        body: global.dev,
+        thumbnailUrl: global.icono,
         mediaType: 1,
-        renderLargerThumbnail: false,
+        renderLargerThumbnail: true,
         showAdAttribution: true,
         mediaUrl: 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U',
         sourceUrl: 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
@@ -56,6 +59,6 @@ let handler = async (m, { conn }) => {
 
 handler.help = ['menusticker']
 handler.tags = ['menus']
-handler.command = ['menusticker', 'stickersmenu']
+handler.command = ['menusticker', 'stickersmenu', 'stickermenu']
 
 export default handler
