@@ -720,8 +720,8 @@ ${readMore}
           newsletterName: channelRD.name
         },
         externalAdReply: {
-          title: packname,
-          body: dev,
+          title: '      ⿻̟֟፝݊͜⃝⁩⚽꫶⃝꙰⿻͜𝐑𝐈𝐍͜ 𝐈͜𝐓𝐎𝐒༙͜ᝲ𝐇𝐈🍧⃟─̶̲̲̲̲̲̲̲̲̲֟፝͠',
+          body: '      🍨⃟≛⃝🫐๋⭑sʜᴀᴅᴏᴡ.xʏᴢ ⊹༙ᝲ🧪𝆺𝅥𝆹𝅥𝆬! 	✰ :',
           thumbnailUrl: 'https://files.catbox.moe/us0m4f.jpg',
           sourceUrl: redes,
           mediaType: 1,
