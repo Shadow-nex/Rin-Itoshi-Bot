@@ -59,22 +59,18 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
 
         if (videoURL) {
             await conn.sendFile(m.chat, videoURL, "tiktok.mp4", `
-ㅤ۟∩　ׅ　★ ໌　ׅ　🅣𝗂𝗄𝖳𝗈𝗄 🅓ownload　ׄᰙ
+ㅤ۟∩　ׅ　★ ໌　ׅ　T I K T O K - D O W N L O A D　ׄᰙ
 
-𖣣ֶㅤ֯⌗ 🫟  ׄ ⬭ *Título:* ${data.title || 'Sin descripción uwu'}
-𖣣ֶㅤ֯⌗ 🧑🏻  ׄ ⬭ *Autor:* ${data.author?.unique_id || 'Desconocido'}
-𖣣ֶㅤ֯⌗ ⏱️  ׄ ⬭ *Duración:* ${formatDuration(data.duration)}
-𖣣ֶㅤ֯⌗ 📦  ׄ ⬭ *Tamaño:* ${videoSize}
-𖣣ֶㅤ֯⌗ 🍁  ׄ ⬭ *Likes:* ${formatNumber(data.digg_count)}
-𖣣ֶㅤ֯⌗ 🎋  ׄ ⬭ *Comentarios:* ${formatNumber(data.comment_count)}
-𖣣ֶㅤ֯⌗ 🌱  ׄ ⬭ *Vistas:* ${formatNumber(data.play_count)}
-𖣣ֶㅤ֯⌗ 🌳  ׄ ⬭ *Compartidos:* ${formatNumber(data.share_count)}
-𖣣ֶㅤ֯⌗ 🎶  ׄ ⬭ *Audio:* ${data.music?.title || 'Desconocido'}
-𖣣ֶㅤ֯⌗ 📺  ׄ ⬭ *Calidad:* ${videoURL.includes('hd') ? 'HD 🌟' : 'Normalito 📺'}
-
-╭─╼⃝🌸 𝑶𝒏𝒊𝒄𝒉𝒂𝒂𝒏~ 💖  
-│ 🍡 *Tu video está servidito nya~!*  
-╰─❖ 🌈 𝐃𝐢𝐬𝐟𝐫𝐮𝐭𝐚𝐥𝐨, 𝐨𝐧𝐢𝐢-𝐜𝐡𝐚𝐧~ 💞`, fkontak);
+❐ 🫟  ׄ ⬭ *Título:* ${data.title || 'Sin descripción uwu'}
+❐ 🧑🏻  ׄ ⬭ *Autor:* ${data.author?.unique_id || 'Desconocido'}
+❐ ⏱️  ׄ ⬭ *Duración:* ${formatDuration(data.duration)}
+❐ 📦  ׄ ⬭ *Tamaño:* ${videoSize}
+❐ 🍁  ׄ ⬭ *Likes:* ${formatNumber(data.digg_count)}
+❐ 🎋  ׄ ⬭ *Comentarios:* ${formatNumber(data.comment_count)}
+❐ 🌱  ׄ ⬭ *Vistas:* ${formatNumber(data.play_count)}
+❐ 🌳  ׄ ⬭ *Compartidos:* ${formatNumber(data.share_count)}
+❐ 🎶  ׄ ⬭ *Audio:* ${data.music?.title || 'Desconocido'}
+❐ 📺  ׄ ⬭ *Calidad:* ${videoURL.includes('hd') ? 'HD 🌟' : 'Normalito 📺'}`, fkontak);
         } else {
             return conn.reply(m.chat, "❌ No pude descargarlo nya~ 😿", m);
         }
