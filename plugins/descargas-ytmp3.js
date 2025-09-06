@@ -123,7 +123,6 @@ async function formatSize(bytes) {
   return `${bytes.toFixed(2)} ${units[i]}`;
 }*/
 
-
 // - codigo hecho x dv.shadow 🌱
 // - Rin Itoshi ⚽
 import fetch from 'node-fetch'
@@ -135,7 +134,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     if (!text) {
       return conn.reply(
         m.chat,
-        `🧪 Ingresa el nombre de la canción o un enlace de YouTube.\n\n🍂 Ejemplo: ${usedPrefix + command} DJ Malam Pagi`,
+        `🧪 Ingresa el nombre de la canción o un enlace de YouTube.\n\n🍂 Ejemplo:\n> ${usedPrefix + command} DJ Malam Pagi`,
         m
       )
     }
@@ -146,28 +145,26 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       return conn.reply(m.chat, '❌ No se encontró ningún resultado en YouTube.', m)
     }
 
-    const apiUrl = `https://delirius-apiofc.vercel.app/download/ytmp3?url=${encodeURIComponent(video.url)}`
+    const apiUrl = `https://api.sylphy.xyz/download/ytmp3?url=${encodeURIComponent(video.url)}&apikey=Sylphiette's`
     const res = await fetch(apiUrl)
     const json = await res.json()
 
-    if (!json?.data?.download?.url) {
+    if (!json?.res?.url) {
       return conn.reply(m.chat, '❌ No se pudo obtener el audio, intenta con otro nombre o link.', m)
     }
 
-    const meta = json.data
-    const dl = json.data.download
-    
-    const size = dl.bytes_size ? dl.bytes_size : await getSize(dl.url)
-    const sizeStr = size ? await formatSize(size) : (dl.size || 'Desconocido')
+    const meta = json.res
+    const size = meta.filesize || (await getSize(meta.url))
+    const sizeStr = size ? size : 'Desconocido'
     
     await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } })
-    const textoInfo = `\`\`\`✿  𝗬𝗔𝗦𝗦𝗨 - 𝗬𝗧 𝗠𝗣𝟯 ⚽\n\n🍂 Título : ${meta.title}\n⏱️ Duración : ${video.timestamp || 'Desconocida'}\n🌱 Canal : ${meta.author || video.author?.name || 'Desconocido'}\n🚀 Vistas : ${meta.views?.toLocaleString('es-PE') || video.views?.toLocaleString('es-PE') || '0'}\n🌷 Tamaño : ${sizeStr}\n🧪 Publicado : ${video.ago || 'Desconocido'}\n💨 Link : ${video.url}
+    const textoInfo = `\`\`\`✿  𝗬𝗔𝗦𝗦𝗨 - 𝗬𝗧 𝗠𝗣𝟯 ⚽\n\n🍂 Título : ${meta.title}\n⏱️ Duración : ${video.timestamp || 'Desconocida'}\n🌱 Canal : ${video.author?.name || 'Desconocido'}\n🚀 Vistas : ${video.views?.toLocaleString('es-PE') || '0'}\n🌷 Tamaño : ${sizeStr}\n🧪 Publicado : ${video.ago || 'Desconocido'}\n💨 Link : ${video.url}
 \`\`\`\n*≡ Enviando, espera un momento . . .*`
 
     await conn.sendMessage(
       m.chat,
       {
-        image: { url: meta.image_max_resolution || meta.image || video.thumbnail },
+        image: { url: meta.thumbnail || video.thumbnail },
         caption: textoInfo,
         contextInfo: {
           mentionedJid: [m.sender],
@@ -175,7 +172,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
           forwardedNewsletterMessageInfo: {
             newsletterJid: '120363401008003732@newsletter',
             serverMessageId: 100,
-            newsletterName: '🗿 Toca aquí 🌱'
+            newsletterName: '[☆ 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 ~ 𝙲𝙷𝙰𝙽𝙽𝙴𝙻 𝙾𝙵𝙵𝙸𝙲𝙸𝙰𝙻 ☆]'
           },
           externalAdReply: {
             title: meta.title || video.title,
@@ -190,11 +187,11 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       { quoted: m }
     )
 
-    const audioBuffer = await (await fetch(dl.url)).buffer()
+    const audioBuffer = await (await fetch(meta.url)).buffer()
 
     await conn.sendMessage(m.chat, {
       audio: audioBuffer,
-      fileName: dl.filename || `${meta.title}.mp3`,
+      fileName: `${meta.title}.mp3`,
       mimetype: "audio/mpeg",
       ptt: false,
       contextInfo: {
@@ -203,7 +200,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
           body: `🍁 Duracion: ${video.timestamp}`,
           mediaUrl: video.url,
           sourceUrl: video.url,
-          thumbnailUrl: meta.image || video.thumbnail,
+          thumbnailUrl: meta.thumbnail || video.thumbnail,
           mediaType: 1,
           renderLargerThumbnail: false
         }
@@ -220,7 +217,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
 handler.command = ['ytmp3', 'song']
 handler.tags = ['descargas']
-handler.help = ['ytmp3 <texto o link>', 'song <texto>']
+handler.help = ['ytmp3 <link>']
 
 export default handler
 
@@ -228,23 +225,9 @@ async function getSize(url) {
   try {
     const response = await axios.head(url);
     const length = response.headers['content-length'];
-    return length ? parseInt(length, 10) : null;
+    return length ? `${(length / (1024*1024)).toFixed(2)} MB` : null;
   } catch (error) {
     console.error("Error al obtener el tamaño:", error.message);
     return null;
   }
-}
-
-async function formatSize(bytes) {
-  const units = ['B', 'KB', 'MB', 'GB'];
-  let i = 0;
-
-  if (!bytes || isNaN(bytes)) return 'Desconocido';
-
-  while (bytes >= 1024 && i < units.length - 1) {
-    bytes /= 1024;
-    i++;
-  }
-
-  return `${bytes.toFixed(2)} ${units[i]}`;
 }
