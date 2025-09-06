@@ -36,7 +36,7 @@ let handler = async (m, { conn, args }) => {
           product: {
             productImage: {
               mimetype: "image/jpeg",
-              jpegThumbnail: fs.readFileSync("https://h.uguu.se/pBkksjpQ.jpg")
+              jpegThumbnail: fs.readFileSync("https://files.catbox.moe/ipahdi.jpg")
             },
             title: "⚡ PRUEBA | RIN ITOSHI ⚡",
             description: "Funciones y comandos disponibles",
