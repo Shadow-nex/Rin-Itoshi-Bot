@@ -60,18 +60,18 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
 
   const textoSubbots = `
  ﹍﹍⏜͡︵(╲  ִ ⚽ ִ  ╱)︵͡⏜﹍﹍
-┃⋆⸼˟꘏⪩ ᴘᴀɴᴇʟ ᴅᴇ sᴜʙ ʙᴏᴛs ⪨꙳ʾ˒˓ʿʾ˒˓ʿ┃
+┃⋆⸼˟꘏⪩ \`ᴘᴀɴᴇʟ ᴅᴇ sᴜʙ ʙᴏᴛs\` ⪨꙳ʾ˒˓ʿʾ˒˓ʿ┃
 ┗━━━━━━━━━━━━━━━━━━━━━┛
 ࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚࿙࿚
 
 ╔╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╗
-╏✎ °ʀᴜɴᴛɪᴍᴇ: _${uptime}_
-╏✎ °sᴇssɪᴏɴs ʟɪʙʀᴇs: _${disponibles}_
-╏✎ °sᴏᴄᴋᴇᴛs ᴄᴏɴᴇᴄᴛᴀᴅᴏs: _${total}_
+╏✎ *°ʀᴜɴᴛɪᴍᴇ:* _${uptime}_
+╏✎ *°sᴇssɪᴏɴs ʟɪʙʀᴇs:* _${disponibles}_
+╏✎ *°sᴏᴄᴋᴇᴛs ᴄᴏɴᴇᴄᴛᴀᴅᴏs:* _${total}_
 ╚╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╝
 
 
-    🌱 \`\`\`LIST DE SUBS CONECTADOS\`\`\`🔋
+  🌱 \`\`\`LIST DE SUBS CONECTADOS\`\`\`🔋
 
 ${lista || '🌙 No hay Sub-Bots conectados por ahora verifique mas tarde.'}
 
