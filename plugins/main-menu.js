@@ -51,7 +51,7 @@ let handler = async (m, { conn, args }) => {
             retailerId: "menu-funciones",
             productImageCount: 1
           },
-          businessOwnerJid: "13135550202@s.whatsapp.net"
+          businessOwnerJid: "13135550002@s.whatsapp.net"
         }
       }
     }
@@ -83,7 +83,7 @@ let handler = async (m, { conn, args }) => {
 🌷｡･:*˚:✧｡  Rɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ ｡✧:˚*:･｡🌱
 ⊱ ────── {.⋅ ✯ ⋅.} ────── ⊰
 
-☁️ ${ucapan()} @${userId.split('@')[0]} ⚡
+☁️ ${ucapan()} @${userId.split('@')[0]} ⚡🍧
 
   \`[ 𝗜 𝗡 𝗙 𝗢 - 𝗨 𝗦 𝗘 𝗥 ]\`
   ﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊﹊
