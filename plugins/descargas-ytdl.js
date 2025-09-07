@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import yts from "yt-search";
 import axios from "axios";
 
-const sylphyKey = "Sylphiette's";
+const sylphyKey = "sylphy-8ff8";
 const sylphyAPI = "https://api.sylphy.xyz/download/ytmp4";
 const gokuAPI = "https://gokublack.xyz/download/ytmp4";
 
