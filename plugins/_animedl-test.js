@@ -84,9 +84,9 @@ function formatBytes(bytes) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
-handler.help = ['animedl <anime-id>, <episodio>'];
+handler.help = ['animeflvdl <anime-id>, <episodio>'];
 handler.tags = ['downloader'];
-handler.command = ['animedl', 'animeflvdl', 'anidl'];
-//handler.group = true;
+handler.command = ['animeflvdl', 'anidl'];
+handler.group = true;
 
 export default handler;

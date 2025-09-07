@@ -49,7 +49,7 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
   //const readMore = String.fromCharCode(8206).repeat(4001)
   const lista = subbotsUnicos.map((bot, i) => {
     return `╭━═┅═━──────────◈
-│ャ □ ➛ 𝚂𝙾𝙲𝙺𝙴𝚃 - ${i + 1} ﾟ｡◌
+│ャ □ ➛ 𝚂𝙾𝙲𝙺𝙴𝚃 ~ #${i + 1} ﾟ｡◌
 │┌──
 ││ • \`ᴜsᴜᴀʀɪᴏ:\` ${bot.user?.name || '𝚂𝚄𝙱 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸'}
 ││ • \`ʟɪɴᴋ:\` wa.me/${(bot.user?.jid || '').replace(/[^0-9]/g, '')}
