@@ -192,8 +192,8 @@ const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
   viewOnceMessage: {
     message: {
       interactiveMessage: {
-        body: { text: '✨ *CÓDIGO DE VINCULACIÓN* 🌱' },
-        footer: { text: `𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 | \`𝚂𝙷𝙰𝙳𝙾𝚆.𝚇𝚈𝚉\`` },
+        body: { text: `✨ *CÓDIGO DE VINCULACIÓN* 🌱\n[✿] Código: *\`${secret}\`*` },
+        footer: { text: `☆ 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 | \`𝚂𝙷𝙰𝙳𝙾𝚆.𝚇𝚈𝚉\` ☆` },
         header: { hasMediaAttachment: false },
         nativeFlowMessage: {
           buttons: [
