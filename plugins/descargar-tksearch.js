@@ -1,98 +1,84 @@
-import fetch from 'node-fetch';
+import fetch from 'node-fetch'
+import { generateWAMessageFromContent, proto } from '@whiskeysockets/baileys'
 
-let tiktokSessions = new Map();
+let tiktokSessions = new Map()
 
-const tiktokHandler = async (m, { conn, command, args, usedPrefix }) => {
-    let query = args.join(' ').trim();
+let handler = async (m, { conn, args, command, usedPrefix }) => {
+  let query = args.join(" ").trim()
 
-    let session = tiktokSessions.get(m.chat) || {
-        videos: [],
-        currentIndex: 0,
-        query: query || ''
-    };
-
-    if (command === 'tksearch') {
-        if (!query) {
-            return conn.reply(
-                m.chat,
-                `❌ \`\`\`Escribe lo que quieres buscar\`\`\`\n\`Ejemplo:\`\n> ${usedPrefix}tksearch Videos Graciosos `,
-                m
-            );
-        }
-
-        session = { videos: [], currentIndex: 0, query: query };
-        tiktokSessions.set(m.chat, session);
-
-        try {
-            const apiUrl = `https://delirius-apiofc.vercel.app/search/tiktoksearch?query=${encodeURIComponent(query)}`;
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-
-            if (!data.meta || !data.meta.length) {
-                return conn.reply(m.chat, '❌ No se encontraron videos', m);
-            }
-
-            session.videos = data.meta;
-            tiktokSessions.set(m.chat, session);
-
-            return await sendVideoWithButtons(session, m, conn, usedPrefix);
-        } catch (error) {
-            console.error(error);
-            return conn.reply(m.chat, '❌ Error al buscar videos', m);
-        }
+  if (command === 'tksearch') {
+    if (!query) {
+      return m.reply(`✍️ Escribe lo que quieres buscar\n\n🌀 Ejemplo:\n${usedPrefix}tksearch edits de rin itoshi`)
     }
 
-    if (command === 'tkseguir') {
-        if (!session.videos.length) {
-            return conn.reply(m.chat, '❌ Primero usa .tksearch para buscar videos', m);
-        }
-
-        if (session.currentIndex + 1 >= session.videos.length) {
-            return conn.reply(m.chat, '✅ No hay más videos, vuelve a buscar.', m);
-        }
-
-        session.currentIndex += 1;
-        tiktokSessions.set(m.chat, session);
-        return await sendVideoWithButtons(session, m, conn, usedPrefix);
-    }
-};
-
-async function sendVideoWithButtons(session, m, conn, usedPrefix) {
-    const video = session.videos[session.currentIndex];
-
-    const caption = session.currentIndex === 0 
-        ? `✅ Usa el botón para ver más videos.\n\n${wm}`
-        : `_*©${author}*_`;
+    tiktokSessions.set(m.chat, { videos: [], currentIndex: 0, query })
 
     try {
-        const buttons = [];
-        
-        if (session.currentIndex + 1 < session.videos.length) {
-            buttons.push({
-                buttonId: `${usedPrefix}tkseguir`,
-                buttonText: { displayText: "➡️ Siguiente video" },
-                type: 1
-            });
-        }
+      const res = await fetch(`https://delirius-apiofc.vercel.app/search/tiktoksearch?query=${encodeURIComponent(query)}`)
+      const json = await res.json()
 
-        await conn.sendMessage(
-            m.chat,
-            {
-                video: { url: video.hd },
-                caption: caption,
-                buttons: buttons,
-                viewOnce: true
-            },
-            { quoted: m }
-        );
-    } catch (error) {
-        console.error(error);
-        conn.reply(m.chat, '❌ Error al enviar el video', m);
+      if (!json.meta || !json.meta.length) return m.reply('❌ No se encontraron videos.')
+
+      let session = { videos: json.meta, currentIndex: 0, query }
+      tiktokSessions.set(m.chat, session)
+
+      return await sendTikTokVideo(session, m, conn, usedPrefix)
+    } catch (e) {
+      console.error(e)
+      return m.reply('❌ Error al buscar videos.')
     }
+  }
+
+  if (command === 'tkseguir') {
+    let session = tiktokSessions.get(m.chat)
+    if (!session || !session.videos.length) return m.reply('❌ Usa primero el comando .tksearch')
+
+    if (session.currentIndex + 1 >= session.videos.length) return m.reply('✅ No hay más resultados. Vuelve a buscar.')
+
+    session.currentIndex += 1
+    return await sendTikTokVideo(session, m, conn, usedPrefix)
+  }
 }
 
-tiktokHandler.help = ['tksearch <búsqueda>', 'tkseguir'];
-tiktokHandler.tags = ['descargas'];
-tiktokHandler.command = ['tksearch', 'tkseguir'];
+async function sendTikTokVideo(session, m, conn, usedPrefix) {
+  const video = session.videos[session.currentIndex]
 
-export default tiktokHandler;
+  // Aseguramos que haya un link válido (puede ser video.play, video.hd, etc.)
+  const url = video.play || video.hd || video.nowm || video.url
+  if (!url) return conn.reply(m.chat, '❌ No se pudo obtener el video.', m)
+
+  const text = `🎥 *Resultado ${session.currentIndex + 1}/${session.videos.length}*
+🔍 _${session.query}_
+
+✅ Pulsa el botón para ver más videos.`
+
+  const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
+    interactiveMessage: {
+      body: { text },
+      footer: { text: 'TIKTOK SEARCH 🎵' },
+      header: {
+        videoMessage: { url },
+        hasMediaAttachment: true
+      },
+      nativeFlowMessage: {
+        buttons: [
+          {
+            name: 'quick_reply',
+            buttonParamsJson: JSON.stringify({
+              display_text: "▶️ Siguiente Video",
+              id: `${usedPrefix}tkseguir`
+            })
+          }
+        ]
+      }
+    }
+  }), { userJid: m.sender })
+
+  return await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+}
+
+handler.command = ['tksearch', 'tkseguir']
+handler.help = ['tksearch <texto>', 'tkseguir']
+handler.tags = ['tiktok']
+
+export default handler
