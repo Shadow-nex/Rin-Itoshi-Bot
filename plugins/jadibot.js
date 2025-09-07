@@ -51,9 +51,9 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
     return `╭━═┅═━──────────◈
 │ャ □ ➛ 𝚂𝙾𝙲𝙺𝙴𝚃 - ${i + 1} ﾟ｡◌
 │┌──
-││\`ᴜsᴜᴀʀɪᴏ:\` ${bot.user?.name || '𝚂𝚄𝙱 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸'}
-││\`ʟɪɴᴋ:\` wa.me/${(bot.user?.jid || '').replace(/[^0-9]/g, '')}
-││\`ᴇʟ ʟɪɴᴇᴀ:\` ${bot.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - bot.uptime) : 'Desconocido'}
+││ • \`ᴜsᴜᴀʀɪᴏ:\` ${bot.user?.name || '𝚂𝚄𝙱 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸'}
+││ • \`ʟɪɴᴋ:\` wa.me/${(bot.user?.jid || '').replace(/[^0-9]/g, '')}
+││ • \`ᴇʟ ʟɪɴᴇᴀ:\` ${bot.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - bot.uptime) : 'Desconocido'}
 │└─────•◌•₊˚ 
 ╰━═┅═━──────────◈`;
   }).join('\n\n');
