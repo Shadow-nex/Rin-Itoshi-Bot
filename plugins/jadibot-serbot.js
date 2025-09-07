@@ -277,14 +277,21 @@ fs.rmdirSync(pathshadowJadiBot, { recursive: true })
 if (global.db.data == null) loadDatabase()
 if (connection == `open`) {
 if (!global.db.data?.users) loadDatabase()
-let userName, userJid 
+let userName, userJid
+
+let kawaiiEmojis = ["🌸", "🐰", "🐱", "🐾", "💖", "✨", "🍡", "🎀", "🦊", "🐼"]
+let randomEmoji = kawaiiEmojis[Math.floor(Math.random() * kawaiiEmojis.length)]
+
 userName = sock.authState.creds.me.name || 'Anónimo'
 userJid = sock.authState.creds.me.jid || `${path.basename(pathshadowJadiBot)}@s.whatsapp.net`
 console.log(chalk.bold.cyanBright(`\n❒⸺⸺⸺⸺【• SUB-BOT •】⸺⸺⸺⸺❒\n│\n│ 🟢 ${userName} (+${path.basename(pathshadowJadiBot)}) conectado exitosamente.\n│\n❒⸺⸺⸺【• CONECTADO •】⸺⸺⸺❒`))
 sock.isInit = true
 global.conns.push(sock)
 await joinChannels(sock)
-m?.chat ? await conn.sendMessage(m.chat, {text: args[0] ? `@${m.sender.split('@')[0]}, ya estás conectado, leyendo mensajes entrantes...` : `*@${m.sender.split('@')[0]}, genial ya eres parte de nuestra familia de Sub-Bots.*`, mentions: [m.sender]}, { quoted: m }) : ''
+m?.chat ? await conn.sendMessage(m.chat, {text: args[0] ? `@${m.sender.split('@')[0]}, ya estás conectado, leyendo mensajes entrantes...` : `
+${randomEmoji} 𝑲𝒐𝒏𝒏𝒊𝒄𝒉𝒊𝒘𝒂 ${randomEmoji}  
+*@${m.sender.split('@')[0]}* ya es parte de la ✨familia mágica✨ de Sub-Bots ${randomEmoji}  
+꒰ᐢ. .ᐢ꒱っ${randomEmoji} ¡Bienvenid@!`, mentions: [m.sender]}, { quoted: m }) : ''
 }}
 setInterval(async () => {
 if (!sock.user) {
