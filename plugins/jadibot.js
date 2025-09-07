@@ -8,7 +8,7 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
 
   const channelRD = { 
     id: '120363401008003732@newsletter', 
-    name: '⚽𐚁 ֹ ִ Rin Itoshi - Official ୧ ֹ ִ⚽ᩚ꤬ᰍ'
+    name: '⚡ 𝐑𝐈𝐍 𝐈𝐓𝐎𝐒𝐇𝐈 | °𝐂𝐇𝐀𝐍𝐍𝐄𝐋 𝐎𝐅𝐅𝐈𝐂𝐈𝐀𝐋 🍧'
   };
 
   const getThumbnail = async () => {
@@ -38,7 +38,7 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
           retailerId: "SubBots",
           productImageCount: 1
         },
-        businessOwnerJid: "13135550002@s.whatsapp.net"
+        businessOwnerJid: "51919199620@s.whatsapp.net"
       }
     }
   }
@@ -126,7 +126,7 @@ ${lista || '🌙 No hay Sub-Bots conectados por ahora verifique mas tarde.'}
           thumbnailUrl: 'https://tinyurl.com/28st4n83',
           sourceUrl: redes,
           mediaType: 1,
-          renderLargerThumbnail: true
+          renderLargerThumbnail: false
         }
       }
     },
