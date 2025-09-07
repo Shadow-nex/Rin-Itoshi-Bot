@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import yts from "yt-search";
 import axios from "axios";
 
-const sylphyKey = "sylphy-c519";
+const sylphyKey = "Sylphiette's";
 const sylphyAPI = "https://api.sylphy.xyz/download/ytmp4";
 const gokuAPI = "https://gokublack.xyz/download/ytmp4";
 
@@ -39,13 +39,6 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         const data = await res.json();
 
         if (!data?.res?.url) throw new Error("Fallo en Sylphy (audio)");
-
-        await conn.sendMessage(m.chat, {
-          image: { url: thumbnail },
-          caption: `╭─❍⃟🎧 𝐀𝐮𝐝𝐢𝐨 𝐃𝐞𝐬𝐜𝐚𝐫𝐠𝐚𝐝𝐨  
-┃ 🎶 *Título:* ${title}  
-╰──────────────⬣`
-        }, { quoted: m });
 
         await conn.sendMessage(m.chat, {
           audio: { url: data.res.url },
