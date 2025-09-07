@@ -35,8 +35,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     } = data.data;
 
     const { org, hd, wm, size_org, size_hd } = meta.media[0];
-
-    // Armamos el caption
     let caption = ` 🜸✧ TIKTOK DOWNLOADER ✧🜸
 > ❏ \`Título:\` *${title || "-"}*
 > ⌬ \`Autor:\` *${author?.nickname || "-"} (${author?.username || "@"})*
@@ -45,14 +43,12 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 > 🜸 \`Duración:\` *${duration || 0}s*
 > ❏ \`Publicado:\` *${published}*
 > ⌬ \`Audio:\` *${music?.title || "-"} - ${music?.author || "-"}*
->
+
 > ⬡ \`Reproducciones:\` *${repro}*
 > ✧ \`Likes:\` *${like}*
 > 🜸 \`Comentarios:\` *${comment}*
 > ❏ \`Compartidos:\` *${share}*
 > ⌬ \`Descargas:\` *${download}*`.trim();
-
-    // Enviamos el video con botones
     await conn.sendMessage(
       m.chat,
       {

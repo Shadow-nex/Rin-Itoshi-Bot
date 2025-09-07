@@ -1,5 +1,3 @@
-// - codigo creado x dv.shadow
-// - no quitar creditos xd
 let handler = async (m, { conn, command }) => {
   try {
     let url = `https://dark-core-api.vercel.app/api/random/tiktok?key=api`
