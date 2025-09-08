@@ -43,75 +43,50 @@ handler.command = /^aiimg$/i;
 
 export default handler;*/
 
-import { generateWAMessageFromContent, proto } from "@whiskeysockets/baileys"
-import fs from "fs"
+import fs from 'fs'
 
 let handler = async (m, { conn }) => {
   try {
-    const secret = `WHOI-ZUMI`
+    // Imagen que quieres enviar
+    let imgUrl = 'https://files.catbox.moe/4q363w.jpg'
 
-    const shadow_xyz = {
-      key: {
-        fromMe: false,
-        participant: "0@s.whatsapp.net",
-        remoteJid: "status@broadcast"
-      },
+    // Texto del mensaje
+    let rtx2 = `✨ Hola @${m.sender.split('@')[0]}, disfruta de este contenido!`
+
+    // Ejemplo de objeto del canal
+    let channelRD = {
+      id: "120363305873983242@newsletter", // ID del canal
+      name: "📢 Canal Oficial Rin Itoshi"  // Nombre del canal
+    }
+
+    // Quoted de ejemplo (contacto ficticio)
+    let fkontak = {
+      key: { participant: "0@s.whatsapp.net" },
       message: {
-        productMessage: {
-          product: {
-            productImage: {
-              mimetype: "image/jpeg",
-              jpegThumbnail: fs.readFileSync("./src/catalogo.jpg")
-            },
-            title: "⚡ PRUEBA | RIN ITOSHI ⚡",
-            description: "Funciones y comandos disponibles",
-            currencyCode: "USD",
-            priceAmount1000: 5000,
-            retailerId: "menu-funciones",
-            productImageCount: 1
-          },
-          businessOwnerJid: "51919199620@s.whatsapp.net"
-        }
+        contactMessage: { displayName: "Rin Itoshi" }
       }
     }
 
-    const msg = generateWAMessageFromContent(
-      m.chat,
-      proto.Message.fromObject({
-        viewOnceMessage: {
-          message: {
-            interactiveMessage: {
-              body: { text: '✨ *CÓDIGO DE VINCULACIÓN* 🌱' },
-              footer: { text: `𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 | \`𝚂𝙷𝙰𝙳𝙾𝚆.𝚇𝚈𝚉\`` },
-              header: { hasMediaAttachment: false },
-              nativeFlowMessage: {
-                buttons: [
-                  {
-                    name: "cta_copy",
-                    buttonParamsJson: JSON.stringify({
-                      display_text: "📋 Copiar el código para vincular a subbot",
-                      copy_code: secret
-                    })
-                  }
-                ]
-              }
-            }
-          }
+    // Enviar el mensaje con imagen, caption y contexto
+    await conn.sendMessage(m.chat, {
+      image: { url: imgUrl },
+      caption: rtx2,
+      contextInfo: {
+        mentionedJid: [m.sender],
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: channelRD.id,
+          serverMessageId: 100,
+          newsletterName: channelRD.name
         }
-      }),
-      { quoted: shadow_xyz }
-    )
-
-    await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+      }
+    }, { quoted: fkontak })
 
   } catch (e) {
     console.error(e)
-    await conn.reply(m.chat, "❌ Hubo un error al generar el código de vinculación.", m)
+    m.reply("⚠️ Ocurrió un error al enviar el mensaje.")
   }
 }
 
-handler.command = ['codigo', 'vincular']
-handler.tags = ['tools']
-handler.help = ['codigo', 'vincular']
-
+handler.command = /^prueba$/i
 export default handler

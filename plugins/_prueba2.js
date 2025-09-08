@@ -56,7 +56,8 @@ let handler = async (m, { conn }) => {
     // Ejemplo de objeto del canal
     let channelRD = {
       id: "120363305873983242@newsletter", // ID del canal
-      name: "📢 Canal Oficial Rin Itoshi"  // Nombre del canal
+      name: "📢 Canal Oficial Rin Itoshi", // Nombre del canal
+      link: "https://whatsapp.com/channel/0029Va0000abc" // Link real del canal
     }
 
     // Quoted de ejemplo (contacto ficticio)
@@ -67,18 +68,27 @@ let handler = async (m, { conn }) => {
       }
     }
 
-    // Enviar el mensaje con imagen, caption y contexto
+    // Función para crear un "botón" personalizado
+    function customButton(texto, url) {
+      return {
+        externalAdReply: {
+          title: texto, // Texto personalizado (en vez de "Ver canal")
+          body: channelRD.name,
+          thumbnailUrl: imgUrl,
+          sourceUrl: url,
+          mediaType: 1,
+          renderLargerThumbnail: true
+        }
+      }
+    }
+
+    // Enviar el mensaje con botón personalizado
     await conn.sendMessage(m.chat, {
       image: { url: imgUrl },
       caption: rtx2,
       contextInfo: {
         mentionedJid: [m.sender],
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: channelRD.id,
-          serverMessageId: 100,
-          newsletterName: channelRD.name
-        }
+        ...customButton("✨ Ir al Canal Oficial", channelRD.link)
       }
     }, { quoted: fkontak })
 
