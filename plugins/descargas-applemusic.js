@@ -13,15 +13,9 @@ let handler = async (m, { conn, args }) => {
     let data = json.data || {};
     let {
       url: musicUrl = "",
-      pageTitle = "",
-      description = "",
-      keywords = "",
       songTitle = "",
       artist = "",
       artworkUrl = "",
-      appleTitle = "",
-      appleDescription = "",
-      musicReleaseDate = "",
       mp3DownloadLink = "",
       coverDownloadLink = ""
     } = data;
@@ -30,21 +24,25 @@ let handler = async (m, { conn, args }) => {
 ╭━━━〔 🍎 𝗔𝗣𝗣𝗟𝗘 𝗠𝗨𝗦𝗜𝗖 〕━━⬣
 ┃🎵 *Título:* ${songTitle || "Desconocido"}
 ┃🎤 *Artista:* ${artist || "Desconocido"}
-┃📀 *Álbum:* ${appleTitle || "Desconocido"}
-┃📝 *Descripción:* ${appleDescription || description || "Ninguna"}
-┃📅 *Fecha:* ${musicReleaseDate || "No disponible"}
-┃🔑 *Keywords:* ${keywords || "Ninguna"}
 ┃🌐 *URL:* ${musicUrl}
 ╰━━━━━━━━━━━━━━━━⬣
-
-⬇️ *Descarga MP3:* 
-${mp3DownloadLink || "No disponible"}
-
-🖼️ *Portada:* 
-${coverDownloadLink || artworkUrl || "No disponible"}
     `.trim();
 
     await conn.sendFile(m.chat, artworkUrl || coverDownloadLink, 'cover.jpg', info, m);
+ 
+    if (mp3DownloadLink) {
+      await conn.sendFile(
+        m.chat,
+        mp3DownloadLink,
+        `${songTitle || "audio"}.mp3`,
+        `🎶 Aquí tienes tu canción: *${songTitle || "Desconocido"}* - ${artist || ""}`,
+        m,
+        null,
+        { mimetype: 'audio/mpeg' }
+      );
+    } else {
+      conn.reply(m.chat, "⚠️ No se encontró un enlace de descarga para esta canción.", m);
+    }
 
   } catch (e) {
     console.error(e);
