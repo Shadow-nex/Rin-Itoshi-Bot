@@ -1,4 +1,8 @@
-import sharp from 'sharp';
+// ☘️ Código hecho por DEV.𝘚𝘏𝘈𝘋𝘖𝘞 XD
+// - https://github.com/Yuji-XDev
+// - Dejen créditos aunque sea gracias.
+// - 𝘙𝘐𝘕 𝘐𝘛𝘖𝘚𝘏𝘐 BOT MD ⚽
+
 import fetch from 'node-fetch';
 import moment from 'moment-timezone';
 
@@ -57,17 +61,18 @@ const handler = async (m, { conn, usedPrefix }) => {
 │☆╰┄┄┄┄┄◦
 └────────────`;
 
-    // --- IMÁGENES PROCESADAS CON SHARP ---
+    // Imágenes y thumbnails
     const imgUrl = 'https://tinyurl.com/29d2bflx';
-    const imagenBuffer = await (await fetch(imgUrl)).buffer();
-    const thumb2 = await sharp(imagenBuffer).resize(400, 400).jpeg({ quality: 70 }).toBuffer();
+    const imagenBuffer = await (await fetch(imgUrl)).arrayBuffer();
+    const thumb2 = Buffer.from(imagenBuffer);
 
     const imgenUrl = 'https://tinyurl.com/2c2wh7v2';
-    const imgBuffer = await (await fetch(imgenUrl)).buffer();
-    const thumb = await sharp(imgBuffer).resize(400, 400).jpeg({ quality: 70 }).toBuffer();
+    const imgBuffer = await (await fetch(imgenUrl)).arrayBuffer();
+    const thumb = Buffer.from(imgBuffer);
 
-    const docBuffer = await sharp(imagenBuffer).webp({ quality: 90 }).toBuffer();
+    const docBuffer = thumb2;
 
+    // Botones
     const buttons = [
       { buttonId: `${usedPrefix}creador`, buttonText: { displayText: '📞 ᴏᴡɴᴇʀ' }, type: 1 },
       { buttonId: `${usedPrefix}reg Shadow.18`, buttonText: { displayText: '💌 ᴀᴜᴛᴏ ᴠᴇʀɪғɪᴄᴀʀ' }, type: 1 }
@@ -199,6 +204,13 @@ const handler = async (m, { conn, usedPrefix }) => {
   }
 };
 
+handler.command = ['menulist', 'listmenu'];
+handler.help = ['menulist'];
+handler.tags = ['menus']; 
+handler.register = true;
+
+export default handler;
+
 function clockString(ms) {
   let h = isNaN(ms) ? '--' : Math.floor(ms / 3600000);
   let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60;
@@ -208,11 +220,10 @@ function clockString(ms) {
 
 function ucapan() {
   const time = moment.tz('America/Lima').format('HH');
-  if (time >= 19) return "Lɪɴᴅᴀ Nᴏᴄʜᴇ 🌃";
-  if (time >= 12) return "Hᴇʀᴍᴏsᴀ Tᴀʀᴅᴇ 🌆";
-  if (time > 10) return "Bᴜᴇɴ Dɪ́ᴀ 🏞️";
-  if (time >= 5) return "Bᴜᴇɴᴀ Mᴀᴅʀᴜɢᴀᴅᴀ 🏙️";
-  return "Lɪɴᴅᴀ Nᴏᴄʜᴇ 🌉";
+  let res = "Lɪɴᴅᴀ Nᴏᴄʜᴇ 🌉";
+  if (time >= 5) res = "Bᴜᴇɴᴀ Mᴀᴅʀᴜɢᴀᴅᴀ 🏙️";
+  if (time > 10) res = "Bᴜᴇɴ Dɪ́ᴀ 🏞️";
+  if (time >= 12) res = "Hᴇʀᴍᴏsᴀ Tᴀʀᴅᴇ 🌆";
+  if (time >= 19) res = "Lɪɴᴅᴀ Nᴏᴄʜᴇ 🌃";
+  return res;
 }
-
-export default handler;
