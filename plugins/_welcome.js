@@ -1,7 +1,6 @@
 import { WAMessageStubType } from '@whiskeysockets/baileys'
 import fetch from 'node-fetch'
 import moment from 'moment-timezone'
-import FormData from 'form-data'
 
 export async function before(m, { conn, participants, groupMetadata }) {
   if (!m.messageStubType || !m.isGroup) return !0;
@@ -59,65 +58,11 @@ export async function before(m, { conn, participants, groupMetadata }) {
     participant: "0@s.whatsapp.net"
   };
 
-  // Generar imagen WELCOME
-  let img
-  try {
-    let avatarUrl = await conn.profilePictureUrl(m.messageStubParameters[0], 'image')
-      .catch(_ => 'https://files.catbox.moe/h4lrn3.jpg')
-    let fondoUrl = await conn.profilePictureUrl(m.chat, 'image')
-      .catch(_ => 'https://files.catbox.moe/h4lrn3.jpg')
-
-    const form = new FormData()
-    form.append("avatar", (await fetch(avatarUrl)).body, { filename: "avatar.jpg" })
-    form.append("background", (await fetch(fondoUrl)).body, { filename: "background.jpg" })
-    form.append("quality", "90")
-    form.append("username", m.messageStubParameters[0].split`@`[0])
-    form.append("guildName", groupMetadata.subject)
-    form.append("memberCount", participants.length.toString())
-
-    const res = await fetch("https://api.siputzx.my.id/api/canvas/welcomev5", {
-      method: "POST",
-      headers: { "api_key": "11", ...form.getHeaders() },
-      body: form,
-    })
-
-    if (!res.ok) throw new Error(`Error API ${res.status}`)
-    img = Buffer.from(await res.arrayBuffer())
-  } catch (e) {
-    console.error("❌ Error al generar imagen welcome:", e)
-    img = await (await fetch('https://files.catbox.moe/h4lrn3.jpg')).buffer()
-  }
-
-  // Generar imagen BYE
-  let imgBye
-  try {
-    let avatarUrl = await conn.profilePictureUrl(m.messageStubParameters[0], 'image')
-      .catch(_ => 'https://files.catbox.moe/h4lrn3.jpg')
-    let fondoUrl = await conn.profilePictureUrl(m.chat, 'image')
-      .catch(_ => 'https://files.catbox.moe/h4lrn3.jpg')
-
-    const form = new FormData()
-    form.append("avatar", (await fetch(avatarUrl)).body, { filename: "avatar.jpg" })
-    form.append("background", (await fetch(fondoUrl)).body, { filename: "background.jpg" })
-    form.append("quality", "90")
-    form.append("username", m.messageStubParameters[0].split`@`[0])
-    form.append("guildName", groupMetadata.subject)
-    form.append("memberCount", participants.length.toString())
-
-    const res = await fetch("https://api.siputzx.my.id/api/canvas/welcomev5", {
-      method: "POST",
-      headers: { "api_key": "11", ...form.getHeaders() },
-      body: form,
-    })
-
-    if (!res.ok) throw new Error(`Error API ${res.status}`)
-    imgBye = Buffer.from(await res.arrayBuffer())
-  } catch (e) {
-    console.error("❌ Error al generar imagen bye:", e)
-    imgBye = await (await fetch('https://files.catbox.moe/h4lrn3.jpg')).buffer()
-  }
-
+  let pp = await conn.profilePictureUrl(m.messageStubParameters[0], 'image')
+    .catch(_ => 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg')
+  let img = await (await fetch(pp)).buffer()
   let chat = global.db.data.chats[m.chat]
+
   let groupSize = participants.length
   if (m.messageStubType == 27) groupSize++;
   else if (m.messageStubType == 28 || m.messageStubType == 32) groupSize--;
@@ -192,7 +137,7 @@ ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}`
     await conn.sendMessage(
       m.chat,
       {
-        image: imgBye,
+        image: img,
         caption: bye,
         contextInfo: {
           mentionedJid: [m.sender],
