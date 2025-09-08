@@ -1,16 +1,16 @@
 import fetch from 'node-fetch'
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) return conn.reply(m.chat, `⚡ Usa el comando así:\n\n${usedPrefix + command} WhatsApp`, m)
+  if (!text) return conn.reply(m.chat, `*⚡ Usa el comando así:*\n> \n\n${usedPrefix + command} WhatsApp`, m, fake)
 
   try {
 
-    let res = await fetch(`https://api.stellarwa.xyz/search/mediafire?query=${encodeURIComponent(text)}&apikey=Diamond`)
+    let res = await fetch(`https://api.stellarwa.xyz/search/mediafire?text=${encodeURIComponent(text)}&apikey=Diamond`)
     let json = await res.json()
 
-    if (!json.status) throw `❌ No encontré resultados para: *${QUERY}*`
+    if (!json.status) throw `❌ No encontré resultados para: *${text}*`
 
-    let txt = `✨ *Resultados MediaFire para:* ${QUERY}\n\n`
+    let txt = `✨ *Resultados MediaFire para:* ${text}\n\n`
     json.results.forEach((file, i) => {
       txt += `*${i + 1}.* ${file.filename}\n`
       txt += `   📦 Tamaño: ${file.filesize}\n`
