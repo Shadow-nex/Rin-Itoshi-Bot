@@ -7,7 +7,7 @@ import sharp from 'sharp';
 import fetch from 'node-fetch';
 
 const handler = async (m, { conn, usedPrefix }) => {
-  await m.react('🌱');
+  await m.react('⚡');
   
   try {
     const uptime = clockString(process.uptime() * 1000);
@@ -70,7 +70,7 @@ const handler = async (m, { conn, usedPrefix }) => {
     const imgBuffer = await (await fetch(imgenUrl)).buffer();
      
     const thumb = await sharp(imgBuffer).resize(400, 400).jpeg({ quality: 70 }).toBuffer();
-    const docBuffer = await sharp(imagenBuffer).webp({ quality: 90 }).toBuffer();
+    const docBuffer = await sharp(imagenBuffer).png({ quality: 90 }).toBuffer();
 
     const buttons = [
       { buttonId: `${usedPrefix}creador`, buttonText: { displayText: '📞 ᴏᴡɴᴇʀ' }, type: 1 },
@@ -165,7 +165,7 @@ const handler = async (m, { conn, usedPrefix }) => {
     await conn.sendMessage(m.chat, {
       document: docBuffer,
       fileName: `ꭈׁׅꪱׁׅꪀׁׅ ꪱׁׅtׁׅᨵׁׅ꯱ׁׅ֒hׁׅ֮ꪱׁׅ ϐׁׅ֒ᨵׁׅtׁׅ  ꩇׁׅ݊ժׁׅ݊`,
-      mimetype: 'image/PNG',
+      mimetype: 'image/png',
       caption: menutxt,
       jpegThumbnail: thumb2,
       footer: '© ʀɪɴ ɪᴛᴏsʜɪ ᴜʟᴛʀᴀ ʙᴏᴛ | ° ʙʏ sʜᴀᴅᴏᴡ.xʏᴢ',
