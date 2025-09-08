@@ -1,44 +1,41 @@
-//codigo creado x dv.shadow xd
-
 import fetch from 'node-fetch';
 
-let handler = async (m, { conn, text, command }) => {
-  if (!text) {
-    return m.reply(`✨ Ingresa una descripción para generar imágenes.\n\nEjemplo:\n.${command} anime alya`);
-  }
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text) return conn.reply(m.chat, `✨ Ingresa un prompt\n\nEjemplo:\n${usedPrefix + command} Anime witch girl with silver hair`, m);
 
   try {
-    let res = await fetch(`https://api.dorratz.com/v2/pix-ai?prompt=${encodeURIComponent(text)}`);
+ 
+    let url = `https://api.vreden.my.id/api/artificial/ximage?prompt=${encodeURIComponent(text)}`;
+    let res = await fetch(url);
+    if (!res.ok) throw await res.text();
+
     let json = await res.json();
+    let html = json.result;
 
-    if (!json || !json.images || json.images.length === 0) {
-      return m.reply("⚠️ No se generaron imágenes, intenta con otra descripción.");
-    }
+    if (!html) throw new Error('Respuesta vacía');
 
-    let caption = `╭━━━〔 🎨 PIX-AI 〕━━⬣
-┃✨ *Prompt:* ${text}
-┃📀 *By:* ${dev}
-╰━━━━━━━━━━━━━━━━⬣`;
+    let urls = [...html.matchAll(/<img[^>]+src=["']?([^"' >]+)["']?/g)].map(v => v[1]);
+
+    if (!urls.length) throw new Error('Sin imágenes');
 
     await conn.sendMessage(m.chat, {
-      image: { url: json.images[0] },
-      caption
+      image: { url: urls[0] },
+      caption: `✨ Imagen generada para:\n\`\`\`${text}\`\`\``
     }, { quoted: m });
-
-    for (let i = 1; i < json.images.length; i++) {
-      await conn.sendMessage(m.chat, {
-        image: { url: json.images[i] }
-      }, { quoted: m });
-    }
 
   } catch (e) {
     console.error(e);
-    m.reply("❌ Error al generar la imagen.");
+    const errores = [
+      '❌ Ocurrió un error al generar la imagen, inténtalo otra vez.',
+      '⚠️ Algo salió mal, por favor repite el comando más tarde.'
+    ];
+    let msg = errores[Math.floor(Math.random() * errores.length)];
+    conn.reply(m.chat, msg, m);
   }
 };
 
-handler.help = ["aiimg <texto>"];
-handler.tags = ["ai", "imagenes"];
-handler.command = /^aiimg$/i;
+handler.help = ['ximage <prompt>'];
+handler.tags = ['ai', 'image'];
+handler.command = /^ximage$/i;
 
 export default handler;
