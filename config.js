@@ -40,7 +40,7 @@ global.prems = ['51919199620', '51934053286']
 
 global.libreria = 'Baileys'
 global.baileys = 'V 6.7.17' 
-global.vs = '2.2.5'
+global.vs = '3.0.0'
 global.nameqr = '✦⃟⚡ Rin•Itoshi•Bot•MD ⚡⃟✦'
 global.namebot = '⚽⸸ Rin•Itoshi•MD ⸸⚽'
 global.sessions = 'Sessions'
