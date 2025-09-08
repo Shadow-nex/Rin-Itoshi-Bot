@@ -9,11 +9,24 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     }, { quoted: m })
   }
 
-  await conn.sendMessage(m.chat, {
+/*  await conn.sendMessage(m.chat, {
     text: `🎬 ¡Descargando video!
 
 📊 Progreso: [▓▓▓▓▓░░░░░] 50%`
-  }, { quoted: m })
+  }, { quoted: m })*/
+  const kawaiiProgress = [
+  { pct: "10%", bar: "[▓░░░░░░░░░]", emoji: "🍡", msg: "Preparando la magia ✨" },
+  { pct: "25%", bar: "[▓▓▓░░░░░░░]", emoji: "🍬", msg: "Un poquito más uwu 💕" },
+  { pct: "50%", bar: "[▓▓▓▓▓░░░░░]", emoji: "🍭", msg: "Ya casi a la mitad onichan~ 🌸" },
+  { pct: "75%", bar: "[▓▓▓▓▓▓▓▓░░]", emoji: "🎀", msg: "Falta muy poquitooo >///< 💖" },
+  { pct: "100%", bar: "[▓▓▓▓▓▓▓▓▓▓]", emoji: "🌈", msg: "¡Descarga completada! yay~ 🐰💞" }
+]
+
+function getKawaiiProgress(step) {
+  return `🎶 ${kawaiiProgress[step].msg}\n\n📊 Progreso: ${kawaiiProgress[step].bar} ${kawaiiProgress[step].emoji} ${kawaiiProgress[step].pct}`
+}
+
+console.log(getKawaiiProgress(2))
 
   try {
 
@@ -36,12 +49,12 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let { mp4 } = info
 
     let caption = `
-🎬 *${vid.title}*
-⏱️ Duración: ${vid.duration}
-👤 Canal: ${vid.author?.name || "Desconocido"}
-📂 Tamaño: ${mp4.size}
-🎞️ Calidad: ${mp4.quality}
-🔗 Link: ${vid.url}
+= 💎 *${vid.title}*
+= 🌱 𝐃𝐮𝐫𝐚𝐜𝐢𝐨𝐧: ${vid.duration}
+= ☘️ 𝐂𝐚𝐧𝐚𝐥: ${vid.author?.name || "Desconocido"}
+= 💥 𝐓𝐚𝐦𝐚𝐧̃𝐨: ${mp4.size}
+= 💖 𝐂𝐚𝐥𝐢𝐝𝐚𝐝: ${mp4.quality}
+= 🍧 𝐋𝐢𝐧𝐤: ${vid.url}
 `.trim()
 
     let thumb = null
@@ -54,7 +67,8 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     }
 
     await conn.sendMessage(m.chat, {
-      video: { url: mp4.dl_url },
+      document: { url: mp4.dl_url },
+      //video: { url: mp4.dl_url },
       mimetype: "video/mp4",
       fileName: `${vid.title}.mp4`,
       caption,
@@ -62,7 +76,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       contextInfo: {
         externalAdReply: {
           title: vid.title,
-          body: "🎬 YouTube Video",
+          body: "🚀 YouTube Video 💖",
           mediaUrl: vid.url,
           sourceUrl: vid.url,
           thumbnailUrl: mp4.thumbnail || vid.thumbnail,

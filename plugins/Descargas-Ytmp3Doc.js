@@ -10,9 +10,12 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   }
 
   await conn.sendMessage(m.chat, {
-    text: `🎶 ¡Descargando archivo!
-
-📊 Progreso: [▓▓▓▓▓░░░░░] 50%`
+    text: `🌸≽───────≼🌸
+૮₍｡˃ ᵕ ˂ ｡₎ა 🎶 *¡Descargando tu archiwito kawaii!*
+  
+˚₊· ͟͟͞͞➳❥ 📊 Progresito:  
+[▓▓▓▓▓░░░░░] 50% 🍬💗  
+🌸≽───────≼🌸`
   }, { quoted: m })
 
   try {
