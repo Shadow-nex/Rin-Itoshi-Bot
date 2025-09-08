@@ -75,7 +75,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     }, { quoted: m })
 
   } catch (err) {
-    console.error("Error en playdoc:", err)
+    console.error("[Error en ytmp3doc]", err)
     conn.sendMessage(m.chat, { text: `💀 Error: ${err.message}` }, { quoted: m })
   }
 }

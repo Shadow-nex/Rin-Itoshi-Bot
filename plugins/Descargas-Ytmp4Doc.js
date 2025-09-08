@@ -58,7 +58,6 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     await conn.sendMessage(m.chat, {
       document: { url: mp4.dl_url },
-      //video: { url: mp4.dl_url },
       mimetype: "video/mp4",
       fileName: `${vid.title}.mp4`,
       caption,
@@ -77,8 +76,8 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     }, { quoted: m })
 
   } catch (err) {
-    console.error("Error en ytmp4:", err)
-    conn.sendMessage(m.chat, { text: `💀 Error: ${err.message}` }, { quoted: m })
+    console.error("[Error en ytmp4doc:]", err)
+    conn.sendMessage(m.chat, { text: `💔 Error: ${err.message}` }, { quoted: m })
   }
 }
 
