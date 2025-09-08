@@ -39,7 +39,6 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
     const caption = [
       '╭━━━〔  Pinterest DL  〕━━⬣',
-      '┆ 🌀 *Video listo*',
       `┆ 🎬 Tipo: ${type}`,
       `┆ 📦 Tamaño: ${size}`,
       `┆ ⚽ Fuente: ${pinUrl}`,

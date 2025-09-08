@@ -71,7 +71,8 @@ const handler = async (m, { conn, usedPrefix }) => {
      
     const thumb = await sharp(imgBuffer).resize(400, 400).jpeg({ quality: 70 }).toBuffer();
     const docBuffer = await sharp(imagenBuffer).webp({ quality: 90 }).toBuffer();
-
+    
+    
     const buttons = [
       { buttonId: `${usedPrefix}creador`, buttonText: { displayText: '📞 ᴏᴡɴᴇʀ' }, type: 1 },
       { buttonId: `${usedPrefix}reg Shadow.18`, buttonText: { displayText: '💌 ᴀᴜᴛᴏ ᴠᴇʀɪғɪᴄᴀʀ' }, type: 1 }
