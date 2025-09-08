@@ -1,106 +1,85 @@
-// ☘️ Código hecho por DEV.𝘚𝘏𝘈𝘋𝘖𝘞 XD
-// - https://github.com/Yuji-XDev
-// - 𝘙𝘐𝘕 𝘐𝘛𝘖𝘚𝘏𝘐 BOT MD ⚽
+import { proto } from "@whiskeysockets/baileys"
+import fs from "fs"
+import sharp from "sharp"
 
-import moment from 'moment-timezone'
-
-const handler = async (m, { conn, usedPrefix }) => {
-  await m.react('⚡')
+let handler = async (m, { conn, usedPrefix, command }) => {
   try {
-    const uptime = clockString(process.uptime() * 1000)
-    const now = new Date()
-    const hora = now.toLocaleTimeString('es-PE', { timeZone: 'America/Lima' })
-    const fecha = now.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Lima' })
-    const dia = now.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' })
+    // Imagen base para el documento
+    let imgPath = "./menu.png" // pon aquí tu imagen real
+    let bufferImg = fs.readFileSync(imgPath)
 
-    const totalUsers = Object.keys(global.db.data.users).length
-    const totalCommands = Object.keys(global.plugins).length
-    const user = global.db.data.users[m.sender] || {}
-    const taguser = '@' + (m.sender.pushname ? m.sender.pushname : m.sender.split('@')[0])
+    // Crear thumbnail en JPEG (obligatorio para que no salga blanco)
+    let thumb = await sharp(bufferImg).resize(200).jpeg().toBuffer()
 
-    const menutxt = `⿻̟֟፝݊͜⃝⁩⚽꫶⃝꙰⿻͜𝐑𝐈𝐍͜ 𝐈͜𝐓𝐎𝐒༙͜ᝲ𝐇𝐈🍧⃟─̶͠
-  🍨⃟≛⃝🫐๋⭑ shadow.xyz ✰ :
+    // Texto del menú
+    let menutxt = `
+╭━━━〔 ✦ 𝑴𝑬𝑵𝑼 ✦ 〕━━⬣
+┃🍂 Hola @${m.sender.split('@')[0]}
+┃🌸 Bienvenido al menú de *Rin Itoshi Bot*
+┃⚡ Usa los botones o lista para navegar
+╰━━━━━━━━━━━━━━⬣
+    `.trim()
 
-┌───────────
-│ 🍂 ᴄʀᴇᴀᴅᴏʀ: *shadow.xyz*
-│ 💾 ᴠᴇʀꜱɪᴏ́ɴ: *2.2.5*
-│ 👥 ᴜꜱᴇʀꜱ: *${totalUsers}*
-│ 🧰 ᴄᴏᴍᴀɴᴅᴏꜱ: *${totalCommands}*
-│ ⏱️ ʀᴜɴᴛɪᴍᴇ: *${uptime}*
-│ 📆 ꜰᴇᴄʜᴀ: *${fecha}*
-│ 🌱 ᴅɪᴀ: *${dia}*
-│ 🕓 ʜᴏʀᴀ: *${hora}*
-└────────────`
-
-    const buttons = [
-      { buttonId: `${usedPrefix}creador`, buttonText: { displayText: '📞 ᴏᴡɴᴇʀ' }, type: 1 },
-      { buttonId: `${usedPrefix}reg Shadow.18`, buttonText: { displayText: '💌 ᴀᴜᴛᴏ ᴠᴇʀɪғɪᴄᴀʀ' }, type: 1 }
+    // Botones rápidos
+    let buttons = [
+      { buttonId: `${usedPrefix}ping`, buttonText: { displayText: "⚡ Estado" }, type: 1 },
+      { buttonId: `${usedPrefix}owner`, buttonText: { displayText: "👑 Creador" }, type: 1 }
     ]
 
-    const sections = [
+    // Lista (flow)
+    let sections = [
       {
-        title: '⚡ MENÚS DISPONIBLES',
+        title: "📖 Categorías",
+        highlight_label: "Recomendado",
         rows: [
-          { title: "⪛ 💥 𝐌𝐄𝐍𝐔 𝐂𝐎𝐌𝐏𝐋𝐄𝐓𝐎 ⪜", description: "Lista de todos los comandos", id: `${usedPrefix}menu` },
-          { title: "⪛ 📥 DESCARGAS ⪜", description: "YouTube, FB, Spotify, IG, etc.", id: `${usedPrefix}menudl` },
-          { title: "⪛ ⛏️ RPG ⪜", description: "Juega y sube de nivel", id: `${usedPrefix}menurpg` }
+          { header: "🎵 Música", title: "play / ytmp3", description: "Descarga canciones", id: `${usedPrefix}play despacito` },
+          { header: "📥 Descargas", title: "Facebook / TikTok", description: "Bajar videos", id: `${usedPrefix}tiktok https://vm.tiktok.com/xxx` },
+          { header: "🎮 Juegos", title: "Adivina / Trivia", description: "Diversión y retos", id: `${usedPrefix}game` }
         ]
       }
     ]
 
     await conn.sendMessage(m.chat, {
-      document: { url: 'https://shadow.xyz' }, // puedes poner un PDF, link, etc.
-      fileName: 'RIN ITOSHI BOT ⚽',
-      mimetype: 'application/pdf',
+      document: bufferImg, // 👈 documento real
+      fileName: "⟆ 𖦹 🍂 𝑴𝑬𝑵𝑼 𝑩𝑶𝑻 🍂 𖦹 ⟅",
+      mimetype: "image/png", // 👈 doc tipo imagen
+      jpegThumbnail: thumb, // 👈 preview visible
       caption: menutxt,
-      jpegThumbnail: { url: 'https://tinyurl.com/29d2bflx' },
-      footer: '© RIN ITOSHI ULTRA BOT | by shadow.xyz',
+      footer: '© ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ | ° ʙʏ sʜᴀᴅᴏᴡ.xʏᴢ',
       buttons: [
         ...buttons,
         {
           type: 4,
           nativeFlowInfo: {
-            name: 'single_select',
+            name: "single_select",
             paramsJson: JSON.stringify({
-              title: '🍭 𝐌𝐄𝐍𝐔 𝐋𝐈𝐒𝐓 ⚽',
+              title: "🌸 𝑪𝑨𝑻𝑬𝑮𝑶𝑹𝑰𝑨𝑺 🌸",
               sections
             })
           }
         }
       ],
+      headerType: 1,
+      viewOnce: true,
       contextInfo: {
         mentionedJid: [m.sender],
         forwardingScore: 999,
         isForwarded: true,
         externalAdReply: {
-          title: 'Menú Oficial ⚽',
-          body: `${ucapan()} ${taguser}`,
-          thumbnailUrl: 'https://tinyurl.com/2c2wh7v2',
-          sourceUrl: 'https://wa.me/51987654321',
+          title: "Rin Itoshi 🌸",
+          body: "Menú oficial",
+          thumbnail: thumb,
           mediaType: 1,
           renderLargerThumbnail: true
         }
       }
     }, { quoted: m })
+
   } catch (e) {
     console.error(e)
-    await conn.reply(m.chat, `❌ Error al enviar el menú:\n\n${e.message}`, m)
+    m.reply("❌ Error al generar el menú.")
   }
 }
 
-handler.command = ['menulist', 'listmenu']
+handler.command = /^(menulist|menu)$/i
 export default handler
-
-function clockString(ms) {
-  let h = isNaN(ms) ? '--' : Math.floor(ms / 3600000)
-  let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60
-  let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60
-  return [h, m, s].map(v => v.toString().padStart(2, '0')).join(':')
-}
-
-function ucapan() {
-  const time = moment.tz('America/Lima').format('HH')
-  if (time >= 5 && time < 12) return "Bᴜᴇɴᴏꜱ Dɪᴀꜱ 🌞"
-  if (time >= 12 && time < 19) return "Bᴜᴇɴᴀ Tᴀʀᴅᴇ 🌆"
-  return "Bᴜᴇɴᴀ Nᴏᴄʜᴇ 🌙"
-}
