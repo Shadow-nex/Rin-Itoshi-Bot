@@ -9,33 +9,39 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     if (!pinUrl) {
       return conn.reply(
         m.chat,
-        `🌟 *Descarga Pinterest*\n\n⚡ Manda el link de un *Pin* con video.\n\n🧪 Ejemplo:\n${usedPrefix + command} https://pinterest.com/pin/4151824651938194`,
+        `🌟 *Descarga Pinterest*\n\n⚡ Manda el link de un *Pin* con video.\n\n🧪 Ejemplo:\n${usedPrefix + command} https://pin.it/2D2bEV2m2`,
         m
       );
     }
 
     await conn.sendMessage(m.chat, { react: { text: '⏳', key: m.key } });
-
     if (/pin\.it\//i.test(pinUrl)) {
       let res = await fetch(pinUrl, { redirect: 'follow' });
       pinUrl = res.url;
     }
 
     if (!/pinterest\.com\/pin\//i.test(pinUrl)) {
-      throw new Error("El enlace no es válido de Pinterest");
+      throw new Error("❌ El enlace no es válido de *Pinterest*");
     }
 
-    const endpoint = `https://api.dorratz.com/v3/pinvideo?url=${encodeURIComponent(pinUrl)}`;
+    const endpoint = `https://gokublack.xyz/download/pin?url=${encodeURIComponent(pinUrl)}`;
     const res = await fetch(endpoint);
     if (!res.ok) throw new Error(`API respondió ${res.status}`);
-    const data = await res.json();
+    const json = await res.json();
 
-    const videoUrl = findMp4Url(data);
+    if (!json?.status || !json?.data?.status) {
+      throw new Error("La API no devolvió un resultado válido");
+    }
+
+    const { type, size, url: videoUrl } = json.data.data;
+
     if (!videoUrl) throw new Error("No encontré el .mp4 en la respuesta");
 
     const caption = [
       '╭━━━〔  Pinterest DL  〕━━⬣',
       '┆ 🌀 *Video listo*',
+      `┆ 🎬 Tipo: ${type}`,
+      `┆ 📦 Tamaño: ${size}`,
       `┆ ⚽ Fuente: ${pinUrl}`,
       '┆ 🌱 Plataforma: Pinterest',
       '╰━━━━━━━━━━━━━━━━━━⬣',
@@ -58,25 +64,8 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
   }
 };
 
-function findMp4Url(any) {
-  let url;
-  try {
-    const visit = (node) => {
-      if (url) return;
-      if (typeof node === 'string' && node.includes('.mp4')) {
-        if (/^https?:\/\/\S+\.mp4(\?\S+)?$/i.test(node)) url = node;
-        return;
-      }
-      if (Array.isArray(node)) node.forEach(visit);
-      if (typeof node === 'object') Object.values(node).forEach(visit);
-    };
-    visit(any);
-  } catch {}
-  return url || null;
-}
-
-handler.help = ['pinvideo *<link>*']
-handler.tags = ['descargas']
-handler.command = ['pinvideo'];
+handler.help = ['pinvideo *<link>*'];
+handler.tags = ['descargas'];
+handler.command = ['pinvideo', 'pinv'];
 
 export default handler;
