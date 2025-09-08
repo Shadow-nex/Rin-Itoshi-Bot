@@ -10,7 +10,9 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   }
 
   await conn.sendMessage(m.chat, {
-    text: `🍂 𝗗𝗘𝗦𝗖𝗔𝗥𝗚𝗔 𝗘𝗡 𝗠𝗔𝗥𝗖𝗔 𝗣𝗥𝗢𝗚𝗥𝗘𝗦𝗢\n\n°^☘️ [▓▓▓▓▓░░░░░░░] 50% Completado`
+    text: `🎶 ¡Descargando archivo!
+
+📊 Progreso: [▓▓▓▓▓░░░░░] 50%`
   }, { quoted: m })
 
   try {
@@ -33,12 +35,12 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let { mp3 } = info
 
     let caption = `
-📀 *${mp3.title}*
-⏱️ Duración: ${vid.duration}
-👤 Canal: ${vid.author?.name || "Desconocido"}
-🎵 Calidad: ${mp3.quality}
-📂 Tamaño: ${mp3.size}
-🔗 YouTube: ${vid.url}
+= 📀 *${mp3.title}*
+= ⏱️ 𝐃𝐮𝐫𝐚𝐜𝐢𝐨𝐧: ${vid.duration}
+= ⚡ 𝐂𝐚𝐧𝐚𝐥: ${vid.author?.name || "Desconocido"}
+= 🍧 𝐂𝐚𝐥𝐢𝐝𝐚𝐝: ${mp3.quality}
+= 🍂 𝐓𝐚𝐦𝐚𝐧̃𝐨: ${mp3.size}
+= 🔗 𝐋𝐢𝐧𝐤: ${vid.url}
 `.trim()
 
     let thumb = null
@@ -59,7 +61,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       contextInfo: {
         externalAdReply: {
           title: mp3.title,
-          body: "🧪 YOUTUBE DOC 💎",
+          body: "𝚈𝙾𝚄𝚃𝚄𝙱𝙴 ~ 𝙼𝙿3 ~ 𝙳𝙾𝙲 ",
           mediaUrl: vid.url,
           sourceUrl: vid.url,
           thumbnailUrl: mp3.thumbnail,
