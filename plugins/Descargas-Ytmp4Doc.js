@@ -9,25 +9,15 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     }, { quoted: m })
   }
 
-/*  await conn.sendMessage(m.chat, {
-    text: `🎬 ¡Descargando video!
-
-📊 Progreso: [▓▓▓▓▓░░░░░] 50%`
-  }, { quoted: m })*/
-  const kawaiiProgress = [
-  { pct: "10%", bar: "[▓░░░░░░░░░]", emoji: "🍡", msg: "Preparando la magia ✨" },
-  { pct: "25%", bar: "[▓▓▓░░░░░░░]", emoji: "🍬", msg: "Un poquito más uwu 💕" },
-  { pct: "50%", bar: "[▓▓▓▓▓░░░░░]", emoji: "🍭", msg: "Ya casi a la mitad onichan~ 🌸" },
-  { pct: "75%", bar: "[▓▓▓▓▓▓▓▓░░]", emoji: "🎀", msg: "Falta muy poquitooo >///< 💖" },
-  { pct: "100%", bar: "[▓▓▓▓▓▓▓▓▓▓]", emoji: "🌈", msg: "¡Descarga completada! yay~ 🐰💞" }
-]
-
-function getKawaiiProgress(step) {
-  return `🎶 ${kawaiiProgress[step].msg}\n\n📊 Progreso: ${kawaiiProgress[step].bar} ${kawaiiProgress[step].emoji} ${kawaiiProgress[step].pct}`
-}
-
-console.log(getKawaiiProgress(2))
-
+  await conn.sendMessage(m.chat, {
+    text: `🌸≽───────≼🌸
+૮₍｡˃ ᵕ ˂ ｡₎ა 🎶 *¡Descargando tu archiwito kawaii!*
+  
+˚₊· ͟͟͞͞➳❥ 📊 Progresito:  
+[▓▓▓▓▓░░░░░] 50% 🍬💗  
+🌸≽───────≼🌸`
+  }, { quoted: m })
+  
   try {
 
     let res = await fetch(`https://delirius-apiofc.vercel.app/search/ytsearch?q=${encodeURIComponent(q)}`)
