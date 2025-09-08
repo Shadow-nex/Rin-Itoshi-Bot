@@ -12,10 +12,9 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       if (!playlists || playlists.length === 0)
         return conn.reply(m.chat, "❌ No encontré ninguna playlist con ese nombre.", m);
 
-      let pl = playlists[0]; // mostramos la primera playlist encontrada
+      let pl = playlists[0]; // primera playlist encontrada
       let thumb = pl.thumbnail || pl.author.bestAvatar?.url;
 
-      // Mostrar hasta 15 videos de la playlist
       let videos = pl.videos.slice(0, 15);
 
       let caption =
@@ -25,8 +24,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         `🎵 Videos en total: ${pl.videoCount}\n` +
         `🔗 URL: ${pl.url}\n\n` +
         `✨ *Mostrando ${videos.length} primeros videos de la playlist:*`;
-
-      // Lista de videos con opciones de descarga
+  
       let listSections = videos.map((v, i) => ({
         title: `🎬 ${i + 1}. ${v.title.slice(0, 60)}`,
         rows: [
@@ -49,24 +47,22 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       }));
 
       await conn.sendMessage(m.chat, {
-        image: { url: thumb },
-        caption: caption,
+        text: caption,
         footer: "📌 Selecciona un video de la lista para descargar",
-        viewOnce: true,
+        title: "📂 *Videos de la Playlist*",
+        buttonText: "✨ Ver lista",
+        sections: listSections,
         contextInfo: {
-          mentionedJid: [m.sender]
+          externalAdReply: {
+            title: pl.title,
+            body: pl.author.name,
+            thumbnailUrl: thumb,
+            sourceUrl: pl.url,
+            mediaType: 1,
+            renderLargerThumbnail: true
+          }
         }
       }, { quoted: m });
-
-      // mandar la lista en el mismo contexto (misma playlist)
-      await conn.sendList(
-        m.chat,
-        "📂 *Videos de la Playlist*",
-        caption,
-        "✨ Selecciona un video:",
-        listSections,
-        m.sender
-      );
 
     } catch (e) {
       console.error(e);
@@ -81,7 +77,6 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     }
   }
 
-  // los comandos de descarga
   else if (command === 'ytmp33' || command === 'ytmp44') {
     if (!text || !text.includes('youtu')) {
       return m.reply('🎥 *Por favor, proporciona un enlace válido de YouTube.*');
