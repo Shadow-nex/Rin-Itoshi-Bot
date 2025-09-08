@@ -14,12 +14,20 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
 
 
   if (user.registered) {
-   const texto = `✧━━━━〔 ⚠ ＡＶＩＳＯ ⚠ 〕━━━━✧
-*🚫 Ya cuentas con un registro activo...*
-¿ 𝚀𝚞𝚒𝚎𝚛𝚎𝚜 𝚛𝚎𝚐𝚒𝚜𝚝𝚛𝚊𝚛𝚝𝚎 𝚗𝚞𝚎𝚟𝚊𝚖𝚎𝚗𝚝𝚎?
+   const texto = `✦₊˚ 🎀 𓂃 ₊˚⊹♡ ₊˚ 🎀 ✦
+꒰🍓⚠️ 𝒂𝒗𝒊𝒔𝒐 ⚠️🍓꒱  
+┈┈┈┈┈┈┈┈┈┈
 
-🎋 Usa *#unreg* para borrar tu registro y comenzar otra vez.
-✧━━━━━━━━━━━━━━━━━━✧`;
+(｡>﹏<｡) 💦  
+*Ya cuentas con un registro activo...*  
+
+🌸 ¿𝒒𝒖𝒊𝒆𝒓𝒆𝒔 𝒓𝒆𝒈𝒊𝒔𝒕𝒓𝒂𝒓𝒕𝒆 𝒏𝒖𝒆𝒗𝒂𝒎𝒆𝒏𝒕𝒆?  
+
+💌 Usa *#unreg* para borrar tu registro y comenzar otra vez.  
+
+┈┈┈┈┈┈┈┈┈┈  
+૮₍´｡• ᵕ •｡\`₎ა 🌷 𝒕𝒆 𝒆𝒔𝒑𝒆𝒓𝒂𝒓𝒆𝒎𝒐𝒔 ~  
+✦₊˚ 🎀 𓂃 ₊˚⊹♡ ₊˚ 🎀 ✦`;
 
     const botones = [
       { buttonId: `${usedPrefix}ping`, buttonText: { displayText: '🔥 Velocidad' }, type: 1 },
@@ -46,14 +54,17 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
  }
   
    if (!Reg.test(text)) {
-     const mensaje = `✦・🍂  ᴇʟ ᴄᴏᴍᴀɴᴅᴏ ɪɴɢʀᴇsᴀᴅᴏ ᴇs ɪɴᴄᴏʀʀᴇᴄᴛᴏ
-┈┈┈┈┈┈┈┈┈┈
-↳ Úsalo así:
-   ${usedPrefix + command} nombre.edad
+     const mensaje = `｡☆✼★━━━━━━━━━━━━★✼☆｡  
+❀ ₊˚⊹ ᴏᴏᴘꜱ~ ᴄᴏᴍᴀɴᴅᴏ ɪɴᴄᴏʀʀᴇᴄᴛᴏ (｡•́︿•̀｡)  
+┈┈┈┈┈┈┈┈┈┈  
+↳ 𝑼́𝒔𝒂𝒍𝒐 𝒂𝒔𝒊́:  
+   ${usedPrefix + command} nombre.edad  
 
-🎄 Ejemplo:
-> ${usedPrefix + command} ${name2}.18
-┈┈┈┈┈┈┈┈┈┈`;
+🐰 𝑬𝒋𝒆𝒎𝒑𝒍𝒐:  
+> ${usedPrefix + command} ${name2}.18  
+┈┈┈┈┈┈┈┈┈┈  
+🌸 𝒏𝒐 𝒕𝒓𝒊𝒔𝒕𝒆~ 𝒗𝒖𝒆𝒍𝒗𝒆 𝒂 𝒊𝒏𝒕𝒆𝒏𝒕𝒂𝒓 ꒰ᐢ. .ᐢ꒱
+｡☆✼★━━━━━━━━━━━━★✼☆｡`;
 
      const botones = [
        { buttonId: `${usedPrefix}reg ${name2}.18`, buttonText: { displayText: '🖍️ Auto Verificación' }, type: 1 },
@@ -86,12 +97,12 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
   let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' });
 
   let [_, name, splitter, age] = text.match(Reg)
-  if (!name) return m.reply(`*『✦』El nombre no puede estar vacío.*`)
-  if (!age) return m.reply(`*『✦』La edad no puede estar vacía.*`)
-  if (name.length >= 100) return m.reply(`*『✦』El nombre es demasiado largo.*`)
+  if (!name) return m.reply(`✦₊˚ 🎀꒰ 🍓 ꒱🎀 ₊˚✦\n(｡>﹏<｡)💦 *El nombre no puede estar vacío*`)
+  if (!age) return m.reply(`✦₊˚ 🎀꒰ 🍓 ꒱🎀 ₊˚✦\n(≧﹏≦) *La edad no puede estar vacía*`)
+  if (name.length >= 100) return m.reply(`✦₊˚ 🎀꒰ 🍓 ꒱🎀 ₊˚✦\n(๑•﹏•) *El nombre es demasiado largo...*`)
   age = parseInt(age)
-  if (age > 1000) return m.reply(`*『✦』Wow el abuelo quiere jugar al bot.*`)
-  if (age < 5) return m.reply(`*『✦』hay un abuelo bebé jsjsj.*`)
+  if (age > 1000) return m.reply(`✦₊˚ 🎀꒰ 🍓 ꒱🎀 ₊˚✦\n(´｡• ᵕ •｡\`) 💮 *Wow~ el abuelito quiere jugar al bot*`)
+  if (age < 5) return m.reply(`✦₊˚ 🎀꒰ 🍓 ꒱🎀 ₊˚✦\n(｡•́︿•̀｡) *Awww~ un abuelito bebé jsjs* 🍼💕`)
 
   user.name = `${name} ✓`
   user.age = age
@@ -103,25 +114,25 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
 
   let sn = createHash('md5').update(m.sender).digest('hex').slice(0, 20)
 
-  let regbot = `  ✰͜͡᭼ִ𝆤 *Registro  /  Completo*  ⫶݀⸙⃟🍂⸙
-  
-╭━┉►⃟.╍⊶⊰♡۪۫ׄ✿-⊱⊷╍⃟.◄┉━╮
-🌸 *\`Nombre:\`* ${name}
-🌱 *\`Edad:\`* ${age} años
-📅 *\`Fecha:\`* ${fecha}
-⏰ *\`Hora:\`* ${hora}
-🌌 *\`Día:\`*   ${dia}
-╰━┉►⃟.╍⊶⊰♡۪۫ׄ✿-⊱⊷╍⃟.◄┉━╯
+  let regbot = `✿⊹⊱⋆彡 Registro Finalizado 彡⋆⊰⊹✿
 
-⋆｡ﾟ☁︎｡⋆｡ ﾟ☾ ﾟ｡⋆｡ﾟ☁︎｡⋆｡ ﾟ☾ ﾟ｡⋆  
-🎁 ──〔 𝑹𝑬𝑪𝑶𝑴𝑷𝑬𝑵𝑺𝑨𝑺 〕── 🎁  
-✧ 💰 +40: \`\`\`${moneda}\`\`\`
-✧ 🔮 +300: \`\`\`exp\`\`\`
-✧ 💎 +20: \`\`\`tokens\`\`\`
-⋆｡ﾟ☁︎｡⋆｡ ﾟ☾ ﾟ｡⋆｡ﾟ☁︎｡⋆｡ ﾟ☾ ﾟ｡⋆  
+╭━━━ ˚₊· ͟͟͞͞➳❥
+🍓 Nombre: ${name}
+🐰 Edad: ${age} añitos ฅ^•ﻌ•^ฅ
+📖 Fecha: ${fecha}
+⌛ Hora: ${hora}
+🌙 Día: ${dia}
+╰━━━ ˚₊· ͟͟͞͞➳❥
 
-✨🌸 !Felicidades ${name},  
-tu energía ha sido aceptada en el sistema 🌸✨`.trim();
+ﾟ｡⋆｡🎀｡⋆｡ﾟ⋆｡🎀｡⋆｡ﾟ
+💌 〔 𝑹𝑬𝑪𝑶𝑴𝑷𝑬𝑵𝑺𝑨𝑺 〕 💌
+✧ 💰 +40 → ${moneda}
+✧ 🔮 +300 → exp
+✧ 💎 +20 → tokens
+ﾟ｡⋆｡🎀｡⋆｡ﾟ⋆｡🎀｡⋆｡ﾟ
+
+(づ๑•ᴗ•๑)づ♡ ¡Yay ${name}!
+Fuiste registrado con mucha ternura kawaii ✨🍓`.trim();
 
   await m.react?.('📩')
 
