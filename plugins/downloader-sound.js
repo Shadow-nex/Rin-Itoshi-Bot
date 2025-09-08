@@ -1,49 +1,40 @@
-import fetch from "node-fetch";
+import fetch from 'node-fetch'
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
- try {
-   if (!text) {
-     return conn.reply(m.chat, `⚡ Ingresa un enlace de *SoundCloud*.\n\n🍂 Ejemplo:\n${usedPrefix + command} https://soundcloud.com/...`, m);
-   }
+  if (!text) return conn.reply(m.chat, `🍧 Ingresa el link de *SoundCloud*\n\n⭐ Ejemplo:\n${usedPrefix + command} https://soundcloud.com/...`, m)
 
-   let res = await fetch(`https://delirius-apiofc.vercel.app/download/soundcloud?url=${encodeURIComponent(text)}`);
-   let json = await res.json();
+  try {
 
-   if (!json.status) throw `❌ No se pudo obtener la información.`
+    let url = `https://api.siputzx.my.id/api/d/soundcloud`
 
-   let data = json.data;
-   let caption = `
-╭━━━〔 🎧 SoundCloud 🎧 〕━━⬣
-┃ ✨ *Título:* ${data.title}
-┃ 👤 *Autor:* ${data.author}
-┃ 💬 *Comentarios:* ${data.comments}
-┃ ❤️ *Likes:* ${data.likes}
-┃ 🔁 *Reposts:* ${data.reposts}
-┃ ▶️ *Reproducciones:* ${data.playbacks}
-┃ 📅 *Publicado:* ${new Date(data.created_at).toLocaleDateString()}
-╰━━━━━━━━━━━━━━━━━━━━⬣
-🔗 *Enlace:* ${data.link}
-   `.trim();
+    let res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: text })
+    })
 
-   await conn.sendMessage(m.chat, { 
-      image: { url: data.image }, 
-      caption 
-   }, { quoted: m });
+    if (!res.ok) throw await res.text()
+    let json = await res.json()
 
-   await conn.sendMessage(m.chat, { 
-      audio: { url: data.download }, 
-      mimetype: "audio/mpeg",
-      fileName: `${data.title}.mp3`
-   }, { quoted: m });
+    if (!json.status) throw `❌ No se encontró el audio.`
 
- } catch (e) {
-   console.error(e)
-   conn.reply(m.chat, `❌ Error: ${e}`, m)
- }
-};
+    let { title, url: audioUrl, thumbnail, duration, user } = json.data
 
-handler.help = ["soundcloud2"].map(v => v + " <url>");
-handler.tags = ["downloader"];
-handler.command = /^soundcloud2$/i;
+    let info = `🎶 *Título:* ${title}\n👤 *Usuario:* ${user}\n⏱️ *Duración:* ${(duration/1000).toFixed(0)}s`
 
-export default handler;
+    await conn.sendMessage(m.chat, { image: { url: thumbnail }, caption: info }, { quoted: m })
+
+    await conn.sendMessage(m.chat, { 
+      audio: { url: audioUrl }, 
+      mimetype: 'audio/mpeg',
+      fileName: title + '.mp3'
+    }, { quoted: m })
+
+  } catch (e) {
+    console.error(e)
+    conn.reply(m.chat, '❌ Ocurrió un error al descargar el audio.', m)
+  }
+}
+
+handler.command = ['soundcloud2']
+export default handler
