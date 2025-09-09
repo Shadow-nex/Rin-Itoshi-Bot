@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 let handler = async (m, { conn, text, args }) => {
   try {
     if (!text) {
-      return conn.reply(m.chat, `🍧 Ejemplo de uso: *${m.prefix}apkpure WhatsApp*`, m);
+      return conn.reply(m.chat, `🍧 Ejemplo de uso: */apkpure WhatsApp*`, m);
     }
     m.react('🕒');
 
