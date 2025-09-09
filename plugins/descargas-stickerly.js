@@ -1,11 +1,11 @@
 import fetch from "node-fetch"
-import { sticker } from "../lib/sticker.js"
+import { sticker } from "../lib/sticker.js" // librería que me pasaste
 
 const API_STICKERLY = "https://delirius-apiofc.vercel.app/download/stickerly"
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
   if (!args[0]) {
-    return m.reply(`🍧 Ingresa la URL de un pack de *Stickerly*.\n\n⭐ Ejemplo:\n> ${usedPrefix + command} https://sticker.ly/s/4I2FC0`)
+    return m.reply(`🍧 Ingresa la URL de un pack de *Stickerly*.\n\n🌱 Ejemplo:\n> ${usedPrefix + command} https://sticker.ly/s/4I2FC0`)
   }
 
   try {
@@ -44,10 +44,17 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       try {
         let img = await fetch(stick)
         let buffer = await img.buffer()
-        let stiker = await sticker(buffer, false, "Stickerly Pack", "Rin Itoshi Bot by Shadow Xyz")
+
+        let stiker = await sticker(
+          buffer,
+          false,
+          global.packsticker,
+          global.packsticker2
+        )
+
         await conn.sendFile(m.chat, stiker, "sticker.webp", "", m, { asSticker: true })
       } catch (e) {
-        console.log("Error en un sticker:", e)
+        console.log("⚠️ Error en un sticker:", e)
       }
     }
 
