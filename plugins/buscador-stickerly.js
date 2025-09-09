@@ -48,9 +48,9 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             {
               name: 'cta_copy',
               buttonParamsJson: JSON.stringify({
-                display_text: "📥 Ver Pack",
-                id: "verpack",
-                copy_code: pack.url
+                display_text: "🍧 Copiar Pack",
+                id: "stickerlydl",
+                copy_code: `.stickerlydl ${pack.url}`
               })
             }
           ]
