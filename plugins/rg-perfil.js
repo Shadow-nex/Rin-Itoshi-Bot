@@ -25,19 +25,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let coins = user.coin || 0;
     let bankCoins = user.bank || 0;
 
-    let avatar = await conn.profilePictureUrl(userId, 'image')
-        .catch(_ => 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg');
-
-    let perfilImg = `https://api.siputzx.my.id/api/canvas/profile?backgroundURL=https://i.ibb.co.com/2jMjYXK/IMG-20250103-WA0469.jpg&avatarURL=${encodeURIComponent(avatar)}&rankName=${encodeURIComponent(role)}&rankId=0&exp=${exp}&requireExp=1000&level=${nivel}&name=${encodeURIComponent(name)}`;
-
-    let footers = [
-        "✦ ✧ Rin Itoshi Bot ✧ ✦ • 🌌 Conexión Estelar ☄️",
-        "⎯͢͢͢͞͞★ 𝑹𝒊𝒏 𝑰𝒕𝒐𝒔𝒉𝒊 ⚔️ • 𝐁𝐨𝐭 𝐂𝐨𝐬𝐦𝐢𝐜𝐨",
-        "🌸 Rin Itoshi Bot • Resonancia del Alma 🌙",
-        "⚡ Rin Itoshi Bot ⚡ | 🌀 Energía Dimensional",
-        "👑 Rin Itoshi Bot • Guardián del Reino Cósmico 🌌"
-    ];
-    let footerRandom = footers[Math.floor(Math.random() * footers.length)];
+    let perfil = await conn.profilePictureUrl(userId, 'image').catch(_ => 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg');
 
     let profileText = `      🔮 𝐏𝐄𝐑𝐅𝐈𝐋 𝐂𝐎𝐒𝐌𝐈𝐂𝐎 🔮
    ✧ ˚₊ ⊹ Rin Itoshi Bot ⊹ ₊˚ ✧
@@ -65,15 +53,13 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 ☾ 🌌 𝐑𝐞𝐬𝐨𝐧𝐚𝐧𝐜𝐢𝐚 𝐅𝐢𝐧𝐚𝐥 ☽`.trim();
 
     await conn.sendMessage(m.chat, { 
-        image: { url: perfilImg },
-        caption: profileText,
-        footer: footerRandom,
+        text: profileText,
         contextInfo: {
             mentionedJid: [userId],
             externalAdReply: {
                 title: '✧ Perfil de Usuario ✧',
                 body: dev,
-                thumbnailUrl: perfilImg,
+                thumbnailUrl: perfil,
                 mediaType: 1,
                 showAdAttribution: true,
                 renderLargerThumbnail: true
