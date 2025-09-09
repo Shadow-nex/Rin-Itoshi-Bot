@@ -39,9 +39,9 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let profileText = `      🔮 𝐏𝐄𝐑𝐅𝐈𝐋 𝐂𝐎𝐒𝐌𝐈𝐂𝐎 🔮
    ✧ ˚₊ ⊹ Rin Itoshi Bot ⊹ ₊˚ ✧
 
-☄️︙*🪪 Identidad Estelar:* @${userId.split('@')[0]}
-☄️︙*🌙 Nombre Arcano:* *${name}*
-☄️︙*🌀 Esencia Vital:* _${description}_
+☄️︙ *🪪 Identidad Estelar:* @${userId.split('@')[0]}
+☄️︙ *🌙 Nombre Arcano:* *${name}*
+☄️︙ *🌀 Esencia Vital:* _${description}_
 
 
    ⚙️ 𝐂𝐎𝐍𝐅𝐈𝐆𝐔𝐑𝐀𝐂𝐈𝐎𝐍 𝐄𝐒𝐏𝐈𝐑𝐈𝐓𝐔𝐀𝐋
