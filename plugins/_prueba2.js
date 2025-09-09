@@ -1,41 +1,56 @@
-import fetch from 'node-fetch';
+import fetch from "node-fetch";
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) return conn.reply(m.chat, `✨ Ingresa un prompt\n\nEjemplo:\n${usedPrefix + command} Anime witch girl with silver hair`, m);
+const STICKERLY_API = "https://delirius-apiofc.vercel.app/search/stickerly"; // URL base de la API
+const DEFAULT_QUERY = "My melody"; // Texto por defecto si el usuario no pone nada
 
+let handler = async (m, { conn, args }) => {
   try {
- 
-    let url = `https://api.vreden.my.id/api/artificial/ximage?prompt=${encodeURIComponent(text)}`;
+    // Si el usuario no pone búsqueda, usamos el query por defecto
+    let query = args.length > 0 ? args.join(" ") : DEFAULT_QUERY;
+
+    // Construir la URL
+    let url = `${STICKERLY_API}?query=${encodeURIComponent(query)}`;
+
+    // Petición a la API
     let res = await fetch(url);
-    if (!res.ok) throw await res.text();
-
+    if (!res.ok) throw new Error(`❌ Error al conectar con la API: ${res.status}`);
     let json = await res.json();
-    let html = json.result;
 
-    if (!html) throw new Error('Respuesta vacía');
+    if (!json.status || !json.data || json.data.length === 0) {
+      return m.reply(`⚠️ No encontré resultados para *${query}*`);
+    }
 
-    let urls = [...html.matchAll(/<img[^>]+src=["']?([^"' >]+)["']?/g)].map(v => v[1]);
+    // Elegir un sticker aleatorio de los resultados
+    let sticker = json.data[Math.floor(Math.random() * json.data.length)];
 
-    if (!urls.length) throw new Error('Sin imágenes');
+    let caption = `
+╭━━━〔 🌸 *STICKERLY* 🌸 〕━━⬣
+┃ ✨ *Nombre:* ${sticker.name}
+┃ 👤 *Autor:* ${sticker.author}
+┃ 🧩 *Stickers:* ${sticker.sticker_count}
+┃ 👀 *Vistas:* ${sticker.view_count}
+┃ 📤 *Exportados:* ${sticker.export_count}
+┃ 🎭 *Animado:* ${sticker.isAnimated ? "Sí" : "No"}
+┃ 💵 *Premium:* ${sticker.isPaid ? "Sí" : "No"}
+╰━━━━━━━━━━━━━━━━━━⬣
+🔗 *Enlace:* ${sticker.url}
+    `.trim();
 
+    // Enviar preview con el link del pack
     await conn.sendMessage(m.chat, {
-      image: { url: urls[0] },
-      caption: `✨ Imagen generada para:\n\`\`\`${text}\`\`\``
+      image: { url: sticker.preview },
+      caption
     }, { quoted: m });
 
   } catch (e) {
     console.error(e);
-    const errores = [
-      '❌ Ocurrió un error al generar la imagen, inténtalo otra vez.',
-      '⚠️ Algo salió mal, por favor repite el comando más tarde.'
-    ];
-    let msg = errores[Math.floor(Math.random() * errores.length)];
-    conn.reply(m.chat, msg, m);
+    m.reply("❌ Ocurrió un error al buscar el pack de stickers.");
   }
 };
 
-handler.help = ['ximage <prompt>'];
-handler.tags = ['ai', 'image'];
-handler.command = /^ximage$/i;
+// Definir comando
+handler.help = ["stickerly <texto>"];
+handler.tags = ["sticker"];
+handler.command = /^stickerly$/i;
 
 export default handler;
