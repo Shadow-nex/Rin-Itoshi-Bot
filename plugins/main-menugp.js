@@ -1,9 +1,9 @@
 import moment from 'moment-timezone'
+import fetch from 'node-fetch'
 
 let handler = async (m, { conn, usedPrefix }) => {
   try {
     let tag = `@${m.sender.split('@')[0]}`
-    let name = await conn.getName(m.sender)
     let fecha = moment.tz('America/Lima').format('DD/MM/YYYY')
     let hora = moment.tz('America/Lima').format('HH:mm:ss')
 
@@ -87,21 +87,21 @@ let handler = async (m, { conn, usedPrefix }) => {
       'https://files.catbox.moe/i97oje.jpg'
     ]
     let img = imgs[Math.floor(Math.random() * imgs.length)]
+    let thumb = await (await fetch(img)).buffer()
 
     const fkontak = { 
       key: {  
         fromMe: false, 
-        participant: `0@s.whatsapp.net`, 
-        ...(false ? { remoteJid: "5219992095479-1625305606@g.us" } : {}) 
+        participant: `0@s.whatsapp.net`
       }, 
       message: { 
         orderMessage: { 
-          itemCount : -999999, 
+          itemCount: -999999, 
           status: 1, 
-          surface : 1, 
+          surface: 1, 
           message: "🍧 Rin Itoshi Bot 💖", 
           orderTitle: 'Bang', 
-          thumbnail: img, 
+          thumbnail: thumb,
           sellerJid: '0@s.whatsapp.net'
         }
       }
