@@ -36,7 +36,13 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     await conn.sendMessage(m.chat, { image: { url: data.preview }, caption: info }, { quoted: m });
 
     for (let stick of data.stickers) {
-      await conn.sendMessage(m.chat, { sticker: { url: stick } }, { quoted: m });
+      await conn.sendMessage(m.chat, { 
+        sticker: { 
+          url: stick,
+          packname: "Rin Itoshi Bot",
+          author: "Shadow Xyz"
+        } 
+      }, { quoted: m });
     }
 
     await m.react("✅");
