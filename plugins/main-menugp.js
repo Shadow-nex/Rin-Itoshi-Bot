@@ -82,9 +82,9 @@ let handler = async (m, { conn, usedPrefix }) => {
 `.trim()
 
     let imgs = [
-      'https://files.catbox.moe/wrxr1m.jpg',
-      'https://files.catbox.moe/qmp3vk.jpg',
-      'https://files.catbox.moe/7zv5wa.jpg'
+      'https://files.catbox.moe/ceotf9.jpg',
+      'https://files.catbox.moe/fft2hr.jpg',
+      'https://files.catbox.moe/i97oje.jpg'
     ]
     let img = imgs[Math.floor(Math.random() * imgs.length)]
 
