@@ -6,7 +6,7 @@ const { generateWAMessageContent, generateWAMessageFromContent, proto } = bailey
 const STICKERLY_API = "https://delirius-apiofc.vercel.app/search/stickerly";
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) return m.reply(`*🌸 Ingresa un texto para buscar en Stickerly.*\n> *Ejemplo:* ${usedPrefix + command} Alaya San`);
+  if (!text) return m.reply(`*🌸 Ingresa un texto para buscar en Stickerly.*\n> *Ejemplo:* ${usedPrefix + command} Alya San`);
   await m.react('🕓');
 
   try {
@@ -17,9 +17,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       throw `⚠️ No encontré resultados para *${text}*`;
     }
 
-    const results = json.data.slice(0, 15); // solo 15 resultados
+    const results = json.data.slice(0, 15);
 
-    // función para crear imagen en Baileys
     async function createImage(url) {
       const { imageMessage } = await generateWAMessageContent(
         { image: { url } },
