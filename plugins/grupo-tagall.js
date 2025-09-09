@@ -1,54 +1,54 @@
-// ✦ ᴄᴏᴅɪɢᴏ ᴄʀᴇᴀᴅᴏ ᴘᴏʀ ᴅᴠꜱʜᴀᴅᴏᴡ ⚡
-// ✦ ᴘᴀʀᴀ ʀɪɴ ɪᴛᴏꜱʜɪ ⚽
+// ✦ ᴄᴏᴅɪɢᴏ ᴄʀᴇᴀᴅᴏ ᴘᴏʀ DVShadow ⚡
+// ✦ ᴘᴀʀᴀ Rin Itoshi ⚽
 
-import fetch from 'node-fetch';
-
-const handler = async (m, { isOwner, isAdmin, conn, text, participants, args, command, usedPrefix }) => {
+const handler = async (m, { conn, args, participants, isAdmin, isOwner, usedPrefix, command }) => {
   if (usedPrefix.toLowerCase() === 'a') return;
-
-  const customEmoji = global.db.data.chats[m.chat]?.customEmoji || '🔥';
-  await m.react(customEmoji);
 
   if (!(isAdmin || isOwner)) {
     global.dfail?.('admin', m, conn);
     throw false;
   }
 
-  const mensaje = args.length ? args.join(' ') : '⚠️ *Ningún mensaje fue escrito.*';
+  const customEmoji = global.db.data.chats[m.chat]?.customEmoji || '🌟';
+  await m.react(customEmoji);
+
+  const mensaje = args.length ? args.join(' ') : '✨ *Sin mensaje adicional.*';
   const grupo = await conn.getName(m.chat);
-  const wm = club;
   const mencionados = participants.map(p => p.id);
 
-  let textoFinal = [
-    `╭─〔 ⚔️ 𝐓𝐀𝐆𝐆𝐄𝐑 𝐒𝐔𝐏𝐑𝐄𝐌𝐎 ⚔️ 〕─╮`,
-    `│ 🪐 *Conexión interdimensional abierta...*`,
-    `│`,
-    `│ 📢 *Anuncio del Guardián:*`,
-    `│    ➤ ${mensaje}`,
-    `│`,
-    `│ 🏰 *Dominio:* ${grupo}`,
-    `│ 👥 *Invocados:* ${participants.length}`,
-    `╰───────────⟢⟣──────────╯`
-  ];
-
-  for (const user of participants) {
-    textoFinal.push(` ➥ ${customEmoji} @${user.id.split('@')[0]}`);
+  let imagenGrupo;
+  try {
+    imagenGrupo = await conn.profilePictureUrl(m.chat, 'image');
+  } catch {
+    imagenGrupo = logo;
   }
 
-  textoFinal.push(`\n「 ${wm} 」`);
+  let texto = `
+╭━━━〔 👑 𝑻𝒂𝒈 𝑬𝒍𝒊𝒕𝒆 👑 〕━━━⬣
+│
+│ 📝 𝑴𝒆𝒏𝒔𝒂𝒋𝒆:
+│    ${mensaje}
+│
+│ 📌 𝑮𝒓𝒖𝒑𝒐: ${grupo}
+│ 👥 𝑴𝒊𝒆𝒎𝒃𝒓𝒐𝒔: ${participants.length}
+│
+╰━━━〔 ⚡ Rin Itoshi ⚡ 〕━━━⬣
+`;
+
+  let lista = mencionados.map(u => `  ${customEmoji} \`@${u.split('@')[0]}\``).join('\n');
 
   await conn.sendMessage(m.chat, {
-    text: textoFinal.join('\n'),
+    text: texto + '\n' + lista,
     mentions: mencionados,
     contextInfo: {
       mentionedJid: mencionados,
       externalAdReply: {
-        title: '⚡ 𝐀𝐥𝐦𝐚𝐬 𝐄𝐧𝐥𝐚𝐳𝐚𝐝𝐚𝐬 🌌',
-        body: `Grupo: ${grupo}`,
-        thumbnailUrl: 'https://files.catbox.moe/9z0g6r.jpg', // pon tu imagen preferida
+        title: '🔥 Invocación Suprema',
+        body: `Atención en ${grupo}`,
+        thumbnailUrl: imagenGrupo,
         mediaType: 1,
         renderLargerThumbnail: true,
-        sourceUrl: redes
+        sourceUrl: 'https://github.com/Yuji-XDev'
       }
     }
   }, { quoted: m });
