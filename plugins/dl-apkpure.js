@@ -1,14 +1,13 @@
 import fetch from 'node-fetch';
-import cheerio from 'cheerio';
 
 let handler = async (m, { conn, text, args }) => {
   try {
     if (!text) {
-      return conn.reply(m.chat, `🔥 Ejemplo de uso: apkpure WhatsApp`, m);
+      return conn.reply(m.chat, `🍧 Ejemplo de uso: *${m.prefix}apkpure WhatsApp*`, m);
     }
     m.react('🕒');
 
-    if (text.includes('https://apkpure.net/')) {
+    if (text.includes('https://apkpure.com/')) {
       try {
         let base = args[0].split("/")[4];
         const file = `https://d.apkpure.com/b/APK/${base}?version=latest`;
@@ -18,28 +17,22 @@ let handler = async (m, { conn, text, args }) => {
         if (sizeB > 200 * 1024 * 1024) {
           return conn.reply(
             m.chat,
-            `La aplicación es demasiado grande para ser descargada por usuarios no premium. Hazte premium para descargar aplicaciones de hasta 500MB.\n\nPeso de la apk: ${sizeMB}`,
+            `La aplicación pesa demasiado para usuarios gratis.\n\nPeso: ${sizeMB}\n\n Hazte premium para descargar hasta 500MB.`,
             m
           );
         }
 
         if (sizeB > 500 * 1024 * 1024) {
-          return conn.reply(
-            m.chat,
-            'La aplicación supera el límite de 500MB para usuarios premium.',
-            m
-          );
+          return conn.reply(m.chat, 'La aplicación supera el límite de 500MB.', m);
         }
 
         let cap = `
 ◜ ApkPure - Download ◞
 
-≡ 🌴 \`Nombre :\` ${name}
-≡ 🌿 \`Package :\` ${base}
-≡ 🌾 \`Peso :\` ${sizeMB}
-
-≡ 🌷 \`Link :\` ${args[0]}
-
+≡ 📱 *Nombre:* ${name}
+≡ 📦 *Package:* ${base}
+≡ ⚖️ *Peso:* ${sizeMB}
+≡ 🔗 *Link:* ${args[0]}
 `;
         m.reply(cap);
 
@@ -58,26 +51,26 @@ let handler = async (m, { conn, text, args }) => {
 
         m.react('☑️');
       } catch (err) {
-        return conn.reply(
-          m.chat,
-          'Error al obtener la información de la app.\n\n' + err,
-          m
-        );
+        return conn.reply(m.chat, 'Error al obtener info de la app.\n\n' + err, m);
       }
-    } else {
+    } 
+
+    else {
       m.react('⌚');
-      
-      // Nota: aquí estaba el error que aparecía en la consola
       let res = await search(text); 
       
+      if (!res.length) {
+        return conn.reply(m.chat, 'No encontré resultados para tu búsqueda.', m);
+      }
+
       let cap = `◜ ApkPure - Search ◞\n\n`;
       cap += res
         .map(
-          (v) => `
-≡ 🔍 \`Nombre :\` ${v.name}
-≡ 🍂 \`Rating :\` ${v.rating}
-≡ ✍️ \`Desarrollador :\` ${v.developer}
-≡ ⛓️ \`Link :\` ${v.link}`
+          (v, i) => `
+*${i + 1}.* 📱 ${v.name}
+   ├ 👨‍💻 Dev: ${v.developer}
+   ├ ⭐ Rating: ${v.rating}
+   ├ 🔗 Link: ${v.link}`
         )
         .join('\n\n');
       m.reply(cap);
@@ -94,34 +87,21 @@ handler.tags = ['download'];
 export default handler;
 
 async function search(text) {
-  let base = `https://apkpure.net/search?q=${encodeURIComponent(text)}`;
-
   try {
-    let res = await fetch(base, {
-      headers: {
-        'User-Agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-      },
-    });
-
+    let url = `https://api.siputzx.my.id/api/apk/apkpure?search=${encodeURIComponent(text)}`;
+    let res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
-    let html = await res.text();
-    let $ = cheerio.load(html);
-    let results = [];
+    let json = await res.json();
 
-    $('.apk-list .apk-item').each((_, el) => {
-      let app = {};
-      app.name = $(el).find('.title').text().trim();
-      app.link = 'https://apkpure.net' + $(el).attr('href');
-      app.icon = $(el).find('.icon img').attr('data-original') || $(el).find('.icon img').attr('src');
-      app.developer = $(el).find('.dev').text().trim();
-      app.rating = $(el).find('.stars').text().trim();
-      app.download = app.link.replace('/com.', '/download/com.');
+    if (!json.status || !json.data) return [];
 
-      if (app.name) results.push(app);
-    });
-
-    return results;
+    return json.data.map(app => ({
+      name: app.title || 'Sin nombre',
+      developer: app.developer || 'Desconocido',
+      link: app.link,
+      icon: app.icon,
+      rating: app.rating?.score || 'N/A'
+    }));
   } catch (err) {
     console.error(err);
     return [];
