@@ -4,11 +4,10 @@ import cheerio from 'cheerio';
 let handler = async (m, { conn, text, args }) => {
   try {
     if (!text) {
-      return conn.reply(m.chat, `🌷 Ejemplo de uso: apkpure WhatsApp`, m);
+      return conn.reply(m.chat, `🔥 Ejemplo de uso: apkpure WhatsApp`, m);
     }
     m.react('🕒');
 
-    // 🔹 Descargar APK directo desde link
     if (text.includes('https://apkpure.net/')) {
       try {
         let base = args[0].split("/")[4];
@@ -19,7 +18,7 @@ let handler = async (m, { conn, text, args }) => {
         if (sizeB > 200 * 1024 * 1024) {
           return conn.reply(
             m.chat,
-            `🍂 La aplicación es demasiado grande para usuarios normales.\n\n📦 Peso de la apk: ${sizeMB}`,
+            `La aplicación es demasiado grande para ser descargada por usuarios no premium. Hazte premium para descargar aplicaciones de hasta 500MB.\n\nPeso de la apk: ${sizeMB}`,
             m
           );
         }
@@ -27,7 +26,7 @@ let handler = async (m, { conn, text, args }) => {
         if (sizeB > 500 * 1024 * 1024) {
           return conn.reply(
             m.chat,
-            '⚠️ La aplicación supera el límite de 500MB incluso para premium.',
+            'La aplicación supera el límite de 500MB para usuarios premium.',
             m
           );
         }
@@ -35,11 +34,12 @@ let handler = async (m, { conn, text, args }) => {
         let cap = `
 ◜ ApkPure - Download ◞
 
-≡ 🌴 Nombre: ${name}
-≡ 🌿 Package: ${base}
-≡ 🌾 Peso: ${sizeMB}
+≡ 🌴 \`Nombre :\` ${name}
+≡ 🌿 \`Package :\` ${base}
+≡ 🌾 \`Peso :\` ${sizeMB}
 
-≡ 🌷 Link: ${args[0]}
+≡ 🌷 \`Link :\` ${args[0]}
+
 `;
         m.reply(cap);
 
@@ -60,34 +60,31 @@ let handler = async (m, { conn, text, args }) => {
       } catch (err) {
         return conn.reply(
           m.chat,
-          '❌ Error al obtener la información de la app.\n\n' + err,
+          'Error al obtener la información de la app.\n\n' + err,
           m
         );
       }
     } else {
-      // 🔹 Buscar apps en Apkpure
       m.react('⌚');
+      
+      // Nota: aquí estaba el error que aparecía en la consola
       let res = await search(text); 
-
-      if (!res.length) {
-        return m.reply('⚠️ No encontré ninguna aplicación con ese nombre.');
-      }
       
       let cap = `◜ ApkPure - Search ◞\n\n`;
       cap += res
         .map(
           (v) => `
-≡ 🔍 Nombre: ${v.name}
-≡ ✍️ Desarrollador: ${v.developer}
-≡ ⛓️ Link: ${v.link}`
+≡ 🔍 \`Nombre :\` ${v.name}
+≡ 🍂 \`Rating :\` ${v.rating}
+≡ ✍️ \`Desarrollador :\` ${v.developer}
+≡ ⛓️ \`Link :\` ${v.link}`
         )
         .join('\n\n');
-
       m.reply(cap);
       m.react('☑️');
     }
   } catch (err) {
-    return conn.reply(m.chat, '❌ Error en la ejecución.\n\n' + err, m);
+    return conn.reply(m.chat, 'Error en la ejecución.\n\n' + err, m);
   }
 };
 
@@ -96,7 +93,6 @@ handler.command = ['apkpure', 'apkpuredl'];
 handler.tags = ['download'];
 export default handler;
 
-// 🔎 Nueva función de búsqueda
 async function search(text) {
   let base = `https://apkpure.net/search?q=${encodeURIComponent(text)}`;
 
@@ -113,14 +109,14 @@ async function search(text) {
     let $ = cheerio.load(html);
     let results = [];
 
-    // ⚡ Selectores actualizados
-    $('.main .category-template .app-list a').each((_, el) => {
+    $('.apk-list .apk-item').each((_, el) => {
       let app = {};
       app.name = $(el).find('.title').text().trim();
       app.link = 'https://apkpure.net' + $(el).attr('href');
-      app.icon = $(el).find('img').attr('src');
-      app.developer = $(el).find('.developer').text().trim();
-      app.rating = 'N/A'; // Apkpure ya no muestra rating directo
+      app.icon = $(el).find('.icon img').attr('data-original') || $(el).find('.icon img').attr('src');
+      app.developer = $(el).find('.dev').text().trim();
+      app.rating = $(el).find('.stars').text().trim();
+      app.download = app.link.replace('/com.', '/download/com.');
 
       if (app.name) results.push(app);
     });
@@ -132,7 +128,6 @@ async function search(text) {
   }
 }
 
-// 📦 Info de archivo APK
 async function getInfo(url) {
   try {
     const res = await fetch(url);
