@@ -25,7 +25,10 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let coins = user.coin || 0;
     let bankCoins = user.bank || 0;
 
-    let perfil = await conn.profilePictureUrl(userId, 'image').catch(_ => 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg');
+    let avatar = await conn.profilePictureUrl(userId, 'image')
+        .catch(_ => 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg');
+
+    let perfilImg = `https://api.siputzx.my.id/api/canvas/profile?backgroundURL=https://i.ibb.co.com/2jMjYXK/IMG-20250103-WA0469.jpg&avatarURL=${encodeURIComponent(avatar)}&rankName=${encodeURIComponent(role)}&rankId=0&exp=${exp}&requireExp=1000&level=${nivel}&name=${encodeURIComponent(name)}`;
 
     let footers = [
         "✦ ✧ Rin Itoshi Bot ✧ ✦ • 🌌 Conexión Estelar ☄️",
@@ -62,14 +65,15 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 ☾ 🌌 𝐑𝐞𝐬𝐨𝐧𝐚𝐧𝐜𝐢𝐚 𝐅𝐢𝐧𝐚𝐥 ☽`.trim();
 
     await conn.sendMessage(m.chat, { 
-        text: profileText,
+        image: { url: perfilImg },
+        caption: profileText,
         footer: footerRandom,
         contextInfo: {
             mentionedJid: [userId],
             externalAdReply: {
                 title: '✧ Perfil de Usuario ✧',
                 body: dev,
-                thumbnailUrl: perfil,
+                thumbnailUrl: perfilImg,
                 mediaType: 1,
                 showAdAttribution: true,
                 renderLargerThumbnail: true
