@@ -15,22 +15,23 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       const app = data.data;
       apkSession.set(m.chat, { app });
 
-      let description = `\`\`\`◜ Apk - Download ◞\`\`\`\n\n`;
-      description += `🌴 *Nombre:* ${app.name}\n`;
-      description += `👤 *Desarrollador:* ${app.developer}\n`;
-      description += `📂 *Versión:* ${app.version || "N/A"}\n`;
-      description += `⚙️ *Tamaño:* ${app.size}\n`;
-      description += `⭐ *Rating:* ${app.rating || "N/A"}\n`;
-      description += `💾 *Publicado:* ${app.publish}\n`;
-      description += `📅 *Última actualización:* ${app.updated || "N/A"}\n`;
-      description += `🖇️ *Descargas:* ${app.stats?.downloads?.toLocaleString() || "N/A"}\n\n`;
-      description += `📝 *Descripción:*\n${app.desc?.slice(0, 200)}...\n\n`;
-      description += `🔗 *PlayStore:* ${app.link || "No disponible"}\n`;
+      let description = `
+╭━━━〔 📲 𝐃𝐞𝐬𝐜𝐚𝐫𝐠𝐚 𝐝𝐞 𝐀𝐩𝐤𝐬 〕━━━⬣
+┃ 🍧 *Nombre:* ${app.name}
+┃ 🌱 *Desarrollador:* ${app.developer}
+┃ 📦 *Paquete:* ${app.id}
+┃ ⚙️ *Tamaño:* ${app.size}
+┃ ⭐ *Rating:* ${app.stats?.rating?.average || "N/A"} (${app.stats?.rating?.total || 0} votos)
+┃ 📅 *Publicado:* ${app.publish}
+┃ ⚽ *Descargas:* ${app.stats?.downloads?.toLocaleString() || "N/A"}
+┃ 🏪 *Tienda:* ${app.store?.name || "Desconocida"}
+╰━━━━━━━━━━━━━━━━━━━━⬣
+`;
 
       const buttons = [
         {
           buttonId: `${usedPrefix}apk_download`,
-          buttonText: { displayText: "📥 Descargar" },
+          buttonText: { displayText: "💖 ＤＥＳＣＡＲＧＡＲ" },
           type: 1
         }
       ];
@@ -40,7 +41,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         m.chat,
         {
           image: { url: app.image },
-          caption: description,
+          caption: description.trim(),
           buttons,
           footer: dev,
           viewOnce: true
@@ -54,7 +55,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
       await conn.sendMessage(
         m.chat,
-        { text: `Ocurrió un error: ${error.message || "Error desconocido"}` },
+        { text: `❌ Ocurrió un error: ${error.message || "Error desconocido"}` },
         { quoted: m }
       );
     }
@@ -77,20 +78,28 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     try {
       await m.react('⌛');
 
+      let caption = `
+╭━━━〔 ✅ 𝐃𝐞𝐬𝐜𝐚𝐫𝐠𝐚 𝐂𝐨𝐦𝐩𝐥𝐞𝐭𝐚 〕━━━⬣
+┃ 💔 *${app.name}*
+┃ 👤 *Desarrollador:* ${app.developer}
+┃ ⚙️ *Tamaño:* ${app.size}
+┃ 📦 *Paquete:* ${app.id}
+┃ 🍂 *Publicado:* ${app.publish}
+╰━━━━━━━━━━━━━━━━━━━━⬣
+`;
+
       await conn.sendMessage(
         m.chat,
         {
           document: { url: downloadUrl },
           fileName: `${app.name}.apk`,
           mimetype: 'application/vnd.android.package-archive',
-          caption: `*${app.name}*`,
-          thumbnail: app.image,
+          caption: caption.trim(),
           contextInfo: {
             externalAdReply: {
               title: app.name,
               body: packname,
-              mediaUrl: null,
-              sourceUrl: app.link || null,
+              sourceUrl: app.store?.avatar || null,
               thumbnailUrl: app.image,
               mediaType: 1,
               renderLargerThumbnail: true
