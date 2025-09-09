@@ -27,10 +27,17 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     let perfil = await conn.profilePictureUrl(userId, 'image').catch(_ => 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg');
 
-    let profileText = `✦ ━━━━━ • 𓇼 • ━━━━━ ✦
-      🔮 𝐏𝐄𝐑𝐅𝐈𝐋 𝐂𝐎𝐒𝐌𝐈𝐂𝐎 🔮
+    let footers = [
+        "✦ ✧ Rin Itoshi Bot ✧ ✦ • 🌌 Conexión Estelar ☄️",
+        "⎯͢͢͢͞͞★ 𝑹𝒊𝒏 𝑰𝒕𝒐𝒔𝒉𝒊 ⚔️ • 𝐁𝐨𝐭 𝐂𝐨𝐬𝐦𝐢𝐜𝐨",
+        "🌸 Rin Itoshi Bot • Resonancia del Alma 🌙",
+        "⚡ Rin Itoshi Bot ⚡ | 🌀 Energía Dimensional",
+        "👑 Rin Itoshi Bot • Guardián del Reino Cósmico 🌌"
+    ];
+    let footerRandom = footers[Math.floor(Math.random() * footers.length)];
+
+    let profileText = `      🔮 𝐏𝐄𝐑𝐅𝐈𝐋 𝐂𝐎𝐒𝐌𝐈𝐂𝐎 🔮
    ✧ ˚₊ ⊹ Rin Itoshi Bot ⊹ ₊˚ ✧
-✦ ━━━━━ • 𓇼 • ━━━━━ ✦
 
 ☄️︙*🪪 Identidad Estelar:* @${userId.split('@')[0]}
 ☄️︙*🌙 Nombre Arcano:* *${name}*
@@ -56,6 +63,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     await conn.sendMessage(m.chat, { 
         text: profileText,
+        footer: footerRandom,
         contextInfo: {
             mentionedJid: [userId],
             externalAdReply: {

@@ -7,17 +7,17 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
   if (command === 'bot') {
     if (args.length === 0) {
       const estado = chat.isBanned ? '✘ 𝐃𝐄𝐒𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎' : '✔ 𝐀𝐂𝐓𝐈𝐕𝐎';
-      const info = `╭───〔 ⚙️ 𝐂𝐎𝐍𝐓𝐑𝐎𝐋 𝐃𝐄 𝐑𝐈𝐍 𝐈𝐓𝐎𝐒𝐇𝐈 〕───⬣
-┃ 🧩 *𝐒𝐨𝐥𝐨 𝐥𝐨𝐬 𝐝𝐢𝐫𝐞𝐜𝐭𝐨𝐫𝐞𝐬 𝐩𝐮𝐞𝐝𝐞𝐧 𝐜𝐨𝐧𝐭𝐫𝐨𝐥𝐚𝐫 𝐚 𝐑𝐢𝐧.*
-┃
-┣━〔 𝐂𝐎𝐌𝐀𝐍𝐃𝐎𝐒 〕━⬣
-┃ ⚡ ${usedPrefix}bot on ➤ *Activar Bot*
-┃ 🔕 ${usedPrefix}bot off ➤ *Desactivar Bot*
-┃
-┣━〔 𝐄𝐒𝐓𝐀𝐃𝐎 〕━⬣
-┃ 📶 Rin Itoshi ➤ ${estado}
-┃
-╰───〔 ⚽ 𝐄𝐋 𝐆𝐄𝐍𝐈𝐎 𝐃𝐄𝐋 𝐂𝐀𝐌𝐏𝐎 ⚽ 〕───⬣`;
+      const info = `▰▰▰〔 ✧ 𝑪𝑶𝑵𝑻𝑹𝑶𝑳 : 𝑹𝑰𝑵 𝑰𝑻𝑶𝑺𝑯𝑰 ✧ 〕▰▰▰
+▣ Solo los directores pueden gestionar a Rin.
+
+➤ 〔 𝑪𝑶𝑴𝑨𝑵𝑫𝑶𝑺 〕
+ ⇢  ⌬ ${usedPrefix}bot on   | ➜ Activar
+ ⇢  ⌬ ${usedPrefix}bot off   | ➜ Desactivar
+
+➤ 〔 𝑬𝑺𝑻𝑨𝑫𝑶 〕
+ ⇢  ⌬ Estado Actual ➜ \`${estado}\`
+
+▰▰▰〔 ✧ 𝑴𝑨𝑬𝑺𝑻𝑹𝑶 𝑫𝑬𝑳 𝑱𝑼𝑬𝑮𝑶 ✧ 〕▰▰▰`;
       return conn.reply(m.chat, info, fkontak, fake);
     }
 

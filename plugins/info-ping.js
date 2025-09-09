@@ -8,11 +8,7 @@ let handler = async (m, { conn }) => {
     let child = stdout.toString("utf-8");
     let ssd = child.replace(/Memory:/, "Ram:");
     
-    let pingtxt = `╭─ 𝑷𝒊𝒏𝒈 - 𝑹𝒊𝒏𝑰𝒕𝒐𝒔𝒉𝒊-𝑩𝒐𝒕
-│
-│ ☆ 🌱 \`ᴛɪᴇᴍᴘᴏ:\` ${latensi.toFixed(4)}ms
-│
-╰─`;
+    let pingtxt = ` ☆ 🌱 \`ᴛɪᴇᴍᴘᴏ:\` ${latensi.toFixed(4)}ms`;
 
     await m.reply('*🍂 Calculando ping?*');
     await conn.sendMessage(m.chat, {
