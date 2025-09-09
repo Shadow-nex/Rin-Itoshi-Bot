@@ -4,7 +4,7 @@ import cheerio from 'cheerio';
 let handler = async (m, { conn, text, args }) => {
   try {
     if (!text) {
-      return conn.reply(m.chat, `🌷 Ejemplo de uso: apkpure WhatsApp`, m);
+      return conn.reply(m.chat, `*🌷 Ejemplo de uso:* apkpure WhatsApp`, m);
     }
     m.react('🕒');
 
@@ -112,14 +112,13 @@ async function search(text) {
     let $ = cheerio.load(html);
     let results = [];
 
-
-    $('.search-dl').each((_, el) => {
+    $('.main .category-template .app-list a').each((_, el) => {
       let app = {};
-      app.name = $(el).find('.search-title').text().trim();
-      app.link = 'https://apkpure.net' + $(el).find('a').attr('href');
+      app.name = $(el).find('.title').text().trim();
+      app.link = 'https://apkpure.net' + $(el).attr('href');
       app.icon = $(el).find('img').attr('src');
-      app.developer = $(el).find('.search-sub').text().trim();
-      app.rating = $(el).find('.score').text().trim() || 'N/A';
+      app.developer = $(el).find('.developer').text().trim();
+      app.rating = 'N/A';
 
       if (app.name) results.push(app);
     });
@@ -128,20 +127,6 @@ async function search(text) {
   } catch (err) {
     console.error(err);
     return [];
-  }
-}
-
-async function getInfo(url) {
-  try {
-    const res = await fetch(url);
-    const cd = res.headers.get('content-disposition');
-    const name = cd && cd.match(/filename="(.+)"/)[1];
-    const sizeB = parseInt(res.headers.get('content-length'), 10);
-    const sizeMB = (sizeB / (1024 * 1024)).toFixed(2) + ' MB';
-
-    return { name, sizeB, sizeMB };
-  } catch (err) {
-    return { error: err.message };
   }
 }
 
