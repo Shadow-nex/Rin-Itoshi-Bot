@@ -208,7 +208,7 @@ ${readMore}
 *│⚡•❭* */tt2*
 *│⚡•❭* */kwaidl*
 *│⚡•❭* */likee <url>*
-*│⚡•❭* */aplay2 • applemusic2
+*│⚡•❭* */aplay2 • applemusic2*
 *│⚡•❭* */capcut <url>*
 *│⚡•❭* */play*
 *│⚡•❭* */play2*
@@ -217,7 +217,7 @@ ${readMore}
 *│⚡•❭* */iaimg <texto>*
 *│⚡•❭* */yta*
 *│⚡•❭* */ytv*
-*│⚡•❭* */stickerlydl
+*│⚡•❭* */stickerlydl*
 *│⚡•❭* */tiktokrandom*
 *│⚡•❭* */spotify*
 *│⚡•❭* */tiktokhd*
