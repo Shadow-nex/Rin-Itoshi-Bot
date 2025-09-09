@@ -15,17 +15,15 @@ const handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, i
     isEnable = false
 } else {
     const estado = isEnable ? '✓ Activado' : '✗ Desactivado'
-    return conn.reply(m.chat, `╭━━━〔 ⚙️ 𝑪𝑶𝑵𝑭𝑰𝑮𝑼𝑹𝑨𝑪𝑰𝑶́𝑵 〕━━━╮
-┃ 📜 𝑪𝒐𝒎𝒂𝒏𝒅𝒐: *${command}*
-┃ 🛡️ 𝑺𝒐𝒍𝒐 𝒈𝒆𝒔𝒕𝒊𝒐𝒏𝒂𝒅𝒐 𝒑𝒐𝒓 𝒂𝒅𝒎𝒊𝒏𝒔.
-┃
-┃ 🔧 𝑨𝒄𝒕𝒊𝒗𝒂𝒓:
-┃   ╰─ ❯ *${usedPrefix}${command} on*
-┃ 📴 𝑫𝒆𝒔𝒂𝒄𝒕𝒊𝒗𝒂𝒓:
-┃   ╰─ ❯ *${usedPrefix}${command} off*
-┃
-┃ 👾 𝑬𝒔𝒕𝒂𝒅𝒐 𝒂𝒄𝒕𝒖𝒂𝒍: *${estado}*
-╰━━━━━━━━━━━━━━━━━━━━━━╯`, m, rcanal);
+    return conn.reply(m.chat, `✦━─〔 ⚙️ 𝐂𝐎𝐍𝐅𝐈𝐆𝐔𝐑𝐀𝐂𝐈𝐎́𝐍 〕─━✦
+📜 𝐂𝐨𝐦𝐚𝐧𝐝𝐨 » *${command}*
+🛡️ 𝐀𝐝𝐦𝐢𝐧𝐬 𝐒𝐨𝐥𝐨 ✧
+   
+🔧 𝐀𝐜𝐭𝐢𝐯𝐚𝐫 » *${usedPrefix}${command} on*
+📴 𝐃𝐞𝐬𝐚𝐜𝐭𝐢𝐯𝐚𝐫 » *${usedPrefix}${command} off*
+
+👾 𝐄𝐬𝐭𝐚𝐝𝐨 » ${estado ? '✅ 𝐀𝐜𝐭𝐢𝐯𝐨' : '❌ 𝐈𝐧𝐚𝐜𝐭𝐢𝐯𝐨'}
+✦━━━━━━━━━━━━━━━━━━━━━✦`, m, rcanal);
   }
 
   switch (type) {
@@ -264,11 +262,12 @@ const handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, i
   
   chat[type] = isEnable;
   
-  conn.reply(m.chat, `╔══〔 ✦ 🛠 𝐅𝐔𝐍𝐂𝐈𝐎́𝐍 𝐃𝐄 𝐒𝐈𝐒𝐓𝐄𝐌𝐀 ✦ 〕══╗
-║ 🧩 \`𝐅𝐮𝐧𝐜𝐢𝐨́𝐧:\` *${type}*
-║ ⚙️ \`𝐄𝐬𝐭𝐚𝐝𝐨:\` ${isEnable ? '✅ 𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎' : '❌ 𝐃𝐄𝐒𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎'}
-║ 🌍 \`𝐀𝐩𝐥𝐢𝐜𝐚:\` ${isAll ? '🌐 *𝐏𝐀𝐑𝐀 𝐓𝐎𝐃𝐎 𝐄𝐋 𝐁𝐎𝐓*' : isUser ? '👤 *𝐔𝐒𝐔𝐀𝐑𝐈𝐎 𝐄𝐒𝐏𝐄𝐂𝐈́𝐅𝐈𝐂𝐎*' : '💬 *𝐏𝐀𝐑𝐀 𝐄𝐒𝐓𝐄 𝐂𝐇𝐀𝐓*'}
-╚═══════════════════════════╝`, m, fake);
+  conn.reply(m.chat, `✦━─〔 ⚡ 🛠 ꜱɪꜱᴛᴇᴍᴀ ᴅᴇʟ ʙᴏᴛ 🛠 ⚡ 〕─━✦
+╭───────────────────────────╮
+│ 🧩 𝐅𝐮𝐧𝐜𝐢𝐨́𝐧 » *${type}*
+│ ⚙️ 𝐄𝐬𝐭𝐚𝐝𝐨 » ${isEnable ? '✅ 𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎' : '❌ 𝐃𝐄𝐒𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎'}
+│ 🌍 𝐀𝐩𝐥𝐢𝐜𝐚 » ${isAll ? '🌐 𝐓𝐨𝐝𝐨 𝐞𝐥 𝐁𝐨𝐭' : isUser ? '👤 𝐔𝐬𝐮𝐚𝐫𝐢𝐨' : '💬 𝐂𝐡𝐚𝐭'}
+╰───────────────────────────╯`, m, fake);
 };
 
 handler.help = ['welcome', 'bienvenida', 'antiprivado', 'antiprivate', 'restrict', 'restringir', 'antibot', 'antibots', 'autoaceptar', 'aceptarauto', 'autorechazar', 'rechazarauto', 'autoresponder', 'autorespond', 'antisubbots', 'antibot2', 'modoadmin', 'soloadmin', 'reaction', 'reaccion', 'nsfw', 'modohorny', 'antiSpam', 'antispam', 'jadibotmd', 'modejadibot', 'subbots', 'detect', 'avisos', 'antilink', 'audios', 'antiver', 'antiocultar', 'antilink2', 'antiarabe', 'antifake', 'antivirtuales']

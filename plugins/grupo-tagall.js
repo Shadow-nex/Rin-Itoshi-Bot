@@ -29,7 +29,7 @@ const handler = async (m, { conn, args, participants, isAdmin, isOwner, usedPref
 │ 📝 𝑴𝒆𝒏𝒔𝒂𝒋𝒆:
 │    ${mensaje}
 │
-│ 📌 𝑮𝒓𝒖𝒑𝒐: ${grupo}
+│ 🍂 𝑮𝒓𝒖𝒑𝒐: ${grupo}
 │ 👥 𝑴𝒊𝒆𝒎𝒃𝒓𝒐𝒔: ${participants.length}
 │
 ╰━━━〔 ⚡ Rin Itoshi ⚡ 〕━━━⬣
