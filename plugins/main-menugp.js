@@ -122,7 +122,7 @@ let handler = async (m, { conn, usedPrefix }) => {
       }
     }, { quoted: fkontak })
 
-    await m.react('🌸')
+    await m.react('⚽')
   } catch (e) {
     await conn.reply(m.chat, '❌ Error mostrando el menú admin.', m)
     console.error(e)

@@ -1,4 +1,4 @@
-import yts from 'yt-search';
+/*import yts from 'yt-search';
 import fetch from 'node-fetch';
 import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys';
 
@@ -172,4 +172,4 @@ async function searchSpotify(query) {
     console.error('Error en Spotify API:', error.message);
     return [];
   }
-}
+}*/

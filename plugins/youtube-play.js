@@ -1,76 +1,88 @@
-/*import yts from 'yt-search';
+import yts from 'yt-search';
+import fetch from 'node-fetch';
 
-const traducirAgo = (texto) => {
-  return texto
-    .replace(/second[s]? ago/i, 'unos segundos')
-    .replace(/minute[s]? ago/i, 'minutos')
-    .replace(/hour[s]? ago/i, 'horas')
-    .replace(/day[s]? ago/i, 'días')
-    .replace(/week[s]? ago/i, 'semanas')
-    .replace(/month[s]? ago/i, 'meses')
-    .replace(/year[s]? ago/i, 'año')
-    .replace(/\b1 (segundo|minuto|hora|día|semana|mes|año)s?\b/g, '1 $1')
-    .replace(/\b(\d+)\b/, 'hace $1');
-};
+const handler = async (m, { conn, args, usedPrefix, command }) => {
+    if (!args[0]) return conn.reply(m.chat, `*🍧 Ingresa un título para buscar en YouTube.*`, m);
 
-const handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) {
-    return conn.reply(m.chat, `*༄❖ Invoca un título para buscar en el reino de YouTube...*`, m, fake);
-  }
+    await m.react('🕓');
+    try {
+        let searchResults = await searchVideos(args.join(" "));
 
-  try {
-    const search = await yts(text);
-    const videoInfo = search.all?.[0];
+        if (!searchResults.length) throw new Error('*✖️ No se encontraron resultados.*');
 
-    if (!videoInfo) {
-      return conn.reply(m.chat, '⚠️ No se encontró ningún video. Intenta con otro título.', m);
+        let video = searchResults[0];
+        let thumbnail = await (await fetch(video.miniatura)).buffer();
+
+        let messageText = `\`\`\`◜ YouTube - Download ◞\`\`\`\n\n`;
+        messageText += `🍧 *${video.titulo}*\n`;
+        messageText += `🌱 *𝐂𝐚𝐧𝐚𝐥:* ${video.canal}\n`;
+        messageText += `⚡ *𝐃𝐮𝐫𝐚𝐜𝐢𝐨𝐧:* ${video.duracion}\n`;
+        messageText += `🌷 *𝐕𝐢𝐬𝐭𝐚𝐬:* ${video.vistas}\n`;
+        messageText += `🍂 *𝐏𝐮𝐛𝐢𝐜𝐚𝐝𝐨:* ${video.publicado}\n`;
+        messageText += `🌍 *𝐋𝐢𝐧𝐤:* ${video.url}\n`;
+
+        await conn.sendMessage(m.chat, {
+            image: thumbnail,
+            caption: messageText,
+            footer: club,
+            contextInfo: {
+                mentionedJid: [m.sender],
+                forwardingScore: 999,
+                isForwarded: true
+            },
+            buttons: [
+                {
+                    buttonId: `${usedPrefix}ytmp3doc ${video.url}`,
+                    buttonText: { displayText: '🎧 ＡＵＤＩＯ ~ ＤＯＣ' },
+                    type: 1,
+                },
+                {
+                    buttonId: `${usedPrefix}ytmp4doc ${video.url}`,
+                    buttonText: { displayText: '🎬 ＶＩＤＥＯ ~ ＤＯＣ' },
+                    type: 1,
+                },
+                {
+                    buttonId: `${usedPrefix}ytmp3 ${video.url}`,
+                    buttonText: { displayText: '🎶 ＡＵＤＩＯ' },
+                    type: 1,
+                },
+                {
+                    buttonId: `${usedPrefix}ytmp4 ${video.url}`,
+                    buttonText: { displayText: '📹 ＶＩＤＥＯ' },
+                    type: 1,
+                }
+            ],
+            headerType: 1,
+            viewOnce: true
+        }, { quoted: m });
+
+        await m.react('✅');
+    } catch (e) {
+        console.error(e);
+        await m.react('✖️');
+        conn.reply(m.chat, '*✖️ Video no encontrado en Youtube.*', m);
     }
-
-    const title = videoInfo.title || 'Título desconocido';
-    const duration = videoInfo.timestamp || 'Duración desconocida';
-    const views = typeof videoInfo.views === 'number' ? videoInfo.views.toLocaleString() : 'No disponible';
-    const canal = videoInfo.author?.name || 'Autor desconocido';
-    const agoEn = videoInfo.ago || 'Desconocido';
-    const ago = traducirAgo(agoEn);
-    const url = videoInfo.url || '';
-    const thumbnail = videoInfo.thumbnail || null;
-
-    const body = ` *"${title}"*
-
-> ⏱️ *Duración:* ${duration}
-> 📊 *Vistas:* ${views}
-> 🎤 *Canal:* ${canal}
-> 📅 *Publicado:* ${ago}
-> 🔗 *Enlace:* ${url}
-> 💽 *Formato:* MP3 / MP4 disponible`;
-
-    await conn.sendMessage(
-      m.chat,
-      {
-        image: { url: thumbnail },
-        caption: body,
-        footer: `📥 *¿Quieres descargarlo?* Solo elige una opción abajo`,
-        buttons: [
-          { buttonId: `${usedPrefix}ytmp3 ${url}`, buttonText: { displayText: '💿 Audio' }, type: 1 },
-          { buttonId: `${usedPrefix}ytmp4 ${url}`, buttonText: { displayText: '☘️ Video' }, type: 1 },
-          { buttonId: `${usedPrefix}ytmp3doc${url}`, buttonText: { displayText: '💚 Audio Doc' }, type: 1 },
-          { buttonId: `${usedPrefix}ytmp4doc ${url}`, buttonText: { displayText: '☁️ Video Doc' }, type: 1 },
-        ],
-        viewOnce: true,
-        headerType: 4,
-      },
-      { quoted: m }
-    );
-
-    await m.react('✅');
-  } catch (error) {
-    console.error(error);
-    return conn.reply(m.chat, `❗ Ocurrió un error: ${error.message}`, m);
-  }
 };
 
-handler.command = ['play', 'play2'];
+handler.help = ['play'];
 handler.tags = ['descargas'];
-handler.limit = 6;
+handler.command = ['play', 'play2'];
+export default handler;
 
-export default handler;*/
+async function searchVideos(query) {
+    try {
+        const res = await yts(query);
+        return res.videos.slice(0, 10).map(video => ({
+            titulo: video.title,
+            url: video.url,
+            miniatura: video.thumbnail,
+            canal: video.author.name,
+            publicado: video.ago || 'No disponible',
+            vistas: video.views?.toLocaleString() || 'No disponible',
+            duracion: video.duration.timestamp || 'No disponible'
+        }));
+    } catch (error) {
+        console.error('*Error en yt-search:*', error.message);
+        return [];
+    }
+}
