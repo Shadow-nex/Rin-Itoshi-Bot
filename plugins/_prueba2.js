@@ -1,56 +1,100 @@
-import fetch from "node-fetch";
+import fetch from 'node-fetch';
+import baileys from '@whiskeysockets/baileys';
 
-const STICKERLY_API = "https://delirius-apiofc.vercel.app/search/stickerly"; // URL base de la API
-const DEFAULT_QUERY = "My melody"; // Texto por defecto si el usuario no pone nada
+const { generateWAMessageContent, generateWAMessageFromContent, proto } = baileys;
 
-let handler = async (m, { conn, args }) => {
+const STICKERLY_API = "https://delirius-apiofc.vercel.app/search/stickerly";
+
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text) return m.reply(`*🌸 Ingresa un texto para buscar en Stickerly.*\n> *Ejemplo:* ${usedPrefix + command} Alya San`);
+  await m.react('🕓');
+
   try {
-    // Si el usuario no pone búsqueda, usamos el query por defecto
-    let query = args.length > 0 ? args.join(" ") : DEFAULT_QUERY;
-
-    // Construir la URL
-    let url = `${STICKERLY_API}?query=${encodeURIComponent(query)}`;
-
-    // Petición a la API
-    let res = await fetch(url);
-    if (!res.ok) throw new Error(`❌ Error al conectar con la API: ${res.status}`);
-    let json = await res.json();
+    const res = await fetch(`${STICKERLY_API}?query=${encodeURIComponent(text)}`);
+    const json = await res.json();
 
     if (!json.status || !json.data || json.data.length === 0) {
-      return m.reply(`⚠️ No encontré resultados para *${query}*`);
+      throw `⚠️ No encontré resultados para *${text}*`;
     }
 
-    // Elegir un sticker aleatorio de los resultados
-    let sticker = json.data[Math.floor(Math.random() * json.data.length)];
+    const results = json.data.slice(0, 15); // solo 15 resultados
 
-    let caption = `
-╭━━━〔 🌸 *STICKERLY* 🌸 〕━━⬣
-┃ ✨ *Nombre:* ${sticker.name}
-┃ 👤 *Autor:* ${sticker.author}
-┃ 🧩 *Stickers:* ${sticker.sticker_count}
-┃ 👀 *Vistas:* ${sticker.view_count}
-┃ 📤 *Exportados:* ${sticker.export_count}
-┃ 🎭 *Animado:* ${sticker.isAnimated ? "Sí" : "No"}
-┃ 💵 *Premium:* ${sticker.isPaid ? "Sí" : "No"}
-╰━━━━━━━━━━━━━━━━━━⬣
-🔗 *Enlace:* ${sticker.url}
-    `.trim();
+    // función para crear imagen en Baileys
+    async function createImage(url) {
+      const { imageMessage } = await generateWAMessageContent(
+        { image: { url } },
+        { upload: conn.waUploadToServer }
+      );
+      return imageMessage;
+    }
 
-    // Enviar preview con el link del pack
-    await conn.sendMessage(m.chat, {
-      image: { url: sticker.preview },
-      caption
+    let cards = [];
+    for (let pack of results) {
+      let image = await createImage(pack.preview);
+
+      cards.push({
+        body: proto.Message.InteractiveMessage.Body.fromObject({
+          text: `🍃 *Nombre:* ${pack.name}\n👤 *Autor:* ${pack.author}\n🧩 *Stickers:* ${pack.sticker_count}\n👀 *Vistas:* ${pack.view_count}\n📤 *Exportados:* ${pack.export_count}`
+        }),
+        footer: proto.Message.InteractiveMessage.Footer.fromObject({
+          text: '® ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ | © sʜᴀᴅᴏᴡ.xʏᴢ'
+        }),
+        header: proto.Message.InteractiveMessage.Header.fromObject({
+          title: '',
+          hasMediaAttachment: true,
+          imageMessage: image
+        }),
+        nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
+          buttons: [
+            {
+              name: 'cta_copy',
+              buttonParamsJson: JSON.stringify({
+                display_text: "📥 Ver Pack",
+                id: "verpack",
+                copy_code: pack.url
+              })
+            }
+          ]
+        })
+      });
+    }
+
+    const msg = generateWAMessageFromContent(m.chat, {
+      viewOnceMessage: {
+        message: {
+          messageContextInfo: {
+            deviceListMetadata: {},
+            deviceListMetadataVersion: 2
+          },
+          interactiveMessage: proto.Message.InteractiveMessage.fromObject({
+            body: proto.Message.InteractiveMessage.Body.create({
+              text: `*🌸 Resultados de:* \`${text}\`\n> Mostrando: ${results.length} packs encontrados`
+            }),
+            footer: proto.Message.InteractiveMessage.Footer.create({
+              text: '_Stickerly - Search_'
+            }),
+            header: proto.Message.InteractiveMessage.Header.create({
+              hasMediaAttachment: false
+            }),
+            carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({
+              cards
+            })
+          })
+        }
+      }
     }, { quoted: m });
+
+    await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
+    await m.react('✅');
 
   } catch (e) {
     console.error(e);
-    m.reply("❌ Ocurrió un error al buscar el pack de stickers.");
+    await m.reply('❌ Error en la búsqueda o envío del mensaje.');
   }
 };
 
-// Definir comando
-handler.help = ["stickerly <texto>"];
-handler.tags = ["sticker"];
-handler.command = /^stickerly$/i;
+handler.help = ['stickerly <texto>'];
+handler.tags = ['sticker'];
+handler.command = ['stickerly'];
 
 export default handler;

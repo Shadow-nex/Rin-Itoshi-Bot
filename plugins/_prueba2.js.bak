@@ -1,41 +1,100 @@
 import fetch from 'node-fetch';
+import baileys from '@whiskeysockets/baileys';
+
+const { generateWAMessageContent, generateWAMessageFromContent, proto } = baileys;
+
+const STICKERLY_API = "https://delirius-apiofc.vercel.app/search/stickerly";
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) return conn.reply(m.chat, `✨ Ingresa un prompt\n\nEjemplo:\n${usedPrefix + command} Anime witch girl with silver hair`, m);
+  if (!text) return m.reply(`*🌸 Ingresa un texto para buscar en Stickerly.*\n> *Ejemplo:* ${usedPrefix + command} Alaya San`);
+  await m.react('🕓');
 
   try {
- 
-    let url = `https://api.vreden.my.id/api/artificial/ximage?prompt=${encodeURIComponent(text)}`;
-    let res = await fetch(url);
-    if (!res.ok) throw await res.text();
+    const res = await fetch(`${STICKERLY_API}?query=${encodeURIComponent(text)}`);
+    const json = await res.json();
 
-    let json = await res.json();
-    let html = json.result;
+    if (!json.status || !json.data || json.data.length === 0) {
+      throw `⚠️ No encontré resultados para *${text}*`;
+    }
 
-    if (!html) throw new Error('Respuesta vacía');
+    const results = json.data.slice(0, 15); // solo 15 resultados
 
-    let urls = [...html.matchAll(/<img[^>]+src=["']?([^"' >]+)["']?/g)].map(v => v[1]);
+    // función para crear imagen en Baileys
+    async function createImage(url) {
+      const { imageMessage } = await generateWAMessageContent(
+        { image: { url } },
+        { upload: conn.waUploadToServer }
+      );
+      return imageMessage;
+    }
 
-    if (!urls.length) throw new Error('Sin imágenes');
+    let cards = [];
+    for (let pack of results) {
+      let image = await createImage(pack.preview);
 
-    await conn.sendMessage(m.chat, {
-      image: { url: urls[0] },
-      caption: `✨ Imagen generada para:\n\`\`\`${text}\`\`\``
+      cards.push({
+        body: proto.Message.InteractiveMessage.Body.fromObject({
+          text: `🍃 *Nombre:* ${pack.name}\n👤 *Autor:* ${pack.author}\n🧩 *Stickers:* ${pack.sticker_count}\n👀 *Vistas:* ${pack.view_count}\n📤 *Exportados:* ${pack.export_count}`
+        }),
+        footer: proto.Message.InteractiveMessage.Footer.fromObject({
+          text: '® ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ | © sʜᴀᴅᴏᴡ.xʏᴢ'
+        }),
+        header: proto.Message.InteractiveMessage.Header.fromObject({
+          title: '',
+          hasMediaAttachment: true,
+          imageMessage: image
+        }),
+        nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
+          buttons: [
+            {
+              name: 'cta_copy',
+              buttonParamsJson: JSON.stringify({
+                display_text: "📥 Ver Pack",
+                id: "verpack",
+                copy_code: pack.url
+              })
+            }
+          ]
+        })
+      });
+    }
+
+    const msg = generateWAMessageFromContent(m.chat, {
+      viewOnceMessage: {
+        message: {
+          messageContextInfo: {
+            deviceListMetadata: {},
+            deviceListMetadataVersion: 2
+          },
+          interactiveMessage: proto.Message.InteractiveMessage.fromObject({
+            body: proto.Message.InteractiveMessage.Body.create({
+              text: `*🌸 Resultados de:* \`${text}\`\n> Mostrando: ${results.length} packs encontrados`
+            }),
+            footer: proto.Message.InteractiveMessage.Footer.create({
+              text: '_Stickerly - Search_'
+            }),
+            header: proto.Message.InteractiveMessage.Header.create({
+              hasMediaAttachment: false
+            }),
+            carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({
+              cards
+            })
+          })
+        }
+      }
     }, { quoted: m });
+
+    await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
+    await m.react('✅');
 
   } catch (e) {
     console.error(e);
-    const errores = [
-      '❌ Ocurrió un error al generar la imagen, inténtalo otra vez.',
-      '⚠️ Algo salió mal, por favor repite el comando más tarde.'
-    ];
-    let msg = errores[Math.floor(Math.random() * errores.length)];
-    conn.reply(m.chat, msg, m);
+    await m.reply('❌ Error en la búsqueda o envío del mensaje.');
   }
 };
 
-handler.help = ['ximage <prompt>'];
-handler.tags = ['ai', 'image'];
-handler.command = /^ximage$/i;
+handler.help = ['stickerly <texto>'];
+handler.tags = ['sticker'];
+handler.command = ['stickerly'];
 
 export default handler;
