@@ -18,14 +18,9 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       let description = `\`\`\`◜ Apk - Download ◞\`\`\`\n\n`;
       description += `🌴 *Nombre:* ${app.name}\n`;
       description += `👤 *Desarrollador:* ${app.developer}\n`;
-      description += `📂 *Versión:* ${app.version || "N/A"}\n`;
-      description += `⚙️ *Tamaño:* ${app.size}\n`;
-      description += `⭐ *Rating:* ${app.rating || "N/A"}\n`;
       description += `💾 *Publicado:* ${app.publish}\n`;
-      description += `📅 *Última actualización:* ${app.updated || "N/A"}\n`;
-      description += `🖇️ *Descargas:* ${app.stats?.downloads?.toLocaleString() || "N/A"}\n\n`;
-      description += `📝 *Descripción:*\n${app.desc?.slice(0, 200)}...\n\n`;
-      description += `🔗 *PlayStore:* ${app.link || "No disponible"}\n`;
+      description += `⚙️ *Tamaño:* ${app.size}\n`;
+      description += `🖇️ *Descargas:* ${app.stats.downloads.toLocaleString()}\n`;
 
       const buttons = [
         {
@@ -49,18 +44,19 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       );
 
     } catch (error) {
-      console.error("Error:", error);
+      console.error("❌ Error:", error);
       await m.react('❌');
 
       await conn.sendMessage(
         m.chat,
-        { text: `Ocurrió un error: ${error.message || "Error desconocido"}` },
+        { text: `❌ Ocurrió un error: ${error.message || "Error desconocido"}` },
         { quoted: m }
       );
     }
     return;
   }
 
+  // --- COMANDO APK_DOWNLOAD ---
   if (command === 'apk_download') {
     let session = apkSession.get(m.chat);
     if (!session) {
@@ -90,7 +86,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
               title: app.name,
               body: packname,
               mediaUrl: null,
-              sourceUrl: app.link || null,
+              sourceUrl: null,
               thumbnailUrl: app.image,
               mediaType: 1,
               renderLargerThumbnail: true
@@ -103,12 +99,12 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       await m.react('☑️');
 
     } catch (err) {
-      console.error("Error en descarga:", err);
+      console.error("❌ Error en descarga:", err);
       await m.react('❌'); 
 
       await conn.sendMessage(
         m.chat,
-        { text: `No se pudo descargar el archivo.` },
+        { text: `❌ No se pudo descargar el archivo.` },
         { quoted: m }
       );
     }
