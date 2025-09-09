@@ -9,6 +9,16 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
         await conn.reply(m.chat, `🌷 *Espera un momentito onii-chan...*  
 🌱 *Estoy descargando tu videíto kawaii~* ✨ 𝐀𝐰𝐮𝐮~ `, m);
 
+
+        let loadMsg = await conn.reply(m.chat, "🍂 Descargando 0%", m);
+        for (let i = 10; i <= 100; i += 10) {
+            await new Promise(res => setTimeout(res, 300));
+            await conn.sendMessage(m.chat, { 
+                edit: loadMsg.key, 
+                text: `🍧 Descargando ${i}%...` 
+            });
+        }
+
         const tiktokData = await tiktokdl(args[0]);
 
         if (!tiktokData || !tiktokData.data || !tiktokData.data.play) {
