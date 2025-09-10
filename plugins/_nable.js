@@ -213,7 +213,22 @@ const handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, i
       }
       chat.detect = isEnable
       break
-      
+
+
+    case 'antiver':
+    case 'antiocultar':
+      if (!m.isGroup) {
+        if (!isOwner) {
+          global.dfail('group', m, conn)
+          throw false
+        }
+      } else if (!isAdmin) {
+        global.dfail('admin', m, conn)
+        throw false
+      }
+      chat.antiver = isEnable
+      break
+        
     case 'antiver':
     case 'antiocultar':
       if (!m.isGroup) {
@@ -262,7 +277,7 @@ const handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, i
   
   chat[type] = isEnable;
   
-  conn.reply(m.chat, `✦━─〔 ⚡ 🛠 ꜱɪꜱᴛᴇᴍᴀ ᴅᴇʟ ʙᴏᴛ 🛠 ⚡ 〕─━✦
+  conn.reply(m.chat, `✦━─〔 ⚡ ꜱɪꜱᴛᴇᴍᴀ ᴅᴇʟ ʙᴏᴛ 🛠  〕─━✦
 ╭───────────────────────────╮
 │ 🧩 𝐅𝐮𝐧𝐜𝐢𝐨́𝐧 » *${type}*
 │ ⚙️ 𝐄𝐬𝐭𝐚𝐝𝐨 » ${isEnable ? '✅ 𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎' : '❌ 𝐃𝐄𝐒𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎'}
