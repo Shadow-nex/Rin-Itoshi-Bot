@@ -8,7 +8,7 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
     try {
         await conn.reply(m.chat, `🌷 *Espera un momentito onii-chan...*  
 🌱 *Estoy descargando tu videíto kawaii~* ✨ 𝐀𝐰𝐮𝐮~ `, m);
-
+/*
         let loadMsg = await conn.reply(m.chat, "🍂 Descargando 0%", m);
         for (let i = 10; i <= 100; i += 10) {
             await new Promise(res => setTimeout(res, 300));
@@ -16,7 +16,7 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
                 edit: loadMsg.key, 
                 text: `🍧 Descargando ${i}%...` 
             });
-        }
+        }*/
 
         const tiktokData = await tiktokdl(args[0]);
 
@@ -35,7 +35,7 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
             },
             message: {
                 locationMessage: {
-                    name: `🌀 ᴅᴏᴡɴʟᴏᴀᴅ ᴛɪᴋᴛᴏᴋ | 🌱 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 𝙈𝘿 🍧`,
+                    name: ` • 𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰 𝙲𝙾𝙼𝙿𝙻𝙴𝚃𝙰𝙳𝙰 •`,
                     jpegThumbnail: thumbBuffer
                 }
             },
@@ -67,20 +67,18 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
         const videoSize = await getFileSize(videoURL);
 
         if (videoURL) {
-            await conn.sendFile(m.chat, videoURL, "tiktok.mp4", `
-ㅤ۟∩　ׅ　★ ໌　ׅ　T I K T O K - D O W N L O A D　ׄᰙ
+            await conn.sendFile(m.chat, videoURL, "tiktok.mp4", `❐ 🍧 • *𝐓𝐢𝐭𝐮𝐥𝐨:* ${data.title || 'Sin descripción uwu'}
 
-❐ 🫟  ׄ ⬭ *Título:* ${data.title || 'Sin descripción uwu'}
-❐ 🧑🏻  ׄ ⬭ *Autor:* ${data.author?.nickname || data.author?.unique_id || 'Desconocido'}
-❐ ⏱️  ׄ ⬭ *Duración:* ${formatDuration(data.duration)}
-❐ 📦  ׄ ⬭ *Tamaño:* ${videoSize}
-❐ 🍁  ׄ ⬭ *Likes:* ${formatNumber(data.digg_count)}
-❐ 🎋  ׄ ⬭ *Comentarios:* ${formatNumber(data.comment_count)}
-❐ 🌱  ׄ ⬭ *Vistas:* ${formatNumber(data.play_count)}
-❐ 🌳  ׄ ⬭ *Compartidos:* ${formatNumber(data.share_count)}
-❐ 🎶  ׄ ⬭ *Audio:* ${data.music_info?.title || 'Desconocido'} - ${data.music_info?.author || 'Desconocido'}
-
-❐ 📺  ׄ ⬭ *Calidad:* ${videoURL.includes('hd') ? 'HD 🌟' : 'Normalito 📺'}`, fkontak);
+  *~ ＥＳＴＡＤＯ ~*
+❐ 🍂 • *𝐀𝐮𝐭𝐨𝐫* ➭ ${data.author?.nickname || data.author?.unique_id || 'Desconocido'}
+❐ 🌷 • *𝐃𝐮𝐫𝐚𝐜𝐢𝐨𝐧* ➭ ${formatDuration(data.duration)}
+❐ 💖 • *𝐓𝐚𝐦𝐚𝐧̃𝐨* ➭ ${videoSize}
+❐ 🔥 • *𝐋𝐢𝐤𝐞𝐬* ➭ ${formatNumber(data.digg_count)}
+❐ 💙 • *𝐂𝐨𝐦𝐞𝐧𝐭𝐚𝐫𝐢𝐨𝐬* ➭ ${formatNumber(data.comment_count)}
+❐ 💥 • *𝐕𝐢𝐬𝐭𝐚𝐬* ➭ ${formatNumber(data.play_count)}
+❐ 🌾 • *𝐂𝐨𝐦𝐩𝐚𝐫𝐭𝐢𝐝𝐨𝐬* ➭ ${formatNumber(data.share_count)}
+❐ 🍄 • *𝐀𝐮𝐝𝐢𝐨* ➭ ${data.music_info?.title || 'Desconocido'} - ${data.music_info?.author || 'Desconocido'}
+❐ ⚡ • *𝐂𝐚𝐥𝐢𝐝𝐚𝐝* ➭ ${videoURL.includes('hd') ? 'HD 🌟' : 'Normalito 📺'}`, fkontak);
         } else {
             return conn.reply(m.chat, "❌ No pude descargarlo nya~ 😿", m);
         }
