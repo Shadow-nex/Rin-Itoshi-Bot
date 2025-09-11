@@ -9,7 +9,6 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
         await conn.reply(m.chat, `🌷 *Espera un momentito onii-chan...*  
 🌱 *Estoy descargando tu videíto kawaii~* ✨ 𝐀𝐰𝐮𝐮~ `, m);
 
-
         let loadMsg = await conn.reply(m.chat, "🍂 Descargando 0%", m);
         for (let i = 10; i <= 100; i += 10) {
             await new Promise(res => setTimeout(res, 300));
@@ -36,7 +35,7 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
             },
             message: {
                 locationMessage: {
-                    name: `🌀 ᴅᴏᴡɴʟᴏᴀᴅ ᴛɪᴋᴛᴏᴋ | 🌱 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 𝙈𝘿 🍂`,
+                    name: `🌀 ᴅᴏᴡɴʟᴏᴀᴅ ᴛɪᴋᴛᴏᴋ | 🌱 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 𝙈𝘿 🍧`,
                     jpegThumbnail: thumbBuffer
                 }
             },
@@ -72,14 +71,15 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
 ㅤ۟∩　ׅ　★ ໌　ׅ　T I K T O K - D O W N L O A D　ׄᰙ
 
 ❐ 🫟  ׄ ⬭ *Título:* ${data.title || 'Sin descripción uwu'}
-❐ 🧑🏻  ׄ ⬭ *Autor:* ${data.author?.unique_id || 'Desconocido'}
+❐ 🧑🏻  ׄ ⬭ *Autor:* ${data.author?.nickname || data.author?.unique_id || 'Desconocido'}
 ❐ ⏱️  ׄ ⬭ *Duración:* ${formatDuration(data.duration)}
 ❐ 📦  ׄ ⬭ *Tamaño:* ${videoSize}
 ❐ 🍁  ׄ ⬭ *Likes:* ${formatNumber(data.digg_count)}
 ❐ 🎋  ׄ ⬭ *Comentarios:* ${formatNumber(data.comment_count)}
 ❐ 🌱  ׄ ⬭ *Vistas:* ${formatNumber(data.play_count)}
 ❐ 🌳  ׄ ⬭ *Compartidos:* ${formatNumber(data.share_count)}
-❐ 🎶  ׄ ⬭ *Audio:* ${data.music?.title || 'Desconocido'}
+❐ 🎶  ׄ ⬭ *Audio:* ${data.music_info?.title || 'Desconocido'} - ${data.music_info?.author || 'Desconocido'}
+
 ❐ 📺  ׄ ⬭ *Calidad:* ${videoURL.includes('hd') ? 'HD 🌟' : 'Normalito 📺'}`, fkontak);
         } else {
             return conn.reply(m.chat, "❌ No pude descargarlo nya~ 😿", m);

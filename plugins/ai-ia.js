@@ -1,81 +1,74 @@
 import axios from 'axios'
 import fetch from 'node-fetch'
-import FormData from 'form-data'
 
 let handler = async (m, { conn, usedPrefix, command, text }) => {
-  const username = conn.getName(m.sender)
-  const basePrompt = `Tu nombre es ${botname} y parece haber sido creada por ${etiqueta}. Tu versión actual es ${vs}, Tú usas el idioma Español. Llamarás a las personas por su nombre ${username}, te gusta ser divertida, y te encanta aprender. Lo más importante es que debes ser amigable con la persona con la que estás hablando. ${username}`
-
-  const isQuotedImage = m.quoted && (m.quoted.msg || m.quoted).mimetype && (m.quoted.msg || m.quoted).mimetype.startsWith('image/')
-
-  if (isQuotedImage) {
-    const q = m.quoted
-    const img = await q.download?.()
-    if (!img) return conn.reply(m.chat, '✘ No se pudo descargar la imagen.', m)
-
-    try {
-      const imageAnalysis = await fetchImageBuffer("Describe esta imagen", img)
-      const query = `Descríbeme la imagen y explica el contexto.`
-      const prompt = `${basePrompt}. La imagen que se analiza es: ${imageAnalysis.result}`
-      const description = await luminsesi(query, username, prompt)
-      await conn.reply(m.chat, description, m)
-    } catch (err) {
-      console.error("Error al analizar imagen:", err.response?.data || err.message)
-      await conn.reply(m.chat, '✘ Error analizando la imagen.', m)
-    }
-
-  } else {
-    if (!text) return conn.reply(m.chat, '✨ Escribe un mensaje o envía una imagen citada.', m)
-
-    try {
-      await conn.reply(m.chat, 'Procesando tu petición, espera...', m)
-      const query = text
-      const prompt = `${basePrompt}. Responde lo siguiente: ${query}`
-      const response = await luminsesi(query, username, prompt)
-      await conn.reply(m.chat, response, m)
-    } catch (err) {
-      console.error("Error en Chat:", err.response?.data || err.message)
-      await conn.reply(m.chat, '✘ No puedo responder a esa pregunta.', m)
-    }
-  }
-}
+const isQuotedImage = m.quoted && (m.quoted.msg || m.quoted).mimetype && (m.quoted.msg || m.quoted).mimetype.startsWith('image/')
+const username = `${conn.getName(m.sender)}`
+const basePrompt = `Tu nombre es ${botname} y parece haber sido creada por ${etiqueta}. Tu versión actual es ${vs}, Tú usas el idioma Español. Llamarás a las personas por su nombre ${username}, te gusta ser divertida, y te encanta aprender. Lo más importante es que debes ser amigable con la persona con la que estás hablando. ${username}`
+if (isQuotedImage) {
+const q = m.quoted
+const img = await q.download?.()
+if (!img) {
+console.error(`${msm} Error: No image buffer available`)
+return conn.reply(m.chat, '✘ ChatGpT no pudo descargar la imagen.', m)}
+const content = `${emoji} ¿Qué se observa en la imagen?`
+try {
+const imageAnalysis = await fetchImageBuffer(content, img)
+const query = `${emoji} Descríbeme la imagen y detalla por qué actúan así. También dime quién eres`
+const prompt = `${basePrompt}. La imagen que se analiza es: ${imageAnalysis.result}`
+const description = await luminsesi(query, username, prompt)
+await conn.reply(m.chat, description, m)
+} catch {
+await m.react(error)
+await conn.reply(m.chat, '✘ ChatGpT no pudo analizar la imagen.', m)}
+} else {
+if (!text) { return conn.reply(m.chat, `${emoji} Ingrese una petición para que el ChatGpT lo responda.`, m)}
+await m.react(rwait)
+try {
+const { key } = await conn.sendMessage(m.chat, {text: `${emoji2} ChatGPT está procesando tu petición, espera unos segundos.`}, {quoted: m})
+const query = text
+const prompt = `${basePrompt}. Responde lo siguiente: ${query}`
+const response = await luminsesi(query, username, prompt)
+await conn.sendMessage(m.chat, {text: response, edit: key})
+await m.react(done)
+} catch {
+await m.react(error)
+await conn.reply(m.chat, '✘ ChatGpT no puede responder a esa pregunta.', m)}}}
 
 handler.help = ['ia', 'chatgpt']
 handler.tags = ['ai']
+handler.register = true
 handler.command = ['ia', 'chatgpt', 'luminai']
+handler.group = true
 
 export default handler
 
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+// Función para enviar una imagen y obtener el análisis
 async function fetchImageBuffer(content, imageBuffer) {
-  try {
-    const form = new FormData()
-    form.append("content", content)
-    form.append("file", imageBuffer, { filename: "image.jpg" })
-
-    const response = await axios.post("https://Luminai.my.id/analyze", form, {
-      headers: form.getHeaders()
-    })
-    console.log("Respuesta imagen:", response.data)
-    return response.data
-  } catch (error) {
-    console.error("Error en fetchImageBuffer:", error.response?.data || error.message)
-    throw error
-  }
-}
-
-
+try {
+const response = await axios.post('https://Luminai.my.id', {
+content: content,
+imageBuffer: imageBuffer 
+}, {
+headers: {
+'Content-Type': 'application/json' 
+}})
+return response.data
+} catch (error) {
+console.error('Error:', error)
+throw error }}
+// Función para interactuar con la IA usando prompts
 async function luminsesi(q, username, logic) {
-  try {
-    const response = await axios.post("https://Luminai.my.id/chat", {
-      content: q,
-      user: username,
-      prompt: logic,
-      webSearchMode: false
-    })
-    console.log("Respuesta chat:", response.data)
-    return response.data.result
-  } catch (error) {
-    console.error("Error en luminsesi:", error.response?.data || error.message)
-    throw error
-  }
-}
+try {
+const response = await axios.post("https://Luminai.my.id", {
+content: q,
+user: username,
+prompt: logic,
+webSearchMode: false
+})
+return response.data.result
+} catch (error) {
+console.error(`${msm} Error al obtener:`, error)
+throw error }}
