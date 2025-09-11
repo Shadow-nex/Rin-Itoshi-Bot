@@ -42,8 +42,8 @@ conn.sendMessage(m.chat, {
     }, { quoted: m });
 }
 
-handler.help = ['loli'];
+handler.help = ['loli2'];
 handler.tag = ['nsfw'];
-handler.command = ['loli'];
+handler.command = ['loli2'];
 
 export default handler;
