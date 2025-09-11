@@ -29,7 +29,7 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
 handler.help = ['tiktokhd <url>'];
 handler.tags = ['descargas'];
 handler.command = ['tiktokhd', 'th'];
-handler.group = true;
+handler.group = false;
 handler.register = true;
 handler.coin = 2;
 handler.limit = true;
