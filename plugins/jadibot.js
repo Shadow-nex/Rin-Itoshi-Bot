@@ -12,7 +12,7 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
   };
 
   const getThumbnail = async () => {
-    const res = await axios.get("https://o.uguu.se/RqQhtCKo.jpg", { responseType: "arraybuffer" })
+    const res = await axios.get("https://files.catbox.moe/3su9of.jpg", { responseType: "arraybuffer" })
     return Buffer.from(res.data, "binary")
   }
 
