@@ -37,7 +37,7 @@ handler.limit = true;
 export default handler;
 
 async function tiktokdl(url) {
-    let tikwm = `https://www.tikwm.com/api/?url=${url}?hd=4`;
+    let tikwm = `https://www.tikwm.com/api/?url=${url}?hd=2`;
     let response = await (await fetch(tikwm)).json();
     return response;
 }
