@@ -1,27 +1,21 @@
 import fetch from 'node-fetch';
 
-let handler = async (m, { conn }) => {
+let handler = async(m, { conn, usedPrefix, command }) => {
 
-    try {
-        const response = await fetch('https://delirius-apiofc.vercel.app/anime/loli');
-        const data = await response.json();
+m.react('🕑');
 
-        if (!data || !data.url) {
-            return m.reply('❌ No se pudo obtener una imagen en este momento.');
-        }
+const gp = global.db.data.chats[m.chat] || {};
 
-        await conn.sendMessage(m.chat, {
-            image: { url: data.url },
-            caption: club
-        }, { quoted: m });
+if (!gp.nsfw && m.isGroup) return m.reply(hotw);
 
-        m.react('✅');
-    } catch (error) {
-        console.error(error);
-        m.react('✖️');
-        m.reply('❌ Ocurrió un error al obtener la imagen.');
-    }
-};
+let img = 'https://delirius-apiofc.vercel.app/anime/loli';
+
+m.react('✅');
+conn.sendMessage(m.chat, { 
+        image: { url: img }, 
+        caption: club, 
+    }, { quoted: m });
+}
 
 handler.help = ['loli'];
 handler.tags = ['anime', 'nsfw'];
