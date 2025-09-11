@@ -5,11 +5,10 @@ import moment from 'moment-timezone'
 export async function before(m, { conn, participants, groupMetadata }) {
   if (!m.messageStubType || !m.isGroup) return !0;
 
-  // 📌 Función de respaldo con prefijos
-  const getPaisPrefijo = (numero) => {
+  const getPais = (numero) => {
     const paisesPorPrefijo = {
       "1": "🇺🇸 𝑬𝒔𝒕𝒂𝒅𝒐𝒔 𝑼𝒏𝒊𝒅𝒐𝒔",
-      "34": "🇪🇸 𝑬𝒔𝒑𝒂ñ𝒂",
+      "34": "🇪🇸 𝑬𝒔𝒑𝒂𝒏̃𝒂",
       "52": "🇲🇽 𝑴é𝒙𝒊𝒄𝒐",
       "54": "🇦🇷 𝑨𝒓𝒈𝒆𝒏𝒕𝒊𝒏𝒂",
       "55": "🇧🇷 𝑩𝒓𝒂𝒔𝒊𝒍",
@@ -37,25 +36,10 @@ export async function before(m, { conn, participants, groupMetadata }) {
     return "🌎 Desconocido";
   };
 
-  // 📌 Obtener número del evento
   const numeroUsuario = m.messageStubParameters?.[0]?.split('@')[0];
   if (!numeroUsuario) return;
+  const pais = getPais(numeroUsuario);
 
-  // 📌 Consultar API
-  let pais = "🌎 Desconocido";
-  try {
-    let api = await fetch(`https://g-mini-ia.vercel.app/api/infonumero?numero=+${numeroUsuario}`);
-    let data = await api.json();
-    if (data?.pais && data?.bandera) {
-      pais = `${data.bandera} ${data.pais}`;
-    } else {
-      pais = getPaisPrefijo(numeroUsuario);
-    }
-  } catch {
-    pais = getPaisPrefijo(numeroUsuario);
-  }
-
-  // 📌 Resto de tu código (no lo toqué, solo sustituí la parte de país)
   const thumbRes = await fetch('https://tinyurl.com/ymzqacfy');
   const thumbBuffer = await thumbRes.buffer();
   const fkontak = {
@@ -98,16 +82,39 @@ export async function before(m, { conn, participants, groupMetadata }) {
 *╟* ⿻ 𝗪 𝗘 𝗟 𝗖 𝗢 𝗠 𝗘 ✰
 *╠═══════════════*
 *╟* ${groupMetadata.subject}
-*╟* ≡‹⧽🌂 \`ᴜsᴇʀ:\` *@${numeroUsuario}*
+*╟* ≡‹⧽🌂 \`ᴜsᴇʀ:\` *@${m.messageStubParameters[0].split`@`[0]}*
 *╟* ≡‹⧽⚽ \`ғᴇᴄʜᴀ ɪɴɢʀᴇsᴏ:\` *${dia}, ${fecha}*
 *╟* ≡‹⧽📡 \`ʜᴏʀᴀ ɪɴɢʀᴇsᴏ:\` *${hora}*
 *╟* ≡‹⧽⚡ \`ᴘᴀɪs:\` ${pais}
 *╟* ≡‹⧽🌷 \`ᴍɪᴇᴍʙʀᴏs ᴀᴄᴛᴜᴀʟᴇs:\` *${groupSize}*
-*╚═══════════════*`
-    
+*╚═══════════════*
+
+🍂 *Descripción:*
+${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}`    
+
     await conn.sendMessage(
       m.chat,
-      { image: img, caption: bienvenida },
+      {
+        image: img,
+        caption: bienvenida,
+        contextInfo: {
+          mentionedJid: [m.sender],
+          isForwarded: true,
+          forwardedNewsletterMessageInfo: {
+            newsletterJid: '120363401008003732@newsletter',
+            serverMessageId: 99999,
+            newsletterName: '[☆𝆺𝅥 𝆭 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 ~ 𝙲𝙷𝙰𝙽𝙽𝙴𝙻 𝙾𝙵𝙵𝙸𝙲𝙸𝙰𝙻 𝆺𝅥 𝆭★]'
+          },
+          externalAdReply: {
+            title: txt,
+            body: club,
+            thumbnailUrl: 'https://files.catbox.moe/h4lrn3.jpg',
+            sourceUrl: redes,
+            mediaType: 1,
+            renderLargerThumbnail: false
+          }
+        }
+      },
       { quoted: fkontak }
     )
   }
@@ -117,16 +124,39 @@ export async function before(m, { conn, participants, groupMetadata }) {
 *╟* ⿻ 𝗔 𝗗 𝗜 𝗢 𝗦 ✰
 *╠═══════════════*
 *╟* 🧪 ${groupMetadata.subject}
-*╟* ≡‹⧽👋 \`ᴜsᴇʀ:\` *@${numeroUsuario}*
+*╟* ≡‹⧽👋 \`ᴜsᴇʀ:\` *@${m.messageStubParameters[0].split`@`[0]}*
 *╟* ≡‹⧽📅 \`ғᴇᴄʜᴀ sᴀʟɪᴅᴀ:\` *${dia}, ${fecha}*
 *╟* ≡‹⧽⏰ \`ʜᴏʀᴀ sᴀʟɪᴅᴀ:\` *${hora}*
 *╟* ≡‹⧽⚡ \`ᴘᴀɪs:\` ${pais}
 *╟* ≡‹⧽👥 \`ᴍɪᴇᴍʙʀᴏs:\` *${groupSize}*
-*╚═══════════════*`
-    
+*╚═══════════════*
+
+> 💔 Te esperamos pronto de regreso.
+> 🍂 Usa *#help* para ver comandos.`
+
     await conn.sendMessage(
       m.chat,
-      { image: img, caption: bye },
+      {
+        image: img,
+        caption: bye,
+        contextInfo: {
+          mentionedJid: [m.sender],
+          isForwarded: true,
+          forwardedNewsletterMessageInfo: {
+            newsletterJid: '120363401008003732@newsletter',
+            serverMessageId: 99999,
+            newsletterName: '[☆𝆺𝅥 𝆭  𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 ~ 𝙲𝙷𝙰𝙽𝙽𝙴𝙻 𝙾𝙵𝙵𝙸𝙲𝙸𝙰𝙻 𝆺𝅥 𝆭 ★]'
+          },
+          externalAdReply: {
+            title: txt1,
+            body: club,
+            thumbnailUrl: 'https://files.catbox.moe/h4lrn3.jpg',
+            sourceUrl: redes,
+            mediaType: 1,
+            renderLargerThumbnail: false
+          }
+        }
+      },
       { quoted: fkontak }
     )
   }
