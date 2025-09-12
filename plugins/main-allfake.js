@@ -145,8 +145,8 @@ global.rcanal = {
       sourceUrl: redes,
       mediaType: 1,
       renderLargerThumbnail: true
-    }
-  }
+    },
+  },
 }}
 
 export default handler
