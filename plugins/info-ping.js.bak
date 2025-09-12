@@ -35,7 +35,7 @@ ${sysInfo.trim()}
 
     await conn.sendMessage(m.chat, { 
       text: response, 
-      //edit: key, 
+      edit: key, 
       mentions: [m.sender],
       contextInfo: {
         externalAdReply: {
