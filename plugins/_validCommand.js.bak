@@ -15,7 +15,7 @@ export async function before(m, { conn }) {
         },
         message: {
             locationMessage: {
-                name: ``,
+                name: `🍂 ᴇʀʀᴏʀ ᴅᴇ ᴄᴏᴍᴀɴᴅᴏ ❔`,
                 jpegThumbnail: thumbBuffer
             }
         },

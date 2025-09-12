@@ -40,7 +40,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
   if (!numeroUsuario) return;
   const pais = getPais(numeroUsuario);
 
-  const thumbRes = await fetch(banner);
+  const thumbRes = await fetch("https://files.catbox.moe/jkw74m.jpg");
   const thumbBuffer = await thumbRes.buffer();
   const fkontak = {
     key: {
