@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 export async function before(m, { conn }) {
   if (!m.text || !global.prefix.test(m.text)) return;
 
@@ -90,7 +92,8 @@ export async function before(m, { conn }) {
   ];
 
   const texto = mensajesNoEncontrado[Math.floor(Math.random() * mensajesNoEncontrado.length)];
-  const imgurl = logo;
+  const imgurl = 'https://files.catbox.moe/9mwuqe.jpg';
+  const thumb = await (await fetch(imgurl)).buffer();
 
   await conn.sendMessage(m.chat, {
     text: texto,
@@ -99,7 +102,7 @@ export async function before(m, { conn }) {
       externalAdReply: {
         title: packname,
         body: club,
-        thumbnailUrl: imgurl,
+        thumbnailUrl: thumb,
         sourceUrl: 'https://instagram.com',
         mediaType: 1,
         renderLargerThumbnail: true
