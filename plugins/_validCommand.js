@@ -15,7 +15,7 @@ export async function before(m, { conn }) {
         },
         message: {
             locationMessage: {
-                name: ``,
+                name: ` ⟢❏☆ 𝐂𝐎𝐌𝐀𝐍𝐃𝐎 𝐃𝐄𝐒𝐂𝐎𝐍𝐎𝐂𝐈𝐃𝐎 ☆❐𑁭𑁘`,
                 jpegThumbnail: thumbBuffer
             }
         },
