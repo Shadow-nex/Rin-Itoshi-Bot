@@ -1,15 +1,14 @@
 import axios from 'axios'
 import moment from 'moment-timezone'
 import fs from 'fs'
+import { xpRange } from '../lib/levelling.js'
 
 let handler = async (m, { conn, args }) => {
   try {
     let userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender
-    let userData = global.db.data.users[userId] || {}
-    let exp = userData.exp || 0
-    let coin = userData.coin || 0
-    let level = userData.level || 0
-    let role = userData.role || 'Sin Rango'
+    let { exp, coin, level, role } = global.db.data.users[userId] || { exp: 0, coin: 0, level: 0, role: 'Sin rango' }
+    let { min, xp, max } = xpRange(level, global.multiplier || 1)
+  
     let name = await conn.getName(userId)
 
     let _uptime = process.uptime() * 1000
@@ -56,7 +55,7 @@ let handler = async (m, { conn, args }) => {
       }
     }
     await conn.sendMessage(m.chat, {
-      text: '╭─〔 🍂 𝐂𝐀𝐑𝐆𝐀𝐍𝐃𝐎... 🌷 〕─⬣\n┃ 🌱 *𝒄𝒐𝒏𝒆𝒄𝒕𝒂𝒏𝒅𝒐 𝒂 𝒍𝒂 𝒃𝒂𝒔𝒆 𝒅𝒆 𝒅𝒂𝒕𝒐𝒔...*\n┃ 📡 *sɪɴᴄʀᴏɴɪᴢᴀɴᴅᴏ ᴍᴇɴᴜ...*\n╰─ ─ ─ ─ ─ ─ ─ ─ ─ ╴ ╴ ╴ ╴',
+      text: `╭─〔 🍂 𝐂𝐀𝐑𝐆𝐀𝐍𝐃𝐎... 🌷 〕─⬣\n┃ 🌱 *𝒄𝒐𝒏𝒆𝒄𝒕𝒂𝒏𝒅𝒐 𝒂 𝒍𝒂 𝒃𝒂𝒔𝒆 𝒅𝒆 𝒅𝒂𝒕𝒐𝒔...*\n┃ 📡 *sɪɴᴄʀᴏɴɪᴢᴀɴᴅᴏ ᴍᴇɴᴜ...*\n╰─ ─ ─ ─ ─ ─ ─ ─ ─ ╴ ╴ ╴ ╴\n> ${club}`,
       mentions: [m.sender],
       contextInfo: {
         externalAdReply: {
