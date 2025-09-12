@@ -121,32 +121,30 @@ global.icono = [
 'https://files.catbox.moe/i97oje.jpg'
 ].getRandom()
 
-
-
-//global.rcanal = {contextInfo: {forwardingScore: 2025, isForwarded: true, externalAdReply: {title: packname, body: author, sourceUrl: redes, thumbnailUrl: icono}}}
-//}
-// Config base del "rcanal"
-global.rcanal = {
+/*global.rcanal = {
   contextInfo: {
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
-      newsletterJid: channelRD.id,
+      newsletterJid: global.channelRD.id,
       serverMessageId: 100,
-      newsletterName: channelRD.name,
+      newsletterName: global.channelRD.name,
     },
     externalAdReply: {
       showAdAttribution: true,
-      title: packname,
-      body: dev,
+      title: global.botname,
+      body: global.dev,
       mediaUrl: null,
       description: null,
       previewType: "PHOTO",
-      thumbnailUrl: icono,
-      sourceUrl: redes,
+      thumbnail: global.icono,
+      sourceUrl: global.redes,
       mediaType: 1,
-      renderLargerThumbnail: true
-    }
+      renderLargerThumbnail: false
+    },
   }
+}*/
+
+global.rcanal = {contextInfo: {forwardingScore: 2025, isForwarded: true, externalAdReply: {title: packname, body: author, sourceUrl: redes, thumbnailUrl: icono}}}
 }
 
 export default handler
