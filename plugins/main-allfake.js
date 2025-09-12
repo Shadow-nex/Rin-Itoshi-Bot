@@ -129,33 +129,8 @@ global.icono = [
 'https://files.catbox.moe/i97oje.jpg'
 ].getRandom()
 
-
-
 global.rcanal = {contextInfo: {forwardingScore: 2025, isForwarded: true, externalAdReply: {title: packname, body: author, sourceUrl: redes, thumbnailUrl: icono}}}
 }
-/*
-global.rcanal = {
-  contextInfo: {
-    forwardingScore: 2025,
-    isForwarded: true,
-    forwardedNewsletterMessageInfo: {
-      newsletterJid: channelRD.id,
-      serverMessageId: 100,
-      newsletterName: channelRD.name
-    },
-    externalAdReply: {
-      title: packname,
-      body: author,
-      sourceUrl: redes,
-      thumbnailUrl: icono,
-      mediaType: 1,
-      showAdAttribution: true,
-      renderLargerThumbnail: true
-    }
-  }
-}
-
-}*/
 
 export default handler
 
