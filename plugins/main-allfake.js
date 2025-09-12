@@ -147,7 +147,7 @@ global.rcanal = {
       renderLargerThumbnail: true
     }
   }
-}
+}}
 
 export default handler
 
