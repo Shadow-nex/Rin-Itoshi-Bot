@@ -123,7 +123,7 @@ ${lista || '🌙 No hay Sub-Bots conectados por ahora verifique mas tarde.'}
         externalAdReply: {
           title: `🍧 𝑺𝑶𝑪𝑲𝑬𝑻𝑺 𝑨𝑪𝑻𝑰𝑽𝑶𝑺 🍧`,
           body: `💔 𝙲𝙾𝙽𝙴𝙲𝚃𝙰𝙳𝙾𝚂: ${total}/${maxSubbots}`,
-          thumbnailUrl: banner,
+          thumbnailUrl: 'https://files.catbox.moe/fleiok.jpg',
           sourceUrl: redes,
           mediaType: 1,
           renderLargerThumbnail: false

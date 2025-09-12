@@ -68,28 +68,25 @@ export async function before(m, { conn }) {
 
   //await m.react('💔');
   const mensajesNoEncontrado = [
-    `╭━〔 🚫 𝐂𝐎𝐌𝐀𝐍𝐃𝐎 𝐈𝐍𝐄𝐗𝐈𝐒𝐓𝐄𝐍𝐓𝐄 〕━⬣
-┃ ✦ El comando *"${command}"* no se reconoce.
-┃ ✦ Menú disponible: *${usedPrefix}menu*
-╰━━━━━━━━━━━━━━━━━━━━━⬣`,
+    `𓆩̟֟፝݊͜𝐂𝐎𝐌𝐀𝐍𝐃𝐎 𝐈𝐍𝐄𝐗𝐈𝐒𝐓𝐄𝐍𝐓𝐄̟֟፝݊͜𓆪.  🥧
+ 
+> ⌗ El comando *"${command}"* no se reconoce.
+> ⌗ Menú disponible: *${usedPrefix}menu*`,
 
-    `─❖〔 🌀 𝐄𝐑𝐑𝐎𝐑 𝐃𝐄 𝐂𝐎𝐌𝐀𝐍𝐃𝐎 〕❖─
- ✧ *"${command}"* no forma parte del sistema.
+    `✧ *"${command}"* no forma parte del sistema.
  ✧ Consulta: *${usedPrefix}menu*`,
 
-    `❀ 𝐂𝐎𝐌𝐀𝐍𝐃𝐎 𝐍𝐎 𝐄𝐍𝐂𝐎𝐍𝐓𝐑𝐀𝐃𝐎 ❀
-🖋️ *"${command}"* no está registrado.
-📜 Usa *${usedPrefix}menu* para ver opciones.`,
+    `❐ *"${command}"* no está registrado.
+❐ Usa *${usedPrefix}menu* para ver opciones.`,
 
-    `🍂 El comando *"${command}"* no existe.
-📖 Consulta el menú: *${usedPrefix}menu*`,
+    `🍧 El comando *"${command}"* no existe.
+🌤️ Consulta el menú: *${usedPrefix}menu*`,
 
-    `─〔 ⛔ 𝐂𝐎𝐌𝐀𝐍𝐃𝐎 𝐃𝐄𝐒𝐂𝐎𝐍𝐎𝐂𝐈𝐃𝐎 〕─
-🪶 *"${command}"* no está disponible.
-📂 Menú: *${usedPrefix}menu*`,
+    `🍏 *"${command}"* no está disponible.
+🌿 Menú: *${usedPrefix}menu*`,
 
-    `❌ Comando: *"${command}"* inválido.
-📜 Usa: *${usedPrefix}menu* para ver todos los comandos disponibles.`
+    `🎊 Comando: *"${command}"* inválido.
+🎋 Usa: *${usedPrefix}menu* para ver todos los comandos disponibles.`
   ];
 
   const texto = mensajesNoEncontrado[Math.floor(Math.random() * mensajesNoEncontrado.length)];
@@ -100,8 +97,8 @@ export async function before(m, { conn }) {
     mentions: [m.sender],
     contextInfo: {
       externalAdReply: {
-        title: '☘️ Dev.Shadow 🌱',
-        body: '🌷◌*̥₊ ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ ᴍᴅ ◌❐⚽༉',
+        title: packname,
+        body: club,
         thumbnailUrl: imgurl,
         sourceUrl: 'https://instagram.com',
         mediaType: 1,
