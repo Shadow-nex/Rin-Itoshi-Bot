@@ -40,7 +40,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
   if (!numeroUsuario) return;
   const pais = getPais(numeroUsuario);
 
-  const thumbRes = await fetch('https://tinyurl.com/ymzqacfy');
+  const thumbRes = await fetch(banner);
   const thumbBuffer = await thumbRes.buffer();
   const fkontak = {
     key: {

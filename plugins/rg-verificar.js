@@ -35,7 +35,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
     ];
 
     return await conn.sendMessage(m.chat, {
-      image: { url: 'https://tinyurl.com/24a3c343' },
+      image: { url: banner },
       caption: texto,
       mentions: [m.sender],
       footer: club,
@@ -72,7 +72,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
      ];
 
     return await conn.sendMessage(m.chat, {
-      image: { url: 'https://tinyurl.com/24a3c343' },
+      image: { url: banner },
       caption: mensaje,
       mentions: [m.sender],
       footer: club,
@@ -153,7 +153,7 @@ Fuiste registrado con mucha ternura kawaii ✨🍓`.trim();
           title: '❁︩︪•°ֺ໋۪݊🌱 ʀᴇɢɪsᴛʀᴏ - ʀɪɴ ɪᴛᴏsʜɪ ᴜʟᴛʀᴀ ⚡°໋•︪︩❁',
           body: '꒰🍃꒱ ᴛᴜ ᴄᴜᴇɴᴛᴀ ʜᴀ ꜱɪᴅᴏ ᴀᴄᴛɪᴠᴀᴅᴀ ᴄᴏɴ ᴇxɪᴛᴏ `☯︎ ʙʏ: 𝑺𝒉𝒂𝑫𝒐𝒘•𝑪𝒐𝒓𝒆',
           mediaType: 1,
-          thumbnailUrl: 'https://tinyurl.com/2c4kbyk3',
+          thumbnailUrl: icono,
           mediaUrl: redes,
           sourceUrl: redes,
           renderLargerThumbnail: true
