@@ -1,18 +1,42 @@
 import speed from 'performance-now'
-import { spawn, exec, execSync } from 'child_process'
+import { exec } from 'child_process'
 
 let handler = async (m, { conn }) => {
   let timestamp = speed();
   let latensi = speed() - timestamp;
-  exec(`neofetch --stdout`, async (error, stdout, stderr) => {
-    let child = stdout.toString("utf-8");
-    let ssd = child.replace(/Memory:/, "Ram:");
-    
-    let pingtxt = ` ☆ 🌱 \`ᴛɪᴇᴍᴘᴏ:\` ${latensi.toFixed(4)}ms`;
 
-    await m.reply('*🍂 Calculando ping?*');
-    await conn.sendMessage(m.chat, {
-      text: pingtxt.trim(),
+  const start = new Date().getTime();
+  const { key } = await conn.sendMessage(m.chat, {text: `🍂 Calculando ping...`}, {quoted: m});
+  const end = new Date().getTime();
+  const latency = end - start;
+
+  const uptime = process.uptime();
+  const hours = Math.floor(uptime / 3600);
+  const minutes = Math.floor((uptime % 3600) / 60);
+  const secondsUp = Math.floor(uptime % 60);
+  const uptimeFormatted = `${hours}h ${minutes}m ${secondsUp}s`;
+
+  const usedRAM = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
+
+  exec(`neofetch --stdout`, async (error, stdout) => {
+    let child = stdout.toString("utf-8");
+    let sysInfo = child.replace(/Memory:/, "Ram:");
+
+    let response = 
+`╭━━━〔 🍄 𝙎𝙩𝙖𝙩𝙪𝙨 𝙋𝙞𝙣𝙜 🪴 〕━━⬣
+│ 🌷 *Ping:* ${latency} ms
+│ 🍁 *Latencia:* ${latensi.toFixed(4)} ms
+│ 🕸 *RAM usada:* ${usedRAM} MB
+│ 🍧 *Uptime:* ${uptimeFormatted}
+╰━━━〔 🪷 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 〕━━⬣
+
+\`\`\`
+${sysInfo.trim()}
+\`\`\``;
+
+    await conn.sendMessage(m.chat, { 
+      text: response, 
+      edit: key, 
       mentions: [m.sender],
       contextInfo: {
         externalAdReply: {
@@ -28,7 +52,7 @@ let handler = async (m, { conn }) => {
   });
 }
 
-handler.help = ['ping']
+handler.help = ['ping', 'p']
 handler.tags = ['info']
 handler.command = ['ping', 'p']
 handler.register = true
