@@ -15,15 +15,20 @@ const handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, i
     isEnable = false
 } else {
     const estado = isEnable ? '✓ Activado' : '✗ Desactivado'
-    return conn.reply(m.chat, `✦━─〔 ⚙️ 𝐂𝐎𝐍𝐅𝐈𝐆𝐔𝐑𝐀𝐂𝐈𝐎́𝐍 〕─━✦
-📜 𝐂𝐨𝐦𝐚𝐧𝐝𝐨 » *${command}*
-🛡️ 𝐀𝐝𝐦𝐢𝐧𝐬 𝐒𝐨𝐥𝐨 ✧
-   
-🔧 𝐀𝐜𝐭𝐢𝐯𝐚𝐫 » *${usedPrefix}${command} on*
-📴 𝐃𝐞𝐬𝐚𝐜𝐭𝐢𝐯𝐚𝐫 » *${usedPrefix}${command} off*
+    return conn.reply(m.chat, `
+━━━━━━━━━━━━━━━━━━━━━━━
+  ﹒⌗﹒🫛 .˚₊‧  𝐂𝐨𝐧𝐟𝐢𝐠𝐮𝐫𝐚𝐜𝐢𝐨𝐧 🍂ᯭ⁾ ㅤׄ  ꤥㅤׄㅤꤪꤨ
+━━━━━━━━━━━━━━━━━━━━━━━
+┊» 📜 𝐂𝐨𝐦𝐚𝐧𝐝𝐨 » *${command}*
+┊» 🛡️ 𝐀𝐝𝐦𝐢𝐧𝐬 𝐒𝐨𝐥𝐨 ✧
+╰━═┅═━––––––๑
 
-👾 𝐄𝐬𝐭𝐚𝐝𝐨 » ${estado ? '✅ 𝐀𝐜𝐭𝐢𝐯𝐨' : '❌ 𝐈𝐧𝐚𝐜𝐭𝐢𝐯𝐨'}
-✦━━━━━━━━━━━━━━━━━━━━━✦`, m, rcanal);
+┊» 🔧 𝐀𝐜𝐭𝐢𝐯𝐚𝐫 » *${usedPrefix}${command} on*
+┊» 📴 𝐃𝐞𝐬𝐚𝐜𝐭𝐢𝐯𝐚𝐫 » *${usedPrefix}${command} off*
+╰─────── • ◆ •
+━━━━━━━━━━━━━━━━━━━━━━━
+> ⣷ׅ᳝࣪ ࣪࣪𖡻ְְׅ᳝ׅׅ࣪࣪֘ᰰ🌿ׅ࣪ 𝐄𝐬𝐭𝐚𝐝𝐨: ${estado}
+━━━━━━━━━━━━━━━━━━━━━━━`, m, rcanal);
   }
 
   switch (type) {
