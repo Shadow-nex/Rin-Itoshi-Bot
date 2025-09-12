@@ -131,8 +131,9 @@ global.icono = [
 
 
 
-//global.rcanal = {contextInfo: {forwardingScore: 2025, isForwarded: true, externalAdReply: {title: packname, body: author, sourceUrl: redes, thumbnailUrl: icono}}}
-//}
+global.rcanal = {contextInfo: {forwardingScore: 2025, isForwarded: true, externalAdReply: {title: packname, body: author, sourceUrl: redes, thumbnailUrl: icono}}}
+}
+/*
 global.rcanal = {
   contextInfo: {
     forwardingScore: 2025,
@@ -154,7 +155,7 @@ global.rcanal = {
   }
 }
 
-}
+}*/
 
 export default handler
 
