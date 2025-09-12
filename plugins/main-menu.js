@@ -710,8 +710,8 @@ ${readMore}
       caption: menuText,
       footer: club,
       buttons: [
-        { buttonId: `.code`, buttonText: { displayText: "🌱 s ᴇ ʀ ʙ ᴏ ᴛ" }, type: 1 },
-        { buttonId: `.owner`, buttonText: { displayText: "🍂 ᴏ ᴡ ɴ ᴇ ʀ" }, type: 1 }
+        { buttonId: `/code`, buttonText: { displayText: "𓏸𓈒ㅤׄ  s ᴇ ʀ ʙ ᴏ ᴛㅤꨶ〆⁾ ㅤׄㅤ⸼ㅤ" }, type: 1 },
+        { buttonId: `/nenulist`, buttonText: { displayText: "𓏸𓈒ㅤׄ ᴍᴇɴᴜ - ʟɪsᴛᴀㅤꨶ〆⁾ ㅤׄㅤ⸼ㅤ" }, type: 1 }
       ],
       headerType: 4,
       contextInfo: {      
