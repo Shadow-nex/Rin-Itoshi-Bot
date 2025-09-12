@@ -90,10 +90,7 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
 ╰━═┅═━──────────◈`;
   }).join('\n\n');
 
-  const textoSubbots = `
-  
-  @${m.sender.split('@')[0]}
-  
+  const textoSubbots = ` 
  ﹍﹍⏜͡︵(╲  ִ ⚽ ִ  ╱)︵͡⏜﹍﹍
 ┃⋆⸼˟꘏⪩ \`ᴘᴀɴᴇʟ ᴅᴇ sᴜʙ ʙᴏᴛs\` ⪨꙳ʾ˒˓ʿʾ˒˓ʿ┃
 ┗━━━━━━━━━━━━━━━━━━━━━┛
