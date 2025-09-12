@@ -92,8 +92,7 @@ export async function before(m, { conn }) {
   ];
 
   const texto = mensajesNoEncontrado[Math.floor(Math.random() * mensajesNoEncontrado.length)];
-  const imgurl = 'https://files.catbox.moe/9mwuqe.jpg';
-  const thumb = await (await fetch(imgurl)).buffer();
+  const thumb = 'https://files.catbox.moe/9mwuqe.jpg';
 
   await conn.sendMessage(m.chat, {
     text: texto,
