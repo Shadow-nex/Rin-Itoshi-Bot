@@ -1,5 +1,6 @@
 import speed from 'performance-now'
 import { exec } from 'child_process'
+import moment from 'moment-timezone'
 
 let handler = async (m, { conn }) => {
   let timestamp = speed();
@@ -18,6 +19,8 @@ let handler = async (m, { conn }) => {
 
   const usedRAM = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
 
+  const fechaHora = moment().tz('America/Lima').format('YYYY/MM/DD, h:mm A');
+
   exec(`neofetch --stdout`, async (error, stdout) => {
     let child = stdout.toString("utf-8");
     let sysInfo = child.replace(/Memory:/, "Ram:");
@@ -28,6 +31,7 @@ let handler = async (m, { conn }) => {
 │ 🍁 *Latencia:* ${latensi.toFixed(4)} ms
 │ 🕸 *RAM usada:* ${usedRAM} MB
 │ 🍧 *Uptime:* ${uptimeFormatted}
+│ ⏰ *Fecha/Hora:* ${fechaHora}
 ╰━━━〔 🪷 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 〕━━⬣
 \`\`\`
 ${sysInfo.trim()}

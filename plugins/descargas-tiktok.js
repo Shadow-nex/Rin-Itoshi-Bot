@@ -24,7 +24,7 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
             return conn.reply(m.chat, "❌ Uff... No pude traer tu video onichan 😿", m);
         }
 
-        const thumbRes = await fetch('https://files.catbox.moe/knns14.jpg');
+        const thumbRes = await fetch('https://h.uguu.se/npXXAmah.jpg');
         const thumbBuffer = await thumbRes.buffer();
         const fkontak = {
             key: {
