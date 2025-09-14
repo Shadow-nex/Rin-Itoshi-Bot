@@ -5,17 +5,15 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   let q = args.join(" ").trim()
   if (!q) {
     return conn.sendMessage(m.chat, {
-      text: `*🧪 Ingresa el nombre del video a descargar.*`
+      text: `*\`🍉 ɪɴɢʀᴇsᴇ ᴇʟ ɴᴏᴍʙʀᴇ ᴅᴇʟ ᴀᴜᴅɪᴏ ᴀ ᴅᴇsᴄᴀʀɢᴀʀ.\`*`
     }, { quoted: m })
   }
 
   await conn.sendMessage(m.chat, {
-    text: `🌸≽───────≼🌸
-૮₍｡˃ ᵕ ˂ ｡₎ა 🎶 *¡Descargando tu archiwito kawaii!*
+    text: `૮₍｡˃ ᵕ ˂ ｡₎ა 🫛 *¡Descargando tu archiwito kawaii!*
   
 ˚₊· ͟͟͞͞➳❥ 📊 Progresito:  
-[▓▓▓▓▓░░░░░] 50% 🍬💗  
-🌸≽───────≼🌸`
+[▓▓▓▓▓░░░░░] 50% 🍬💗`
   }, { quoted: m })
 
   try {
@@ -32,7 +30,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let info = await dl.json()
 
     if (!info.status || !info.mp3) {
-      return conn.sendMessage(m.chat, { text: `⚠️ No se pudo obtener el audio de *${vid.title}*.` }, { quoted: m })
+      return conn.sendMessage(m.chat, { text: `🌿 No se pudo obtener el audio de *${vid.title}*.` }, { quoted: m })
     }
 
     let { mp3 } = info
@@ -76,7 +74,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
   } catch (err) {
     console.error("[Error en ytmp3doc]", err)
-    conn.sendMessage(m.chat, { text: `💀 Error: ${err.message}` }, { quoted: m })
+    conn.sendMessage(m.chat, { text: `Error: ${err.message}` }, { quoted: m })
   }
 }
 

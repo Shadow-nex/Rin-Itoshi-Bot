@@ -8,7 +8,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     return m.reply(`⚡ *Ejemplo de uso:*\n\n✎ ✧ \`${usedPrefix + command}\` https://youtu.be/ZtFPexrxt4g?si=aWllBcy3adHrobOB\n✎ ✧ \`${usedPrefix + command}\` DJ malam pagi slowed`);
   }
 
-  await m.react('💿');
+  await m.react('⌛');
 
   const isYoutubeUrl = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\//i.test(text);
   let info = null;

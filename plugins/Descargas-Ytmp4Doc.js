@@ -24,7 +24,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let json = await res.json()
 
     if (!json.status || !json.data || !json.data.length) {
-      return conn.sendMessage(m.chat, { text: `❌ No encontré resultados para *${q}*.` }, { quoted: m })
+      return conn.sendMessage(m.chat, { text: `No encontré resultados para *${q}*.` }, { quoted: m })
     }
 
     let vid = json.data[0]

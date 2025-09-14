@@ -31,7 +31,7 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
             mimetype: "image/jpeg",
             jpegThumbnail: thumbnail
           },
-          title: "☆ 🍧 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 | 𝐎𝐍𝐋𝐈𝐍𝐄 🍧☆",
+          title: "☆ 🍧 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 | 𝐎𝐍𝐋𝐈𝐍𝐄 ⭐ ☆",
           description: dev,
           currencyCode: "USD",
           priceAmount1000: 5000,
@@ -90,10 +90,7 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
 ╰━═┅═━──────────◈`;
   }).join('\n\n');
 
-  const textoSubbots = ` 
- ﹍﹍⏜͡︵(╲  ִ ⚽ ִ  ╱)︵͡⏜﹍﹍
-┃⋆⸼˟꘏⪩ \`ᴘᴀɴᴇʟ ᴅᴇ sᴜʙ ʙᴏᴛs\` ⪨꙳ʾ˒˓ʿʾ˒˓ʿ┃
-┗━━━━━━━━━━━━━━━━━━━━━┛
+  const textoSubbots = `⋆⸼˟꘏⪩ \`𝐏𝐀𝐍𝐄𝐋 𝐃 𝐒𝐔𝐁 𝐁𝐎𝐓𝐒\` ⪨꙳ʾ˒˓ʿʾ˒˓ʿ
 
 ╔╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╗
 ╏✎ *°ʀᴜɴᴛɪᴍᴇ:* _${uptime}_

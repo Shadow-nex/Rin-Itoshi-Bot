@@ -13,13 +13,13 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
         let video = searchResults[0];
         let thumbnail = await (await fetch(video.miniatura)).buffer();
 
-        let messageText = `\`\`\`◜ YouTube - Download ◞\`\`\`\n\n`;
+        let messageText = `  \`[ YOUTUBE - PLAY ]\`\n`;
         messageText += `🍧 *${video.titulo}*\n`;
-        messageText += `🌱 *𝐂𝐚𝐧𝐚𝐥:* ${video.canal}\n`;
-        messageText += `⚡ *𝐃𝐮𝐫𝐚𝐜𝐢𝐨𝐧:* ${video.duracion}\n`;
-        messageText += `🌷 *𝐕𝐢𝐬𝐭𝐚𝐬:* ${video.vistas}\n`;
-        messageText += `🍂 *𝐏𝐮𝐛𝐢𝐜𝐚𝐝𝐨:* ${video.publicado}\n`;
-        messageText += `🌍 *𝐋𝐢𝐧𝐤:* ${video.url}\n`;
+        messageText += `🌱 *\`𝐂𝐚𝐧𝐚𝐥:\`* ${video.canal}\n`;
+        messageText += `⚡ *\`𝐃𝐮𝐫𝐚𝐜𝐢𝐨𝐧:\`* ${video.duracion}\n`;
+        messageText += `🌷 *\`𝐕𝐢𝐬𝐭𝐚𝐬:\`* ${video.vistas}\n`;
+        messageText += `🍂 *\`𝐏𝐮𝐛𝐢𝐜𝐚𝐝𝐨:\`* ${video.publicado}\n`;
+        messageText += `🌍 *\`𝐋𝐢𝐧𝐤:\`* ${video.url}\n`;
 
         await conn.sendMessage(m.chat, {
             image: thumbnail,
@@ -33,22 +33,22 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
             buttons: [
                 {
                     buttonId: `${usedPrefix}ytmp3doc ${video.url}`,
-                    buttonText: { displayText: '🎧 ＡＵＤＩＯ ~ ＤＯＣ' },
+                    buttonText: { displayText: '🎧 𝗔𝗨𝗗𝗜𝗢 𝗗𝗢𝗖' },
                     type: 1,
                 },
                 {
                     buttonId: `${usedPrefix}ytmp4doc ${video.url}`,
-                    buttonText: { displayText: '🎬 ＶＩＤＥＯ ~ ＤＯＣ' },
+                    buttonText: { displayText: '🎬 𝗩𝗜𝗗𝗘𝗢 𝗗𝗢𝗖' },
                     type: 1,
                 },
                 {
-                    buttonId: `${usedPrefix}ytmp3 ${video.url}`,
-                    buttonText: { displayText: '🎶 ＡＵＤＩＯ' },
+                    buttonId: `${usedPrefix}yta ${video.url}`,
+                    buttonText: { displayText: '🎶 𝗔 𝗨 𝗗 𝗜 𝗢' },
                     type: 1,
                 },
                 {
                     buttonId: `${usedPrefix}ytv ${video.url}`,
-                    buttonText: { displayText: '📹 ＶＩＤＥＯ' },
+                    buttonText: { displayText: '📹 𝗩 𝗜 𝗗 𝗘 𝗢' },
                     type: 1,
                 }
             ],

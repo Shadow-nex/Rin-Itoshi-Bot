@@ -17,7 +17,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     let search = await yts(text)
     let video = search.videos[0]
     if (!video) {
-      return conn.reply(m.chat, '❌ No se encontró ningún resultado en YouTube.', m)
+      return conn.reply(m.chat, 'No se encontró ningún resultado en YouTube.', m)
     }
 
     const apiUrl = `https://api.vreden.my.id/api/ytplaymp3?query=${encodeURIComponent(video.url)}`

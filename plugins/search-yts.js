@@ -6,7 +6,7 @@ const videoCache = {};
 const cacheTimeout = 10 * 60 * 1000; // 10 minutos
 const formatAudio = "audio";
 const formatVideo = "video";
-const MAX_FILE_SIZE_MB = 100;
+const MAX_FILE_SIZE_MB = 50;
 
 const shortenURL = async (url) => {
   try {

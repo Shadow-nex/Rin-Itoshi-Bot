@@ -1,5 +1,5 @@
 {
-"name": "RIN-ITOSHI",
+"name": "Rin-itoshi-Bot",
 "version": "3.0.0",
 "description": "WhatsApp Bot Multi Device",
 "main": "index.js",
@@ -20,11 +20,11 @@
 },
 "homepage": "https://github.com/Yuji-XDev/Rin-Itoshi-Bot",
 "author": {
-"name": "Shadow-xyz"
+"name": "ShadowCore"
 },
 "repository": {
 "type": "git",
-"url": "git+https://github.com/Yuji-XDev/Rin-Itoshi-Bot"
+"url": "git+https://github.com/Yuji-XDev/Rin-Itoshi-Bot.git"
 },
 "bugs": {
 "url": "https://github.com/Yuji-XDev/Rin-Itoshi-Bot/issues"
@@ -44,7 +44,6 @@
 "chalk": "^5.1.0",
 "sharp": "^0.34.3",
 "cheerio": "npm:cheerio@1.0.0-rc.12",
-"didyoumean": "^1.2.2",
 "file-type": "^18.0.0",
 "fluent-ffmpeg": "^2.1.2",
 "form-data": "^4.0.0",
@@ -72,6 +71,7 @@
 "similarity": "^1.2.1",
 "syntax-error": "^1.4.0",
 "terminal-image": "^2.0.0",
+"undici": "^5.10.0",
 "url-regex-safe": "^3.0.0",
 "uuid": "^10.0.0",
 "yargs": "^17.3.1",

@@ -57,9 +57,9 @@ let handler = async (m, { conn }) => {
   }
 }
 
-handler.help = ['audio']
+handler.help = ['url']
 handler.tags = ['tools']
-handler.command = ['tóurl', 'url', 'audio']
+handler.command = ['url']
 handler.limit = true
 handler.register = true
 
