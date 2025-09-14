@@ -206,7 +206,6 @@ const savetube = {
   }
 };
 
-// === HANDLER PRINCIPAL ===
 let handler = async (m, { conn, args, usedPrefix, command }) => {
   let q = args.join(" ").trim()
   if (!q) {
