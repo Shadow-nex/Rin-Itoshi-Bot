@@ -44,7 +44,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
 ≡ 📊 status: *${parsed.status}*
 ≡ 🆔 statusCode: *${parsed.statusCode}*
-≡ 👤 creator: *${parsed.creator}*
+≡ 👤 creator: *Shadow'Core*
 
 ≡ ✅ data.status: *${parsed.data.status}*
 ≡ 🎬 type: *${parsed.data.data.type}*
