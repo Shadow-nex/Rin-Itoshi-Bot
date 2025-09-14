@@ -349,7 +349,7 @@ typeof plugin.command === 'string' ?
 plugin.command === command :
 false
 
-global.comando = command
+global.comando2 = command
 
 if ((m.id.startsWith('NJX-') || (m.id.startsWith('BAE5') && m.id.length === 16) || (m.id.startsWith('B24E') && m.id.length === 20))) return
 
