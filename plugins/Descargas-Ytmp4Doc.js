@@ -255,7 +255,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       img.resize(300, Jimp.AUTO)
       thumb = await img.getBufferAsync(Jimp.MIME_JPEG)
     } catch (err) {
-      console.log("⚠️ Error al procesar miniatura:", err)
+      console.log("Error al procesar miniatura:", err)
     }
 
     await conn.sendMessage(m.chat, {

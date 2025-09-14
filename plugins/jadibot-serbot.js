@@ -212,7 +212,7 @@ const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
   }
 }), { quoted: m })
 
-await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+codeBot = await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
 
 console.log(secret)
 }
