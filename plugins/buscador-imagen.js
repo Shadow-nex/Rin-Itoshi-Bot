@@ -1,4 +1,4 @@
-/*
+
 • @David-Chian
 - https://github.com/David-Chian
 
@@ -78,4 +78,3 @@ handler.command = ['imagen', 'image', 'img'];
 handler.register = true;
 
 export default handler;
-*/
