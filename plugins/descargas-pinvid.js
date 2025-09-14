@@ -18,7 +18,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     }, { quoted: m })
   }
 
-  const requestUrl = args[0]
+  const requestUrl = `https://gokublack.xyz/download/pin?url=${encodeURIComponent(args[0])}`
 
   try {
     const res = await fetch(requestUrl)
@@ -61,14 +61,14 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
           caption: `🌷 Video detectado\n• Tipo: ${parsed.data.data.type}\n• Peso: ${parsed.data.data.size}`
         }, { quoted: m })
       } catch {
-        await conn.sendMessage(m.chat, { text: ` No pude enviar el video. Aquí tienes el enlace:\n${parsed.data.data.url}` }, { quoted: m })
+        await conn.sendMessage(m.chat, { text: `⚠️ No pude enviar el video. Aquí tienes el enlace:\n${parsed.data.data.url}` }, { quoted: m })
       }
     }
 
   } catch (err) {
     console.error(err)
     await conn.sendMessage(m.chat, {
-      text: `Error al parsear:\n${err.message}`
+      text: `*Error al parsear:*\n${err.message}`
     }, { quoted: m })
   }
 }
