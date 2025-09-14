@@ -1,5 +1,5 @@
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '1'
-import './config.js'
+import './settings.js'
 import { setupMaster, fork } from 'cluster'
 import { watchFile, unwatchFile } from 'fs'
 import cfonts from 'cfonts'
@@ -74,7 +74,7 @@ async function showBanner() {
     `.split('\n').map(line => chalk.hex('#00f7ff').bold(line)).join('\n')
 
     const subtitle = chalk.hex('#ff3366').bold('✦ RIN ITOSHI BOT ✦').padStart(50)
-    const poweredMsg = chalk.hex('#ffcc00').italic('🌱 powered by Shadow.xyz')
+    const poweredMsg = chalk.hex('#ffcc00').italic('🌷 powered by Shadow.xyz')
     const aiMsg = chalk.hex('#00f7ff').bold('──────────────────────────────────────────────────────')
     const tips = [
         chalk.hex('#ffcc00')('⌬ Tip: Usa /menu para ver todas las funciones.'),
@@ -119,7 +119,7 @@ async function showBanner() {
         letterSpacing: 1,
         lineHeight: 1
     })
-    say('🍁 by Shadow.xyz', {
+    say('🍁 by ShadowCore', {
         font: 'console',
         align: 'center',
         colors: ['yellow'],
@@ -410,6 +410,7 @@ console.log(chalk.green.bold(`[ ✿ ]  Escanea este código QR`))}
 if (connection === "open") {
 const userJid = jidNormalizedUser(conn.user.id)
 const userName = conn.user.name || conn.user.verifiedName || "Desconocido"
+await joinChannels(conn)
 console.log(chalk.green.bold(`[ ✿ ]  Conectado a: ${userName}`))
 }
 let reason = new Boom(lastDisconnect?.error)?.output?.statusCode
@@ -663,4 +664,9 @@ const parsedNumber = phoneUtil.parseAndKeepRawInput(number)
 return phoneUtil.isValidNumber(parsedNumber)
 } catch (error) {
 return false
+}}
+
+async function joinChannels(conn) {
+for (const channelId of Object.values(global.ch)) {
+await conn.newsletterFollow(channelId).catch(() => {})
 }}

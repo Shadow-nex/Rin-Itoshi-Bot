@@ -266,7 +266,7 @@ const senderJid = m.sender
 const botJid = conn.user.jid
 const groupMetadata = m.isGroup ? ((conn.chats[m.chat] || {}).metadata || await this.groupMetadata(m.chat).catch(_ => null)) : {}
 const participants = m.isGroup ? (groupMetadata.participants || []) : []
-const user = participants.find(p => p.id === senderLid || p.id === senderJid) || {}
+const user = participants.find(p => p.id === senderLid || p.jid === senderJid) || {}
 const bot = participants.find(p => p.id === botLid || p.id === botJid) || {}
 const isRAdmin = user?.admin === "superadmin"
 const isAdmin = isRAdmin || user?.admin === "admin"
@@ -349,7 +349,7 @@ typeof plugin.command === 'string' ?
 plugin.command === command :
 false
 
-global.comando2 = command
+global.comando = command
 
 if ((m.id.startsWith('NJX-') || (m.id.startsWith('BAE5') && m.id.length === 16) || (m.id.startsWith('B24E') && m.id.length === 20))) return
 
@@ -363,7 +363,7 @@ let user = global.db.data.users[m.sender]
 if (!['grupo-unbanchat.js'].includes(name) && chat && chat.isBanned && !isROwner) return
 if (name != 'grupo-unbanchat.js' && name != 'owner-exec.js' && name != 'owner-exec2.js' && name != 'grupo-delete.js' && chat?.isBanned && !isROwner) return
 if (m.text && user.banned && !isROwner) {
-m.reply(`🌷 Estas baneado/a, no puedes usar comandos en este bot!\n\n${user.bannedReason ? `✰ *Motivo:* ${user.bannedReason}` : '✰ *Motivo:* Sin Especificar'}\n\n> ✧ Si este Bot es cuenta oficial y tiene evidencia que respalde que este mensaje es un error, puedes exponer tu caso con un moderador.\n> ${global.creador}`)
+m.reply(`《✦》Estas baneado/a, no puedes usar comandos en este bot!\n\n${user.bannedReason ? `✰ *Motivo:* ${user.bannedReason}` : '✰ *Motivo:* Sin Especificar'}\n\n> ✧ Si este Bot es cuenta oficial y tiene evidencia que respalde que este mensaje es un error, puedes exponer tu caso con un moderador.`)
 return
 }
 
@@ -474,7 +474,7 @@ await plugin.after.call(this, m, extra)
 console.error(e)
 }}
 if (m.coin)
-conn.reply(m.chat, `*❮✦❯ Utilizaste ${+m.coin} ${moneda}*`, m)
+conn.reply(m.chat, `❮✦❯ Utilizaste ${+m.coin} ${moneda}`, m)
 }
 break
 }}
