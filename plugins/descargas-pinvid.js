@@ -1,70 +1,80 @@
-import fetch from 'node-fetch';
+import fetch from 'node-fetch'
 
-let handler = async (m, { conn, text, command, usedPrefix }) => {
-  try {
-    let pinUrl =
-      (text && (text.match(/https?:\/\/\S+/i) || [])[0]) ||
-      (m.quoted && m.quoted.text && (m.quoted.text.match(/https?:\/\/\S+/i) || [])[0]);
-
-    if (!pinUrl) {
-      return conn.reply(
-        m.chat,
-        `🌟 *Descarga Pinterest*\n\n⚡ Manda el link de un *Pin* con video.\n\n🧪 Ejemplo:\n${usedPrefix + command} https://pin.it/2D2bEV2m2`,
-        m
-      );
-    }
-
-    await conn.sendMessage(m.chat, { react: { text: '⏳', key: m.key } });
-    if (/pin\.it\//i.test(pinUrl)) {
-      let res = await fetch(pinUrl, { redirect: 'follow' });
-      pinUrl = res.url;
-    }
-
-    if (!/pinterest\.com\/pin\//i.test(pinUrl)) {
-      throw new Error("❌ El enlace no es válido de *Pinterest*");
-    }
-
-    const endpoint = `https://gokublack.xyz/download/pin?url=${encodeURIComponent(pinUrl)}`;
-    const res = await fetch(endpoint);
-    if (!res.ok) throw new Error(`API respondió ${res.status}`);
-    const json = await res.json();
-
-    if (!json?.status || !json?.data?.status) {
-      throw new Error("La API no devolvió un resultado válido");
-    }
-
-    const { type, size, url: videoUrl } = json.data.data;
-
-    if (!videoUrl) throw new Error("No encontré el .mp4 en la respuesta");
-
-    const caption = [
-      '╭━━━〔  Pinterest DL  〕━━⬣',
-      `┆ 🎬 Tipo: ${type}`,
-      `┆ 📦 Tamaño: ${size}`,
-      `┆ ⚽ Fuente: ${pinUrl}`,
-      '┆ 🌱 Plataforma: Pinterest',
-      '╰━━━━━━━━━━━━━━━━━━⬣',
-    ].join('\n');
-
-    await conn.sendMessage(
-      m.chat,
-      {
-        video: { url: videoUrl },
-        caption,
-        mimetype: 'video/mp4',
-      },
-      { quoted: m }
-    );
-
-    await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
-  } catch (err) {
-    await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
-    conn.reply(m.chat, `⚠️ Error: ${err.message}`, m);
+function safeGet(obj, path, defaultVal) {
+  const parts = path.split('.')
+  let cur = obj
+  for (const p of parts) {
+    if (cur && Object.prototype.hasOwnProperty.call(cur, p)) {
+      cur = cur[p]
+    } else return defaultVal
   }
-};
+  return cur
+}
 
-handler.help = ['pinvideo *<link>*'];
-handler.tags = ['descargas'];
-handler.command = ['pinvideo', 'pinv'];
+let handler = async (m, { conn, args, usedPrefix, command }) => {
+  if (!args[0]) {
+    return conn.sendMessage(m.chat, {
+      text: `🌿 Uso correcto: *${usedPrefix + command}* <url>\n\nEjemplo:\n${usedPrefix + command} https://pin.it/21xLCbx4d`
+    }, { quoted: m })
+  }
 
-export default handler;
+  const requestUrl = args[0]
+
+  try {
+    const res = await fetch(requestUrl)
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    const json = await res.json()
+
+    const parsed = {
+      status: safeGet(json, 'status', false),
+      statusCode: safeGet(json, 'statusCode', 500),
+      creator: safeGet(json, 'creator', 'unknown'),
+      data: {
+        status: safeGet(json, 'data.status', false),
+        data: {
+          type: safeGet(json, 'data.data.type', 'unknown'),
+          size: safeGet(json, 'data.data.size', '-'),
+          url: safeGet(json, 'data.data.url', null)
+        }
+      }
+    }
+
+    const infoText = `
+⊜─⌈ 🔎 ◜Parse Result◞ 🔎 ⌋─⊜
+
+≡ 📊 status: *${parsed.status}*
+≡ 🆔 statusCode: *${parsed.statusCode}*
+≡ 👤 creator: *${parsed.creator}*
+
+≡ ✅ data.status: *${parsed.data.status}*
+≡ 🎬 type: *${parsed.data.data.type}*
+≡ 📦 size: *${parsed.data.data.size}*
+≡ 🔗 url: ${parsed.data.data.url ? parsed.data.data.url : 'No disponible'}
+    `.trim()
+
+    await conn.sendMessage(m.chat, { text: infoText }, { quoted: m })
+
+    if (parsed.data.data.url) {
+      try {
+        await conn.sendMessage(m.chat, {
+          video: { url: parsed.data.data.url },
+          caption: `🌷 Video detectado\n• Tipo: ${parsed.data.data.type}\n• Peso: ${parsed.data.data.size}`
+        }, { quoted: m })
+      } catch {
+        await conn.sendMessage(m.chat, { text: ` No pude enviar el video. Aquí tienes el enlace:\n${parsed.data.data.url}` }, { quoted: m })
+      }
+    }
+
+  } catch (err) {
+    console.error(err)
+    await conn.sendMessage(m.chat, {
+      text: `Error al parsear:\n${err.message}`
+    }, { quoted: m })
+  }
+}
+
+handler.help = ['pinvideo *<link>*']
+handler.tags = ['descargas']
+handler.command = ['pinvideo', 'pinv']
+
+export default handler
