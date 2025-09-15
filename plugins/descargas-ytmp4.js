@@ -13,14 +13,10 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     let res = await fetch(api)
     let json = await res.json()
 
-    if (!json.result?.status) return m.reply('No se pudo obtener el video.')
+    if (!json.result?.status) return m.reply('❌ No se pudo obtener el video.')
 
     let meta = json.result.metadata
     let down = json.result.download
-
-    if (down.quality !== "380p") {
-      return m.reply("❌ Solo está disponible calidad 380p para este comando.")
-    }
 
     let caption = `⊜─⌈ 📻 ◜YouTube MP4◞ 📻 ⌋─⊜
 ≡ 🌿 *Título:* ${meta.title || '-'}
