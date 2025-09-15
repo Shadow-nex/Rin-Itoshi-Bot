@@ -1,84 +1,60 @@
 import fetch from 'node-fetch'
-import yts from 'yt-search'
 
-function formatDuration(seconds) {
-  let h = Math.floor(seconds / 3600)
-  let m = Math.floor((seconds % 3600) / 60)
-  let s = seconds % 60
-  return [h, m, s]
-    .map(v => v.toString().padStart(2, '0'))
-    .join(':')
-}
-
-function formatViews(views) {
-  return Intl.NumberFormat('en-US').format(views)
-}
-
-function formatSize(bytes) {
-  if (!bytes) return 'Desconocido'
-  const units = ['B', 'KB', 'MB', 'GB', 'TB']
-  let i = 0
-  while (bytes >= 1024 && i < units.length - 1) {
-    bytes /= 1024
-    i++
-  }
-  return `${bytes.toFixed(2)} ${units[i]}`
-}
-
-let handler = async (m, { conn, args, usedPrefix, command }) => {
-  let q = args[0]
-  if (!q) {
-    return conn.sendMessage(m.chat, {
-      text: `✨ Ingresa la URL de YouTube.\n\n🌿 Ejemplo:\n> *${usedPrefix + command} https://youtube.com/watch?v=nlXqp3FVrq8*`
-    }, { quoted: m })
-  }
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text) return m.reply(
+    `☁️ Ingresa el nombre de la canción o video que quieres buscar.\n\nEjemplo:\n*${usedPrefix + command} DJ Malam Pagi Slowed*`
+  )
 
   try {
-    let search = await yts({ videoId: q.split('v=')[1] || q })
-    let video = search && search.url ? search : (await yts(q)).videos[0]
-    if (!video) throw new Error('❌ No se encontró el video.')
-
-    let api = `https://gokublack.xyz/download/ytmp4?url=${encodeURIComponent(video.url)}`
+    let api = `https://api.vreden.my.id/api/ytplaymp4?query=${encodeURIComponent(text)}`
     let res = await fetch(api)
-    if (!res.ok) throw await res.text()
-
     let json = await res.json()
-    if (!json.status || !json.data?.downloadURL) {
-      throw new Error('No se pudo obtener el video.')
-    }
 
-    let { title, format, downloadURL } = json.data
+    if (!json.result?.status) return m.reply('No se pudo obtener el video.')
 
-    let info = `
+    let meta = json.result.metadata
+    let down = json.result.download
+
+    let caption = `
 ⊜─⌈ 📻 ◜YouTube MP4◞ 📻 ⌋─⊜
-
-≡ 🎵 Título : ${video.title}
-≡ 📺 Canal : ${video.author?.name || "Desconocido"}
-≡ ⏳ Duración : ${formatDuration(video.duration.seconds)}
-≡ 👀 Vistas : ${formatViews(video.views)}
-≡ 📅 Publicado : ${video.ago}
-≡ 🍂 Peso : ${formatSize(json.data.size || 0)}
-≡ 🔗 Enlace : ${video.url}
-≡ 🌳 Calidad : 360p
-    `.trim()
+≡ 🌿 *Título:* ${meta.title || '-'}
+≡ 🌷 *Autor:* ${meta.author?.name || '-'}
+≡ 🌱 *Duración:* ${meta.duration?.timestamp || meta.timestamp || '-'}
+≡ 🌤️ *Publicado:* ${meta.ago || '-'}
+≡ ⭐ *Vistas:* ${meta.views?.toLocaleString() || '-'}
+≡ 🎋 *Calidad:* ${down.quality || '-'}
+≡ 🍏 *URL:* ${meta.url || '-'}`
 
     await conn.sendMessage(m.chat, {
-      video: { url: downloadURL },
-      mimetype: 'video/mp4',
-      fileName: `${title}.${format}`,
-      caption: info
+      image: { url: meta.thumbnail || meta.image },
+      caption,
+      contextInfo: {
+        externalAdReply: {
+          title: meta.title,
+          body: `Autor: ${meta.author?.name || 'Desconocido'}`,
+          thumbnailUrl: meta.thumbnail,
+          mediaType: 1,
+          showAdAttribution: true,
+          sourceUrl: meta.url
+        }
+      }
     }, { quoted: m })
 
-  } catch (err) {
-    console.error(err)
-    conn.sendMessage(m.chat, {
-      text: `Error al procesar el video.\n\nIntenta con otro link.`
+    await conn.sendMessage(m.chat, {
+      video: { url: down.url },
+      fileName: down.filename || 'video.mp4',
+      mimetype: 'video/mp4',
+      caption: `✅ Aquí tienes tu video en ${down.quality || 'desconocida'}`
     }, { quoted: m })
+
+  } catch (e) {
+    console.error(e)
+    m.reply('❌ Error al procesar la solicitud, intenta nuevamente.')
   }
 }
 
-handler.help = ['ytmp4 <url>']
+handler.help = ['ytmp4 *<texto>*']
 handler.tags = ['downloader']
-handler.command = ['ytmp4']
+handler.command = ['ytmp4', 'playmp4']
 
 export default handler
