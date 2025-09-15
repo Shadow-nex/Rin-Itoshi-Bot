@@ -25,7 +25,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         const image = data.image || '';
         const duration = data.duration || 0;
         const audioUrl = data.url;
-        const spotifyUrl = data.source || 'https://www.delirius.store/';
 
         const minutes = Math.floor(duration / 60000);
         const seconds = Math.floor((duration % 60000) / 1000);
@@ -36,16 +35,12 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 ≡ 👤 Artista : ${author}
 ≡ ⏳ Duración : ${formattedDuration}`;
 
-        const buttons = [
-            { buttonId: `play ${title}`, buttonText: { displayText: '▶️ Escuchar' }, type: 1 },
-            { buttonId: `url ${spotifyUrl}`, buttonText: { displayText: '🔗 Spotify' }, type: 1 }
-        ];
-
         await conn.sendMessage(m.chat, {
             image: { url: image },
-            caption,
-            footer: 'Delirius API',
-            buttons,
+            caption
+        }, { quoted: m });
+
+        await conn.sendMessage(m.chat, {
             audio: { url: audioUrl },
             mimetype: 'audio/mpeg'
         }, { quoted: m });
