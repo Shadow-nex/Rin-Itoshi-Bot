@@ -1,9 +1,9 @@
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-    if (!text) return m.reply(`Ingresa el nombre de la canción o el enlace de YouTube.\n\nEjemplo: *${usedPrefix + command} https://youtu.be/TdrL3QxjyVw*`);
+    if (!text) return m.reply(`☁️ Ingresa el enlace de YouTube.\n\nEjemplo: *${usedPrefix + command} https://youtu.be/TdrL3QxjyVw*`);
 
-    try {l
+    try {
         let res = await fetch(`https://api.stellarwa.xyz/dow/ytmp3?url=${encodeURIComponent(text)}&apikey=Diamond`);
         let data = await res.json();
 
@@ -17,10 +17,10 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         const video = data.data || {};
         const title = video.title || 'Desconocido';
         const image = video.thumbnail || '';
-        const filename = `${title}.mp3`;
+        const urlDownload = video.dl || '';
         const quality = video.quality || '128kbps';
         const size = video.filesize || 'Desconocido';
-        const urlDownload = video.dl || '';
+        const filename = `${title}.mp3`;
 
         let caption = `
 ╭━━〔 🎵 Audio Encontrado 〕━━⬣
@@ -29,6 +29,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 ≡ 🎧 Calidad : ${quality}
 ╰━━━━━━━━━━━━━━━━⬣
 `;
+
 
         await conn.sendMessage(m.chat, { 
             image: { url: image },
@@ -42,12 +43,12 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
                 mimetype: 'audio/mpeg'
             }, { quoted: m });
         } else {
-            m.reply('No se pudo descargar el audio.');
+            m.reply('❌ No se pudo descargar el audio.');
         }
 
     } catch (e) {
         console.error(e);
-        m.reply('Ocurrió un error al procesar la solicitud.');
+        m.reply('❌ Ocurrió un error al procesar la solicitud.');
     }
 };
 
