@@ -7,7 +7,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 
   try {
-    // API nueva
+
     const apiURL = `https://api.siputzx.my.id/api/d/spotifyv2?url=${encodeURIComponent(text)}`
     const res = await fetch(apiURL)
     if (!res.ok) throw await res.text()
@@ -17,12 +17,11 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       return m.reply("⚠️ No pude obtener el enlace de descarga. Intenta con otra URL.")
     }
 
-    // Variables bien definidas
     const name = json.data.songTitle || "Desconocido"
     const artists = json.data.artist || "Desconocido"
     const image = json.data.coverImage || null
     const download = json.data.mp3DownloadLink
-    const duration = "Desconocido" // La API no da duración, puedes calcularla si quieres
+    const duration = "Desconocido"
 
     await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } })
     await conn.sendMessage(m.chat, {
@@ -40,7 +39,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       }
     }, { quoted: m })
 
-    // Preparar caption
     let caption = `\`\`\`🧪 Título: ${name}
 🌷 Artista: ${artists}
 ⏱️ Duración: ${duration}\`\`\``
@@ -57,7 +55,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       }
     }
 
-    // Enviar documento
     await conn.sendMessage(m.chat, {
       document: { url: download },
       mimetype: 'audio/mpeg',
@@ -66,7 +63,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       ...(thumb ? { jpegThumbnail: thumb } : {})
     }, { quoted: m })
 
-    // Enviar audio
     await conn.sendMessage(m.chat, {
       audio: { url: download },
       mimetype: 'audio/mpeg',
@@ -91,8 +87,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 }
 
-handler.help = ['spotify2 <url>']
+handler.help = ['music <url>']
 handler.tags = ['dl']
-handler.command = ['spotify2']
+handler.command = ['music']
 
 export default handler
