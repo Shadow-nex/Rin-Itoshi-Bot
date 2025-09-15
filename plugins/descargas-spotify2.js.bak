@@ -3,27 +3,26 @@ import Jimp from 'jimp'
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
-    return m.reply(`🍂 *Ejemplo de uso:*\n\n✎ ✧ \`${usedPrefix + command}\` https://open.spotify.com/track/4iV5W9uYEdYUVa79Axb7Rh`)
+    return m.reply(`🍂 *Ejemplo de uso:*\n\n✎ ✧ \`${usedPrefix + command}\` https://open.spotify.com/track/6UR5tB1wVm7qvH4xfsHr8m`)
   }
 
   try {
-    // API nueva
-    const apiURL = `https://api.siputzx.my.id/api/d/spotifyv2?url=${encodeURIComponent(text)}`
+    const apiURL = `https://api.dorratz.com/spotifydl?url=${encodeURIComponent(text)}`
     const res = await fetch(apiURL)
     if (!res.ok) throw await res.text()
 
     const json = await res.json()
-    if (!json || !json.data || !json.data.mp3DownloadLink) {
+    if (!json || !json.download_url) {
       return m.reply("⚠️ No pude obtener el enlace de descarga. Intenta con otra URL.")
     }
 
-    // Variables bien definidas
-    const name = json.data.songTitle || "Desconocido"
-    const artists = json.data.artist || "Desconocido"
-    const image = json.data.coverImage || null
-    const download = json.data.mp3DownloadLink
-    const duration = "Desconocido" // La API no da duración, puedes calcularla si quieres
-
+    const name = json.name || "Desconocido"
+    const artists = json.artists || "Desconocido"
+    const image = json.image || null
+    const duration = json.duration_ms 
+      ? new Date(json.duration_ms).toISOString().substr(14, 5) 
+      : "0:00"
+    const download = json.download_url
     await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } })
     await conn.sendMessage(m.chat, {
       text: '🍂 *B U C A N D O. . . ...*',
@@ -31,21 +30,19 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       contextInfo: {
         externalAdReply: {
           title: '🍄 Rɪɴ Iᴛᴏsʜɪ ᴍᴅ 🌹 | 🪾 ʙʏ ᴅᴠ.sʜᴀᴅᴏᴡ 🪴',
-          body: artists,
+          body: club,
           thumbnailUrl: image,
-          sourceUrl: text,
+          sourceUrl: 'https://api.dorratz.com',
           mediaType: 1,
           renderLargerThumbnail: false
         }
       }
     }, { quoted: m })
-
-    // Preparar caption
+  
     let caption = `\`\`\`🧪 Título: ${name}
 🌷 Artista: ${artists}
-⏱️ Duración: ${duration}\`\`\``
+⏱️ Duración: ${duration} min\`\`\``
 
-    // Miniatura
     let thumb = null
     if (image) {
       try {
@@ -57,7 +54,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       }
     }
 
-    // Enviar documento
     await conn.sendMessage(m.chat, {
       document: { url: download },
       mimetype: 'audio/mpeg',
@@ -66,7 +62,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       ...(thumb ? { jpegThumbnail: thumb } : {})
     }, { quoted: m })
 
-    // Enviar audio
+
     await conn.sendMessage(m.chat, {
       audio: { url: download },
       mimetype: 'audio/mpeg',
