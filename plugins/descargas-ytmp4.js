@@ -112,7 +112,7 @@ let handler = async (m, { conn, text, args }) => {
         contextInfo: {
           externalAdReply: {
             title: meta.title,
-            body: '🌱 YOUTUBE DOC 💎',
+            body: '💦 ᥡ᥆ᥙ𝗍ᥙᑲᥱ ძ᥆ᥴ | rіᥒ і𝗍᥆sһі 🌾',
             mediaUrl: args[0],
             sourceUrl: args[0],
             thumbnailUrl: meta.image,
@@ -142,7 +142,7 @@ let handler = async (m, { conn, text, args }) => {
       }, { quoted: m });
     }
 
-    await conn.sendMessage(m.chat, { react: { text: '☑️', key: m.key } });
+    await conn.sendMessage(m.chat, { react: { text: '✔️', key: m.key } });
 
   } catch (e) {
     console.error(e);
