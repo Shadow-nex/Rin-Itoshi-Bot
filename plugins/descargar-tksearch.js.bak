@@ -60,28 +60,13 @@ const tiktokHandler = async (m, { conn, command, args, usedPrefix }) => {
 async function sendVideoWithButtons(session, m, conn, usedPrefix) {
     const video = session.videos[session.currentIndex];
 
+    const caption = session.currentIndex === 0 
+        ? `✅ Usa el botón para ver más videos.\n\n${wm}`
+        : `_*©${author}*_`;
+
     try {
-        const infoUrl = `https://delirius-apiofc.vercel.app/download/tiktok?url=${encodeURIComponent(video.play)}`;
-        const res = await fetch(infoUrl);
-        const infoData = await res.json();
-
-        let title = infoData.data?.title || "Sin título";
-        let author = infoData.data?.author?.nickname || "Desconocido";
-        let username = infoData.data?.author?.unique_id ? `@${infoData.data.author.unique_id}` : "N/A";
-        let duration = infoData.data?.duration || "N/A";
-        let views = infoData.data?.play_count ? infoData.data.play_count.toLocaleString() : "0";
-        let likes = infoData.data?.digg_count ? infoData.data.digg_count.toLocaleString() : "0";
-
-        const caption = `🎬 *TikTok - Resultado ${session.currentIndex + 1}*\n\n` +
-            `≡ 📌 *Título:* ${title}\n` +
-            `≡ 👤 *Autor:* ${author} (${username})\n` +
-            `≡ ⏳ *Duración:* ${duration}s\n` +
-            `≡ 👀 *Vistas:* ${views}\n` +
-            `≡ ❤️ *Likes:* ${likes}\n\n` +
-            `✅ Usa el botón para ver más videos.`;
-
         const buttons = [];
-
+        
         if (session.currentIndex + 1 < session.videos.length) {
             buttons.push({
                 buttonId: `${usedPrefix}tkseguir`,
@@ -102,7 +87,7 @@ async function sendVideoWithButtons(session, m, conn, usedPrefix) {
         );
     } catch (error) {
         console.error(error);
-        conn.reply(m.chat, '❌ Error al obtener info del video', m);
+        conn.reply(m.chat, '❌ Error al enviar el video', m);
     }
 }
 
