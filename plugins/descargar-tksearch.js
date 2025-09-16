@@ -15,7 +15,7 @@ const tiktokHandler = async (m, { conn, command, args, usedPrefix }) => {
         if (!query) {
             return conn.reply(
                 m.chat,
-                `❌ \`\`\`Escribe lo que quieres buscar\`\`\`\n\`Ejemplo:\`\n> ${usedPrefix}tksearch Videos Graciosos `,
+                `🌷 \`\`\`Escribe lo que quieres buscar\`\`\`\n\`Ejemplo:\`\n> ${usedPrefix}tksearch Videos Graciosos `,
                 m
             );
         }
@@ -65,19 +65,28 @@ async function sendVideoWithButtons(session, m, conn, usedPrefix) {
         const res = await fetch(infoUrl);
         const infoData = await res.json();
 
-        let title = infoData.data?.title || "Sin título";
-        let author = infoData.data?.author?.nickname || "Desconocido";
-        let username = infoData.data?.author?.unique_id ? `@${infoData.data.author.unique_id}` : "N/A";
-        let duration = infoData.data?.duration || "N/A";
-        let views = infoData.data?.play_count ? infoData.data.play_count.toLocaleString() : "0";
-        let likes = infoData.data?.digg_count ? infoData.data.digg_count.toLocaleString() : "0";
+        const data = infoData.data;
+        if (!data) throw new Error("No data");
+
+        let title = data.title || "Sin título";
+        let author = data.author?.nickname || "Desconocido";
+        let username = data.author?.username || "N/A";
+        let duration = data.duration || "N/A";
+        let views = data.repro || "0";
+        let likes = data.like || "0";
+        let shares = data.share || "0";
+        let comments = data.comment || "0";
+        let linkVideo = data.meta?.media?.[0]?.hd || data.meta?.media?.[0]?.org;
 
         const caption = `🎬 *TikTok - Resultado ${session.currentIndex + 1}*\n\n` +
             `≡ 📌 *Título:* ${title}\n` +
             `≡ 👤 *Autor:* ${author} (${username})\n` +
             `≡ ⏳ *Duración:* ${duration}s\n` +
             `≡ 👀 *Vistas:* ${views}\n` +
-            `≡ ❤️ *Likes:* ${likes}\n\n` +
+            `≡ ❤️ *Likes:* ${likes}\n` +
+            `≡ 💬 *Comentarios:* ${comments}\n` +
+            `≡ 🔄 *Compartidos:* ${shares}\n\n` +
+            `🌐 *Link:* ${linkVideo}\n\n` +
             `✅ Usa el botón para ver más videos.`;
 
         const buttons = [];
@@ -85,7 +94,7 @@ async function sendVideoWithButtons(session, m, conn, usedPrefix) {
         if (session.currentIndex + 1 < session.videos.length) {
             buttons.push({
                 buttonId: `${usedPrefix}tkseguir`,
-                buttonText: { displayText: "➡️ Siguiente video" },
+                buttonText: { displayText: " Siguiente video" },
                 type: 1
             });
         }
@@ -93,7 +102,7 @@ async function sendVideoWithButtons(session, m, conn, usedPrefix) {
         await conn.sendMessage(
             m.chat,
             {
-                video: { url: video.hd },
+                video: { url: linkVideo },
                 caption: caption,
                 buttons: buttons,
                 viewOnce: true
