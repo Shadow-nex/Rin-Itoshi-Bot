@@ -12,15 +12,7 @@ Contenido adaptado por:
 */
 
 const { useMultiFileAuthState, DisconnectReason, makeCacheableSignalKeyStore, fetchLatestBaileysVersion, Browsers } = (await import("@whiskeysockets/baileys"));
-/*const { 
-  useMultiFileAuthState, 
-  DisconnectReason, 
-  makeCacheableSignalKeyStore, 
-  fetchLatestBaileysVersion, 
-  proto, 
-  Browsers,
-  generateWAMessageFromContent
-} = (await import("@whiskeysockets/baileys"));*/
+//const { useMultiFileAuthState,  DisconnectReason, makeCacheableSignalKeyStore,  fetchLatestBaileysVersion,  proto,  Browsers, generateWAMessageFromContent } = (await import("@whiskeysockets/baileys"));
 import qrcode from "qrcode"
 import NodeCache from "node-cache"
 import fs from "fs"
@@ -171,8 +163,8 @@ return
 if (qr && mcode) {
 let secret = await sock.requestPairingCode((m.sender.split`@`[0]))
 secret = secret.match(/.{1,4}/g)?.join("-")
-
-/*    let imgUrl = 'https://files.catbox.moe/4q363w.jpg'; 
+/*
+    let imgUrl = 'https://files.catbox.moe/4q363w.jpg'; 
     let txtCode = await conn.sendMessage(m.chat, {
       image: { url: imgUrl },
       caption: rtx2,
@@ -188,7 +180,6 @@ secret = secret.match(/.{1,4}/g)?.join("-")
       }
     }, { quoted: fkontak });
 
-//codeBot = await conn.reply(m.chat, `*${secret}*`, m);
 const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
   viewOnceMessage: {
     message: {
@@ -216,7 +207,7 @@ const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
 codeBot = await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })*/
 
 txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
-codeBot = await m.reply(secret)
+codeBot = await conn.reply(m.chat, `*${secret}*`, m, fake);
 
 
 console.log(secret)
@@ -284,9 +275,6 @@ if (connection == `open`) {
 if (!global.db.data?.users) loadDatabase()
 let userName, userJid
 
-let kawaiiEmojis = ["🌸", "🐰", "🐱", "🐾", "💖", "✨", "🍡", "🎀", "🦊", "🐼"]
-let randomEmoji = kawaiiEmojis[Math.floor(Math.random() * kawaiiEmojis.length)]
-
 userName = sock.authState.creds.me.name || 'Anónimo'
 userJid = sock.authState.creds.me.jid || `${path.basename(pathshadowJadiBot)}@s.whatsapp.net`
 console.log(chalk.bold.cyanBright(`\n❒⸺⸺⸺⸺【• SUB-BOT •】⸺⸺⸺⸺❒\n│\n│ 🟢 ${userName} (+${path.basename(pathshadowJadiBot)}) conectado exitosamente.\n│\n❒⸺⸺⸺【• CONECTADO •】⸺⸺⸺❒`))
@@ -294,9 +282,9 @@ sock.isInit = true
 global.conns.push(sock)
 await joinChannels(sock)
 m?.chat ? await conn.sendMessage(m.chat, {text: args[0] ? `@${m.sender.split('@')[0]}, ya estás conectado, leyendo mensajes entrantes...` : `
-${randomEmoji} 𝑲𝒐𝒏𝒏𝒊𝒄𝒉𝒊𝒘𝒂 ${randomEmoji}  
-*@${m.sender.split('@')[0]}* ya es parte de la ✨familia mágica✨ de Sub-Bots ${randomEmoji}  
-꒰ᐢ. .ᐢ꒱っ${randomEmoji} ¡Bienvenid@!`, mentions: [m.sender]}, { quoted: m }) : ''
+🌲𝑲𝒐𝒏𝒏𝒊𝒄𝒉𝒊𝒘𝒂 ⭐
+*@${m.sender.split('@')[0]}* ya es parte de la ✨familia mágica✨ de Sub-Bots 🌾
+꒰ᐢ. .ᐢ꒱っ💦¡Bienvenid@!`, mentions: [m.sender]}, { quoted: m }) : ''
 }}
 setInterval(async () => {
 if (!sock.user) {
