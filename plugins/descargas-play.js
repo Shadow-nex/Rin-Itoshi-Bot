@@ -20,7 +20,6 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     const vistas = formatViews(views)
     const canal = author?.name || 'Desconocido'
     
-    await m.react('⏱️');
     const infoMessage = `🌷 \`Titulo:\`  *<${title || 'Desconocido'}>*\n\n` +
       `> 📺 \`Canal\` » *${canal}*\n` +
       `> 👁️ \`Vistas\` » *${vistas || 'Desconocido'}*\n` +
@@ -52,23 +51,24 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         const json = await res.json()
         if (!json.result?.download?.url) throw '*⚠ No se obtuvo un enlace válido.*'
 
-       await m.react('✅');
-       await conn.sendMessage(m.chat, {
-         audio: { url: json.result.download.url },
-         mimetype: 'audio/mpeg',
-         fileName: `${json.result.title}.mp3`,
-         contextInfo: {
-           externalAdReply: {
-             title: title,
-             body: '⚽ RIN ITOSHI - IA 🌀',
-             mediaType: 1,
-             thumbnail: thumb,
-             mediaUrl: url,
-             sourceUrl: url,
-             renderLargerThumbnail: true
-           }
-         }
-       }, { quoted: m })
+        await conn.sendMessage(m.chat, {
+          audio: { url: json.result.download.url },
+          mimetype: 'audio/mpeg',
+          fileName: `${json.result.title}.mp3`,
+          contextInfo: {
+            externalAdReply: {
+              title: title,
+              body: 'ძᥱsᥴᥲrgᥲs rіᥒ і𝗍᥆sһі ᥙᥣ𝗍rᥲ',
+              mediaType: 1,
+              thumbnail: thumb,
+              mediaUrl: url,
+              sourceUrl: url,
+              renderLargerThumbnail: true
+            }
+          }
+        }, { quoted: m })
+
+        await m.react('✅')
       } catch (e) {
         return conn.reply(m.chat, '*⚠︎ No se pudo enviar el audio. El archivo podría ser demasiado pesado o hubo un error en la generación del enlace.*', m)
       }
@@ -76,38 +76,34 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     
     else if (['playvideo'].includes(command)) {
       try {
-        const res = await fetch(`https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`)
+        const res = await fetch(`https://api.stellarwa.xyz/dow/ytmp4?url=${url}&apikey=Diamond`)
         const json = await res.json()
 
-        if (!json.status || !json.data?.download?.url) throw '⚠ No se obtuvo enlace de video.'
+        if (!json.status || !json.data?.dl) throw '⚠ No se obtuvo enlace de video.'
+        const data = json.data
 
-        const size = await getSize(json.data.download.url)
+        const size = await getSize(data.dl)
         const sizeStr = size ? await formatSize(size) : 'Desconocido'
 
-        await m.react('✅');
-
-        let caption = ` 🧪  DESCARGA COMPLETA 🌱
-> ✦ *Título:* ${json.data.title}
-> ❏ *Canal:* ${json.data.author}
-> ⌬ *Categoría:* ${json.data.category || "Desconocida"}
-> ⬡ *Duración:* ${formatTime(json.data.duration)}
-> ✧ *Calidad:* ${json.data.quality || "HD"}
+        let caption = `> ✦ *Título:* ${data.title}
+> ❏ *Canal:* ${canal}
+> ⌬ *Duración:* ${timestamp || 'Desconocido'}
+> ✧ *Calidad:* HD
 > ⨳ *Tamaño:* ${sizeStr}
-> 🜸 *Vistas:* ${formatViews(json.data.views)}
-> ◈ *Likes:* ${json.data.likes || "No disponible"}
-> ⌭ *Comentarios:* ${json.data.comments || "No disponible"}
+> 🜸 *Vistas:* ${vistas}
 > ❖ *Publicado:* ${ago || 'Desconocido'}
-
-🌱 *Enlace:* https://youtu.be/${json.data.id}
+> ⌭ *Enlace:* ${url}
         `.trim()
 
         await conn.sendFile(
           m.chat,
-          json.data.download.url,
-          `${json.data.title || 'video'}.mp4`,
+          data.dl,
+          `${data.title || 'video'}.mp4`,
           caption,
           m
         )
+
+        await m.react('✅')
       } catch (e) {
         return conn.reply(m.chat, '⚠︎ No se pudo enviar el video. El archivo podría ser muy pesado o hubo un error en el enlace.', m)
       }
@@ -134,12 +130,6 @@ function formatViews(views) {
   if (views >= 1e6) return `${(views / 1e6).toFixed(1)}M (${views.toLocaleString()})`
   if (views >= 1e3) return `${(views / 1e3).toFixed(1)}K (${views.toLocaleString()})`
   return views.toString()
-}
-
-function formatTime(seconds) {
-  const min = Math.floor(seconds / 60)
-  const sec = seconds % 60
-  return `${min}:${sec.toString().padStart(2, '0')}`
 }
 
 async function getSize(downloadUrl) {
