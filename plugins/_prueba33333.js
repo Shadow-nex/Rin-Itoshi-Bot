@@ -12,19 +12,30 @@ let handler = async (m, { conn, usedPrefix }) => {
   ]
   let randomImg = imgs[Math.floor(Math.random() * imgs.length)]
 
-  // 🕒 Fecha y hora
+  // 🕒 Fecha y hora en Perú (GMT-5)
   let fecha = new Date()
-  let fechaStr = fecha.toLocaleDateString('es-PE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
-  let hora = fecha.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+  let fechaStr = fecha.toLocaleDateString('es-PE', { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric', 
+    timeZone: "America/Lima" 
+  })
+  let hora = fecha.toLocaleTimeString('es-PE', { 
+    hour: '2-digit', 
+    minute: '2-digit', 
+    second: '2-digit', 
+    hour12: false, 
+    timeZone: "America/Lima" 
+  })
 
   // ⏳ Uptime del bot
-  let uptimeMs = performance.now()
   let uptimeSeg = Math.floor(process.uptime())
   let uptimeStr = convertirTiempo(uptimeSeg)
 
-  // 🖥️ RAM info
-  let memoriaTotal = os.totalmem() / 1024 / 1024
-  let memoriaLibre = os.freemem() / 1024 / 1024
+  // 🖥️ RAM info en GB
+  let memoriaTotal = os.totalmem() / 1024 / 1024 / 1024
+  let memoriaLibre = os.freemem() / 1024 / 1024 / 1024
   let memoriaUsada = memoriaTotal - memoriaLibre
 
   // ⚙️ Plugins/comandos
@@ -34,38 +45,11 @@ let handler = async (m, { conn, usedPrefix }) => {
   let menuTexto = `
 ╭━━━〔 ⚽ *MAGNOSBOT MENU* ⚽ 〕━━⬣
 ┃ 📅 *Fecha:* ${fechaStr}
-┃ 🕒 *Hora:* ${hora}
+┃ 🕒 *Hora Perú:* ${hora}
 ┃ ⏳ *Tiempo activo:* ${uptimeStr}
-┃ 🖥️ *RAM usada:* ${memoriaUsada.toFixed(2)} MB
-┃ 🖥️ *RAM libre:* ${memoriaLibre.toFixed(2)} MB
-┃ ⚙️ *Comandos:* ${totalPlugins}
-┃
-┃ 💡 *Funciones Principales*
-┃ ✦ ${usedPrefix}play <canción>
-┃ ✦ ${usedPrefix}ytmp3 <url>
-┃ ✦ ${usedPrefix}ytmp4 <url>
-┃ ✦ ${usedPrefix}soundcloud <url>
-┃ ✦ ${usedPrefix}tiktok <url>
-┃ ✦ ${usedPrefix}fb <url>
-┃ ✦ ${usedPrefix}ig <url>
-┃ ✦ ${usedPrefix}apk <nombre>
-┃ ✦ ${usedPrefix}sticker
-┃ ✦ ${usedPrefix}toimg
-┃ ✦ ${usedPrefix}ai <texto>
-┃ ✦ ${usedPrefix}verify
-┃
-┃ 🎮 *Juegos y Diversión*
-┃ ✦ ${usedPrefix}love @tag
-┃ ✦ ${usedPrefix}ppt
-┃ ✦ ${usedPrefix}slots
-┃ ✦ ${usedPrefix}adivina
-┃ ✦ ${usedPrefix}casino
-┃
-┃ 👑 *Owner*
-┃ ✦ ${usedPrefix}restart
-┃ ✦ ${usedPrefix}deletesesion
-┃ ✦ ${usedPrefix}ban @tag
-┃ ✦ ${usedPrefix}unban @tag
+┃ 💾 *RAM usada:* ${memoriaUsada.toFixed(2)} GB
+┃ 📦 *RAM total:* ${memoriaTotal.toFixed(2)} GB
+┃ ⚙️ *Plugins:* ${totalPlugins}
 ┃
 ╰━━━━━━━━━━━━━━━━━━⬣
 `
@@ -101,5 +85,5 @@ function convertirTiempo(segundos) {
     .join(':')
 }
 
-handler.command = ['inicio']
+handler.command = ['inicio', 'menu', 'help']
 export default handler
