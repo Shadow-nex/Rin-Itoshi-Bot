@@ -1,5 +1,6 @@
 import { smsg } from './lib/simple.js'
-import { format } from 'util' 
+import { format } from 'util'
+import * as ws from 'ws';
 import { fileURLToPath } from 'url'
 import path, { join } from 'path'
 import { unwatchFile, watchFile } from 'fs'
