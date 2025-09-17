@@ -5,10 +5,10 @@ let handler = async (m, { conn, usedPrefix }) => {
   
   // 📸 Lista de imágenes aleatorias
   const imgs = [
-    "https://files.catbox.moe/wwo7th.jpg",
-    "https://files.catbox.moe/wwo7th.jpg",
-    "https://files.catbox.moe/wwo7th.jpg",
-    "https://files.catbox.moe/wwo7th.jpg"
+    "https://i.postimg.cc/NGrhjVTv/IMG-20250909-WA0062.jpg",
+    "https://i.postimg.cc/vmBCmj8y/IMG-20250910-WA0015.jpg",
+    "https://i.postimg.cc/ZnqM1fZq/IMG-20250911-WA0028.jpg",
+    "https://i.postimg.cc/8zkV6Wyw/IMG-20250912-WA0044.jpg"
   ]
   let randomImg = imgs[Math.floor(Math.random() * imgs.length)]
 
