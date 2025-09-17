@@ -102,7 +102,7 @@ let handler = async (m, { conn, text, args }) => {
     let fileSize = head.headers.get("content-length") || 0;
     let fileSizeMB = (fileSize / (1024 * 1024)).toFixed(2);
 
-    if (fileSizeMB >= 50) {
+    if (fileSizeMB >= 100) {
       await conn.sendMessage(m.chat, {
         document: { url },
         mimetype: 'video/mp4',
