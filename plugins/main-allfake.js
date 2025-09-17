@@ -29,11 +29,11 @@ console.log(`Error : ${e}`)
   
 global.creador = 'wa.me/51919199620'
 global.ofcbot = `${conn.user.jid.split('@')[0]}`
-global.namechannel = '▐▐ ✦ 𝗥𝗶𝗻 𝗜𝘁𝗼𝘀𝗵𝗶 - 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 ✦ ▐▐'
-global.namechannel2 = '▐▐ ✦ 𝗥𝗶𝗻 𝗜𝘁𝗼𝘀𝗵𝗶 - 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 ✦ ▐▐'
-global.namegrupo = '▐▐ ⚡ 𝗥𝗶𝗻 𝗜𝘁𝗼𝘀𝗵𝗶 • 𝗢𝗳𝗶𝗰𝗶𝗮𝗹 ⚡ ▐▐'
-global.namecomu = '▐▐ ⚡ 𝗥𝗶𝗻-𝗜𝘁𝗼𝘀𝗵𝗶-𝗕𝗼𝘁-𝗠𝗗 • 𝗖𝗼𝗺𝘂𝗻𝗶𝘁𝘆 ⚡ ▐▐'
-global.listo = '✦❀ *Aquí tienes, capitán ฅ^•ﻌ•^ฅ* ❀✦'
+global.namechannel = '𓇟 ︶𓇟 ✦💖 𝑹𝒊𝒏 𝑰𝒕𝒐𝒔𝒉𝒊 • 𝑪𝒉𝒂𝒏𝒏𝒆𝒍 🌷✦ ︶𓇟 ︶𓇟'
+global.namechannel2 = '࿙ִ࿙ ͡ྌ᳝֟፝ྌ🌾 𝓡𝓲𝓷 𝓘𝓽𝓸𝓼𝓱𝓲 🎋ྌ᳝֟፝ྌ͡ ࿚ִ࿚'
+global.namegrupo = '✾࣭࣭࣪࣪ 🍂 𝑹𝒊𝒏 𝑰𝒕𝒐𝒔𝒉𝒊 • 𝑮𝒓𝒖𝒑𝒐  ࣭࣭࣪࣪✾'
+global.namecomu = '⏝🌷 𝑹𝒊𝒏-𝑰𝒕𝒐𝒔𝒉𝒊-𝑩𝒐𝒕-𝑴𝑫 • 𝑪𝒐𝒎𝒖𝒏𝒊𝒕𝒚 🌷⏝'
+global.listo = '🎋 ᴀǫᴜɪ ᴛɪᴇɴᴇs ᴄᴀᴜsᴀ'
 global.fotoperfil = await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg')
 
 global.canalIdM = [
@@ -42,9 +42,9 @@ global.canalIdM = [
   "120363401008003732@newsletter"
 ]
 global.canalNombreM = [
-  "★彡〔 Rin Itoshi Official Channel 〕彡★",
-  "𓆩⿻⃟🖤 Rin Itoshi 🖤⿻⃟𓆪",
-  "⚽𐚁 ֹ ִ Rin Itoshi - Official ୧ ֹ ִ⚽ᩚ꤬ᰍ"
+  "⸸ ⚡︎「 𝐑𝐢𝐧 𝐈𝐭𝐨𝐬𝐡𝐢 ✦ 𝐎𝐟𝐟𝐢𝐜𝐢𝐚𝐥 」⚡︎ ⸸",
+  "✦͙͙͙*ೃ༄ 𝑹𝒊𝒏 𝑰𝒕𝒐𝒔𝒉𝒊 | 𝑺𝒉𝒂𝒅𝒐𝒘`𝑪𝒐𝒓𝒆 ༄*ೃ✦",
+  "⋆｡ﾟ☁︎｡⋆ 𝚁 𝙸 𝙽 • 𝙸 𝚃 𝙾 𝚂 𝙷 𝙸 ⋆｡ﾟ☁︎｡⋆"
 ]
 global.channelRD = await getRandomChannel()
 
@@ -61,7 +61,7 @@ global.done = '✅'
 global.error = '✖️'
 global.msm = '⚠︎'
 
-global.emoji = '🌱'
+global.emoji = '🎋'
 global.emoji2 = '☆⌒(ゝ。∂)'
 global.emoji3 = '(✧ω✧)'
 global.emoji4 = '(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧'
@@ -69,18 +69,10 @@ global.emoji5 = '(づ｡◕‿‿◕｡)づ'
 global.emoji6 = '★~(◠‿◕✿)'
 global.emojis = [emoji, emoji2, emoji3, emoji4, emoji5, emoji6].getRandom()
 
-global.wait = '⚽️ 𝙀𝙣𝙫𝙞𝙖𝙣𝙙𝙤 𝙩𝙚𝙣 𝙥𝙖𝙘𝙞𝙚𝙣𝙘𝙞𝙖...'
-global.waitt = global.wait
-global.waittt = global.wait
-global.waitttt = global.wait
-
-
-global.hotw = '*🐭 El contenido `NSFW` está desactivado en este grupo.*\n> Un administrador puede activarlo con el comando » *`#nsfw on`*';
-
-
-global.edadaleatoria = ['10', '28', '20', '40', '18', '21', '15', '11', '9', '17', '25'].getRandom();
-global.user2 = m.pushName || 'Anónimo';
-global.verifyaleatorio = ['registrar', 'reg', 'verificar', 'verify', 'register'].getRandom();
+global.wait = '🎋 Espera un momento, soy lento...';
+global.waitt = '🍧 Espera un momento, soy lento...';
+global.waittt = '🌷 Espera un momento, soy lento...';
+global.waitttt = '🌿 Espera un momento, soy lento...';
 
 var canal = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'  
 var comunidad = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
@@ -106,17 +98,15 @@ global.taguser = '@' + m.sender.split("@s.whatsapp.net")
 var more = String.fromCharCode(8206)
 global.readMore = more.repeat(850)
 
-global.packsticker = `
-🌸🍒✩₊˚.⋆☾⋆⁺₊✧
-✦ 𝕌𝕤𝕦𝕒𝕣𝕚𝕠: ${nombre}
-✦ 𝔹𝕠𝕥: ${botname}
-✦ 𝔽𝕖𝕔𝕙𝕒: ${fecha}
-✦ ℍ𝕠𝕣𝕒: ${tiempo}
-✧⁺₊⋆☾⋆.˚₊✩🍒🌸
-`;
-global.packsticker2 = `╭࣭࣭࣭࣭࣭࣭ٜ۫┄☪︎⃘✦ 𝑹𝒊𝒏 𝑰𝒕𝒐𝒔𝒉𝒊 ✦☪︎┄࣭࣭࣭࣭࣭࣭۫╮
-     ${dev}
-╰࣭࣭࣭࣭࣭࣭ٜ۫┄☪︎⃘✦ ⌬ ✦☪︎┄࣭࣭࣭࣭࣭࣭۫╯`
+global.packsticker = `༺══•◈•══༻
+🍓.ೃ࿔*:･༓☾
+✿ Usuario: ${nombre}
+✿ Bot: ${botname}
+✿ Fecha: ${fecha}
+✿ Hora: ${tiempo}
+☽༓･*:࿔ೃ.🎋
+༺══•◈•══༻`;
+global.packsticker2 = `${dev}`
   
 global.fkontak = { key: {participant: `0@s.whatsapp.net`, ...(m.chat ? { remoteJid: `6285600793871-1614953337@g.us` } : {}) }, message: { 'contactMessage': { 'displayName': `${nombre}`, 'vcard': `BEGIN:VCARD\nVERSION:3.0\nN:XL;${nombre},;;;\nFN:${nombre},\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`, 'jpegThumbnail': null, thumbnail: null,sendEphemeral: true}}}
 
@@ -131,6 +121,7 @@ global.icono = [
 
 global.rcanal = {contextInfo: {forwardingScore: 2025, isForwarded: true, externalAdReply: {title: packname, body: author, sourceUrl: redes, thumbnailUrl: icono}}}
 }
+
 
 export default handler
 

@@ -4,8 +4,8 @@ import { fileURLToPath } from 'url'
 import path, { join } from 'path'
 import { unwatchFile, watchFile } from 'fs'
 import chalk from 'chalk'
+import failureHandler from './lib/respuesta.js';
 import fetch from 'node-fetch'
-import getMensajeSistema from './lib/msmwarning.js'
 
 const { proto } = (await import('@whiskeysockets/baileys')).default
 const isNumber = x => typeof x === 'number' && !isNaN(x)
@@ -539,35 +539,13 @@ if (!m.fromMe) return this.sendMessage(m.chat, { react: { text: emot, key: m.key
 function pickRandom(list) { return list[Math.floor(Math.random() * list.length)]}
 }}
 
-global.dfail = (type, m, conn, comando = '') => {
-  //let edadaleatoria = ['10', '28', '20', '40', '18', '21', '15', '11', '9', '17', '25'].getRandom();
-  //let user2 = m.pushName || 'Anónimo';
-  //let verifyaleatorio = ['registrar', 'reg', 'verificar', 'verify', 'register'].getRandom();
-  let mensajes = getMensajeSistema(comando)
-
-  const msg = {
-    rowner: mensajes.smsrowner,
-    owner: mensajes.smsowner,    
-    mods: mensajes.smsmods,  
-    premium: mensajes.smspremium,  
-    group: mensajes.smsgroup,  
-    admin: mensajes.smsadmin,
-    private: mensajes.smsprivate,
-    botAdmin: mensajes.smsbotAdmin,  
-    unreg: mensajes.smsunreg,
-    restrict: mensajes.smsrestrict
-  }[type]
-
-  if (msg) return conn.reply(m.chat, msg, m, rcanal).then(_ => m.react('✖️'))
-}
-
-let file = global.__filename(import.meta.url, true)
+global.dfail = (type, m, conn) => { failureHandler(type, conn, m); };
+const file = global.__filename(import.meta.url, true);
 watchFile(file, async () => {
-unwatchFile(file)
-console.log(chalk.magenta("Se actualizo 'handler.js'"))
-
-if (global.conns && global.conns.length > 0 ) {
-const users = [...new Set([...global.conns.filter((conn) => conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED).map((conn) => conn)])];
-for (const userr of users) {
-userr.subreloadHandler(false)
-}}});
+    unwatchFile(file);
+    console.log(chalk.green('Actualizando "handler.js"'));
+    if (global.conns && global.conns.length > 0 ) {
+        const users = [...new Set([...global.conns.filter((conn) => conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED).map((conn) => conn)])];
+        for (const userr of users) { userr.subreloadHandler(false) }
+    }
+});
