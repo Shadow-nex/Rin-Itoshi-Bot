@@ -20,7 +20,6 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     let data = json.data
 
-    // Tu mensaje decorado
     let info = `
 ╭━━━〔 🌸 *STICKERLY PACK* 🌸 〕━━⬣
 ┃ ✨ *Nombre:* ${data.name}
@@ -35,7 +34,6 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 👤 *Followers:* ${data.followers}
     `.trim()
 
-    // Enviar info con preview estilo pack oficial
     await conn.sendMessage(m.chat, {
       text: info,
       contextInfo: {
@@ -43,14 +41,13 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
           title: `${data.name}`,
           body: `👤 Autor: ${data.author || "Desconocido"} • ${data.total} stickers`,
           thumbnailUrl: data.preview,
-          sourceUrl: data.url, // link al pack Stickerly
+          sourceUrl: data.url,
           mediaType: 1,
           renderLargerThumbnail: true
         }
       }
     }, { quoted: m })
 
-    // Descargar y enviar stickers (opcional)
     for (let stick of data.stickers) {
       try {
         let img = await fetch(stick)
@@ -74,4 +71,4 @@ handler.help = ["stickerlydl <url>"]
 handler.tags = ["sticker"]
 handler.command = ["stickerlydl", "stickerpack", "dls"]
 
-export default handler
+export default handler{}

@@ -107,7 +107,7 @@ let handler = async (m, { conn, text, args }) => {
         document: { url },
         mimetype: 'video/mp4',
         fileName,
-        caption: `${caption}\n\n📂 *Enviado como documento por superar 50 MB*`,
+        caption: `${caption}\n\n📂 *Enviado como documento por superar 100 MB*`,
         thumbnail,
         contextInfo: {
           externalAdReply: {
