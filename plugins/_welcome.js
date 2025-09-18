@@ -75,7 +75,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
   let txt = `▧  🍎 𓆩̟֟፝݊͜𝐁݊𝐈͜𝐄𝐍𝐕֟፝⃞𝐄𝐍𝐈𝐃𝐎̟֟፝݊𓆪 🍏 ▧`
   let txt1 = `▧ 🍎 𓆩̟֟፝݊݊͜𝐀͜𝐃֟፝⃞𝐈𝐎𝐒̟֟፝݊𓆪 🍏 ▧`
   let redes = `https://instagram.com`
-  let club = `☆ 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 𝙾𝙵𝙸𝙲𝙸𝙰𝙻 ☆`
+  let club = dev
 
   if (chat.welcome && m.messageStubType == 27) {
     let bienvenida = `*╔═══════════════*
@@ -108,7 +108,7 @@ ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}`
           externalAdReply: {
             title: txt,
             body: club,
-            thumbnailUrl: 'https://files.catbox.moe/h4lrn3.jpg',
+            thumbnailUrl: icono,
             sourceUrl: redes,
             mediaType: 1,
             renderLargerThumbnail: false
@@ -150,7 +150,7 @@ ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}`
           externalAdReply: {
             title: txt1,
             body: club,
-            thumbnailUrl: 'https://files.catbox.moe/h4lrn3.jpg',
+            thumbnailUrl: icono
             sourceUrl: redes,
             mediaType: 1,
             renderLargerThumbnail: false
