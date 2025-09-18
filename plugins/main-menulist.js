@@ -7,7 +7,7 @@ import sharp from 'sharp';
 import fetch from 'node-fetch';
 
 const handler = async (m, { conn, usedPrefix }) => {
-  await m.react('🌱');
+  await m.react('🌿');
   
   try {
     const uptime = clockString(process.uptime() * 1000);
