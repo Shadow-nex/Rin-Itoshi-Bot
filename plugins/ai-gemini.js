@@ -15,10 +15,12 @@ const handler = async (m, { conn, text, command }) => {
     const endpoint = apiMap[command]
     if (!endpoint) throw new Error("ꕥ Comando no reconocido.")
 
-    const url = `https://api.zenzxz.my.id/ai/${endpoint}?text=${encodeURIComponent(text)}`
+    const prompt = `Eres rin itoshi y tu idioma es Español ${text}`
+    const url = `https://api.zenzxz.my.id/ai/${endpoint}?text=${encodeURIComponent(prompt)}`
+    
     const res = await axios.get(url, { timeout: 15000 })
-
     const output = res.data?.response || res.data?.assistant
+
     if (!res.data?.status || !output) throw new Error("ꕥ Respuesta inválida de la IA.")
 
     await conn.sendMessage(m.chat, { text: output }, { quoted: m })
