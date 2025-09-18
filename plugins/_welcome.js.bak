@@ -1,4 +1,4 @@
-/*import { WAMessageStubType } from '@whiskeysockets/baileys'
+import { WAMessageStubType } from '@whiskeysockets/baileys'
 import fetch from 'node-fetch'
 import moment from 'moment-timezone'
 
@@ -160,8 +160,8 @@ ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}`
       { quoted: fkontak }
     )
   }
-}*/
-
+}
+/*
 
 import { WAMessageStubType } from '@whiskeysockets/baileys';
 
@@ -259,4 +259,4 @@ const welcomeMessage = formatText(chat.sWelcome || `╭┈──̇─̇─̇─�
     let caption = welcomeMessage;
     await conn.sendMessage(m.chat, { image: { url: ppUrl }, caption, ...fakeContext });
   }
-}
+}*/

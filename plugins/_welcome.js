@@ -1,14 +1,14 @@
 import { WAMessageStubType } from '@whiskeysockets/baileys'
 import fetch from 'node-fetch'
-import moment from 'moment-timezone'
 
 export async function before(m, { conn, participants, groupMetadata }) {
-  if (!m.messageStubType || !m.isGroup) return !0;
+  if (!m.messageStubType || !m.isGroup) return !0
 
+  // --- Prefijos a países ---
   const getPais = (numero) => {
     const paisesPorPrefijo = {
       "1": "🇺🇸 𝑬𝒔𝒕𝒂𝒅𝒐𝒔 𝑼𝒏𝒊𝒅𝒐𝒔",
-      "34": "🇪🇸 𝑬𝒔𝒑𝒂𝒏̃𝒂",
+      "34": "🇪🇸 𝑬𝒔𝒑𝒂ñ𝒂",
       "52": "🇲🇽 𝑴é𝒙𝒊𝒄𝒐",
       "54": "🇦🇷 𝑨𝒓𝒈𝒆𝒏𝒕𝒊𝒏𝒂",
       "55": "🇧🇷 𝑩𝒓𝒂𝒔𝒊𝒍",
@@ -28,20 +28,21 @@ export async function before(m, { conn, participants, groupMetadata }) {
       "51": "🇵🇪 𝑷𝒆𝒓𝒖",
       "53": "🇨🇺 𝑪𝒖𝒃𝒂",
       "91": "🇮🇳 𝑰𝒏𝒅𝒊𝒂"
-    };
-    for (let i = 1; i <= 3; i++) {
-      const prefijo = numero.slice(0, i);
-      if (paisesPorPrefijo[prefijo]) return paisesPorPrefijo[prefijo];
     }
-    return "🌎 Desconocido";
-  };
+    for (let i = 1; i <= 3; i++) {
+      const prefijo = numero.slice(0, i)
+      if (paisesPorPrefijo[prefijo]) return paisesPorPrefijo[prefijo]
+    }
+    return "🌎 Desconocido"
+  }
 
-  const numeroUsuario = m.messageStubParameters?.[0]?.split('@')[0];
-  if (!numeroUsuario) return;
-  const pais = getPais(numeroUsuario);
+  const numeroUsuario = m.messageStubParameters?.[0]?.split('@')[0]
+  if (!numeroUsuario) return
+  const pais = getPais(numeroUsuario)
 
-  const thumbRes = await fetch("https://files.catbox.moe/jkw74m.jpg");
-  const thumbBuffer = await thumbRes.buffer();
+  // --- Falso contacto ---
+  const thumbRes = await fetch("https://files.catbox.moe/jkw74m.jpg")
+  const thumbBuffer = await thumbRes.buffer()
   const fkontak = {
     key: {
       participants: "0@s.whatsapp.net",
@@ -56,33 +57,38 @@ export async function before(m, { conn, participants, groupMetadata }) {
       }
     },
     participant: "0@s.whatsapp.net"
-  };
+  }
 
   let pp = await conn.profilePictureUrl(m.messageStubParameters[0], 'image')
     .catch(_ => 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg')
   let img = await (await fetch(pp)).buffer()
   let chat = global.db.data.chats[m.chat]
 
+  // --- Tamaño del grupo ---
   let groupSize = participants.length
-  if (m.messageStubType == 27) groupSize++;
-  else if (m.messageStubType == 28 || m.messageStubType == 32) groupSize--;
+  if (m.messageStubType == 27) groupSize++
+  else if (m.messageStubType == 28 || m.messageStubType == 32) groupSize--
 
+  // --- Fecha y hora ---
   let fechaObj = new Date()
-  let hora = new Date().toLocaleTimeString('es-PE', { timeZone: 'America/Lima' });
-  let fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Lima' });
-  let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' });
+  let hora = fechaObj.toLocaleTimeString('es-PE', { timeZone: 'America/Lima' })
+  let fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Lima' })
+  let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' })
 
+  // --- Datos externos ---
   let txt = `▧  🍎 𓆩̟֟፝݊͜𝐁݊𝐈͜𝐄𝐍𝐕֟፝⃞𝐄𝐍𝐈𝐃𝐎̟֟፝݊𓆪 🍏 ▧`
   let txt1 = `▧ 🍎 𓆩̟֟፝݊݊͜𝐀͜𝐃֟፝⃞𝐈𝐎𝐒̟֟፝݊𓆪 🍏 ▧`
-  let redes = `https://instagram.com`
-  let club = dev
+  let redes = "https://instagram.com"
+  let club = "☆ Rin Itoshi Bot ☆" // 🔹 Aquí defino 'club'
+  let icono = "https://i.ibb.co/5MhzVwL/icon.jpg" // 🔹 Aquí defino 'icono'
 
+  // --- Bienvenida ---
   if (chat.welcome && m.messageStubType == 27) {
     let bienvenida = `*╔═══════════════*
 *╟* ⿻ 𝗪 𝗘 𝗟 𝗖 𝗢 𝗠 𝗘 ✰
 *╠═══════════════*
 *╟* ${groupMetadata.subject}
-*╟* ≡‹⧽🌂 \`ᴜsᴇʀ:\` *@${m.messageStubParameters[0].split`@`[0]}*
+*╟* ≡‹⧽🌂 \`ᴜsᴇʀ:\` *@${numeroUsuario}*
 *╟* ≡‹⧽⚽ \`ғᴇᴄʜᴀ ɪɴɢʀᴇsᴏ:\` *${dia}, ${fecha}*
 *╟* ≡‹⧽📡 \`ʜᴏʀᴀ ɪɴɢʀᴇsᴏ:\` *${hora}*
 *╟* ≡‹⧽⚡ \`ᴘᴀɪs:\` ${pais}
@@ -92,39 +98,36 @@ export async function before(m, { conn, participants, groupMetadata }) {
 🍂 *Descripción:*
 ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}`    
 
-    await conn.sendMessage(
-      m.chat,
-      {
-        image: img,
-        caption: bienvenida,
-        contextInfo: {
-          mentionedJid: [m.sender],
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-            newsletterJid: '120363401008003732@newsletter',
-            serverMessageId: 99999,
-            newsletterName: '[☆𝆺𝅥 𝆭 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 ~ 𝙲𝙷𝙰𝙽𝙽𝙴𝙻 𝙾𝙵𝙵𝙸𝙲𝙸𝙰𝙻 𝆺𝅥 𝆭★]'
-          },
-          externalAdReply: {
-            title: txt,
-            body: club,
-            thumbnailUrl: icono,
-            sourceUrl: redes,
-            mediaType: 1,
-            renderLargerThumbnail: false
-          }
+    await conn.sendMessage(m.chat, {
+      image: img,
+      caption: bienvenida,
+      contextInfo: {
+        mentionedJid: [m.messageStubParameters[0]],
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: '120363401008003732@newsletter',
+          serverMessageId: 99999,
+          newsletterName: '[☆𝆺𝅥 𝆭 Rin Itoshi ~ Channel Oficial 𝆺𝅥 𝆭★]'
+        },
+        externalAdReply: {
+          title: txt,
+          body: club,
+          thumbnailUrl: icono,
+          sourceUrl: redes,
+          mediaType: 1,
+          renderLargerThumbnail: false
         }
-      },
-      { quoted: fkontak }
-    )
+      }
+    }, { quoted: fkontak })
   }
 
+  // --- Despedida ---
   if (chat.welcome && (m.messageStubType == 28 || m.messageStubType == 32)) {
     let bye = `*╔═══════════════*
 *╟* ⿻ 𝗔 𝗗 𝗜 𝗢 𝗦 ✰
 *╠═══════════════*
 *╟* 🧪 ${groupMetadata.subject}
-*╟* ≡‹⧽👋 \`ᴜsᴇʀ:\` *@${m.messageStubParameters[0].split`@`[0]}*
+*╟* ≡‹⧽👋 \`ᴜsᴇʀ:\` *@${numeroUsuario}*
 *╟* ≡‹⧽📅 \`ғᴇᴄʜᴀ sᴀʟɪᴅᴀ:\` *${dia}, ${fecha}*
 *╟* ≡‹⧽⏰ \`ʜᴏʀᴀ sᴀʟɪᴅᴀ:\` *${hora}*
 *╟* ≡‹⧽⚡ \`ᴘᴀɪs:\` ${pais}
@@ -134,33 +137,30 @@ ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}`
 > 💔 Te esperamos pronto de regreso.
 > 🍂 Usa *#help* para ver comandos.`
 
-    await conn.sendMessage(
-      m.chat,
-      {
-        image: img,
-        caption: bye,
-        contextInfo: {
-          mentionedJid: [m.sender],
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-            newsletterJid: '120363401008003732@newsletter',
-            serverMessageId: 99999,
-            newsletterName: '[☆𝆺𝅥 𝆭  𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 ~ 𝙲𝙷𝙰𝙽𝙽𝙴𝙻 𝙾𝙵𝙵𝙸𝙲𝙸𝙰𝙻 𝆺𝅥 𝆭 ★]'
-          },
-          externalAdReply: {
-            title: txt1,
-            body: club,
-            thumbnailUrl: icono
-            sourceUrl: redes,
-            mediaType: 1,
-            renderLargerThumbnail: false
-          }
+    await conn.sendMessage(m.chat, {
+      image: img,
+      caption: bye,
+      contextInfo: {
+        mentionedJid: [m.messageStubParameters[0]],
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: '120363401008003732@newsletter',
+          serverMessageId: 99999,
+          newsletterName: '[☆𝆺𝅥 𝆭 Rin Itoshi ~ Channel Oficial 𝆺𝅥 𝆭 ★]'
+        },
+        externalAdReply: {
+          title: txt1,
+          body: club,
+          thumbnailUrl: icono,
+          sourceUrl: redes,
+          mediaType: 1,
+          renderLargerThumbnail: false
         }
-      },
-      { quoted: fkontak }
-    )
+      }
+    }, { quoted: fkontak })
   }
 }
+
 /*
 
 import { WAMessageStubType } from '@whiskeysockets/baileys';
