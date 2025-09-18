@@ -1,5 +1,24 @@
 import fetch from "node-fetch";
 
+const getSize = async (url) => {
+  try {
+    const res = await fetch(url, { method: "HEAD" });
+    if (!res.ok) return null;
+    const length = res.headers.get("content-length");
+    return length ? parseInt(length) : null;
+  } catch {
+    return null;
+  }
+};
+
+const formatSize = (bytes) => {
+  if (bytes === 0) return "0 B";
+  const k = 1024;
+  const sizes = ["B", "KB", "MB", "GB", "TB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return `${(bytes / Math.pow(k, i)).toFixed(2)} ${sizes[i]}`;
+};
+
 const handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
     if (!text) {
@@ -9,11 +28,10 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         m
       );
     }
-
-    // Valores por defecto
+    
     let title = "Desconocido",
       author = "N/A",
-      image = "",
+      image = "https://files.catbox.moe/h4lrn3.jpg",
       duration = 0,
       filename = "audio.mp3",
       audioUrl = null,
@@ -22,9 +40,10 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       category = "N/A",
       quality = "N/A",
       format = "mp3",
-      id = "N/A";
+      id = "N/A",
+      published = "Desconocido",
+      sourceUrl = text;
 
-    // Detectar si es enlace de YouTube
     if (text.includes("youtube.com") || text.includes("youtu.be")) {
       const apiUrl = `https://api.delirius.store/download/ytmp3?url=${encodeURIComponent(text)}`;
       const res = await fetch(apiUrl);
@@ -41,16 +60,17 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         filename = download.filename || `${title}.mp3`;
         audioUrl = download.url;
 
-        // extras
+        // Extras
         views = data.views || views;
         likes = data.likes || likes;
         category = data.category || category;
         quality = download.quality || quality;
         format = download.extension || format;
         id = data.id || id;
+        published = data.uploadDate || published;
+        sourceUrl = data.url || text;
       }
     } else {
-      // Si es texto -> usar API Zenzzxz
       const apiUrl = `https://api.zenzxz.my.id/search/play?query=${encodeURIComponent(text)}`;
       const res = await fetch(apiUrl);
       const json = await res.json();
@@ -65,10 +85,12 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         filename = `${title}.mp3`;
         audioUrl = json.dl_mp3;
 
-        // extras
+        // Extras
         quality = meta.quality || quality;
         format = meta.format || format;
         id = meta.id || id;
+        published = meta.published || published;
+        sourceUrl = meta.url || text;
       }
     }
 
@@ -82,51 +104,63 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       return `${min}:${sec.toString().padStart(2, "0")} min`;
     };
 
-    // Info enriquecida
-    const caption = `
-╭━━━〔 🎵 Descarga Lista 🎵 〕━━⬣
-┃ 📌 *Título:* ${title}
-┃ 👤 *Autor:* ${author}
-┃ 🆔 *ID:* ${id}
-┃ ⏱️ *Duración:* ${formatDuration(duration)}
-┃ 👀 *Vistas:* ${views}
-┃ 👍 *Likes:* ${likes}
-┃ 🗂️ *Categoría:* ${category}
-┃ 🎶 *Calidad:* ${quality}
-┃ 🧩 *Formato:* ${format}
-┃ 📂 *Archivo:* ${filename}
-╰━━━━━━━━━━━━━━━━━⬣
-    `.trim();
+    const size = await getSize(audioUrl);
+    const sizeStr = size ? formatSize(size) : "Desconocido";
 
-    // Muestra info + portada
+
+    const textoInfo = `\`\`\`
+🍂 Título     : ${title}
+🌱 Autor: ${author}
+⏱️ Duración   : ${duration ? formatDuration(duration) : 'Desconocida'}
+🚀 Vistas     : ${views}
+👍 Likes      : ${likes}
+📂 Categoría  : ${category}
+🧩 Formato    : ${format}
+🎶 Calidad    : ${quality}
+📦 Tamaño     : ${sizeStr}
+📅 Publicado  : ${published}
+🔑 ID Video   : ${id}
+💨 Link       : ${sourceUrl}\`\`\`
+
+*≡ Enviando, espera un momento . . .*`;
     await conn.sendMessage(
       m.chat,
       {
         image: { url: image },
-        caption
+        caption: textoInfo,
+        contextInfo: {
+          mentionedJid: [m.sender],
+          externalAdReply: {
+            title: title,
+            body: "🍂 Descargando desde YouTube",
+            thumbnailUrl: image,
+            sourceUrl: sourceUrl,
+            mediaType: 1,
+            renderLargerThumbnail: false
+          }
+        }
       },
       { quoted: m }
     );
 
-    // Descarga y envía el audio
-    const audioRes = await fetch(audioUrl);
-    const audioBuffer = await audioRes.arrayBuffer();
+    const audioBuffer = await (await fetch(audioUrl)).buffer();
 
     await conn.sendMessage(
       m.chat,
       {
-        audio: Buffer.from(audioBuffer),
+        audio: audioBuffer,
         fileName: filename,
         mimetype: "audio/mpeg",
         ptt: false,
         contextInfo: {
           externalAdReply: {
-            title,
-            body: `🎶 ${author} | ⏱️ ${formatDuration(duration)}`,
+            title: title,
+            body: `Duración: ${duration ? formatDuration(duration) : "N/A"}`,
+            mediaUrl: sourceUrl,
+            sourceUrl: sourceUrl,
             thumbnailUrl: image,
-            mediaUrl: text,
-            sourceUrl: text,
-            renderLargerThumbnail: true
+            mediaType: 1,
+            renderLargerThumbnail: false
           }
         }
       },
