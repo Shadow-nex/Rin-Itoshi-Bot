@@ -4,7 +4,6 @@ import fetch from 'node-fetch'
 export async function before(m, { conn, participants, groupMetadata }) {
   if (!m.messageStubType || !m.isGroup) return !0
 
-  // --- Prefijos a países ---
   const getPais = (numero) => {
     const paisesPorPrefijo = {
       "1": "🇺🇸 𝑬𝒔𝒕𝒂𝒅𝒐𝒔 𝑼𝒏𝒊𝒅𝒐𝒔",
@@ -40,7 +39,6 @@ export async function before(m, { conn, participants, groupMetadata }) {
   if (!numeroUsuario) return
   const pais = getPais(numeroUsuario)
 
-  // --- Imagen de contacto falso ---
   const thumbRes = await fetch("https://files.catbox.moe/jkw74m.jpg")
   const thumbBuffer = await thumbRes.buffer()
   const fkontak = {
@@ -67,13 +65,11 @@ export async function before(m, { conn, participants, groupMetadata }) {
   if (m.messageStubType == 27) groupSize++
   else if (m.messageStubType == 28 || m.messageStubType == 32) groupSize--
 
-  // --- Fecha y hora ---
   let fechaObj = new Date()
   let hora = fechaObj.toLocaleTimeString('es-PE', { timeZone: 'America/Lima' })
   let fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Lima' })
   let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' })
 
-  // --- Textos ---
   let welcomeMessage = `*╔═══════════════*
 *╟* ⿻ 𝗪 𝗘 𝗟 𝗖 𝗢 𝗠 𝗘 ✰
 *╠═══════════════*
@@ -102,22 +98,21 @@ ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}`
 > 💔 Te esperamos pronto de regreso.
 > 🍂 Usa *#help* para ver comandos.`
 
-  // --- Contexto falso ---
   const fakeContext = {
     contextInfo: {
       isForwarded: true,
       forwardedNewsletterMessageInfo: {
-        newsletterJid: "120363420992828502@newsletter",
+        newsletterJid: "120363401008003732@newsletter",
         serverMessageId: '',
-        newsletterName: "₊· ͟͟͞͞꒰✩ 𝐒𝐭𝐞𝐥𝐥𝐚𝐫 𝐖𝐚𝐁𝐨𝐭 - 𝐎𝐟𝐟𝐢𝐜𝐢𝐚𝐥 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 ⏤͟͟͞͞✿"
+        newsletterName: "₊꒰✩ 𝐑𝐢𝐧 𝐈𝐭𝐨𝐬𝐡𝐢 𝐁𝐨𝐭 - 𝐎𝐟𝐟𝐢𝐜𝐢𝐚𝐥 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 ✿"
       },
       externalAdReply: {
         title: "☆ Rin Itoshi Bot ☆",
-        body: "Desarrollado por Stellar",
+        body: dev,
         mediaUrl: null,
         description: null,
         previewType: "PHOTO",
-        thumbnailUrl: "https://i.ibb.co/5MhzVwL/icon.jpg",
+        thumbnailUrl: icono,
         sourceUrl: "https://instagram.com",
         mediaType: 1,
         renderLargerThumbnail: false
@@ -126,7 +121,6 @@ ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}`
     }
   }
 
-  // --- Envío de mensajes ---
   if (chat.welcome && m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
     await conn.sendMessage(m.chat, { image: { url: ppUrl }, caption: welcomeMessage, ...fakeContext }, { quoted: fkontak })
   }
