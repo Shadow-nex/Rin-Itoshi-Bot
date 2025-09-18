@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+/*import fetch from "node-fetch";
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
@@ -105,9 +105,8 @@ handler.help = ["ytmp3"].map(v => v + " <texto>");
 handler.tags = ["downloader"];
 handler.command = ["ytmp3"];
 
-export default handler;
+export default handler;*/
 
-/*
 import fetch from "node-fetch";
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
@@ -115,35 +114,47 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     if (!text) {
       return conn.reply(
         m.chat,
-        `⚠️ Ingresa un enlace de YouTube.\n\n📌 Ejemplo: ${usedPrefix + command} https://youtu.be/TdrL3QxjyVw`,
+        `Ingresa el nombre de la canción o un enlace de YouTube.\n\n🌿 Ejemplo: ${usedPrefix + command} DJ Malam Pagi`,
         m
       );
     }
 
-    const apiUrl = `https://delirius-apiofc.vercel.app/download/ytmp3?url=${encodeURIComponent(text)}`;
+    const apiUrl = `https://api.delirius.store/download/ytmp3?url=${encodeURIComponent(text)}`;
     const res = await fetch(apiUrl);
     const json = await res.json();
 
-    if (!json.status || !json.data) {
-      return conn.reply(m.chat, "❌ No se pudo obtener el audio. Intenta con otro link.", m);
+    if (!json || !json.status || !json.data) {
+      return conn.reply(m.chat, "No se pudo obtener el audio. Intenta con otro link.", m);
     }
 
-    const { 
-      title, 
-      id, 
-      author, 
-      image, 
-      image_max_resolution, 
-      private: priv, 
-      views, 
-      likes, 
-      comments, 
-      category, 
-      duration, 
-      download 
+    const {
+      title = "Desconocido",
+      id = "N/A",
+      author = "N/A",
+      image = "",
+      image_max_resolution = "",
+      private: priv = false,
+      views = "0",
+      likes = "0",
+      comments = "0",
+      category = "N/A",
+      duration = 0,
+      download = {}
     } = json.data;
 
-    // --- Convertir duración a formato mm:ss ---
+    const {
+      filename = `${title}.mp3`,
+      quality = "128kbps",
+      size = "N/A",
+      bytes_size = 0,
+      extension = "mp3",
+      url: downloadUrl = null
+    } = download;
+
+    if (!downloadUrl) {
+      return conn.reply(m.chat, "❌ No se encontró un enlace de descarga válido.", m);
+    }
+ 
     const formatDuration = (secs) => {
       const min = Math.floor(secs / 60);
       const sec = secs % 60;
@@ -161,40 +172,46 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃ 👍 *Likes:* ${likes}
 ┃ 💬 *Comentarios:* ${comments}
 ┃ 🔒 *Privado:* ${priv ? "Sí" : "No"}
-┃ 📂 *Archivo:* ${download.filename}
-┃ 🎶 *Calidad:* ${download.quality}
-┃ 📏 *Tamaño:* ${download.size}
-┃ 🧩 *Extensión:* ${download.extension}
+┃ 📂 *Archivo:* ${filename}
+┃ 🎶 *Calidad:* ${quality}
+┃ 📏 *Tamaño:* ${size}
+┃ 🧩 *Extensión:* ${extension}
 ╰━━━━━━━━━━━━━━━━━⬣
-`;
+    `.trim();
 
-    // --- Descargar audio ---
-    const audioRes = await fetch(download.url);
+    const audioRes = await fetch(downloadUrl);
     const audioBuffer = await audioRes.arrayBuffer();
 
-    // --- Info con miniatura HD ---
-    await conn.sendMessage(m.chat, {
-      image: { url: image_max_resolution || image },
-      caption: caption.trim()
-    }, { quoted: m });
-
-    // --- Enviar audio ---
-    await conn.sendMessage(m.chat, {
-      audio: Buffer.from(audioBuffer),
-      fileName: download.filename || `${title}.mp3`,
-      mimetype: "audio/mpeg",
-      ptt: false,
-      contextInfo: {
-        externalAdReply: {
-          title: title,
-          body: `🎶 ${author} | ⏱️ ${formatDuration(duration)}`,
-          thumbnailUrl: image,
-          mediaUrl: text,
-          sourceUrl: text,
-          renderLargerThumbnail: true
+    await conn.sendMessage(
+      m.chat,
+      {
+        image: { url: image_max_resolution || image },
+        caption
+      },
+      { quoted: m }
+    );
+ 
+ 
+    await conn.sendMessage(
+      m.chat,
+      {
+        audio: Buffer.from(audioBuffer),
+        fileName: filename,
+        mimetype: "audio/mpeg",
+        ptt: false,
+        contextInfo: {
+          externalAdReply: {
+            title,
+            body: `🎶 ${author} | ⏱️ ${formatDuration(duration)}`,
+            thumbnailUrl: image,
+            mediaUrl: text,
+            sourceUrl: text,
+            renderLargerThumbnail: true
+          }
         }
-      }
-    }, { quoted: m });
+      },
+      { quoted: m }
+    );
 
   } catch (e) {
     console.error(e);
@@ -205,4 +222,5 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.help = ["ytmp3"].map(v => v + " <url>");
 handler.tags = ["downloader"];
 handler.command = ["ytmp3"];
-export default handler;*/
+
+export default handler;
