@@ -111,7 +111,7 @@ async function showBanner() {
         )
     )
 
-    say('RIN ITOSHI', {
+    say('RIN • ITOSHI', {
         font: 'block',
         align: 'center',
         colors: ['cyan', 'blue'],
