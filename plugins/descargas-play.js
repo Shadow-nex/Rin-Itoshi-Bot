@@ -47,14 +47,15 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
     if (['playaudio'].includes(command)) {
       try {
-        const res = await fetch(`https://api.vreden.my.id/api/ytmp3?url=${url}`)
+        const res = await fetch(`https://api.vreden.my.id/api/v1/download/youtube/audio?url=${url}&quality=128`)
         const json = await res.json()
+        
         if (!json.result?.download?.url) throw '*⚠ No se obtuvo un enlace válido.*'
 
         await conn.sendMessage(m.chat, {
           audio: { url: json.result.download.url },
           mimetype: 'audio/mpeg',
-          fileName: `${json.result.title}.mp3`,
+          fileName: json.result.download.filename || `${json.result.metadata?.title || title}.mp3`,
           contextInfo: {
             externalAdReply: {
               title: title,
@@ -146,13 +147,10 @@ async function getSize(downloadUrl) {
 async function formatSize(bytes) {
   const units = ['B', 'KB', 'MB', 'GB'];
   let i = 0;
-
   if (!bytes || isNaN(bytes)) return 'Desconocido';
-
   while (bytes >= 1024 && i < units.length - 1) {
     bytes /= 1024;
     i++;
   }
-
   return `${bytes.toFixed(2)} ${units[i]}`;
 }
