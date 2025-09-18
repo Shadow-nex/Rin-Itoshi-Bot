@@ -36,11 +36,11 @@ export async function before(m, { conn, participants, groupMetadata }) {
     return "🌎 Desconocido"
   }
 
-  const numeroUsuario = m.messageStubParameters?.[0]?.split('@')[0]
+  const numeroUsuario = m.key.participant?.split('@')[0]
   if (!numeroUsuario) return
   const pais = getPais(numeroUsuario)
 
-  // --- Falso contacto ---
+  // --- Imagen de contacto falso ---
   const thumbRes = await fetch("https://files.catbox.moe/jkw74m.jpg")
   const thumbBuffer = await thumbRes.buffer()
   const fkontak = {
@@ -59,12 +59,10 @@ export async function before(m, { conn, participants, groupMetadata }) {
     participant: "0@s.whatsapp.net"
   }
 
-  let pp = await conn.profilePictureUrl(m.messageStubParameters[0], 'image')
+  let ppUrl = await conn.profilePictureUrl(m.messageStubParameters[0], 'image')
     .catch(_ => 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg')
-  let img = await (await fetch(pp)).buffer()
-  let chat = global.db.data.chats[m.chat]
 
-  // --- Tamaño del grupo ---
+  let chat = global.db.data.chats[m.chat]
   let groupSize = participants.length
   if (m.messageStubType == 27) groupSize++
   else if (m.messageStubType == 28 || m.messageStubType == 32) groupSize--
@@ -75,16 +73,8 @@ export async function before(m, { conn, participants, groupMetadata }) {
   let fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Lima' })
   let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' })
 
-  // --- Datos externos ---
-  let txt = `▧  🍎 𓆩̟֟፝݊͜𝐁݊𝐈͜𝐄𝐍𝐕֟፝⃞𝐄𝐍𝐈𝐃𝐎̟֟፝݊𓆪 🍏 ▧`
-  let txt1 = `▧ 🍎 𓆩̟֟፝݊݊͜𝐀͜𝐃֟፝⃞𝐈𝐎𝐒̟֟፝݊𓆪 🍏 ▧`
-  let redes = "https://instagram.com"
-  let club = "☆ Rin Itoshi Bot ☆" // 🔹 Aquí defino 'club'
-  let icono = "https://i.ibb.co/5MhzVwL/icon.jpg" // 🔹 Aquí defino 'icono'
-
-  // --- Bienvenida ---
-  if (chat.welcome && m.messageStubType == 27) {
-    let bienvenida = `*╔═══════════════*
+  // --- Textos ---
+  let welcomeMessage = `*╔═══════════════*
 *╟* ⿻ 𝗪 𝗘 𝗟 𝗖 𝗢 𝗠 𝗘 ✰
 *╠═══════════════*
 *╟* ${groupMetadata.subject}
@@ -96,34 +86,9 @@ export async function before(m, { conn, participants, groupMetadata }) {
 *╚═══════════════*
 
 🍂 *Descripción:*
-${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}`    
+${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}` 
 
-    await conn.sendMessage(m.chat, {
-      image: img,
-      caption: bienvenida,
-      contextInfo: {
-        mentionedJid: [m.messageStubParameters[0]],
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363401008003732@newsletter',
-          serverMessageId: 99999,
-          newsletterName: '[☆𝆺𝅥 𝆭 Rin Itoshi ~ Channel Oficial 𝆺𝅥 𝆭★]'
-        },
-        externalAdReply: {
-          title: txt,
-          body: club,
-          thumbnailUrl: icono,
-          sourceUrl: redes,
-          mediaType: 1,
-          renderLargerThumbnail: false
-        }
-      }
-    }, { quoted: fkontak })
-  }
-
-  // --- Despedida ---
-  if (chat.welcome && (m.messageStubType == 28 || m.messageStubType == 32)) {
-    let bye = `*╔═══════════════*
+  let byeMessage = `*╔═══════════════*
 *╟* ⿻ 𝗔 𝗗 𝗜 𝗢 𝗦 ✰
 *╠═══════════════*
 *╟* 🧪 ${groupMetadata.subject}
@@ -137,92 +102,7 @@ ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}`
 > 💔 Te esperamos pronto de regreso.
 > 🍂 Usa *#help* para ver comandos.`
 
-    await conn.sendMessage(m.chat, {
-      image: img,
-      caption: bye,
-      contextInfo: {
-        mentionedJid: [m.messageStubParameters[0]],
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363401008003732@newsletter',
-          serverMessageId: 99999,
-          newsletterName: '[☆𝆺𝅥 𝆭 Rin Itoshi ~ Channel Oficial 𝆺𝅥 𝆭 ★]'
-        },
-        externalAdReply: {
-          title: txt1,
-          body: club,
-          thumbnailUrl: icono,
-          sourceUrl: redes,
-          mediaType: 1,
-          renderLargerThumbnail: false
-        }
-      }
-    }, { quoted: fkontak })
-  }
-}
-
-/*
-
-import { WAMessageStubType } from '@whiskeysockets/baileys';
-
-export async function before(m, { conn, participants, groupMetadata }) {
-  if (!m.messageStubType || !m.isGroup) return true;
-
-  const chat = globalThis.db.data.chats[m.chat];
-  const nombre = globalThis.db.data.users[m.messageStubParameters[0]]?.name || {};
-  const botId = conn.user.jid;
-
-  const ppUrl = await conn.profilePictureUrl(m.messageStubParameters[0], 'image')
-    .catch(() => "https://stellarwa.xyz/files/1752115005119.jpg");
-
-  const name = nombre || conn.getName(m.messageStubParameters[0]);
-  const actionUser = m.key.participant ? await conn.getName(m.key.participant) : null;
-
-  const actionMessages = {
-    [WAMessageStubType.GROUP_PARTICIPANT_ADD]: actionUser ? `\n┊➤ *Agregado por ›* @${m.key.participant.split`@`[0]}` : '',
-    [WAMessageStubType.GROUP_PARTICIPANT_REMOVE]: actionUser ? `\n┊➤ *Eliminado por ›* @${m.key.participant.split`@`[0]}` : '',
-    [WAMessageStubType.GROUP_PARTICIPANT_LEAVE]: ''
-  };
-
-  const userss = m.messageStubParameters[0];
-  const formatText = (template, memberCount) => {
-    return template
-      .replace('@user', `@${userss.split`@`[0]}`)
-      .replace('@group', groupMetadata.subject)
-      .replace('@date', new Date().toLocaleString())
-      .replace('@users', `${memberCount}`)
-      .replace('@type', actionMessages[m.messageStubType])
-      .replace('@desc', groupMetadata.desc?.toString() || '✿ Sin Desc ✿');
-  };
-
-  let memberCount = participants.length;
-  if (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) memberCount += 1;
-  else if ([WAMessageStubType.GROUP_PARTICIPANT_REMOVE, WAMessageStubType.GROUP_PARTICIPANT_LEAVE].includes(m.messageStubType)) memberCount -= 1;
-
-const welcomeMessage = formatText(chat.sWelcome || `╭┈──̇─̇─̇────̇─̇─̇──◯◝
-┊「 *Bienvenido (⁠ ⁠ꈍ⁠ᴗ⁠ꈍ⁠)* 」
-┊︶︶︶︶︶︶︶︶︶︶︶
-┊  *Nombre ›* @user
-┊  *Grupo ›* @group
-┊┈─────̇─̇─̇─────◯◝ @type
-┊➤ *Usa /menu para ver los comandos.*
-┊➤ *Ahora somos @users miembros.*
-┊ ︿︿︿︿︿︿︿︿︿︿︿
-╰─────────────────╯`, memberCount);
-
-  const byeMessage = formatText(chat.sBye || `╭┈──̇─̇─̇────̇─̇─̇──◯◝
-┊「 *Hasta pronto (⁠╥⁠﹏⁠╥⁠)* 」
-┊︶︶︶︶︶︶︶︶︶︶︶
-┊  *Nombre ›* @user
-┊┈─────̇─̇─̇─────◯◝ @type
-┊➤ *Ojalá que vuelva pronto.*
-┊➤ *Ahora somos @users miembros.*
-┊ ︿︿︿︿︿︿︿︿︿︿︿
-╰─────────────────╯`, memberCount);
-
-  const leaveMessage = formatText(chat.sBye || byeMessage, memberCount);
-  const mentions = [userss, m.key.participant];
-
+  // --- Contexto falso ---
   const fakeContext = {
     contextInfo: {
       isForwarded: true,
@@ -232,31 +112,26 @@ const welcomeMessage = formatText(chat.sWelcome || `╭┈──̇─̇─̇─�
         newsletterName: "₊· ͟͟͞͞꒰✩ 𝐒𝐭𝐞𝐥𝐥𝐚𝐫 𝐖𝐚𝐁𝐨𝐭 - 𝐎𝐟𝐟𝐢𝐜𝐢𝐚𝐥 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 ⏤͟͟͞͞✿"
       },
       externalAdReply: {
-        title: namebot,
-        body: dev,
+        title: "☆ Rin Itoshi Bot ☆",
+        body: "Desarrollado por Stellar",
         mediaUrl: null,
         description: null,
         previewType: "PHOTO",
-        thumbnailUrl: icono,
-        sourceUrl: redes,
+        thumbnailUrl: "https://i.ibb.co/5MhzVwL/icon.jpg",
+        sourceUrl: "https://instagram.com",
         mediaType: 1,
         renderLargerThumbnail: false
       },
-      mentionedJid: mentions
+      mentionedJid: [m.key.participant]
     }
-  };
-
-        if (chat.welcome && m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
-    let caption = welcomeMessage;
-    await conn.sendMessage(m.chat, { image: { url: ppUrl }, caption, ...fakeContext });
   }
 
-        if (chat.welcome && m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_LEAVE) {
-    let caption = byeMessage;
-    await conn.sendMessage(m.chat, { image: { url: ppUrl }, caption, ...fakeContext });
+  // --- Envío de mensajes ---
+  if (chat.welcome && m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
+    await conn.sendMessage(m.chat, { image: { url: ppUrl }, caption: welcomeMessage, ...fakeContext }, { quoted: fkontak })
   }
-        if (chat.welcome && m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_REMOVE) {
-    let caption = welcomeMessage;
-    await conn.sendMessage(m.chat, { image: { url: ppUrl }, caption, ...fakeContext });
+
+  if (chat.welcome && (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_LEAVE || m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_REMOVE)) {
+    await conn.sendMessage(m.chat, { image: { url: ppUrl }, caption: byeMessage, ...fakeContext }, { quoted: fkontak })
   }
-}*/
+}
