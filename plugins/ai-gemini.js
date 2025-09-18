@@ -1,19 +1,39 @@
-import fetch from 'node-fetch'
-var handler = async (m, { text,  usedPrefix, command }) => {
-if (!text) return conn.reply(m.chat, `${emoji} Ingrese una petición para que Gemini lo responda.`, m)
-try {
-await m.react(rwait)
-conn.sendPresenceUpdate('composing', m.chat)
-var apii = await fetch(`https://apis-starlights-team.koyeb.app/starlight/gemini?text=${text}`)
-var res = await apii.json()
-await m.reply(res.result)
-} catch {
-await m.react('❌')
-await conn.reply(m.chat, `${msm} Gemini no puede responder a esa pregunta.`, m)
-}}
-handler.command = ['gemini']
-handler.help = ['gemini']
-handler.tags = ['ai']
+import axios from "axios"
+
+const handler = async (m, { conn, text, command }) => {
+  if (!text) return m.reply("🌿 Ingrese una petición.")
+
+  try {
+    await m.react('🕒')
+
+    const apiMap = { 
+      luminai: 'qwen-qwq-32b', 
+      gemini: 'gemini', 
+      bard: 'grok-3-mini' 
+    }
+
+    const endpoint = apiMap[command]
+    if (!endpoint) throw new Error("ꕥ Comando no reconocido.")
+
+    const url = `https://api.zenzxz.my.id/ai/${endpoint}?text=${encodeURIComponent(text)}`
+    const res = await axios.get(url, { timeout: 15000 })
+
+    const output = res.data?.response || res.data?.assistant
+    if (!res.data?.status || !output) throw new Error("ꕥ Respuesta inválida de la IA.")
+
+    await conn.sendMessage(m.chat, { text: output }, { quoted: m })
+    await m.react('✔️')
+
+  } catch (err) {
+    console.error(err)
+    await m.react('✖️')
+    m.reply(`⚠︎ Hubo un problema al procesar tu petición.\n\n${err.message}`)
+  }
+}
+
+handler.help = ["luminai", "gemini", "bard"]
+handler.tags = ["ai"]
+handler.command = ["luminai", "gemini", "bard"]
 handler.group = true
 
 export default handler
