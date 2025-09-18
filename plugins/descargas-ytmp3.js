@@ -18,15 +18,14 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     let search = await yts(text)
     let video = search.videos[0]
     if (!video) {
-      return conn.reply(m.chat, '❌ No se encontró ningún resultado en YouTube.', m)
+      return conn.reply(m.chat, 'No se encontró ningún resultado en YouTube.', m)
     }
 
-    // --- API actualizada ---
     const apiUrl = `https://api.vreden.my.id/api/v1/download/play/audio?query=${encodeURIComponent(video.url)}`
     const res = await fetch(apiUrl)
     const json = await res.json()
 
-    if (!json?.result?.download?.url) {
+    if (!json?.result?.metadata || !json?.result?.download?.url) {
       return conn.reply(m.chat, '❌ No se pudo obtener el audio, intenta con otro nombre o link.', m)
     }
 
@@ -44,10 +43,11 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 🌱 Canal : ${meta.author?.name || video.author?.name || 'Desconocido'}
 🚀 Vistas : ${meta.views?.toLocaleString('es-PE') || video.views?.toLocaleString('es-PE') || '0'}
 🌷 Tamaño : ${sizeStr}
-🧪 Publicado : ${video.ago || 'Desconocido'}
+🧪 Publicado : ${meta.ago || video.ago || 'Desconocido'}
 💨 Link : ${meta.url || video.url}
 \`\`\`\n*≡ Enviando, espera un momento . . .*`
 
+    // Enviar preview
     await conn.sendMessage(
       m.chat,
       {
@@ -96,7 +96,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
     await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } })
   } catch (e) {
-    console.error('[❌ Error en ytmp3]', e)
+    console.error('[Error en ytmp3]', e)
     await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } })
     await conn.reply(m.chat, `❌ *Error:* ${e.message}`, m)
   }
@@ -108,7 +108,6 @@ handler.help = ['ytmp3 <texto o link>', 'song <texto>']
 
 export default handler
 
-// --- Helpers ---
 async function getSize(url) {
   try {
     const response = await axios.head(url)
