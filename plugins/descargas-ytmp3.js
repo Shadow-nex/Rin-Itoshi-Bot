@@ -1,4 +1,4 @@
-/*import fetch from "node-fetch";
+import fetch from "node-fetch";
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
@@ -105,12 +105,9 @@ handler.help = ["ytmp3"].map(v => v + " <texto>");
 handler.tags = ["downloader"];
 handler.command = ["ytmp3"];
 
-export default handler;*/
+export default handler;
 
-
-// - Código hecho x dv.shadow 🌱
-// - Rin Itoshi ⚽
-
+/*
 import fetch from "node-fetch";
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
@@ -208,4 +205,4 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.help = ["ytmp3"].map(v => v + " <url>");
 handler.tags = ["downloader"];
 handler.command = ["ytmp3"];
-export default handler;
+export default handler;*/
