@@ -146,10 +146,10 @@ function formatDuration(seconds) {
 }
 
 const handler = async (m, { conn, args }) => {
-  if (!args[0]) return m.reply(`⚠️ Ingresa una URL de YouTube`);
+  if (!args[0]) return m.reply(`Ingresa una URL de YouTube`);
 
   let url = args[0];
-  if (!savetube.isUrl(url)) return m.reply("*⚠️ Ingresa un link válido de YouTube.*");
+  if (!savetube.isUrl(url)) return m.reply("*Ingresa un link válido de YouTube.*");
 
   try {
     await m.react('🕒');
