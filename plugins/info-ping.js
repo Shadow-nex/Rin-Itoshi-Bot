@@ -7,7 +7,7 @@ let handler = async (m, { conn }) => {
   let latensi = speed() - timestamp;
 
   const start = new Date().getTime();
-  const { key } = await conn.sendMessage(m.chat, {text: `🍂 Calculando ping...`}, {quoted: m});
+  const { key } = await conn.sendMessage(m.chat, { text: `*🍂 Calculando ping...*` }, { quoted: m });
   const end = new Date().getTime();
   const latency = end - start;
 
@@ -25,7 +25,7 @@ let handler = async (m, { conn }) => {
     let child = stdout.toString("utf-8");
     let sysInfo = child.replace(/Memory:/, "Ram:");
 
-    let response = 
+    let response =
 `╭━━━〔 🍄 𝙎𝙩𝙖𝙩𝙪𝙨 𝙋𝙞𝙣𝙜 🪴 〕━━⬣
 │ 🌷 *Ping:* ${latency} ms
 │ 🍁 *Latencia:* ${latensi.toFixed(4)} ms
@@ -37,15 +37,14 @@ let handler = async (m, { conn }) => {
 ${sysInfo.trim()}
 \`\`\``;
 
-    await conn.sendMessage(m.chat, { 
-      text: response, 
-      //edit: key, 
+    await conn.sendMessage(m.chat, {
+      text: response,
       mentions: [m.sender],
       contextInfo: {
         externalAdReply: {
           title: '🍄 Rɪɴ Iᴛᴏsʜɪ ᴍᴅ 🌹 | 🪾 ʙʏ ᴅᴠ.sʜᴀᴅᴏᴡ 🪴',
           body: club,
-          thumbnailUrl: avatar,
+          thumbnailUrl: icono,
           sourceUrl: redes,
           mediaType: 1,
           renderLargerThumbnail: true
