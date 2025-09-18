@@ -2,10 +2,12 @@
 // - Rin Itoshi ⚽
 
 import fetch from "node-fetch";
+import crypto from "crypto";
 
 const savetube = {
   api: {
     base: "https://media.savetube.me/api",
+    cdn: "/random-cdn",
     info: "/v2/info",
     download: "/download"
   },
@@ -16,7 +18,25 @@ const savetube = {
     'referer': 'https://yt.savetube.me/',
     'user-agent': 'Postify/1.0.0'
   },
-  formats: ['mp3']
+  secretKey: 'C5D58EF67A7584E4A29F6C35BBC4EB12',
+
+  decrypt(enc) {
+    const data = Buffer.from(enc, 'base64');
+    const iv = data.slice(0, 16);
+    const content = data.slice(16);
+    const key = Buffer.from(this.secretKey, 'hex');
+
+    const decipher = crypto.createDecipheriv('aes-128-cbc', key, iv);
+    let decrypted = decipher.update(content);
+    decrypted = Buffer.concat([decrypted, decipher.final()]);
+    return JSON.parse(decrypted.toString());
+  },
+
+  async getCDN() {
+    const res = await fetch(this.api.base + this.api.cdn, { headers: this.headers });
+    const json = await res.json();
+    return json?.cdn || null;
+  }
 };
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
@@ -24,62 +44,59 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     if (!text) {
       return conn.reply(
         m.chat,
-        `⚡ *Ejemplo de uso:*\n\n✎ ✧ \`${usedPrefix + command}\` https://youtu.be/ZtFPexrxt4g?si=aWllBcy3adHrobOB\n✎ ✧ \`${usedPrefix + command}\` DJ malam pagi slowed`,
+        `⚡ *Ejemplo de uso:*\n\n✎ ✧ \`${usedPrefix + command}\` https://youtu.be/ZtFPexrxt4g\n✎ ✧ \`${usedPrefix + command}\` DJ malam pagi slowed`,
         m
       );
     }
 
     await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 
-    const infoRes = await fetch(`${savetube.api.base}${savetube.api.info}?url=${encodeURIComponent(text)}`, {
-      method: "GET",
-      headers: savetube.headers
-    });
+    // Obtener CDN válido
+    const cdn = await savetube.getCDN();
+    if (!cdn) throw new Error("❌ No se pudo obtener un CDN válido.");
 
-    if (!infoRes.ok) throw new Error("❌ Error al obtener la información del video.");
+    // Info del video
+    const infoRes = await fetch(`https://${cdn}${savetube.api.info}`, {
+      method: "POST",
+      headers: savetube.headers,
+      body: JSON.stringify({ url: text })
+    });
     const info = await infoRes.json();
 
-    const video = {
-      title: info.title,
-      url: info.url,
-      thumbnail: info.thumbnail,
-      timestamp: info.duration
-    };
+    const decrypted = savetube.decrypt(info.data);
 
-    const downloadRes = await fetch(`${savetube.api.base}${savetube.api.download}`, {
+    // Descargar audio
+    const dlRes = await fetch(`https://${cdn}${savetube.api.download}`, {
       method: "POST",
       headers: savetube.headers,
       body: JSON.stringify({
-        url: text,
-        format: "mp3"
+        id: decrypted.id,
+        downloadType: "audio",
+        quality: "128",
+        key: decrypted.key
       })
     });
 
-    if (!downloadRes.ok) throw new Error("❌ Error al generar link de descarga.");
-    const downloadData = await downloadRes.json();
-
-    const audioUrl = downloadData?.url;
+    const dl = await dlRes.json();
+    const audioUrl = dl?.data?.downloadUrl;
     if (!audioUrl) throw new Error("⚠️ No se pudo generar el link de descarga.");
 
     await conn.sendMessage(m.chat, { react: { text: "🎶", key: m.key } });
 
-    const audioRes = await fetch(audioUrl);
-    const audioBuffer = await audioRes.arrayBuffer();
-
     await conn.sendMessage(
       m.chat,
       {
-        audio: Buffer.from(audioBuffer),
-        fileName: `${video.title}.mp3`,
+        audio: { url: audioUrl },
+        fileName: `${decrypted.title}.mp3`,
         mimetype: "audio/mpeg",
         ptt: false,
         contextInfo: {
           externalAdReply: {
-            title: video.title,
-            body: `Duración: ${video.timestamp}`,
-            mediaUrl: video.url,
-            sourceUrl: video.url,
-            thumbnailUrl: video.thumbnail,
+            title: decrypted.title,
+            body: `Duración: ${decrypted.duration}`,
+            mediaUrl: text,
+            sourceUrl: text,
+            thumbnailUrl: decrypted.thumbnail,
             mediaType: 1,
             renderLargerThumbnail: true
           }
@@ -98,6 +115,6 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
 handler.help = ["yta <url|texto>"];
 handler.tags = ["downloader"];
-handler.command = /^yta$/i;
+handler.command = ['yta';
 
 export default handler;
