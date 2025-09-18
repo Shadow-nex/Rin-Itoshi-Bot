@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+/*import fetch from "node-fetch";
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
@@ -105,4 +105,107 @@ handler.help = ["ytmp3"].map(v => v + " <texto>");
 handler.tags = ["downloader"];
 handler.command = ["ytmp3"];
 
+export default handler;*/
+
+
+// - Código hecho x dv.shadow 🌱
+// - Rin Itoshi ⚽
+
+import fetch from "node-fetch";
+
+const handler = async (m, { conn, text, usedPrefix, command }) => {
+  try {
+    if (!text) {
+      return conn.reply(
+        m.chat,
+        `⚠️ Ingresa un enlace de YouTube.\n\n📌 Ejemplo: ${usedPrefix + command} https://youtu.be/TdrL3QxjyVw`,
+        m
+      );
+    }
+
+    const apiUrl = `https://delirius-apiofc.vercel.app/download/ytmp3?url=${encodeURIComponent(text)}`;
+    const res = await fetch(apiUrl);
+    const json = await res.json();
+
+    if (!json.status || !json.data) {
+      return conn.reply(m.chat, "❌ No se pudo obtener el audio. Intenta con otro link.", m);
+    }
+
+    const { 
+      title, 
+      id, 
+      author, 
+      image, 
+      image_max_resolution, 
+      private: priv, 
+      views, 
+      likes, 
+      comments, 
+      category, 
+      duration, 
+      download 
+    } = json.data;
+
+    // --- Convertir duración a formato mm:ss ---
+    const formatDuration = (secs) => {
+      const min = Math.floor(secs / 60);
+      const sec = secs % 60;
+      return `${min}:${sec.toString().padStart(2, "0")} min`;
+    };
+
+    const caption = `
+╭━━━〔 🎵 𝐘𝐓 𝐌𝐏𝟑 🎵 〕━━⬣
+┃ 📌 *Título:* ${title}
+┃ 🆔 *ID:* ${id}
+┃ 👤 *Autor:* ${author}
+┃ 🗂️ *Categoría:* ${category}
+┃ ⏱️ *Duración:* ${formatDuration(duration)}
+┃ 👀 *Vistas:* ${views}
+┃ 👍 *Likes:* ${likes}
+┃ 💬 *Comentarios:* ${comments}
+┃ 🔒 *Privado:* ${priv ? "Sí" : "No"}
+┃ 📂 *Archivo:* ${download.filename}
+┃ 🎶 *Calidad:* ${download.quality}
+┃ 📏 *Tamaño:* ${download.size}
+┃ 🧩 *Extensión:* ${download.extension}
+╰━━━━━━━━━━━━━━━━━⬣
+`;
+
+    // --- Descargar audio ---
+    const audioRes = await fetch(download.url);
+    const audioBuffer = await audioRes.arrayBuffer();
+
+    // --- Info con miniatura HD ---
+    await conn.sendMessage(m.chat, {
+      image: { url: image_max_resolution || image },
+      caption: caption.trim()
+    }, { quoted: m });
+
+    // --- Enviar audio ---
+    await conn.sendMessage(m.chat, {
+      audio: Buffer.from(audioBuffer),
+      fileName: download.filename || `${title}.mp3`,
+      mimetype: "audio/mpeg",
+      ptt: false,
+      contextInfo: {
+        externalAdReply: {
+          title: title,
+          body: `🎶 ${author} | ⏱️ ${formatDuration(duration)}`,
+          thumbnailUrl: image,
+          mediaUrl: text,
+          sourceUrl: text,
+          renderLargerThumbnail: true
+        }
+      }
+    }, { quoted: m });
+
+  } catch (e) {
+    console.error(e);
+    conn.reply(m.chat, "❌ Ocurrió un error al procesar tu solicitud.", m);
+  }
+};
+
+handler.help = ["ytmp3"].map(v => v + " <url>");
+handler.tags = ["downloader"];
+handler.command = ["ytmp3"];
 export default handler;
