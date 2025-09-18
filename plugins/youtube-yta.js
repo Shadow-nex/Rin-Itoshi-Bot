@@ -17,7 +17,10 @@ const savetube = {
   },
 
   crypto: {
-    hexToBuffer: (hexString) => Buffer.from(hexString.match(/.{1,2}/g).join(''), 'hex'),
+    hexToBuffer: (hexString) => {
+      const matches = hexString.match(/.{1,2}/g);
+      return Buffer.from(matches.join(''), 'hex');
+    },
 
     decrypt: async (enc) => {
       const secretKey = 'C5D58EF67A7584E4A29F6C35BBC4EB12';
@@ -29,20 +32,31 @@ const savetube = {
       const decipher = crypto.createDecipheriv('aes-128-cbc', key, iv);
       let decrypted = decipher.update(content);
       decrypted = Buffer.concat([decrypted, decipher.final()]);
+
       return JSON.parse(decrypted.toString());
     }
   },
 
-  isUrl: (str) => {
-    try { new URL(str); return true; } catch { return false; }
+  isUrl: str => { 
+    try { 
+      new URL(str); 
+      return true; 
+    } catch (_) { 
+      return false; 
+    } 
   },
 
-  youtube: (url) => {
+  youtube: url => {
     const patterns = [
       /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/v\/([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/,
       /youtu\.be\/([a-zA-Z0-9_-]{11})/
     ];
-    for (let r of patterns) if (r.test(url)) return url.match(r)[1];
+    for (let regex of patterns) {
+      if (regex.test(url)) return url.match(regex)[1];
+    }
     return null;
   },
 
@@ -55,21 +69,28 @@ const savetube = {
         params: method === 'get' ? data : undefined,
         headers: savetube.headers
       });
-      return { status: true, data: response };
-    } catch (e) {
-      return { status: false, error: e.message };
+      return { status: true, code: 200, data: response };
+    } catch (error) {
+      return {
+        status: false,
+        code: error.response?.status || 500,
+        error: error.message
+      };
     }
   },
 
   getCDN: async () => {
-    const r = await savetube.request(savetube.api.cdn, {}, 'get');
-    return r.status ? { status: true, data: r.data.cdn } : r;
+    const response = await savetube.request(savetube.api.cdn, {}, 'get');
+    if (!response.status) return response;
+    return { status: true, code: 200, data: response.data.cdn };
   },
 
   download: async (link) => {
-    if (!savetube.isUrl(link)) return { status: false, error: "URL inválida" };
+    if (!link) return { status: false, code: 400, error: "Falta el enlace de YouTube." };
+    if (!savetube.isUrl(link)) return { status: false, code: 400, error: "URL inválida de YouTube." };
+
     const id = savetube.youtube(link);
-    if (!id) return { status: false, error: "No se pudo extraer el ID" };
+    if (!id) return { status: false, code: 400, error: "*No se pudo extraer el ID del video.*" };
 
     try {
       const cdnRes = await savetube.getCDN();
@@ -84,7 +105,7 @@ const savetube = {
       const decrypted = await savetube.crypto.decrypt(infoRes.data.data);
 
       const dl = await savetube.request(`https://${cdn}${savetube.api.download}`, {
-        id,
+        id: id,
         downloadType: 'audio',
         quality: '128',
         key: decrypted.key
@@ -92,44 +113,68 @@ const savetube = {
 
       return {
         status: true,
+        code: 200,
         result: {
           title: decrypted.title || "Desconocido",
-          duration: decrypted.duration || "??:??",
+          type: 'audio',
+          format: 'mp3',
           thumbnail: decrypted.thumbnail || `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`,
-          downloadUrl: dl.data.data.downloadUrl
+          download: dl.data.data.downloadUrl,
+          id: id,
+          key: decrypted.key,
+          duration: decrypted.duration,
+          quality: '128'
         }
       };
-    } catch (e) {
-      return { status: false, error: e.message };
+
+    } catch (error) {
+      return { status: false, code: 500, error: error.message };
     }
   }
 };
 
+function formatDuration(seconds) {
+  if (isNaN(seconds)) return "??:?? min";
+  let h = Math.floor(seconds / 3600);
+  let m = Math.floor((seconds % 3600) / 60);
+  let s = seconds % 60;
+  if (h > 0) {
+    return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')} min`;
+  } else {
+    return `${m}:${s.toString().padStart(2, '0')} min`;
+  }
+}
+
 const handler = async (m, { conn, args }) => {
-  if (!args[0]) return m.reply("⚠️ Ingresa un link de YouTube.");
+  if (!args[0]) return m.reply(`⚠️ Ingresa una URL de YouTube`);
+
+  let url = args[0];
+  if (!savetube.isUrl(url)) return m.reply("*⚠️ Ingresa un link válido de YouTube.*");
 
   try {
     await m.react('🕒');
-    let res = await savetube.download(args[0]);
+    let res = await savetube.download(url);
     if (!res.status) {
       await m.react('✖️');
-      return m.reply("❌ Error: " + res.error);
+      return m.reply(`❌ Error: ${res.error}`);
     }
 
-    const { title, duration, thumbnail, downloadUrl } = res.result;
+    const { title, duration, thumbnail, download } = res.result;
+
+    const durationFormatted = formatDuration(Number(duration));
 
     await conn.sendMessage(
       m.chat,
       {
-        audio: { url: downloadUrl },
+        audio: { url: download },
         fileName: `${title}.mp3`,
         mimetype: "audio/mpeg",
         ptt: false,
         contextInfo: {
           externalAdReply: {
             title: title,
-            body: `Duración: ${duration}`,
-            sourceUrl: args[0],
+            body: `Duración: ${durationFormatted}`,
+            sourceUrl: url,
             thumbnailUrl: thumbnail,
             mediaType: 1,
             renderLargerThumbnail: true
@@ -142,7 +187,7 @@ const handler = async (m, { conn, args }) => {
     await m.react('✅');
   } catch (e) {
     await m.react('✖️');
-    m.reply("⚠️ Error al enviar el audio: " + e.message);
+    m.reply(`⚠️ La descarga ha fallado, es posible que el archivo sea muy pesado.`);
   }
 };
 
