@@ -245,29 +245,11 @@ const handler = async (m, { conn, args }) => {
 
     const { title, download } = res.result;
 
-    await conn.sendMessage(m.chat, {
-      audio: { url: download },
-      fileName: title,
-      mimetype: "audio/mpeg",
-      ptt: false,
-      contextInfo: {
-        externalAdReply: {
-          title: info.title,
-          body: de,
-          mediaUrl: 'https://api.vreden.my.id',
-          sourceUrl: 'https://api.vreden.my.id',
-          thumbnailUrl: icono,
-          mediaType: 1,
-          renderLargerThumbnail: true
-        }
-      }
-    }, { quoted: m });
-   /* 
     await conn.sendMessage(m.chat, { 
       audio: { url: download }, 
       mimetype: 'audio/mpeg', 
       fileName: `${title}.mp3` 
-    }, { quoted: m });*/
+    }, { quoted: m });
 
     await m.react('✅');
   } catch (e) {
