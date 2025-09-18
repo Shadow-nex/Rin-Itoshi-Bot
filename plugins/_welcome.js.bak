@@ -237,7 +237,7 @@ const welcomeMessage = formatText(chat.sWelcome || `╭┈──̇─̇─̇─�
         mediaUrl: null,
         description: null,
         previewType: "PHOTO",
-        thumbnailUrl: icon,
+        thumbnailUrl: icono,
         sourceUrl: redes,
         mediaType: 1,
         renderLargerThumbnail: false
