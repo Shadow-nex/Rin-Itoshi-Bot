@@ -16,6 +16,20 @@ handler.all = async function (m) {
     "⋆｡ﾟ☁︎｡⋆ 𝚁 𝙸 𝙽 • 𝙸 𝚃 𝙾 𝚂 𝙷 𝙸 ⋆｡ﾟ☁︎｡⋆"
   ]
   global.channelRD = await getRandomChannel()
+  
+  global.icons = [
+'https://files.catbox.moe/ceotf9.jpg',
+'https://files.catbox.moe/fft2hr.jpg',
+'https://files.catbox.moe/i97oje.jpg',
+'https://files.catbox.moe/js2plu.jpg',
+'https://d.uguu.se/GmSLPtrU.png',
+'https://h.uguu.se/kbNQSQxM.jpg',
+'https://h.uguu.se/wzOFAoph.png',
+'https://h.uguu.se/UGUwjmCs.jpg',
+'https://n.uguu.se/vqJnHBPm.jpg',
+'https://n.uguu.se/DlsupQkP.jpg',
+'https://i.pinimg.com/originals/e0/98/ba/e098bac73c8ae72243f66c7bf712045a.jpg'
+].getRandom()
 
   global.rcanal = { 
     contextInfo: { 
@@ -31,7 +45,7 @@ handler.all = async function (m) {
         mediaUrl: null, 
         description: null, 
         previewType: "PHOTO", 
-        thumbnail: await (await fetch(icono)).buffer(), 
+        thumbnail: icons, 
         sourceUrl: redes, 
         mediaType: 1, 
         renderLargerThumbnail: true 
