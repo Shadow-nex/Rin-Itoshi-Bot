@@ -5,20 +5,18 @@ const { proto } = pkg
 var handler = m => m
 handler.all = async function (m) {
 
-  // Canales disponibles
   global.canalIdM = [
-    "120363401008003732@newsletter", 
+    "120363401008003732@newsletter",
+    "120363401008003732@newsletter",
     "120363401008003732@newsletter"
   ]
   global.canalNombreM = [
-    "༺✮•°◤𝑫𝑬𝑵𝑱𝑰𝑩𝑶𝑻 𝑼𝑳𝑻𝑹𝑨~🔫", 
-    "༺✮•°◤🄳🄴🄽🄹🄸 🄱🄾🅃-🅅2~🔫"
+    "⸸ ⚡︎「 𝐑𝐢𝐧 𝐈𝐭𝐨𝐬𝐡𝐢 ✦ 𝐎𝐟𝐟𝐢𝐜𝐢𝐚𝐥 」⚡︎ ⸸",
+    "✦͙͙͙*ೃ༄ 𝑹𝒊𝒏 𝑰𝒕𝒐𝒔𝒉𝒊 | 𝑺𝒉𝒂𝒅𝒐𝒘`𝑪𝒐𝒓𝒆 ༄*ೃ✦",
+    "⋆｡ﾟ☁︎｡⋆ 𝚁 𝙸 𝙽 • 𝙸 𝚃 𝙾 𝚂 𝙷 𝙸 ⋆｡ﾟ☁︎｡⋆"
   ]
-
-  // Elegir canal aleatorio
   global.channelRD = await getRandomChannel()
 
-  // Definir rcanal
   global.rcanal = { 
     contextInfo: { 
       isForwarded: true, 
@@ -36,7 +34,7 @@ handler.all = async function (m) {
         thumbnail: await (await fetch(icono)).buffer(), 
         sourceUrl: redes, 
         mediaType: 1, 
-        renderLargerThumbnail: false 
+        renderLargerThumbnail: true 
       }, 
       mentionedJid: null 
     }
