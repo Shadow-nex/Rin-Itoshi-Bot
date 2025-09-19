@@ -1,36 +1,23 @@
-import fs from 'fs'
-
-let handler = async (m, { conn }) => {
-  try {
-    m.reply(`🌀 REINICIANDO SYSTEM......`)
-
-    fs.writeFileSync('./restarting.txt', m.chat)
-
-    setTimeout(() => {
-      process.exit(0)
-    }, 3000)
-
-  } catch (error) {
-    console.error(error)
-    conn.reply(m.chat, `❌ Error: ${error}`, m)
-  }
-}
-
-setTimeout(async () => {
-  const fs = await import('fs')
-  const path = './restarting.txt'
-  if (fs.existsSync(path)) {
-    const chatId = fs.readFileSync(path, 'utf-8')
-    global.conn?.sendMessage?.(chatId, {
-      text: '「✅」 El bot ya está online!',
-    }).catch(console.error)
-    fs.unlinkSync(path)
-  }
-}, 3000)
+let handler = async (m, { conn, usedPrefix, command, isROwner }) => {
+if (!isROwner) return
+try {
+await m.react('🕒')
+m.reply(`❀ Reiniciando a ${botname} જ⁀➴\n> ► Espera hasta que el *Socket* se reinicie.`)
+await m.react('✔️')
+setTimeout(() => {
+if (process.send) {
+process.send("restart")
+} else {
+process.exit(0)
+}}, 3000)
+} catch (error) {
+await m.react('✖️')
+console.log(error)
+conn.reply(m.chat, `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${error.message}`, m)
+}}
 
 handler.help = ['restart']
 handler.tags = ['owner']
-handler.command = ['restart', 'reiniciar']
-handler.rowner = true
+handler.command = ['restart', 'reiniciar'] 
 
 export default handler
