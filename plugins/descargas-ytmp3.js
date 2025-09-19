@@ -12,7 +12,7 @@ const getSize = async (url) => {
 };
 
 const formatSize = (bytes) => {
-  if (bytes === 0) return "0 B";
+  if (!bytes) return "Desconocido";
   const k = 1024;
   const sizes = ["B", "KB", "MB", "GB", "TB"];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
@@ -28,7 +28,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         m
       );
     }
-    
+
     let title = "Desconocido",
       author = "N/A",
       image = "https://files.catbox.moe/h4lrn3.jpg",
@@ -49,14 +49,15 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       const res = await fetch(apiUrl);
       const json = await res.json();
 
-      if (json?.status && json?.data?.download?.url) {
+      if (json?.status && json?.data) {
         const data = json.data;
-        const download = data.download;
+        const download = data.download || {};
 
+        // Datos principales
         title = data.title || title;
         author = data.author || author;
         image = data.image_max_resolution || data.image || image;
-        duration = data.duration || 0;
+        duration = data.duration || duration;
         filename = download.filename || `${title}.mp3`;
         audioUrl = download.url;
 
@@ -68,7 +69,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         format = download.extension || format;
         id = data.id || id;
         published = data.uploadDate || published;
-        sourceUrl = data.url || text;
+        sourceUrl = text; // mantener URL original
       }
     } else {
       const apiUrl = `https://api.zenzxz.my.id/search/play?query=${encodeURIComponent(text)}`;
@@ -104,13 +105,11 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       return `${min}:${sec.toString().padStart(2, "0")} min`;
     };
 
-    const size = await getSize(audioUrl);
-    const sizeStr = size ? formatSize(size) : "Desconocido";
-
+    const sizeStr = await getSize(audioUrl).then((size) => formatSize(size));
 
     const textoInfo = `\`\`\`
 🍂 Título     : ${title}
-🌱 Autor: ${author}
+🌱 Autor      : ${author}
 ⏱️ Duración   : ${duration ? formatDuration(duration) : 'Desconocida'}
 🚀 Vistas     : ${views}
 👍 Likes      : ${likes}
@@ -123,6 +122,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 💨 Link       : ${sourceUrl}\`\`\`
 
 *≡ Enviando, espera un momento . . .*`;
+
     await conn.sendMessage(
       m.chat,
       {
