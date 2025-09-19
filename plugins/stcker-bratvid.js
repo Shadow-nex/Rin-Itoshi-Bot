@@ -3,9 +3,9 @@ import axios from 'axios'
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
-const fetchSticker = async (text, attempt = 1) => {
+const fetchBratVid = async (text, attempt = 1) => {
   try {
-    const response = await axios.get('https://api.zenzxz.my.id/maker/brat', {
+    const response = await axios.get(`https://api.zenzxz.my.id/maker/bratvid`, {
       params: { text: encodeURIComponent(text) },
       responseType: 'arraybuffer'
     })
@@ -14,7 +14,7 @@ const fetchSticker = async (text, attempt = 1) => {
     if (error.response?.status === 429 && attempt <= 3) {
       const retryAfter = error.response.headers['retry-after'] || 5
       await delay(retryAfter * 1000)
-      return fetchSticker(text, attempt + 1)
+      return fetchBratVid(text, attempt + 1)
     }
     throw error
   }
@@ -23,20 +23,20 @@ const fetchSticker = async (text, attempt = 1) => {
 const handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
     if (!text && !m.quoted?.text) {
-      return conn.sendMessage(m.chat, { text: `🎋 Por favor, responde a un mensaje o ingresa un texto para crear el Sticker.` }, { quoted: m })
+      return conn.sendMessage(m.chat, { text: `🎋 Ejemplo: *${usedPrefix + command} Hola*` }, { quoted: m })
     }
 
     const inputText = m.quoted?.text || text
     await m.react('🕒')
 
-    const buffer = await fetchSticker(inputText)
+    const buffer = await fetchBratVid(inputText)
 
     let packstickers = global.db.data.users[m.sender] || {}
     let texto1 = packstickers.text1 || global.packsticker || 'Pack'
     let texto2 = packstickers.text2 || global.packsticker2 || 'Bot'
 
-    const stiker = await sticker(buffer, false, texto1, texto2)
-    if (!stiker) throw new Error('No se pudo generar el sticker.')
+    const stiker = await sticker(buffer, false, texto1, texto2, { asSticker: true })
+    if (!stiker) throw new Error('No se pudo generar el sticker animado.')
 
     await conn.sendFile(m.chat, stiker, 'sticker.webp', '', m)
     await m.react('✔️')
@@ -49,7 +49,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 }
 
 handler.tags = ['sticker']
-handler.help = ['brat <texto>']
-handler.command = ['brat']
+handler.help = ['bratvid <texto>']
+handler.command = ['bratvid']
 
 export default handler
