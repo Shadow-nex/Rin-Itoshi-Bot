@@ -1,124 +1,108 @@
-import fetch from 'node-fetch';
+import fetch from 'node-fetch'
+import yts from 'yt-search'
+import axios from 'axios'
 
-const thumbnailUrl = icono;
-
-const contextInfo = {
-  externalAdReply: {
-    title: "🎧 YouTube Music",
-    body: "Reproducción directa desde el universo musical...",
-    mediaType: 1,
-    previewType: 0,
-    mediaUrl: "https://youtube.com",
-    sourceUrl: "https://youtube.com",
-    thumbnailUrl
-  }
-};
-
-const handler = async (m, { conn, args, command, usedPrefix }) => {
-  const text = args.join(" ").trim();
-  if (!text) {
-    return conn.sendMessage(m.chat, {
-      text: `🌿 *¿Qué deseas escuchar en YouTube?*\n\n🎋 Uso: *${usedPrefix + command} <nombre de canción/artista>*`,
-      contextInfo
-    }, { quoted: m });
-  }
-
-  await conn.sendMessage(m.chat, {
-    text: `🌤️ B U S C A N D O :\n> ${text}*`,
-    contextInfo
-  }, { quoted: m });
-
+let handler = async (m, { conn, text, command, usedPrefix }) => {
   try {
-    const search = await fetch(`https://delirius-apiofc.vercel.app/search/ytsearch?q=${encodeURIComponent(text)}`);
-    const jsonSearch = await search.json();
-
-    if (!jsonSearch.status || !jsonSearch.data || jsonSearch.data.length === 0) {
-      return conn.sendMessage(m.chat, {
-        text: `No se encontraron resultados para *${text}*.`,
-        contextInfo
-      }, { quoted: m });
+    if (!text) {
+      return conn.reply(
+        m.chat,
+        `🎋 Ingresa el nombre de la canción o un enlace de YouTube.\n\n🌾 Ejemplo: ${usedPrefix + command} DJ Malam Pagi`,
+        m
+      )
     }
 
-    const video = jsonSearch.data[0];
+    let search = await yts(text)
+    let video = search.videos[0]
+    if (!video) return conn.reply(m.chat, 'No se encontró ningún resultado.', m)
 
-    const dl = await fetch(`https://api.delirius.store/download/ytmp3?url=${encodeURIComponent(video.url)}`);
-    const jsonDl = await dl.json();
+    const apiUrl = `https://api.zenzxz.my.id/downloader/ytmp3v2?url=${encodeURIComponent(video.url)}`
+    const res = await fetch(apiUrl)
+    const json = await res.json()
 
-    if (!jsonDl.status || !jsonDl.data?.download) {
-      return conn.sendMessage(m.chat, {
-        text: `⚠️ No se pudo obtener el audio de *${video.title}*.`,
-        contextInfo
-      }, { quoted: m });
+    if (!json?.status || !json?.download_url) {
+      return conn.reply(m.chat, 'No se pudo obtener el audio.', m)
     }
 
-    const {
-      title,
-      author,
-      duration,
-      views,
-      likes,
-      comments,
-      category,
-      image
-    } = jsonDl.data;
+    const meta = {
+      title: json.title,
+      duration: { timestamp: formatDuration(json.duration) },
+      url: video.url,
+      author: { name: video.author?.name || 'Desconocido' }
+    }
+    const dl = {
+      url: json.download_url
+    }
 
-    const {
-      filename,
-      quality,
-      size,
-      url
-    } = jsonDl.data.download;
+    const size = await getSize(dl.url)
+    const sizeStr = size ? await formatSize(size) : 'Desconocido'
 
-    const durationFormatted = `${Math.floor(duration / 60)}:${duration % 60 < 10 ? '0'+duration%60 : duration%60} min`;
+    const textoInfo = `🍂 Título : ${meta.title}
+⏱️ Duración : ${meta.duration.timestamp || video.timestamp || 'Desconocida'}
+🌱 Canal : ${meta.author.name}
+🚀 Vistas : ${video.views?.toLocaleString('es-PE') || '0'}
+🌷 Tamaño : ${sizeStr}
+🧪 Publicado : ${video.ago || 'Desconocido'}
+💨 Link : ${meta.url}
 
-    const caption = `
-🎬 *${title}*
-👤 *Canal:* ${author}
-📺 *Vistas:* ${views}
-👍 *Likes:* ${likes}
-💬 *Comentarios:* ${comments}
-🎶 *Categoría:* ${category}
-⏱️ *Duración:* ${durationFormatted}
-🎵 *Calidad:* ${quality}
-📂 *Tamaño:* ${size}
-🔗 *YouTube:* ${video.url}
-`.trim();
+> *≡ Enviando, espera un momento . . .*`
 
+    await conn.sendMessage(m.chat, { text: textoInfo, quoted: m })
+
+    const audioBuffer = await (await fetch(dl.url)).buffer()
     await conn.sendMessage(m.chat, {
-      image: { url: image },
-      caption,
-      contextInfo
-    }, { quoted: m });
-
-    await conn.sendMessage(m.chat, {
-      audio: { url },
-      fileName: filename,
+      audio: audioBuffer,
+      fileName: `${meta.title}.mp3`,
       mimetype: "audio/mpeg",
       ptt: false,
       contextInfo: {
         externalAdReply: {
-          title,
-          body: `Duración: ${durationFormatted}`,
+          title: video.title,
+          body: ` Duración: ${video.timestamp}`,
           mediaUrl: video.url,
           sourceUrl: video.url,
-          thumbnailUrl: image,
+          thumbnailUrl: video.thumbnail,
           mediaType: 1,
           renderLargerThumbnail: false
         }
       }
-    }, { quoted: m });
+    }, { quoted: m })
 
   } catch (e) {
-    console.error("Error en YouTube Downloader:", e);
-    await conn.sendMessage(m.chat, {
-      text: `*Ocurrió un error al intentar obtener la canción...*\n\n🛠️ ${e.message}`,
-      contextInfo
-    }, { quoted: m });
+    console.error(e)
+    await conn.reply(m.chat, `❌ Error: ${e.message}`, m)
   }
-};
+}
 
-handler.help = ["ytmp3"].map(v=>v+" <url o texto>");
-handler.tags = ["downloader"];
-handler.command = ["ytmp3"];
-    
-export default handler;
+handler.command = ['ytmp3', 'song']
+handler.tags = ['descargas']
+handler.help = ['ytmp3 <texto o link>', 'song <texto>']
+
+export default handler
+
+async function getSize(url) {
+  try {
+    const response = await axios.head(url)
+    const length = response.headers['content-length']
+    return length ? parseInt(length, 10) : null
+  } catch {
+    return null
+  }
+}
+
+async function formatSize(bytes) {
+  const units = ['B', 'KB', 'MB', 'GB']
+  let i = 0
+  if (!bytes || isNaN(bytes)) return 'Desconocido'
+  while (bytes >= 1024 && i < units.length - 1) {
+    bytes /= 1024
+    i++
+  }
+  return `${bytes.toFixed(2)} ${units[i]}`
+}
+
+function formatDuration(seconds) {
+  const min = Math.floor(seconds / 60)
+  const sec = seconds % 60
+  return `${min}:${sec.toString().padStart(2,'0')}`
+}
