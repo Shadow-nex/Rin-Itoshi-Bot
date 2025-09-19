@@ -86,7 +86,7 @@
 href="https://www.mediafire.com/file/llugt4zgj7g3n3u/com.termux_1020.apk/file"><img src="https://qu.ax/finc.jpg" height="125px"></a> 
 
 <details>
- <summary><b> 🔰 Ver comandos de instalación </b></summary>
+ <summary><b>🕸️ Ver comandos de instalación </b></summary>
 
 ### **🎄🚀 Instalación Rápida 🌛**
 
@@ -119,10 +119,11 @@ npm start
 ```
 
 > Si aparece (Y/I/N/O/D/Z) [default=N] ? use la letra "y" + "ENTER" para continuar con la instalación
-</details>
 
+</details>
+![line](https://github.com/Yuji-XDev/Yuji-XDev/blob/main/shadow'core/line.gif)
 <details>
- <summary><b>✦ 𝐀𝐂𝐓𝐈𝐕𝐀𝐑 𝐄𝐍 𝐂𝐀𝐒𝐎 𝐃𝐄 𝐃𝐄𝐓𝐄𝐍𝐄𝐑𝐒𝐄 𝐄𝐋 𝐓𝐄𝐑𝐌𝐔𝐗 </b></summary>
+ <summary><b>🫛 Activar en caso de detenerse el Termux </b></summary>
 
 > Si después de instalar el bot en Termux se detiene (pantalla en blanco, pérdida de conexión a Internet, reinicio del dispositivo), sigue estos pasos:
 
@@ -138,9 +139,9 @@ cd Rin-Itoshi-Bot
 npm start
 ```
 </details>
-
+![line](https://github.com/Yuji-XDev/Yuji-XDev/blob/main/shadow'core/line.gif)
 <details>
- <summary><b>✦ 𝐎𝐁𝐓𝐄𝐍𝐄𝐑 𝐎𝐓𝐑𝐎 𝐂𝐎𝐃𝐈𝐆𝐎 𝐐𝐑 𝐄𝐍 𝐓𝐄𝐑𝐌𝐔𝐗 </b></summary>
+ <summary><b>🍉 Obtener otro código QR en Termux</b></summary>
 
 > Si después de instalar el bot en Termux y iniciar la session del bot (el numero se va a soporte, se cierra la conexión o demorastes al conectar), sigue estos pasos:
 
@@ -162,9 +163,9 @@ rm -rf Sessions
 npm start
 ```
 </details>
-
+![line](https://github.com/Yuji-XDev/Yuji-XDev/blob/main/shadow'core/line.gif)
 <details>
- <summary><b>✦ 𝐕𝐎𝐋𝐕𝐄𝐑𝐓𝐄 𝐎𝐖𝐍𝐄𝐑 𝐃𝐄𝐋 𝐁𝐎𝐓 </b></summary>
+ <summary><b>🎋 Volverte owner del bot</b></summary>
 
 > Si después de instalar el bot en Termux y iniciar la session del bot (deseas poner tu número es la lista de owner pon este comando:
 
@@ -172,6 +173,7 @@ npm start
 cd Rin-Itoshi-Bot && nano config.js
 ```
 </details>
+
 ---
 
 <p align="center">
