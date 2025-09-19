@@ -37,17 +37,46 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     const size = await getSize(dl.url)
     const sizeStr = size ? await formatSize(size) : 'Desconocido'
 
-    const textoInfo = `🍂 Título : ${meta.title}
-⏱️ Duración : ${meta.duration.timestamp || video.timestamp || 'Desconocida'}
-🌱 Canal : ${meta.author.name}
-🚀 Vistas : ${video.views?.toLocaleString('es-PE') || '0'}
-🌷 Tamaño : ${sizeStr}
-🧪 Publicado : ${video.ago || 'Desconocido'}
-💨 Link : ${meta.url}
+    const textoInfo = `🍂 *Título:* ${meta.title}
+⏱️ *Duración:* ${meta.duration.timestamp || video.timestamp || 'Desconocida'}
+🌱 *Canal:* ${meta.author.name}
+🚀 *Vistas:* ${video.views?.toLocaleString('es-PE') || '0'}
+🌷 *Tamaño:* ${sizeStr}
+🧪 *Publicado:* ${video.ago || 'Desconocido'}
+💨 *Link:* ${meta.url}
 
-> *≡ Enviando, espera un momento . . .*`
+> *≡ Enviando, espera un momento...*`
 
-    await conn.sendMessage(m.chat, { text: textoInfo, quoted: m })
+// Envía el mensaje con reacciones
+await conn.sendMessage(
+  m.chat,
+  {
+    image: { url: video.thumbnail },
+    caption: textoInfo,
+    contextInfo: {
+      mentionedJid: [m.sender],
+      isForwarded: true,
+      forwardedNewsletterMessageInfo: {
+        newsletterJid: '120363401008003732@newsletter',
+        serverMessageId: 100,
+        newsletterName: '🗿 Toca aquí 🌱'
+      },
+      externalAdReply: {
+        title: meta.title,
+        body: "🍂 Descargando desde YouTube 🧪",
+        thumbnailUrl: 'https://files.catbox.moe/h4lrn3.jpg',
+        sourceUrl: video.url,
+        mediaType: 1,
+        renderLargerThumbnail: false
+      },
+      reactions: [
+        { text: "🎵", key: m.key },
+        { text: "⏳", key: m.key }
+      ]
+    }
+  },
+  { quoted: m }
+)
 
     const audioBuffer = await (await fetch(dl.url)).buffer()
     await conn.sendMessage(m.chat, {
