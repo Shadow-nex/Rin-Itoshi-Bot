@@ -33,7 +33,7 @@ export async function before(m, { conn }) {
   const dev = global.dev || "Dev"
   const icon = global.icon || null
 
-  global.fake2 = { 
+  global.rcanal = { 
     contextInfo: { 
       isForwarded: true, 
       forwardedNewsletterMessageInfo: { 
@@ -56,7 +56,7 @@ export async function before(m, { conn }) {
     }
   }
 
-  global.rcanal = {
+  global.fake2 = {
     contextInfo: {
       isForwarded: true,
       forwardedNewsletterMessageInfo: {
