@@ -18,18 +18,25 @@ handler.all = async function (m) {
   global.channelRD = await getRandomChannel()
   
   global.icons = [
-'https://files.catbox.moe/ceotf9.jpg',
-'https://files.catbox.moe/fft2hr.jpg',
-'https://files.catbox.moe/i97oje.jpg',
-'https://files.catbox.moe/js2plu.jpg',
-'https://d.uguu.se/GmSLPtrU.png',
-'https://h.uguu.se/kbNQSQxM.jpg',
-'https://h.uguu.se/wzOFAoph.png',
-'https://h.uguu.se/UGUwjmCs.jpg',
-'https://n.uguu.se/vqJnHBPm.jpg',
-'https://n.uguu.se/DlsupQkP.jpg',
-'https://i.pinimg.com/originals/e0/98/ba/e098bac73c8ae72243f66c7bf712045a.jpg'
-].getRandom()
+    'https://files.catbox.moe/ceotf9.jpg',
+    'https://files.catbox.moe/fft2hr.jpg',
+    'https://files.catbox.moe/i97oje.jpg',
+    'https://files.catbox.moe/js2plu.jpg',
+    'https://d.uguu.se/GmSLPtrU.png',
+    'https://h.uguu.se/kbNQSQxM.jpg',
+    'https://h.uguu.se/wzOFAoph.png',
+    'https://h.uguu.se/UGUwjmCs.jpg',
+    'https://n.uguu.se/vqJnHBPm.jpg',
+    'https://n.uguu.se/DlsupQkP.jpg',
+    'https://i.pinimg.com/originals/e0/98/ba/e098bac73c8ae72243f66c7bf712045a.jpg'
+  ].getRandom()
+  
+  var canal = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'  
+  var comunidad = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
+  var git = 'https://github.com/Yuji-XDev'
+  var github = 'https://github.com/Yuji-XDev/Rin-Itoshi-Bot'
+  let correo = 'blackoficial2025@gmail.com'
+  global.reds = [canal, comunidad, git, github, correo].getRandom()
 
   global.rcanal = { 
     contextInfo: { 
@@ -46,7 +53,7 @@ handler.all = async function (m) {
         description: null, 
         previewType: "PHOTO", 
         thumbnail: icons, 
-        sourceUrl: redes, 
+        sourceUrl: reds, 
         mediaType: 1, 
         renderLargerThumbnail: true 
       }, 
