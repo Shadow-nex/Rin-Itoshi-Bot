@@ -37,6 +37,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     const size = await getSize(dl.url)
     const sizeStr = size ? await formatSize(size) : 'Desconocido'
 
+
     const textoInfo = `🍂 *Título:* ${meta.title}
 ⏱️ *Duración:* ${meta.duration.timestamp || video.timestamp || 'Desconocida'}
 🌱 *Canal:* ${meta.author.name}
@@ -47,36 +48,38 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
 > *≡ Enviando, espera un momento...*`
 
-// Envía el mensaje con reacciones
-await conn.sendMessage(
-  m.chat,
-  {
-    image: { url: video.thumbnail },
-    caption: textoInfo,
-    contextInfo: {
-      mentionedJid: [m.sender],
-      isForwarded: true,
-      forwardedNewsletterMessageInfo: {
-        newsletterJid: '120363401008003732@newsletter',
-        serverMessageId: 100,
-        newsletterName: '🗿 Toca aquí 🌱'
+    await conn.sendMessage(m.chat, {
+      react: { text: "⏳", key: m.key }
+    })
+    await conn.sendMessage(
+      m.chat,
+      {
+        image: { url: video.thumbnail },
+        caption: textoInfo,
+        contextInfo: {
+          mentionedJid: [m.sender],
+          isForwarded: true,
+          forwardedNewsletterMessageInfo: {
+            newsletterJid: '120363401008003732@newsletter',
+            serverMessageId: 100,
+            newsletterName: '🗿 Toca aquí 🌱'
+          },
+          externalAdReply: {
+            title: meta.title,
+            body: "🍂 Descargando desde YouTube 🧪",
+            thumbnailUrl: icono,
+            sourceUrl: video.url,
+            mediaType: 1,
+            renderLargerThumbnail: false
+          },
+          reactions: [
+            { text: "🎵", key: m.key },
+            { text: "⏳", key: m.key }
+          ]
+        }
       },
-      externalAdReply: {
-        title: meta.title,
-        body: "🍂 Descargando desde YouTube 🧪",
-        thumbnailUrl: 'https://files.catbox.moe/h4lrn3.jpg',
-        sourceUrl: video.url,
-        mediaType: 1,
-        renderLargerThumbnail: false
-      },
-      reactions: [
-        { text: "🎵", key: m.key },
-        { text: "⏳", key: m.key }
-      ]
-    }
-  },
-  { quoted: m }
-)
+      { quoted: m }
+    )
 
     const audioBuffer = await (await fetch(dl.url)).buffer()
     await conn.sendMessage(m.chat, {
@@ -87,7 +90,7 @@ await conn.sendMessage(
       contextInfo: {
         externalAdReply: {
           title: video.title,
-          body: ` Duración: ${video.timestamp}`,
+          body: `Duración: ${video.timestamp}`,
           mediaUrl: video.url,
           sourceUrl: video.url,
           thumbnailUrl: video.thumbnail,
@@ -96,6 +99,10 @@ await conn.sendMessage(
         }
       }
     }, { quoted: m })
+
+    await conn.sendMessage(m.chat, {
+      react: { text: "✔️", key: m.key }
+    })
 
   } catch (e) {
     console.error(e)
