@@ -130,10 +130,47 @@ global.icono = [
 'https://n.uguu.se/DlsupQkP.jpg',
 'https://i.pinimg.com/originals/e0/98/ba/e098bac73c8ae72243f66c7bf712045a.jpg'
 ].getRandom()
-
+/*
 global.rcanal2 = {contextInfo: {forwardingScore: 2025, isForwarded: true, externalAdReply: {title: packname, body: author, sourceUrl: redes, thumbnailUrl: icono}}}
 }
 
+
+export default handler
+
+
+
+async function getRandomChannel() {
+let randomIndex = Math.floor(Math.random() * canalIdM.length)
+let id = canalIdM[randomIndex]
+let name = canalNombreM[randomIndex]
+return { id, name }
+}
+
+*/
+
+  global.rcanal = { 
+    contextInfo: { 
+      isForwarded: true, 
+      forwardedNewsletterMessageInfo: { 
+        newsletterJid: channelRD.id, 
+        serverMessageId: '', 
+        newsletterName: channelRD.name 
+      }, 
+      externalAdReply: { 
+        title: botname, 
+        body: dev, 
+        mediaUrl: null, 
+        description: null, 
+        previewType: "PHOTO", 
+        thumbnail: await (await fetch(icono)).buffer(), 
+        sourceUrl: redes, 
+        mediaType: 1, 
+        renderLargerThumbnail: true 
+      }, 
+      mentionedJid: null 
+    }
+  }
+}
 
 export default handler
 
@@ -142,8 +179,10 @@ return list[Math.floor(Math.random() * list.length)]
 }
 
 async function getRandomChannel() {
-let randomIndex = Math.floor(Math.random() * canalIdM.length)
-let id = canalIdM[randomIndex]
-let name = canalNombreM[randomIndex]
-return { id, name }
+  let randomIndex = Math.floor(Math.random() * canalIdM.length)
+  let id = canalIdM[randomIndex]
+  let name = canalNombreM[randomIndex]
+  return { id, name }
 }
+
+

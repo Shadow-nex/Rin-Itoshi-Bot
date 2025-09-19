@@ -1,4 +1,4 @@
-import pkg from '@whiskeysockets/baileys'
+/*import pkg from '@whiskeysockets/baileys'
 import fetch from 'node-fetch'
 const { proto } = pkg
 
@@ -37,4 +37,4 @@ async function getRandomChannel() {
   let id = canalIdM[randomIndex]
   let name = canalNombreM[randomIndex]
   return { id, name }
-}
+}*/
