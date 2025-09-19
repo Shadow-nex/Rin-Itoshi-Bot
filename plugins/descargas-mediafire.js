@@ -1,60 +1,31 @@
 import fetch from 'node-fetch'
+import { lookup } from 'mime-types'
 
-let handler = async (m, { conn, text }) => {
-  const user = global.db.data.users[m.sender] || {}
+let handler = async (m, { conn, text, usedPrefix }) => {
+if (!text) return conn.reply(m.chat, '🎋 Te faltó el enlace de Mediafire.', m)
+if (!/^https:\/\/www\.mediafire\.com\//i.test(text)) return conn.reply(m.chat, 'ꕥ Enlace inválido.', m)
+try {
+await m.react('🕒')
+const res = await fetch(`https://api.delirius.store/download/mediafire?url=${encodeURIComponent(text)}`)
+const json = await res.json()
+const data = json.data
+if (!json.status || !data?.filename || !data?.link) { throw '😢 No se pudo obtener el archivo desde Delirius.' }
+const filename = data.filename
+const filesize = data.size || 'desconocido'
+const mimetype = data.mime || lookup(data.extension?.toLowerCase()) || 'application/octet-stream'
+const dl_url = data.link.includes('u=') ? decodeURIComponent(data.link.split('u=')[1]) : data.link
+const caption = `乂 MEDIAFIRE - DESCARGA 乂\n\n✩ Nombre » ${filename}\n✩ Peso » ${filesize}\n✩ MimeType » ${mimetype}\n✩ Enlace » ${text}`
+await conn.sendMessage(m.chat, { document: { url: dl_url }, fileName: filename, mimetype, caption }, { quoted: m })
+await m.react('✔️')
+} catch (e) {
+await m.react('✖️')
+return conn.reply(m.chat, `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${e.message}`, m)
+}}
 
-  if (!text) return m.reply(`*${emojis} Por favor, ingresa un link de Mediafire.*`)
-  
-  await conn.sendMessage(m.chat, { react: { text: "🕒", key: m.key } })
-      await conn.sendMessage(m.chat, {
-      text: '🍂 *D E S C A R G A N D O. . . ...*\n> 𝙴𝚂𝙿𝙴𝚁𝙴 𝚄𝙽 𝙼𝙾𝙼𝙴𝙽𝚃𝙸𝚃𝙾 𝚄𝚆𝚄',
-      mentions: [m.sender],
-      contextInfo: {
-        externalAdReply: {
-          title: '🍄 Rɪɴ Iᴛᴏsʜɪ ᴍᴅ 🌹 | 🪾 ʙʏ sʜᴀᴅᴏᴡ.xʏᴢ 🪴',
-          body: club,
-          thumbnailUrl: global.logo,
-          sourceUrl: 'https://Instagram.com',
-          mediaType: 1,
-          renderLargerThumbnail: true
-        }
-      }
-  }, { quoted: m })
-  
-  try {
-    let res = await fetch(`https://api.stellarwa.xyz/dow/mediafire?url=${encodeURIComponent(text)}&apikey=proyectsV2`)
-    let json = await res.json()
-
-    if (!json.status) throw new Error("No se pudo obtener el archivo.")
-
-    let { title, peso, fecha, tipo, dl } = json.data
-
-    await conn.sendFile(
-      m.chat,
-      dl,
-      title,
-      `乂  *¡MEDIAFIRE - DESCARGAS!*  乂
-
-🌱 *Nombre* : ${title}
-⚡ *Peso* : ${peso}
-💖 *Fecha* : ${fecha}
-🌳 *MimeType* : ${tipo}
-
-${emoji} Archivo descargado con éxito.`,
-      m
-    )
-
-    await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } })
-  } catch (e) {
-    console.error(e)
-    m.reply(`❌ Error al descargar el archivo.\n${e.message}`)
-  }
-}
-
+handler.command = ['mf', 'mediafire']
 handler.help = ['mediafire']
 handler.tags = ['descargas']
-handler.command = ['mf', 'mediafire']
-handler.register = true
 handler.group = true
+handler.premium = true
 
 export default handler
