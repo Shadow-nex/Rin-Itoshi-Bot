@@ -20,7 +20,7 @@ function getRandomFromArray(arr) {
 var handler = m => m
 handler.all = async function (m) {
 
-  global.channelRDXX = await getRandomChannel()
+  global.channelRDX = await getRandomChannel()
   
   global.icons = getRandomFromArray([
     'https://files.catbox.moe/ceotf9.jpg',
@@ -35,21 +35,22 @@ handler.all = async function (m) {
     'https://n.uguu.se/DlsupQkP.jpg',
     'https://i.pinimg.com/originals/e0/98/ba/e098bac73c8ae72243f66c7bf712045a.jpg'
   ])
-  
+
   var canal = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'  
   var comunidad = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
   var git = 'https://github.com/Yuji-XDev'
   var github = 'https://github.com/Yuji-XDev/Rin-Itoshi-Bot'
   let correo = 'blackoficial2025@gmail.com'
+  
   global.reds = getRandomFromArray([canal, comunidad, git, github, correo])
 
   global.rcanal = { 
     contextInfo: { 
       isForwarded: true, 
       forwardedNewsletterMessageInfo: { 
-        newsletterJid: channelRDX.id, 
+        newsletterJid: global.channelRDX.id, 
         serverMessageId: '', 
-        newsletterName: channelRDX.name 
+        newsletterName: global.channelRDX.name 
       }, 
       externalAdReply: { 
         title: botname, 
