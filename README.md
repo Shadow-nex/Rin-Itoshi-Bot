@@ -119,8 +119,10 @@ npm start
 ```
 
 > Si aparece (Y/I/N/O/D/Z) [default=N] ? use la letra "y" + "ENTER" para continuar con la instalación
-![line](https://github.com/Yuji-XDev/Yuji-XDev/blob/main/shadow'core/line.gif)
-### **🌷 Activar en caso de detenerse en termux**
+</details>
+
+<details>
+ <summary><b>✦ 𝐀𝐂𝐓𝐈𝐕𝐀𝐑 𝐄𝐍 𝐂𝐀𝐒𝐎 𝐃𝐄 𝐃𝐄𝐓𝐄𝐍𝐄𝐑𝐒𝐄 𝐄𝐋 𝐓𝐄𝐑𝐌𝐔𝐗 </b></summary>
 
 > Si después de instalar el bot en Termux se detiene (pantalla en blanco, pérdida de conexión a Internet, reinicio del dispositivo), sigue estos pasos:
 
@@ -135,11 +137,12 @@ cd Rin-Itoshi-Bot
 ```bash
 npm start
 ```
-![line](https://github.com/Yuji-XDev/Yuji-XDev/blob/main/shadow'core/line.gif)
+</details>
 
-#### **🔥 Obtener otro codigo qr en termux ⚡**
+<details>
+ <summary><b>✦ 𝐎𝐁𝐓𝐄𝐍𝐄𝐑 𝐎𝐓𝐑𝐎 𝐂𝐎𝐃𝐈𝐆𝐎 𝐐𝐑 𝐄𝐍 𝐓𝐄𝐑𝐌𝐔𝐗 </b></summary>
 
-Si después de instalar el bot en Termux y iniciar la session del bot (el numero se va a soporte, se cierra la conexión o demorastes al conectar), sigue estos pasos:
+> Si después de instalar el bot en Termux y iniciar la session del bot (el numero se va a soporte, se cierra la conexión o demorastes al conectar), sigue estos pasos:
 
 1. Abre Termux y navega al directorio del bot:
 
@@ -158,17 +161,17 @@ rm -rf Sessions
 ```bash
 npm start
 ```
-![line](https://github.com/Yuji-XDev/Yuji-XDev/blob/main/shadow'core/line.gif)    
-### **🎄 Volverte owner del Bot 🎊**
+</details>
+
+<details>
+ <summary><b>✦ 𝐕𝐎𝐋𝐕𝐄𝐑𝐓𝐄 𝐎𝐖𝐍𝐄𝐑 𝐃𝐄𝐋 𝐁𝐎𝐓 </b></summary>
 
 > Si después de instalar el bot en Termux y iniciar la session del bot (deseas poner tu número es la lista de owner pon este comando:
 
 ```bash
 cd Rin-Itoshi-Bot && nano config.js
 ```
-
 </details>
-
 ---
 
 <p align="center">
