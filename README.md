@@ -121,7 +121,9 @@ npm start
 > Si aparece (Y/I/N/O/D/Z) [default=N] ? use la letra "y" + "ENTER" para continuar con la instalación
 
 </details>
+
 ![line](https://github.com/Yuji-XDev/Yuji-XDev/blob/main/shadow'core/line.gif)
+
 <details>
  <summary><b>🫛 Activar en caso de detenerse el Termux </b></summary>
 
@@ -139,7 +141,9 @@ cd Rin-Itoshi-Bot
 npm start
 ```
 </details>
+
 ![line](https://github.com/Yuji-XDev/Yuji-XDev/blob/main/shadow'core/line.gif)
+
 <details>
  <summary><b>🍉 Obtener otro código QR en Termux</b></summary>
 
@@ -163,7 +167,9 @@ rm -rf Sessions
 npm start
 ```
 </details>
+
 ![line](https://github.com/Yuji-XDev/Yuji-XDev/blob/main/shadow'core/line.gif)
+
 <details>
  <summary><b>🎋 Volverte owner del bot</b></summary>
 
