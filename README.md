@@ -180,6 +180,15 @@ cd Rin-Itoshi-Bot && nano config.js
 ```
 </details>
 
+![line](https://github.com/Yuji-XDev/Yuji-XDev/blob/main/shadow'core/line.gif)
+
+<details>
+ <summary><b>🌿 Actualiza el bot a su última vs</b></summary>
+ ```
+ grep -q 'bash\|wget' <(dpkg -l) || apt install -y bash wget && wget -O - https://raw.githubusercontent.com/Yuji-XDev/Rin-Itoshi-Bot/main/update.sh | bash 
+ ```
+ </details>
+
 ---
 
 <p align="center">
