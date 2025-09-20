@@ -36,6 +36,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 ┃ 💥 ${usedPrefix}revoke
 ┃ 💥 ${usedPrefix}todos *<mensaje>*
 ┃ 💥 ${usedPrefix}bot
+┃ 💥 ${usedPrefix}ruletaban
 ╰━━━━━━━━━━━━⬣
 
 ╭─〔 🍧 𝐎𝐍 / 𝐎𝐅𝐅 🍧 〕
