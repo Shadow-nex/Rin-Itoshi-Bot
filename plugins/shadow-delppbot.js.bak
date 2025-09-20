@@ -1,5 +1,6 @@
 let handler = async (m, { conn }) => {
   try {
+    // Poner un "avatar vacío" elimina la foto de perfil
     await conn.updateProfilePicture(conn.user.jid, Buffer.alloc(0));
     await conn.reply(m.chat, '🗑️ Foto de perfil eliminada correctamente.', m, fake);
   } catch (e) {
