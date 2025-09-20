@@ -43,43 +43,56 @@ handler.register = true;
 export default handler;*/
 
 
+// plugins/ig.js
 import fetch from "node-fetch"
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
-    return m.reply(`⚠️ Uso correcto:\n${usedPrefix + command} usuario_de_instagram\n\nEjemplo:\n${usedPrefix + command} cristiano`)
+    return m.reply(`⚠️ Uso correcto:\n${usedPrefix + command} usuario_de_instagram\n\nEjemplo:\n${usedPrefix + command} naruto`)
   }
 
   try {
-    // API externa para stalk de Instagram (puedes reemplazar la apiKey con una propia)
-    let res = await fetch(`https://api.lolhuman.xyz/api/stalkig/${encodeURIComponent(text)}?apikey=demo`)
-    let json = await res.json()
+    const username = text.replace(/^@/, "").trim()
 
-    if (!json.status) {
-      return m.reply(`❌ No se pudo obtener información de *${text}*.`)
+    const url = `https://i.instagram.com/api/v1/users/web_profile_info/?username=${encodeURIComponent(username)}`
+    const headers = {
+      "User-Agent": "Mozilla/5.0 (Linux; Android 10; Mobile; rv:109.0) Gecko/115.0 Firefox/115.0",
+      "x-ig-app-id": "936619743392459"
     }
 
-    let { username, followers, following, full_name, profile_pic, bio } = json.result
+    const res = await fetch(url, { headers })
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`)
+    }
+    const json = await res.json()
+
+    const user = json.data?.user
+    if (!user) {
+      return m.reply(`❌ No encontré el perfil de *${username}* o es privado.`)
+    }
+
+    let { username: uname, full_name, biography, edge_followed_by, edge_follow, is_private, profile_pic_url_hd } = user
 
     let info = `🌸 *Perfil de Instagram* 🌸
-👤 Usuario: @${username}
-📛 Nombre: ${full_name || "-"}
-📎 Link: https://instagram.com/${username}
-👥 Seguidores: ${followers}
-➡️ Siguiendo: ${following}
-📝 Bio: ${bio || "-"}`
 
-    // Manda la foto de perfil con la info
-    await conn.sendFile(m.chat, profile_pic, "profile.jpg", info, m)
+⚔️ Shinobi: @${uname}
+📛 Nombre: ${full_name || "-"}
+🔒 Privado: ${is_private ? "Sí" : "No"}
+👥 Seguidores: ${edge_followed_by?.count || 0}
+➡️ Siguiendo: ${edge_follow?.count || 0}
+📝 Bio: ${biography || "-"}
+📎 Link: https://instagram.com/${uname}`
+
+    await conn.sendFile(m.chat, profile_pic_url_hd, "profile.jpg", info, m)
 
   } catch (e) {
-    console.error(e)
-    m.reply("❌ Error al consultar Instagram, intenta más tarde.")
+    console.error("Error en plugin ig:", e)
+    m.reply("💔 No se pudo obtener el perfil, puede ser privado o Instagram cambió algo. Intenta con otro usuario.")
   }
 }
 
-handler.help = ['instagramstalk <usuario>']
-handler.tags = ['tools']
-handler.command = ['instagramstalk', 'stalkinstagram', 'igstalk']
+handler.help = ["instagramstalk <usuario>"]
+handler.tags = ["tools"]
+handler.command = ['instagramstalk']
 
 export default handler
