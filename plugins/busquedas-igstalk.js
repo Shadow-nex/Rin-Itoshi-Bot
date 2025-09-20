@@ -1,98 +1,49 @@
-/*import fetch from 'node-fetch';
+import fetch from "node-fetch";
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
-    return conn.reply(m.chat, `*🔍 Ingrese el nombre de usuario de Instagram.*\n\nEjemplo:\n> *${usedPrefix + command}* xrljose`, m, rcanal);
+    return conn.reply(
+      m.chat,
+      `✧ Ingresa un nombre de usuario de Instagram.\n\n🌿 Ejemplo:\n*${usedPrefix + command} Shadow.XYZ*`,
+      m
+    );
   }
 
-  await m.react('🕓');
   try {
-    const res = await fetch(`https://delirius-apiofc.vercel.app/tools/igstalk?username=${text}`);
-    const json = await res.json();
+    let res = await fetch(`https://api.siputzx.my.id/api/stalk/instagram?username=${encodeURIComponent(text)}`);
+    let json = await res.json();
 
-    if (!json.data) {
-      await m.react('✖️');
-      return await conn.reply(m.chat, 'No se encontraron resultados para esta búsqueda.', m);
-    }
+    if (!json.status) return conn.reply(m.chat, "No se encontró el usuario.", m);
 
-    const { username, full_name: fullName, followers, following, posts, profile_picture: profilePic, verified } = json.data;
+    let data = json.data;
+    let info = `
+╭━━━〔 ✧ ιɴѕᴛᴀɢʀᴀᴍ ✧ 〕━━⬣
+┃👤 *Nombre:* ${data.full_name || "N/A"}
+┃🔖 *Usuario:* @${data.username}
+┃📌 *Biografía:* ${data.biography || "Sin descripción"}
+┃🌐 *Enlace:* ${data.external_url || "Ninguno"}
+┃✔️ *Verificado:* ${data.is_verified ? "Sí" : "No"}
+┃🔒 *Privado:* ${data.is_private ? "Sí" : "No"}
+┃📊 *Seguidores:* ${data.followers_count.toLocaleString()}
+┃👥 *Siguiendo:* ${data.following_count.toLocaleString()}
+┃📸 *Publicaciones:* ${data.posts_count.toLocaleString()}
+╰━━━━━━━━━━━━━━━━━━⬣
+    `.trim();
 
-    let txt = '`乂  I N S T A G R A M  -  S T A L K`\n\n';
-    txt += `  ✩   *Usuario* : ${username}\n`;
-    txt += `  ✩   *Nombre completo* : ${fullName}\n`;
-    txt += `  ✩   *Seguidores* : ${followers}\n`;
-    txt += `  ✩   *Siguiendo* : ${following}\n`;
-    txt += `  ✩   *Publicaciones* : ${posts}\n`;
-    txt += `  ✩   *Verificado* : ${verified ? 'Sí' : 'No'}\n`;
-    txt += `  ✩   *Perfil* : https://instagram.com/${username}\n`;
+    await conn.sendMessage(m.chat, {
+      image: { url: data.profile_pic_url },
+      caption: info,
+    }, { quoted: m });
 
-    await conn.sendFile(m.chat, profilePic, 'thumbnail.jpg', txt, m, rcanal);
-    await m.react('✅');
-  } catch (error) {
-    console.error(error);
-    await m.react('✖️');
-    await conn.reply(m.chat, 'Hubo un error al procesar la solicitud. Intenta de nuevo más tarde.', m);
+  } catch (e) {
+    console.error(e);
+    conn.reply(m.chat, "Ocurrió un error al obtener los datos.", m);
   }
 };
 
-handler.help = ['instagramstalk <usuario>'];
-handler.tags = ['tools'];
-handler.command = ['instagramstalk', 'stalkinstagram', 'igstalk'];
+handler.help = ["igstalk"].map(v => v + " <usuario>");
+handler.tags = ["tools"];
+handler.command = ["instagramstalk", "igstalk", "stalkig"];
 handler.register = true;
 
-export default handler;*/
-
-
-// plugins/ig.js
-import fetch from "node-fetch"
-
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) {
-    return m.reply(`⚠️ Uso correcto:\n${usedPrefix + command} usuario_de_instagram\n\nEjemplo:\n${usedPrefix + command} naruto`)
-  }
-
-  try {
-    const username = text.replace(/^@/, "").trim()
-
-    const url = `https://i.instagram.com/api/v1/users/web_profile_info/?username=${encodeURIComponent(username)}`
-    const headers = {
-      "User-Agent": "Mozilla/5.0 (Linux; Android 10; Mobile; rv:109.0) Gecko/115.0 Firefox/115.0",
-      "x-ig-app-id": "936619743392459"
-    }
-
-    const res = await fetch(url, { headers })
-    if (!res.ok) {
-      throw new Error(`HTTP ${res.status}`)
-    }
-    const json = await res.json()
-
-    const user = json.data?.user
-    if (!user) {
-      return m.reply(`❌ No encontré el perfil de *${username}* o es privado.`)
-    }
-
-    let { username: uname, full_name, biography, edge_followed_by, edge_follow, is_private, profile_pic_url_hd } = user
-
-    let info = `🌸 *Perfil de Instagram* 🌸
-
-⚔️ Shinobi: @${uname}
-📛 Nombre: ${full_name || "-"}
-🔒 Privado: ${is_private ? "Sí" : "No"}
-👥 Seguidores: ${edge_followed_by?.count || 0}
-➡️ Siguiendo: ${edge_follow?.count || 0}
-📝 Bio: ${biography || "-"}
-📎 Link: https://instagram.com/${uname}`
-
-    await conn.sendFile(m.chat, profile_pic_url_hd, "profile.jpg", info, m)
-
-  } catch (e) {
-    console.error("Error en plugin ig:", e)
-    m.reply("💔 No se pudo obtener el perfil, puede ser privado o Instagram cambió algo. Intenta con otro usuario.")
-  }
-}
-
-handler.help = ["instagramstalk <usuario>"]
-handler.tags = ["tools"]
-handler.command = ['instagramstalk']
-
-export default handler
+export default handler;
