@@ -29,11 +29,12 @@ let handler = async (m, { conn, participants, isAdmin, isOwner }) => {
     }, 2000)
 }
 
-// --- Rin Itoshi Bot ---
+
 handler.help = ['ruletaban']
 handler.tags = ['anime','fun','group']
-handler.command = /^ruletaban$/i
-handler.group = true       // Solo grupos
-handler.admin = true       // Solo admins
+handler.command = ['ruletaban']
+
+handler.group = true
+handler.admin = true
 
 export default handler
