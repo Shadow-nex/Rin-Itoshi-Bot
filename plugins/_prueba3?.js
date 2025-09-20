@@ -1,10 +1,10 @@
 let handler = async (m, { isAdmin, isOwner }) => {
  
     global.groupConfig = global.groupConfig || {}
-    let chat = m.chat // ✅ aquí se define bien el id del grupo
+    let chat = m.chat
 
     if (!global.groupConfig[chat]) {
-        // Config por defecto para grupos
+
         global.groupConfig[chat] = {
             welcome: true,
             antilink: false,
