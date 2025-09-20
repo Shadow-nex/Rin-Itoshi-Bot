@@ -58,30 +58,6 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
         const videoSize = await getFileSize(videoURL);
 
         if (videoURL) {
-
-            const rcanal = { 
-                contextInfo: { 
-                    isForwarded: true, 
-                    forwardedNewsletterMessageInfo: { 
-                        newsletterJid: channelRD.id, 
-                        serverMessageId: '', 
-                        newsletterName: channelRD.name 
-                    }, 
-                    externalAdReply: { 
-                        title: "𐔌 . ⋮ 𝗟𝗶𝘀𝘁𝗼 .ᐟ ֹ ₊ ꒱", 
-                        body: textbot, 
-                        mediaUrl: null, 
-                        description: null, 
-                        previewType: "PHOTO", 
-                        thumbnail: await (await fetch(icono)).buffer(), 
-                        sourceUrl: redes, 
-                        mediaType: 1, 
-                        renderLargerThumbnail: false 
-                    }, 
-                    mentionedJid: null 
-                } 
-            };
-
             await conn.sendFile(m.chat, videoURL, "tiktok.mp4", `❐ 🍧 • *𝐓𝐢𝐭𝐮𝐥𝐨:* ${data.title || 'Sin descripción uwu'}
 
   *~ ＥＳＴＡＤＯ ~*
@@ -93,7 +69,7 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
 ❐ 💥 • *𝐕𝐢𝐬𝐭𝐚𝐬* ➭ ${formatNumber(data.play_count)}
 ❐ 🌾 • *𝐂𝐨𝐦𝐩𝐚𝐫𝐭𝐢𝐝𝐨𝐬* ➭ ${formatNumber(data.share_count)}
 ❐ 🍄 • *𝐀𝐮𝐝𝐢𝐨* ➭ ${data.music_info?.title || 'Desconocido'} - ${data.music_info?.author || 'Desconocido'}
-❐ ⚡ • *𝐂𝐚𝐥𝐢𝐝𝐚𝐝* ➭ ${videoURL.includes('hd') ? 'HD 🌟' : 'Normalito 📺'}`, { ...fkontak, ...rcanal });
+❐ ⚡ • *𝐂𝐚𝐥𝐢𝐝𝐚𝐝* ➭ ${videoURL.includes('hd') ? 'HD 🌟' : 'Normalito 📺'}`, fkontak);
         } else {
             return conn.reply(m.chat, "❌ No pude descargarlo nya~ 😿", m);
         }
