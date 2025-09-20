@@ -4,8 +4,6 @@ import axios from "axios";
 
 const videoCache = {};
 const cacheTimeout = 10 * 60 * 1000; // 10 minutos
-const formatAudio = "audio";
-const formatVideo = "video";
 const MAX_FILE_SIZE_MB = 50;
 
 const shortenURL = async (url) => {
@@ -20,56 +18,44 @@ const shortenURL = async (url) => {
 
 const fetchAPI = async (url, type) => {
   try {
-    const endpoints = {
-      audio: `https://dark-core-api.vercel.app/api/download/YTMP3?key=api&url=${url}`,
-      video: `https://dark-core-api.vercel.app/api/download/ytmp4/v2?key=api&url=${url}`,
-    };
-    let response = await fetch(endpoints[type]);
+    let endpoint =
+      type === "audio"
+        ? `https://api.zenzxz.my.id/downloader/ytmp3v2?url=${encodeURIComponent(url)}`
+        : `https://api.zenzxz.my.id/downloader/ytmp4v2?url=${encodeURIComponent(url)}`;
+
+    let response = await fetch(endpoint);
     let data = await response.json();
-    if (data?.download) return data;
+
+    if (data?.status && data?.download_url) {
+      return {
+        download: data.download_url,
+        title: data.title || "Desconocido",
+        duration: data.duration || 0,
+        thumbnail: data.thumbnail || null,
+        format: data.format || "mp4"
+      };
+    }
     throw new Error("API principal no respondió correctamente.");
   } catch (error) {
-    console.log("Error en API principal:", error.message);
-    try {
-      const fallbackEndpoints = {
-        audio: `https://api.neoxr.eu/api/youtube?url=${url}&type=audio&quality=128kbps&apikey=GataDios`,
-        video: `https://api.neoxr.eu/api/youtube?url=${url}&type=video&quality=720p&apikey=GataDios`,
-      };
-      let response = await fetch(fallbackEndpoints[type]);
-      let data = await response.json();
-      if (data?.data?.url) {
-        return {
-          download: data.data.url,
-          title: data.data.title,
-          filesize: data.data.filesize,
-          duration: data.data.duration,
-          channel: data.data.channel,
-          thumbnail: data.data.thumbnail,
-        };
-      }
-      throw new Error("API de respaldo no respondió correctamente.");
-    } catch (error) {
-      console.log("Error en API de respaldo:", error.message);
-      return null;
-    }
+    console.log("Error en API:", error.message);
+    return null;
   }
 };
 
 async function getSize(url) {
   try {
     const response = await axios.head(url);
-    const length = response.headers['content-length'];
+    const length = response.headers["content-length"];
     return length ? parseInt(length, 10) : null;
-  } catch (error) {
-    console.error("Error al obtener el tamaño:", error.message);
+  } catch {
     return null;
   }
 }
 
-async function formatSize(bytes) {
-  const units = ['B', 'KB', 'MB', 'GB'];
+function formatSize(bytes) {
+  const units = ["B", "KB", "MB", "GB"];
   let i = 0;
-  if (!bytes || isNaN(bytes)) return 'Desconocido';
+  if (!bytes || isNaN(bytes)) return "Desconocido";
   while (bytes >= 1024 && i < units.length - 1) {
     bytes /= 1024;
     i++;
@@ -88,29 +74,22 @@ const handler = async (m, { conn, text }) => {
 
   let messageText = "⚽ *Resultados de búsqueda:* \n\n";
   results.forEach((video, i) => {
-    const title = video.title || "Desconocido";
-    const url = video.url || "No disponible";
-    const duration = video.timestamp || "Desconocida";
-    const author = video.author?.name || "Desconocido";
-    const views = video.views ? video.views.toLocaleString() : "Desconocidas";
-    const uploaded = video.ago || "Desconocida";
-
-    messageText += `\n*${i + 1}.* *${title}*\n> 🚀 \`Duración:\` *${duration}*\n> 💥 \`Canal:\` *${author}*\n> 🌷 \`Vistas:\` *${views}*\n> ⚡ \`Subido:\` *${uploaded}*\n> 🔗 ${url}\n\n`;
+    messageText += `\n*${i + 1}.* *${video.title}*\n> ⏱ Duración: *${video.timestamp || "?"}*\n> 📺 Canal: *${video.author?.name || "?"}*\n> 👀 Vistas: *${video.views?.toLocaleString() || "?"}*\n> 📅 Subido: *${video.ago || "?"}*\n> 🔗 ${video.url}\n`;
   });
 
-  messageText += "✏️ Responde con `A <número>` para audio o `V <número>` para video.\nEjemplo: `A 1` o `V 3`";
+  messageText += "\n✏️ Responde con:\n- `A <número>` → Audio\n- `V <número>` → Video\n- `AD <número>` → Audio Doc\n- `VD <número>` → Video Doc";
 
   await conn.reply(m.chat, messageText, m);
 };
 
-handler.command = ["ytss","ytsearch3"];
+handler.command = ["ytss", "ytsearch3"];
 handler.tags = ["downloader"];
 handler.help = ["ytss <texto>"];
 
 handler.before = async (m, { conn }) => {
   if (!m.quoted || !m.quoted.text.includes("⚽ *Resultados de búsqueda:*")) return;
 
-  const match = m.text.trim().match(/^([AV])\s*(\d+)$/i);
+  const match = m.text.trim().match(/^(A|V|AD|VD)\s*(\d+)$/i);
   if (!match) return;
 
   const [, type, number] = match;
@@ -118,46 +97,37 @@ handler.before = async (m, { conn }) => {
 
   if (!videoCache[m.sender] || !videoCache[m.sender].results[index] || Date.now() - videoCache[m.sender].timestamp > cacheTimeout) {
     delete videoCache[m.sender];
-    return conn.reply(m.chat, "❌ La lista de búsqueda ha expirado. Usa /yts nuevamente.", m);
+    return conn.reply(m.chat, "❌ La lista expiró. Usa /ytss otra vez.", m);
   }
 
   const videoData = videoCache[m.sender].results[index];
   const urlVideo = videoData.url;
-  const duration = videoData.timestamp || "Desconocida";
 
   try {
-    let mediaType = type.toUpperCase() === "A" ? formatAudio : formatVideo;
-    let responseMessage = mediaType === "audio" ? "*🎶 Descargando audio, espera un momento...*" : "*📽 Descargando video, espera un momento...*";
-    await conn.reply(m.chat, responseMessage, m);
+    let mediaType = type.startsWith("A") ? "audio" : "video";
+    let asDocument = type.endsWith("D");
+
+    await conn.reply(m.chat, mediaType === "audio" ? "🎶 Descargando audio..." : "📽 Descargando video...", m);
 
     let apiData = await fetchAPI(urlVideo, mediaType);
-    if (!apiData || !apiData.download) return conn.reply(m.chat, "⚠️ Error al obtener el enlace de descarga.", m);
+    if (!apiData) return conn.reply(m.chat, "⚠️ Error al obtener el enlace.", m);
 
     let downloadUrl = await shortenURL(apiData.download);
+    let sizeBytes = await getSize(apiData.download);
+    let fileSizeMB = formatSize(sizeBytes);
 
-    let size, fileSizeMB;
-    try {
-      size = await getSize(downloadUrl);
-      fileSizeMB = await formatSize(size);
-    } catch {
-      fileSizeMB = "Desconocido";
-    }
-
-    let fileName = `${apiData.title || "archivo"}.${mediaType === "audio" ? "mp3" : "mp4"}`;
-    let asDocument = fileSizeMB !== "Desconocido" && parseFloat(fileSizeMB) > MAX_FILE_SIZE_MB;
-
-    if (asDocument) await conn.reply(m.chat, "⚠️ El archivo es demasiado grande, se enviará como documento.", m);
+    let fileName = `${apiData.title}.${mediaType === "audio" ? "mp3" : "mp4"}`;
 
     let infoMessage = `
-🌱 *Título:* ${apiData.title || "Desconocido"}
-⏱ *Duración:* ${duration}
+🌱 *Título:* ${apiData.title}
+⏱ *Duración:* ${videoData.timestamp || "?"}
 💾 *Tamaño:* ${fileSizeMB}
-🔗 *URL de descarga:* ${downloadUrl}
+🔗 *Descarga:* ${downloadUrl}
 `;
 
     if (asDocument) {
       await conn.sendMessage(m.chat, {
-        document: { url: downloadUrl },
+        document: { url: apiData.download },
         fileName,
         mimetype: mediaType === "audio" ? "audio/mpeg" : "video/mp4",
         caption: infoMessage,
@@ -165,19 +135,17 @@ handler.before = async (m, { conn }) => {
       }, { quoted: m });
     } else if (mediaType === "audio") {
       await conn.sendMessage(m.chat, {
-        audio: { url: downloadUrl },
+        audio: { url: apiData.download },
         fileName,
         mimetype: "audio/mpeg",
         ptt: false,
         caption: infoMessage,
-        thumbnail: apiData.thumbnail ? { url: apiData.thumbnail } : null,
         contextInfo: {
           externalAdReply: {
-            title: apiData.title || "Desconocido",
-            body: `🌱 Duración: ${duration} | shadow.xyz`,
-            mediaUrl: 'https://youtube.com',
-            sourceUrl: 'https://youtube.com',
-            thumbnailUrl: apiData.thumbnail || null,
+            title: apiData.title,
+            body: `🌱 Duración: ${videoData.timestamp || "?"}`,
+            thumbnailUrl: apiData.thumbnail,
+            sourceUrl: urlVideo,
             mediaType: 1,
             renderLargerThumbnail: true
           }
@@ -185,7 +153,7 @@ handler.before = async (m, { conn }) => {
       }, { quoted: m });
     } else {
       await conn.sendMessage(m.chat, {
-        video: { url: downloadUrl },
+        video: { url: apiData.download },
         caption: infoMessage,
         thumbnail: apiData.thumbnail ? { url: apiData.thumbnail } : null
       }, { quoted: m });
