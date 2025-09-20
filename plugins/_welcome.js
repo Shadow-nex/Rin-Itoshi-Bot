@@ -70,33 +70,35 @@ export async function before(m, { conn, participants, groupMetadata }) {
   let fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Lima' })
   let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' })
 
-  let welcomeMessage = `*╔═══════════════*
-*╟* ⿻ 𝗪 𝗘 𝗟 𝗖 𝗢 𝗠 𝗘 ✰
-*╠═══════════════*
-*╟* ${groupMetadata.subject}
-*╟* ≡‹⧽🌂 \`ᴜsᴇʀ:\` *@${numeroUsuario}*
-*╟* ≡‹⧽⚽ \`ғᴇᴄʜᴀ ɪɴɢʀᴇsᴏ:\` *${dia}, ${fecha}*
-*╟* ≡‹⧽📡 \`ʜᴏʀᴀ ɪɴɢʀᴇsᴏ:\` *${hora}*
-*╟* ≡‹⧽⚡ \`ᴘᴀɪs:\` ${pais}
-*╟* ≡‹⧽🌷 \`ᴍɪᴇᴍʙʀᴏs ᴀᴄᴛᴜᴀʟᴇs:\` *${groupSize}*
-*╚═══════════════*
+  // 🌸 NUEVO WELCOME
+  let welcomeMessage = `*╔═══⋆★⋆═══╗*
+🌸 𝑩𝒊𝒆𝒏𝒗𝒆𝒏𝒊𝒅𝒐/𝒂 ⚔️
+*╚═══⋆★⋆═══╝*
 
-🍂 *Descripción:*
-${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}` 
+🎌 ᴳʳᵘᵖᵒ: ${groupMetadata.subject}
+👤 ᵁˢᵘᵃʳⁱᵒ: *@${numeroUsuario}*
+📅 ᶠᵉᶜʰᵃ: *${dia}, ${fecha}*
+⏰ ʰᵒʳᵃ: *${hora}*
+🌍 ᴾᵃⁱˢ: ${pais}
+👥 ᴹⁱᵉᵐᵇʳᵒˢ ᵃᶜᵗᵘᵃˡᵉˢ: *${groupSize}*
 
-  let byeMessage = `*╔═══════════════*
-*╟* ⿻ 𝗔 𝗗 𝗜 𝗢 𝗦 ✰
-*╠═══════════════*
-*╟* 🧪 ${groupMetadata.subject}
-*╟* ≡‹⧽👋 \`ᴜsᴇʀ:\` *@${numeroUsuario}*
-*╟* ≡‹⧽📅 \`ғᴇᴄʜᴀ sᴀʟɪᴅᴀ:\` *${dia}, ${fecha}*
-*╟* ≡‹⧽⏰ \`ʜᴏʀᴀ sᴀʟɪᴅᴀ:\` *${hora}*
-*╟* ≡‹⧽⚡ \`ᴘᴀɪs:\` ${pais}
-*╟* ≡‹⧽👥 \`ᴍɪᴇᴍʙʀᴏs:\` *${groupSize}*
-*╚═══════════════*
+✨「 𝑷𝒂𝒔𝒂 𝒂 𝒑𝒐𝒏𝒆𝒓 𝒕𝒖 𝒂𝒖𝒓𝒂 𝒆𝒏 𝒔𝒊𝒏𝒄𝒓𝒐𝒏í𝒂 」🌙
+`
 
-> 💔 Te esperamos pronto de regreso.
-> 🍂 Usa *#help* para ver comandos.`
+  // 🌙 NUEVA DESPEDIDA
+  let byeMessage = `*╔═══☆✦☆═══╗*
+💔 𝑯𝒂𝒔𝒕𝒂 𝒑𝒓𝒐𝒏𝒕𝒐 🌸
+*╚═══☆✦☆═══╝*
+
+🎌 ᴳʳᵘᵖᵒ: ${groupMetadata.subject}
+👋 ᵁˢᵘᵃʳⁱᵒ: *@${numeroUsuario}*
+📅 ᶠᵉᶜʰᵃ: *${dia}, ${fecha}*
+⏰ ʰᵒʳᵃ: *${hora}*
+🌍 ᴾᵃⁱˢ: ${pais}
+👥 ᴹⁱᵉᵐᵇʳᵒˢ: *${groupSize}*
+
+🕊️「 𝑬𝒔𝒑𝒆𝒓𝒂𝒎𝒐𝒔 𝒗𝒆𝒓𝒕𝒆 𝒅𝒆 𝒏𝒖𝒆𝒗𝒐, 𝒔𝒊𝒎𝒑𝒓𝒆 𝒉𝒂𝒚 𝒖𝒏 𝒂𝒔𝒊𝒆𝒏𝒕𝒐 𝒑𝒂𝒓𝒂 𝒕𝒊 」⚡
+`
 
   const fakeContext = {
     contextInfo: {
@@ -104,7 +106,7 @@ ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}`
       forwardedNewsletterMessageInfo: {
         newsletterJid: "120363401008003732@newsletter",
         serverMessageId: '',
-        newsletterName: "₊꒰✩ 𝐑𝐢𝐧 𝐈𝐭𝐨𝐬𝐡𝐢 𝐁𝐨𝐭 - 𝐎𝐟𝐟𝐢𝐜𝐢𝐚𝐥 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 ✿"
+        newsletterName: "₊꒰✩ 𝐑𝐢𝐧 𝐈𝐭𝐨𝐬𝐡𝐢 𝐁𝐨𝐭 ✿"
       },
       externalAdReply: {
         title: "☆ Rin Itoshi Bot ☆",
