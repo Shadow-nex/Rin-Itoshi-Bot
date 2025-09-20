@@ -4,35 +4,28 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     if (!text) {
         return conn.reply(
             m.chat,
-            `🌸✨ Ingresa un nombre de usuario de Instagram ✨🌸\n\nEjemplo:\n*${usedPrefix + command} Shadow.XYZ*`,
+            `🌸✨ Ingresa un usuario de Instagram ✨🌸\n\nEjemplo:\n*${usedPrefix + command} Shadow.XYZ*`,
             m
         );
     }
 
     try {
-        // Reemplaza 'YOUR_API_KEY' con tu clave de API de Apify
+        // Reemplaza 'YOUR_API_KEY' con tu clave Apify
         const apiKey = 'YOUR_API_KEY';
         const url = `https://api.apify.com/v2/acts/apify~instagram-profile-scraper/run-sync-get-dataset-items?token=${apiKey}&usernames=${encodeURIComponent(text)}`;
         const res = await fetch(url);
         const json = await res.json();
 
         if (!json || json.length === 0) {
-            return conn.reply(m.chat, '❌ No se encontró el usuario 🌸', m);
+            return conn.reply(m.chat, '❌ Usuario no encontrado 🌸', m);
         }
 
         const data = json[0];
+
         const info = `
-🌸╭━━〔 ✧ ιɴѕᴛᴀɢʀᴀᴍ ✧ 〕━━╮🌸
-┃👤 *Nombre:* ${data.fullName || "N/A"}
-┃🔖 *Usuario:* @${data.username}
-┃📝 *Biografía:* ${data.biography || "Sin descripción"}
-┃🌐 *Sitio web:* ${data.externalUrl || "Ninguno"}
-┃✔️ *Verificado:* ${data.isVerified ? "Sí ✅" : "No ❌"}
-┃🔒 *Privado:* ${data.isPrivate ? "Sí 🔐" : "No 🔓"}
-┃📊 *Seguidores:* ${data.followersCount.toLocaleString()} 🌟
-┃👥 *Siguiendo:* ${data.followingCount.toLocaleString()} 💫
-┃📸 *Publicaciones:* ${data.postsCount.toLocaleString()} ✨
-🌸╰━━━━━━━━━━━━━━━━━━╯🌸
+🌸✨ Perfil Instagram ✨🌸
+👤 Usuario: @${data.username}
+🌐 Link: https://instagram.com/${data.username}
         `.trim();
 
         await conn.sendMessage(m.chat, {
@@ -42,7 +35,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     } catch (e) {
         console.error(e);
-        conn.reply(m.chat, "❌ Ocurrió un error al obtener los datos 🌸", m);
+        conn.reply(m.chat, "❌ Error al obtener el perfil 🌸", m);
     }
 };
 
