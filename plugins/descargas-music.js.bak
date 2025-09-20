@@ -5,11 +5,11 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) return conn.reply(m.chat, `🎵 Ingresa el nombre de la canción\n\nEjemplo:\n*${usedPrefix + command} 3 pa 3*`, m)
 
   try {
-    let searchUrl = `https://api.nekolabs.my.id/downloader/spotify/play/v1?q=${encodeURIComponent(text)}`
-    let search = await axios.get(searchUrl, { timeout: 15000 })
-    if (!search.data.status) throw new Error('No se encontró resultado.')
+    let url = `https://api.nekolabs.my.id/downloader/spotify/play/v1?q=${encodeURIComponent(text)}`
+    let res = await axios.get(url, { timeout: 15000 })
+    if (!res.data.status) throw new Error('No se encontró resultado.')
 
-    let { metadata } = search.data.result
+    let { metadata, downloadUrl } = res.data.result
     let { title, artist, duration, cover, url: spotifyUrl } = metadata
 
     let caption = `╭━━━〔 🎶 *Spotify Downloader* 🎶 〕━━⬣
@@ -19,23 +19,14 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃🔗 *Spotify:* ${spotifyUrl}
 ╰━━━━━━━━━━━━━━⬣`
 
+    // Enviar info con portada
     await conn.sendMessage(m.chat, {
       image: { url: cover },
       caption
     }, { quoted: m })
 
-    let apiV1 = `https://api.nekolabs.my.id/downloader/spotify/v1?url=${encodeURIComponent(spotifyUrl)}`
-    let dl1 = await axios.get(apiV1, { timeout: 20000 })
-
-    let downloadUrl = dl1?.data?.result?.downloadUrl
-
-    if (!downloadUrl || downloadUrl.includes('undefined')) {
-      let apiV2 = `https://api.nekolabs.my.id/downloader/spotify/v2?url=${encodeURIComponent(spotifyUrl)}`
-      let dl2 = await axios.get(apiV2, { timeout: 20000 })
-      downloadUrl = dl2?.data?.result?.downloadUrl
-    }
-
-    if (downloadUrl) {
+    // Descargar y enviar audio si está disponible
+    if (downloadUrl && !downloadUrl.includes('undefined')) {
       let audio = await fetch(downloadUrl)
       let buffer = await audio.buffer()
 
@@ -45,17 +36,17 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         fileName: `${title}.mp3`
       }, { quoted: m })
     } else {
-      conn.reply(m.chat, `No se encontró un link de descarga válido para esta canción.`, m)
+      conn.reply(m.chat, `⚠️ No se encontró link de descarga para esta canción.`, m)
     }
 
   } catch (e) {
     console.error(e)
-    conn.reply(m.chat, `Error al buscar/descargar la canción.`, m)
+    conn.reply(m.chat, `❌ Error al buscar/descargar la canción.`, m)
   }
 }
 
 handler.help = ['spotify2 <canción>']
 handler.tags = ['downloader']
-handler.command = ['spotify2']
+handler.command = /^spotify2$/i
 
 export default handler
