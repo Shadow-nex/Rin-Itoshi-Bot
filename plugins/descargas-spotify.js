@@ -62,6 +62,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         audio: buffer,
         mimetype: 'audio/mpeg',
         fileName: `${title}.mp3`,
+        ptt: true,
         contextInfo: {
           externalAdReply: {
             title: "🍏 s⍴᥆𝗍і𝖿ᥡ • mᥙsіᥴ 🌿",
