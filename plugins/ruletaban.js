@@ -1,22 +1,30 @@
 let handler = async (m, { conn, participants, isAdmin, isOwner }) => {
+    // Solo admins
     if (!(isAdmin || isOwner)) return m.reply('⚠️ Solo admins pueden usar la ruleta 🌀')
 
+    // Filtrar miembros que no sean admins
     let users = participants.filter(u => !u.admin).map(u => u.id)
     if (!users.length) return m.reply('👀 No hay miembros para disparar la ruleta')
 
     let elegido = users[Math.floor(Math.random() * users.length)]
-    await m.reply('🎲 Girando la Ruleta Ninja... ¡Sharingan decide!')
+    await m.reply('🎲 Girando la Ruleta Ninja del Destino... ¡Sharingan decide!')
 
     setTimeout(async () => {
-        if (Math.random() < 0.5) {
+        if (Math.random() < 0.25) { // 25% de probabilidad de expulsión
             try {
                 await conn.groupParticipantsUpdate(m.chat, [elegido], "remove")
-                await conn.sendMessage(m.chat, { text: `💥 BANG! @${elegido.split('@')[0]} ha sido expulsado 😈`, mentions: [elegido] })
+                await conn.sendMessage(m.chat, {
+                    text: `💥 BANG! @${elegido.split('@')[0]} ha sido expulsado del clan 😈`,
+                    mentions: [elegido]
+                })
             } catch {
                 m.reply('❌ No pude expulsar al usuario. Soy admin?')
             }
         } else {
-            await conn.sendMessage(m.chat, { text: `😎 CLICK! @${elegido.split('@')[0]} sobrevivió 🐾`, mentions: [elegido] })
+            await conn.sendMessage(m.chat, {
+                text: `😎 CLICK! @${elegido.split('@')[0]} sobrevivió esta vez 🐾`,
+                mentions: [elegido]
+            })
         }
     }, 2000)
 }
@@ -25,7 +33,7 @@ let handler = async (m, { conn, participants, isAdmin, isOwner }) => {
 handler.help = ['ruletaban']
 handler.tags = ['anime','fun','group']
 handler.command = /^ruletaban$/i
-handler.group = true
-handler.admin = true
+handler.group = true       // Solo grupos
+handler.admin = true       // Solo admins
 
 export default handler
