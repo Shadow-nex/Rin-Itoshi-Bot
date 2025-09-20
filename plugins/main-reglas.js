@@ -1,13 +1,12 @@
 import fetch from 'node-fetch'
-import os from 'os'
 import moment from 'moment-timezone'
 
-let handler = async (m, { conn, usedPrefix, command }) => {
+let handler = async (m, { conn, command }) => {
 
   let logo = 'https://files.catbox.moe/fft2hr.jpg'
   let img = 'https://files.catbox.moe/fft2hr.jpg'
 
-  // ✦✦✦✦ REGLAS DEL BOT ✦✦✦✦
+  // ✦✦✦ REGLAS DEL BOT ✦✦✦
   if (['botreglas', 'reglasdelbot', 'reglasbot', 'reglas'].includes(command)) {
     
     let uptime = process.uptime() * 1000
@@ -52,7 +51,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     await conn.sendMessage(m.chat, { image: { url: logo }, caption: texto }, { quoted: fkontak })
   }
 
-  // ✦✦✦✦ REGLAS DE GRUPO ✦✦✦✦
+  // ✦✦✦ REGLAS DEL GRUPO ✦✦✦
   else if (['gruporeglas', 'reglasgp'].includes(command)) {
     if (!m.isGroup) return conn.reply(m.chat, '❗ Este comando solo se puede usar en grupos.', m);
 
@@ -60,9 +59,18 @@ let handler = async (m, { conn, usedPrefix, command }) => {
       const groupInfo = await conn.groupMetadata(m.chat);
       const url = await conn.profilePictureUrl(m.chat, 'image').catch(_ => null);
 
-      let admins = groupInfo.participants.filter(p => p.admin).map(p => `• @${p.id.split('@')[0]}`).join('\n') || 'No hay administradores.';
+      // Obtener admins y mencionar
+      let admins = groupInfo.participants
+        .filter(p => p.admin)
+        .map(p => `• @${p.id.split('@')[0]}`)
+        .join('\n') || 'No hay administradores.';
+      
       let creador = groupInfo.owner ? `@${groupInfo.owner.split('@')[0]}` : 'Desconocido';
-      let fechaCreacion = new Date(groupInfo.creation * 1000).toLocaleString('es-ES', { timeZone: 'America/Lima' });
+      let fechaCreacion = new Date(groupInfo.creation * 1000)
+        .toLocaleString('es-ES', { timeZone: 'America/Lima' });
+
+      // Tomar reglas de la descripción del grupo
+      let groupRules = groupInfo.desc?.trim() || 'No hay reglas establecidas en la descripción del grupo.';
 
       const texto = `╭═══ 📜『 𝑹𝒆𝒈𝒍𝒂𝒔 𝒅𝒆𝒍 𝑮𝒓𝒖𝒑𝒐 』📜═══╮
 🏷️ *Nombre:* ${groupInfo.subject}
@@ -72,13 +80,13 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ${admins}
 📅 *Creado el:* ${fechaCreacion}
 
-📝 *Descripción:*
-${groupInfo.desc?.trim() || 'No hay reglas establecidas en la descripción del grupo.'}
-╰═════════════════════════⬣\n> © ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ | ☆ ʙʏ sʜᴀᴅᴏᴡ.xʏᴢ`.trim();
+📝 *Reglas del grupo:*
+${groupRules}
+╰═════════════════════════⬣
 
-      await conn.sendMessage(m.chat, { image: { url: url || img }, caption: texto, mentions: conn.parseMention(texto) }, { quoted: m })
+> © ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ | ☆ ʙʏ sʜᴀᴅᴏᴡ.xʏᴢ`.trim();
 
-     await conn.sendMessage(m.chat, { audio: { url: 'https://files.catbox.moe/55r702.mp4' }, mimetype: 'audio/mpeg', ptt: true, }, { quoted: m })
+      await conn.sendMessage(m.chat, { image: { url: url || img }, caption: texto, mentions: conn.parseMention(texto) }, { quoted: m });
 
     } catch (e) {
       console.error(e);
@@ -87,13 +95,12 @@ ${groupInfo.desc?.trim() || 'No hay reglas establecidas en la descripción del g
   }
 };
 
-handler.help = ['botreglas', 'gruporeglas']
-handler.tags = ['main']
-handler.command = ['botreglas','reglasdelbot','reglasbot','reglas','gruporeglas','reglasgp']
-handler.register = true
-handler.coin = 4
+handler.help = ['botreglas', 'gruporeglas', 'reglasgp'];
+handler.tags = ['main'];
+handler.command = ['botreglas','reglasdelbot','reglasbot','reglas','gruporeglas','reglasgp'];
+handler.register = true;
 
-export default handler
+export default handler;
 
 function clockString(ms) {
   let d = isNaN(ms) ? '--' : Math.floor(ms / 86400000)
