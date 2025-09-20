@@ -2,14 +2,13 @@ import fetch from "node-fetch";
 
 let handler = async (m, { conn }) => {
   try {
-    let res = await fetch(`https://api.zenzxz.my.id/random/ba`);
+    let res = await fetch("https://api.zenzxz.my.id/random/ba");
     if (!res.ok) throw await res.text();
-    let result = await res.json();
 
-    let image = result.url || result.result || result; 
+    let image = await res.text();
 
     await conn.sendMessage(m.chat, {
-      image: { url: image },
+      image: { url: image.trim() },
       caption: `> ${club}`
     }, { quoted: m });
 
