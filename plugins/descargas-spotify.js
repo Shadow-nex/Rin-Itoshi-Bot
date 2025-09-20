@@ -23,20 +23,15 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       (popularity ? `> ✰ Popularidad » *${popularity}*\n` : '') +
       (publish ? `> ☁︎ Publicado » *${publish}*\n` : '') +
       (spotifyUrl ? `> 🜸 Enlace » ${spotifyUrl}` : '')
-
-/*    await conn.sendMessage(m.chat, {
-      image: { url: image },
-      caption
-    }, { quoted: m })*/
     
     await conn.sendMessage(m.chat, {
       text: caption,
       contextInfo: {
         externalAdReply: {
           title: '✧ s⍴᥆𝗍і𝖿ᥡ • mᥙsіᥴ ✧',
-          body: 'dev',
+          body: club,
           thumbnailUrl: image,
-          sourceUrl: 'https://spotify.com/',
+          sourceUrl: spotifyUrl,
           mediaType: 1,
           renderLargerThumbnail: true
        }
