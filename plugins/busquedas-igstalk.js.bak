@@ -1,4 +1,4 @@
-/*import fetch from 'node-fetch';
+import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
@@ -40,46 +40,4 @@ handler.tags = ['tools'];
 handler.command = ['instagramstalk', 'stalkinstagram', 'igstalk'];
 handler.register = true;
 
-export default handler;*/
-
-
-import fetch from "node-fetch"
-
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) {
-    return m.reply(`⚠️ Uso correcto:\n${usedPrefix + command} usuario_de_instagram\n\nEjemplo:\n${usedPrefix + command} cristiano`)
-  }
-
-  try {
-    // API externa para stalk de Instagram (puedes reemplazar la apiKey con una propia)
-    let res = await fetch(`https://api.lolhuman.xyz/api/stalkig/${encodeURIComponent(text)}?apikey=demo`)
-    let json = await res.json()
-
-    if (!json.status) {
-      return m.reply(`❌ No se pudo obtener información de *${text}*.`)
-    }
-
-    let { username, followers, following, full_name, profile_pic, bio } = json.result
-
-    let info = `🌸 *Perfil de Instagram* 🌸
-👤 Usuario: @${username}
-📛 Nombre: ${full_name || "-"}
-📎 Link: https://instagram.com/${username}
-👥 Seguidores: ${followers}
-➡️ Siguiendo: ${following}
-📝 Bio: ${bio || "-"}`
-
-    // Manda la foto de perfil con la info
-    await conn.sendFile(m.chat, profile_pic, "profile.jpg", info, m)
-
-  } catch (e) {
-    console.error(e)
-    m.reply("❌ Error al consultar Instagram, intenta más tarde.")
-  }
-}
-
-handler.help = ['instagramstalk <usuario>']
-handler.tags = ['tools']
-handler.command = ['instagramstalk', 'stalkinstagram', 'igstalk']
-
-export default handler
+export default handler;
