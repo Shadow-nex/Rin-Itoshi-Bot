@@ -28,7 +28,7 @@ conn.reply(m.chat, `${emoji2} Fue descartado como admin.`, m)
 }
 handler.help = ['demote']
 handler.tags = ['grupo']
-handler.command = ['demote','quitarpija', 'degradar','d']
+handler.command = ['demote','quitarpija', 'degradar']
 handler.group = true
 handler.admin = true
 handler.botAdmin = true
