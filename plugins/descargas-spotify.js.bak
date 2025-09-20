@@ -64,10 +64,10 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         fileName: `${title}.mp3`,
         contextInfo: {
           externalAdReply: {
-            title: "🍏 s⍴᥆𝗍і𝖿ᥡ • mᥙsіᥴ 🌿",
-            body: "ᴅɪsғʀᴜᴛᴀ ᴛᴜ ᴍᴜsɪᴄᴀ ғᴀᴠᴏʀɪᴛᴀ 🎋",
-            thumbnailUrl: image,
-            sourceUrl: spotifyUrl,
+            title: "✧ s⍴᥆𝗍і𝖿ᥡ • mᥙsіᥴ ✧", // tu título
+            body: "Disfruta tu música favorita 🎶", // tu descripción
+            thumbnailUrl: image, // la portada
+            sourceUrl: "https://open.spotify.com/", // link de carga (opcional)
             mediaType: 1,
            renderLargerThumbnail: true
           }
