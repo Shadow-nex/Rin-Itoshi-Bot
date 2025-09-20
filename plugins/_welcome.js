@@ -82,57 +82,64 @@ export async function before(m, { conn, participants, groupMetadata }) {
     participant: "0@s.whatsapp.net"
   }
 
-  let ppUrl = await conn.profilePictureUrl(m.messageStubParameters[0], 'image')
+  let ppUrl = await conn.profilePictureUrl(m.messageStubParameters[0] || m.key.participant, 'image')
     .catch(_ => 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg')
 
   let chat = global.db.data.chats[m.chat]
   let groupSize = participants.length
-  if (m.messageStubType == 27) groupSize++
-  else if (m.messageStubType == 28 || m.messageStubType == 32) groupSize--
+  if (m.messageStubType == 27) groupSize++         // Añadido
+  else if (m.messageStubType == 28 || m.messageStubType == 32) groupSize--  // Eliminado
 
   let fechaObj = new Date()
   let hora = fechaObj.toLocaleTimeString('es-PE', { timeZone: zona, hour: '2-digit', minute: '2-digit' })
   let fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: zona })
   let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: zona })
 
-  // 🌸 MENSAJE OTaku
-  let welcomeMessage = `*🌸━━✦ WELCOME ✦━━🌸*\n
-✨ ¡@${numeroUsuario}, un nuevo nakama ha llegado al clan! ⚔️
+  // 🌸 MENSAJE Otaku
+  if (chat.welcome && m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
+    const entrante = m.messageStubParameters[0]?.split('@')[0] || numeroUsuario
+    let welcomeMessage = `*🌸━━✦ WELCOME ✦━━🌸*\n
+✨ ¡@${entrante}, un nuevo nakama ha llegado al clan! ⚔️
 🎌 Grupo: *${groupMetadata.subject}*
 📅 Fecha: ${dia}, ${fecha}
 ⏰ Hora: ${hora}
-🌍 País: ${pais}
+🌍 País: ${getPais(entrante)}
 👥 Miembros: ${groupSize}
 
 🌟 ¡Prepara tus poderes y que comience la aventura! 🐉
 💬 Recuerda saludar a todos y compartir tu energía positiva 💖
 `
+    const fakeContext = {
+      contextInfo: {
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: { newsletterJid: "120363401008003732@newsletter", serverMessageId: '', newsletterName: "₊꒰✩ RIN ITOSHI BOT ✿" },
+        externalAdReply: { title: "☆ Rin Itoshi Bot ☆", body: "Desarrollado por RIN ITOSHI", mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: ppUrl, sourceUrl: "https://instagram.com", mediaType: 1, renderLargerThumbnail: false },
+        mentionedJid: [m.key.participant]
+      }
+    }
+    await conn.sendMessage(m.chat, { image: { url: ppUrl }, caption: welcomeMessage, ...fakeContext }, { quoted: fkontak })
+  }
 
-  let byeMessage = `*💔━━✦ GOODBYE ✦━━💔*\n
-😢 @${numeroUsuario} ha partido del grupo *${groupMetadata.subject}*.
+  if (chat.welcome && (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_LEAVE || m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_REMOVE)) {
+    const eliminado = m.messageStubParameters[0]?.split('@')[0] || numeroUsuario
+    let byeMessage = `*💔━━✦ GOODBYE ✦━━💔*\n
+😢 @${eliminado} ha sido eliminado del grupo *${groupMetadata.subject}*.
 📅 Fecha: ${dia}, ${fecha}
 ⏰ Hora: ${hora}
-🌍 País: ${pais}
+🌍 País: ${getPais(eliminado)}
 👥 Miembros restantes: ${groupSize}
 
 🕊️ Que tus caminos sean épicos, nakama 🌸
 ⚡ ¡Siempre serás parte de nuestra historia! ✨
 `
-
-  const fakeContext = {
-    contextInfo: {
-      isForwarded: true,
-      forwardedNewsletterMessageInfo: { newsletterJid: "120363401008003732@newsletter", serverMessageId: '', newsletterName: "₊꒰✩ RIN ITOSHI BOT ✿" },
-      externalAdReply: { title: "☆ Rin Itoshi Bot ☆", body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, sourceUrl: "https://instagram.com", mediaType: 1, renderLargerThumbnail: false },
-      mentionedJid: [m.key.participant]
+    const fakeContext = {
+      contextInfo: {
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: { newsletterJid: "120363401008003732@newsletter", serverMessageId: '', newsletterName: "₊꒰✩ RIN ITOSHI BOT ✿" },
+        externalAdReply: { title: "☆ Rin Itoshi Bot ☆", body: "Desarrollado por RIN ITOSHI", mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: ppUrl, sourceUrl: "https://instagram.com", mediaType: 1, renderLargerThumbnail: false },
+        mentionedJid: [m.key.participant]
+      }
     }
-  }
-
-  if (chat.welcome && m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
-    await conn.sendMessage(m.chat, { image: { url: ppUrl }, caption: welcomeMessage, ...fakeContext }, { quoted: fkontak })
-  }
-
-  if (chat.welcome && (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_LEAVE || m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_REMOVE)) {
     await conn.sendMessage(m.chat, { image: { url: ppUrl }, caption: byeMessage, ...fakeContext }, { quoted: fkontak })
   }
 }
