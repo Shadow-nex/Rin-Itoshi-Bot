@@ -1,8 +1,6 @@
-let handler = async (m, { isAdmin, isOwner }) => {
+let handler = async (m, { isAdmin, isOwner, chat }) => {
  
     global.groupConfig = global.groupConfig || {}
-    let chat = m.chat // ✅ aquí se define bien el id del grupo
-
     if (!global.groupConfig[chat]) {
         // Config por defecto para grupos
         global.groupConfig[chat] = {
@@ -23,7 +21,7 @@ let handler = async (m, { isAdmin, isOwner }) => {
     // Construir mensaje bonito
     let confText = '🌸╭━━〔 ✨ Configuración de este grupo ✨ 〕━━╮\n'
     for (let key in config) {
-        let estado = config[key] ? '✅ Activado' : '❌ Desactivado'
+        let estado = config[key] ? 'Activado ✅' : 'Desactivado ❌'
         confText += `┃ • ${key}: ${estado}\n`
     }
     confText += '╰━━━━━━━━━━━━━━━━━━━━━━━🌸'
