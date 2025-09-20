@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import { generateWAMessageFromContent, proto } from "@whiskeysockets/baileys";
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) throw `🌴 Ingresa el nombre de la canción.\n\nEjemplo:\n*${usedPrefix + command} Twice*`;
+  if (!text) throw `🌿 Ingresa el nombre de la canción.\n\nEjemplo:\n*${usedPrefix + command} Twice*`;
 
   try {
     let res = await fetch(`https://api.delirius.store/search/ytsearch?q=${encodeURIComponent(text)}`);
