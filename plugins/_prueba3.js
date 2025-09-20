@@ -1,15 +1,13 @@
 let handler = async (m, { conn }) => {
-  if (!m.isGroup) {
-    return m.reply('❌ Este comando solo funciona en grupos.');
-  }
+  if (!m.isGroup) return m.reply('❌ Este comando solo funciona en grupos.');
 
   try {
-    // Obtener metadata del grupo
     let groupMeta = await conn.groupMetadata(m.chat);
     let participants = groupMeta.participants || [];
 
-    // Verificar si quien ejecuta es admin
-    let isAdmin = participants.find(p => p.id === m.sender)?.admin;
+    // Verificar si quien ejecuta es admin o superadmin
+    let user = participants.find(p => p.id === m.sender);
+    let isAdmin = user?.admin === 'admin' || user?.admin === 'superadmin';
     if (!isAdmin) {
       return m.reply('🚫 Este comando solo puede ser usado por *administradores* del grupo.');
     }
@@ -18,8 +16,12 @@ let handler = async (m, { conn }) => {
     let desc = groupMeta.desc || 'Este grupo no tiene reglas configuradas.';
 
     // Obtener admins y crear lista de menciones
-    let admins = participants.filter(p => p.admin).map(a => `@${a.id.split('@')[0]}`);
-    let adminsMentions = participants.filter(p => p.admin).map(a => a.id);
+    let admins = participants
+      .filter(p => p.admin === 'admin' || p.admin === 'superadmin')
+      .map(a => `@${a.id.split('@')[0]}`);
+    let adminsMentions = participants
+      .filter(p => p.admin === 'admin' || p.admin === 'superadmin')
+      .map(a => a.id);
     let adminsText = admins.length > 0 ? admins.join(', ') : 'No hay administradores.';
 
     // Mensaje estilo Rin-Itoshi épico
@@ -38,7 +40,6 @@ ${desc}
 🎴 ¡Que la aventura en este grupo sea épica y llena de diversión! 🌌
 `;
 
-    // Enviar mensaje mencionando admins
     return conn.sendMessage(m.chat, { text: msg, mentions: adminsMentions }, { quoted: m });
 
   } catch (e) {
