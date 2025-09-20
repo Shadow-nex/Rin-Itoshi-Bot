@@ -1,109 +1,66 @@
-import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys';
-import yts from 'yt-search';
-import fetch from 'node-fetch';
+import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys'
+import yts from 'yt-search'
 
-const YT_API_KEY = "TU_API_KEY"; // 🔑 tu API Key de YouTube
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text) throw `✨ Ingresa el nombre de una playlist\n\n👉 Ejemplo: *${usedPrefix + command} twice*`
 
-const handler = async (m, { conn, text }) => {
-  if (!text) throw `⚠️ Ingresa el nombre de la playlist o canción.`;
+  let search = await yts({ query: text, type: 'playlist' })
+  if (!search.playlists || !search.playlists.length) throw '😿 No encontré ninguna playlist'
 
-  const results = await yts(text);
-  const videos = results.videos.slice(0, 10);
+  let playlists = search.playlists.slice(0, 5) // máximo 5 resultados
 
-  if (!videos.length) throw '⚠️ No se encontraron resultados para tu búsqueda.';
+  // Texto general
+  let info = `✨ Resultados de *${text}*  
+Se encontraron ${playlists.length} playlists en YouTube.`
 
-  const randomVideo = videos[Math.floor(Math.random() * videos.length)];
-  const videoId = randomVideo.videoId;
+  // Armamos las filas para el menú
+  let rows = playlists.map((pl, i) => ({
+    title: pl.title,
+    description: `👤 ${pl.author?.name || 'Desconocido'} | 🎥 ${pl.videoCount} videos`,
+    id: `${usedPrefix}playlistinfo ${pl.url}`
+  }))
 
-  // 🔥 Llamada a la API de YouTube para info extra
-  let likes = "N/A", comments = "N/A", published = "N/A";
-  try {
-    const res = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=${videoId}&key=${YT_API_KEY}`);
-    const data = await res.json();
-    if (data.items && data.items[0]) {
-      const info = data.items[0];
-      likes = info.statistics.likeCount || "N/A";
-      comments = info.statistics.commentCount || "N/A";
-      published = info.snippet.publishedAt.split("T")[0] || "N/A";
-    }
-  } catch (e) {
-    console.error("❌ Error al obtener info extra:", e);
-  }
-
-  let listado = videos.map((v, i) => 
-`╭─⊰ *${i + 1}.* ${v.title}
-│⌬ *Autor:* ${v.author.name}
-│⌬ *Duración:* ${v.timestamp}
-│⌬ *Vistas:* ${v.views.toLocaleString()}
-│⌬ *Link:* ${v.url}
-╰───────────────`).join("\n\n");
-
-  const media = await prepareWAMessageMedia(
-    { image: { url: randomVideo.thumbnail } },
-    { upload: conn.waUploadToServer }
-  );
-
-  const interactiveMessage = {
-    body: {
-      text: `🎬 *RESULTADOS ENCONTRADOS:* \`${videos.length}\`
-
-≡ 📌 *Título:* ${randomVideo.title}
-≡ 👤 *Autor:* ${randomVideo.author.name}
-≡ 👁 *Vistas:* ${randomVideo.views.toLocaleString()}
-≡ 👍 *Likes:* ${likes}
-≡ 💬 *Comentarios:* ${comments}
-≡ 📅 *Publicado:* ${published}
-≡ ⏱ *Duración:* ${randomVideo.timestamp}
-≡ 🔗 *Enlace:* ${randomVideo.url}
-┗━━━━━━━━━━━━━━━━━━━━┛
-
-📜 *Lista completa de resultados:*
-
-${listado}`
-    },
-    footer: { text: "🎶 YouTube Playlist Bot" },
-    header: {
-      title: '┏━❰ 乂 *YOUTUBE - PLAYLIST* 乂 ❱━┓',
-      hasMediaAttachment: true,
-      imageMessage: media.imageMessage
-    },
-    nativeFlowMessage: {
-      buttons: [
-        {
-          name: 'single_select',
-          buttonParamsJson: JSON.stringify({
-            title: 'Opciones de descarga',
-            sections: videos.map(video => ({
-              title: video.title,
-              rows: [
-                {
-                  header: video.title,
-                  title: video.author.name,
-                  description: `🎧 Descargar audio | Duración: ${video.timestamp}`,
-                  id: `.ytmp3 ${video.url}`
-                },
-                {
-                  header: video.title,
-                  title: video.author.name,
-                  description: `📹 Descargar video | Duración: ${video.timestamp}`,
-                  id: `.ytmp4 ${video.url}`
-                }
-              ]
-            }))
-          })
+  // Generamos el mensaje
+  let msg = generateWAMessageFromContent(m.chat, {
+    viewOnceMessage: {
+      message: {
+        interactiveMessage: {
+          header: {
+            title: '🎧 Playlists Encontradas',
+            hasMediaAttachment: true,
+            ...await prepareWAMessageMedia(
+              { image: { url: playlists[0].thumbnail } },
+              { upload: conn.waUploadToServer }
+            )
+          },
+          body: { text: info },
+          footer: { text: '📌 Selecciona una playlist para más opciones' },
+          nativeFlowMessage: {
+            buttons: [
+              {
+                name: 'single_select',
+                buttonParamsJson: JSON.stringify({
+                  title: '🎶 Ver Playlists',
+                  sections: [
+                    {
+                      title: 'Resultados de búsqueda',
+                      rows: rows
+                    }
+                  ]
+                })
+              }
+            ]
+          }
         }
-      ],
-      messageParamsJson: ''
+      }
     }
-  };
+  }, { userJid: conn.user.id, quoted: m })
 
-  const userJid = conn?.user?.jid || m.key.participant || m.chat;
-  const msg = generateWAMessageFromContent(m.chat, { interactiveMessage }, { userJid, quoted: m });
-  conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
-};
+  await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+}
 
-handler.help = ['yts2 <texto>'];
-handler.tags = ['buscador'];
-handler.command = ['yts2', 'ytsearch2'];
+handler.help = ['playlist <texto>']
+handler.tags = ['downloader']
+handler.command = /^playlist|ytplaylist$/i
 
-export default handler;
+export default handler

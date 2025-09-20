@@ -9,19 +9,18 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
   let playlists = search.playlists.slice(0, 5) // máximo 5 resultados
 
-  // Armamos la descripción general
+  // Texto general
   let info = `✨ Resultados de *${text}*  
 Se encontraron ${playlists.length} playlists en YouTube.`
 
-  // Creamos items para la lista
-  let sections = playlists.map((pl, i) => ({
-    header: '📀 Playlist',
+  // Armamos las filas para el menú
+  let rows = playlists.map((pl, i) => ({
     title: pl.title,
-    description: `👤 Autor: ${pl.author?.name || 'Desconocido'}\n🎥 Videos: ${pl.videoCount}\n⏱️ Duración: ${pl.duration || 'N/A'}`,
+    description: `👤 ${pl.author?.name || 'Desconocido'} | 🎥 ${pl.videoCount} videos`,
     id: `${usedPrefix}playlistinfo ${pl.url}`
   }))
 
-  // Usamos la miniatura de la primera playlist
+  // Generamos el mensaje
   let msg = generateWAMessageFromContent(m.chat, {
     viewOnceMessage: {
       message: {
@@ -29,7 +28,10 @@ Se encontraron ${playlists.length} playlists en YouTube.`
           header: {
             title: '🎧 Playlists Encontradas',
             hasMediaAttachment: true,
-            ...await prepareWAMessageMedia({ image: { url: playlists[0].thumbnail } }, { upload: conn.waUploadToServer })
+            ...await prepareWAMessageMedia(
+              { image: { url: playlists[0].thumbnail } },
+              { upload: conn.waUploadToServer }
+            )
           },
           body: { text: info },
           footer: { text: '📌 Selecciona una playlist para más opciones' },
@@ -41,9 +43,8 @@ Se encontraron ${playlists.length} playlists en YouTube.`
                   title: '🎶 Ver Playlists',
                   sections: [
                     {
-                      title: 'Resultados',
-                      highlight_label: 'Playlists',
-                      rows: sections
+                      title: 'Resultados de búsqueda',
+                      rows: rows
                     }
                   ]
                 })
@@ -60,6 +61,6 @@ Se encontraron ${playlists.length} playlists en YouTube.`
 
 handler.help = ['playlist <texto>']
 handler.tags = ['downloader']
-handler.command = /^playlist|ytplaylist$/i
+handler.command = ['playlist']
 
 export default handler
