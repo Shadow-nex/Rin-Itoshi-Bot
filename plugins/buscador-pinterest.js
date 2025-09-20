@@ -1,4 +1,4 @@
-import axios from 'axios';
+/*import axios from 'axios';
 import baileys from '@whiskeysockets/baileys';
 
 async function sendAlbumMessage(jid, medias, options = {}) {
@@ -120,4 +120,121 @@ handler.command = ['pinterest', 'pin'];
 handler.tags = ['buscador'];
 handler.register = true
 
-export default handler;
+export default handler;*/
+
+
+import fetch from 'node-fetch'
+import baileys from '@whiskeysockets/baileys'
+
+const { generateWAMessageContent, generateWAMessageFromContent, proto } = baileys
+
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text) return m.reply(`${emojis} Ingresa un texto. Ejemplo: .pinterest anime`)
+  await m.react('🕓')
+
+  try {
+    let res = await fetch(`https://api.stellarwa.xyz/search/pinterest?query=${encodeURIComponent(text)}&apikey=Diamond`)
+    let json = await res.json()
+
+    if (!json.status || !json.data?.length) throw 'No se encontraron resultados en Pinterest.'
+
+    let results = json.data.slice(0, 15)
+
+    async function createImage(url) {
+      const { imageMessage } = await generateWAMessageContent(
+        { image: { url } },
+        { upload: conn.waUploadToServer }
+      )
+      return imageMessage
+    }
+
+    let cards = []
+    for (let item of results) {
+      let image = await createImage(item.hd || item.mini)
+
+      cards.push({
+        body: proto.Message.InteractiveMessage.Body.fromObject({
+          text: `🎀 *Información de la Imagen*\n\n` +
+                `╭─⊰ *Título:* ${item.title || '-'}\n` +
+                `│⊹ *ID:* ${item.id}\n` +
+                `│⊹ *Descripción:* ${item.description || 'Sin descripción'}\n` +
+                `│⊹ *Usuario:* ${item.username}\n` +
+                `│⊹ *Nombre:* ${item.full_name}\n` +
+                `│⊹ *Perfil:* ${item.profile_user}\n` +
+                `│⊹ *Seguidores:* ${item.followers}\n` +
+                `│⊹ *Likes:* ${item.likes}\n` +
+                `│⊹ *Fecha:* ${item.created}\n` +
+                `│⊹ *Miniatura:* ${item.mini}\n` +
+                `│⊹ *HD:* ${item.hd}\n` +
+                `╰───────────────`
+        }),
+        footer: proto.Message.InteractiveMessage.Footer.fromObject({
+          text: '® ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ | 📌 Pinterest Search'
+        }),
+        header: proto.Message.InteractiveMessage.Header.fromObject({
+          title: '🌷 Pinterest Result',
+          hasMediaAttachment: true,
+          imageMessage: image
+        }),
+        nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
+          buttons: [
+            {
+              name: 'cta_url',
+              buttonParamsJson: JSON.stringify({
+                display_text: "🔗 Ver Imagen HD",
+                url: item.hd,
+                merchant_url: item.hd
+              })
+            },
+            {
+              name: 'cta_url',
+              buttonParamsJson: JSON.stringify({
+                display_text: "👤 Ver Perfil",
+                url: item.profile_user,
+                merchant_url: item.profile_user
+              })
+            }
+          ]
+        })
+      })
+    }
+
+    const msg = generateWAMessageFromContent(m.chat, {
+      viewOnceMessage: {
+        message: {
+          messageContextInfo: {
+            deviceListMetadata: {},
+            deviceListMetadataVersion: 2
+          },
+          interactiveMessage: proto.Message.InteractiveMessage.fromObject({
+            body: proto.Message.InteractiveMessage.Body.create({
+              text: `*🎋 Resultados de Pinterest para:* \`${text}\`\n> 🍏 Mostrando: ${results.length} resultados`
+            }),
+            footer: proto.Message.InteractiveMessage.Footer.create({
+              text: '_Pinterest - Search_'
+            }),
+            header: proto.Message.InteractiveMessage.Header.create({
+              hasMediaAttachment: false
+            }),
+            carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({
+              cards
+            })
+          })
+        }
+      }
+    }, { quoted: m })
+
+    await m.react('✅')
+    await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+
+  } catch (e) {
+    console.error(e)
+    await m.reply('❌ Error en la búsqueda o envío del mensaje.')
+  }
+}
+
+handler.help = ['pinterest <texto>']
+handler.tags = ['buscador']
+handler.command = ['pinterest', 'pin']
+
+export default handler
