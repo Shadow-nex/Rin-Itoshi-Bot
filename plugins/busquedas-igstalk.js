@@ -1,47 +1,54 @@
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-    if (!text) {
-        return conn.reply(
-            m.chat,
-            `🌸✨ Ingresa un usuario de Instagram ✨🌸\n\nEjemplo:\n*${usedPrefix + command} Shadow.XYZ*`,
-            m
-        );
+  if (!text) {
+    return conn.reply(
+      m.chat,
+      `🌸✨ Ingresa un nombre de usuario de Instagram ✨🌸\n\nEjemplo:\n*${usedPrefix + command} Shadow.XYZ*`,
+      m
+    );
+  }
+
+  try {
+    // URL pública del perfil de Instagram
+    const url = `https://www.instagram.com/${encodeURIComponent(text)}/?__a=1`;
+
+    // Realizamos la solicitud con un encabezado User-Agent
+    const res = await fetch(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0' },
+    });
+
+    // Verificamos si la respuesta es exitosa
+    if (!res.ok) {
+      return conn.reply(m.chat, '❌ Usuario no encontrado 🌸', m);
     }
 
-    try {
-        // Reemplaza 'YOUR_API_KEY' con tu clave Apify
-        const apiKey = 'YOUR_API_KEY';
-        const url = `https://api.apify.com/v2/acts/apify~instagram-profile-scraper/run-sync-get-dataset-items?token=${apiKey}&usernames=${encodeURIComponent(text)}`;
-        const res = await fetch(url);
-        const json = await res.json();
+    // Parseamos la respuesta JSON
+    const json = await res.json();
+    const user = json.graphql.user;
 
-        if (!json || json.length === 0) {
-            return conn.reply(m.chat, '❌ Usuario no encontrado 🌸', m);
-        }
-
-        const data = json[0];
-
-        const info = `
+    // Construimos el mensaje con la información obtenida
+    const info = `
 🌸✨ Perfil Instagram ✨🌸
-👤 Usuario: @${data.username}
-🌐 Link: https://instagram.com/${data.username}
-        `.trim();
+👤 Usuario: @${user.username}
+🌐 Link: https://instagram.com/${user.username}
+    `.trim();
 
-        await conn.sendMessage(m.chat, {
-            image: { url: data.profilePicUrl },
-            caption: info
-        }, { quoted: m });
+    // Enviamos la foto de perfil y el mensaje al chat
+    await conn.sendMessage(m.chat, {
+      image: { url: user.profile_pic_url_hd },
+      caption: info,
+    }, { quoted: m });
 
-    } catch (e) {
-        console.error(e);
-        conn.reply(m.chat, "❌ Error al obtener el perfil 🌸", m);
-    }
+  } catch (e) {
+    console.error(e);
+    conn.reply(m.chat, '❌ Error al obtener el perfil 🌸', m);
+  }
 };
 
-handler.help = ["igstalk"].map(v => v + " <usuario>");
-handler.tags = ["tools","anime","otaku"];
-handler.command = ["igstalk"];
+handler.help = ['igstalk'].map((v) => v + ' <usuario>');
+handler.tags = ['tools', 'anime', 'otaku'];
+handler.command = ['igstalk'];
 handler.register = true;
 
 export default handler;
