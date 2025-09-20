@@ -3,82 +3,67 @@ import Jimp from 'jimp'
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
-    return m.reply(`🍂 *Ejemplo de uso:*\n\n✎ ✧ \`${usedPrefix + command}\` https://open.spotify.com/track/4iV5W9uYEdYUVa79Axb7Rh`)
+    return m.reply(`🍂 *Ejemplo de uso:*\n\n✎ ✧ \`${usedPrefix + command}\` https://open.spotify.com/track/0RmVGwfIgezMi7EKB3lU0B`)
   }
 
   try {
-
-    const apiURL = `https://api.siputzx.my.id/api/d/spotifyv2?url=${encodeURIComponent(text)}`
+    const apiURL = `https://api.stellarwa.xyz/dow/spotify?url=${encodeURIComponent(text)}&apikey=Diamond`
     const res = await fetch(apiURL)
     if (!res.ok) throw await res.text()
 
     const json = await res.json()
-    if (!json || !json.data || !json.data.mp3DownloadLink) {
+    if (!json || !json.data || !json.data.dl) {
       return m.reply("⚠️ No pude obtener el enlace de descarga. Intenta con otra URL.")
     }
 
-    const name = json.data.songTitle || "Desconocido"
-    const artists = json.data.artist || "Desconocido"
-    const image = json.data.coverImage || null
-    const download = json.data.mp3DownloadLink
-    const duration = "Desconocido"
+    const name = json.data.title || "Desconocido"
+    const download = json.data.dl
+    const durationMs = json.data.duration || 0
+
+    const duration = durationMs > 0 ? 
+      new Date(durationMs).toISOString().substr(14, 5) : 
+      "Desconocido"
 
     await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } })
     await conn.sendMessage(m.chat, {
-      text: '🍂 *B U C A N D O. . . ...*',
+      text: '🍂 *B U S C A N D O. . . ...*',
       mentions: [m.sender],
       contextInfo: {
         externalAdReply: {
           title: '🍄 Rɪɴ Iᴛᴏsʜɪ ᴍᴅ 🌹 | 🪾 ʙʏ ᴅᴠ.sʜᴀᴅᴏᴡ 🪴',
-          body: artists,
-          thumbnailUrl: image,
-          sourceUrl: text,
+          body: name,
           mediaType: 1,
-          renderLargerThumbnail: false
+          renderLargerThumbnail: false,
+          sourceUrl: text
         }
       }
     }, { quoted: m })
 
     let caption = `\`\`\`🧪 Título: ${name}
-🌷 Artista: ${artists}
 ⏱️ Duración: ${duration}\`\`\``
 
-    // Miniatura
-    let thumb = null
-    if (image) {
-      try {
-        const img = await Jimp.read(image)
-        img.resize(300, Jimp.AUTO)
-        thumb = await img.getBufferAsync(Jimp.MIME_JPEG)
-      } catch (err) {
-        console.log("⚠️ Error al procesar miniatura:", err)
-      }
-    }
-
+    // Enviar como documento (mp3)
     await conn.sendMessage(m.chat, {
       document: { url: download },
       mimetype: 'audio/mpeg',
       fileName: `${name}.mp3`,
-      caption: caption,
-      ...(thumb ? { jpegThumbnail: thumb } : {})
+      caption: caption
     }, { quoted: m })
 
+    // Enviar como audio directo
     await conn.sendMessage(m.chat, {
       audio: { url: download },
       mimetype: 'audio/mpeg',
       fileName: `${name}.mp3`,
-      ...(thumb ? { 
-        contextInfo: {
-          externalAdReply: {
-            title: name,
-            body: artists,
-            mediaType: 2,
-            renderLargerThumbnail: true,
-            thumbnail: thumb,
-            sourceUrl: text
-          }
+      contextInfo: {
+        externalAdReply: {
+          title: name,
+          body: "Spotify",
+          mediaType: 2,
+          renderLargerThumbnail: true,
+          sourceUrl: text
         }
-      } : {})
+      }
     }, { quoted: m })
 
   } catch (e) {
