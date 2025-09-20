@@ -1,8 +1,5 @@
 let handler = async (m, { conn, participants, isAdmin, isOwner }) => {
-    // Solo admins
-    if (!(isAdmin || isOwner)) return m.reply('⚠️ Solo admins pueden usar la ruleta 🌀')
 
-    // Filtrar miembros que no sean admins
     let users = participants.filter(u => !u.admin).map(u => u.id)
     if (!users.length) return m.reply('👀 No hay miembros para disparar la ruleta')
 
@@ -33,7 +30,6 @@ let handler = async (m, { conn, participants, isAdmin, isOwner }) => {
 handler.help = ['ruletaban']
 handler.tags = ['anime','fun','group']
 handler.command = ['ruletaban']
-
 handler.group = true
 handler.admin = true
 
