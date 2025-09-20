@@ -107,7 +107,7 @@ handler.before = async (m, { conn }) => {
     let mediaType = type.startsWith("A") ? "audio" : "video";
     let asDocument = type.endsWith("D");
 
-    await conn.reply(m.chat, mediaType === "audio" ? "🎶 Descargando audio..." : "📽 Descargando video...", m);
+    await conn.reply(m.chat, mediaType === "audio" ? "*🎶 ძᥱsᥴᥲrgᥲᥒძ᥆ ᥲᥙძі᥆...*" : "📽 ძᥱsᥴᥲrgᥲᥒძ᥆ ᥎іძᥱ᥆...*", m);
 
     let apiData = await fetchAPI(urlVideo, mediaType);
     if (!apiData) return conn.reply(m.chat, "⚠️ Error al obtener el enlace.", m);
