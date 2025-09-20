@@ -1,25 +1,21 @@
-import fetch from "node-fetch";
-
 let handler = async (m, { conn }) => {
   try {
-    let res = await fetch("https://api.zenzxz.my.id/random/ba");
-    if (!res.ok) throw await res.text();
-
-    let image = await res.text();
+    let imageUrl = "https://api.zenzxz.my.id/random/ba";
+    let caption = `> ${club}`.trim();
 
     await conn.sendMessage(m.chat, {
-      image: { url: image.trim() },
-      caption: `> ${club}`
+      image: { url: imageUrl },
+      caption: caption
     }, { quoted: m });
 
   } catch (e) {
     console.error(e);
-    m.reply("Error al obtener la imagen.");
+    m.reply("Error al enviar la imagen.");
   }
 };
 
-handler.help = ["ba"];
-handler.tags = ["anime"];
-handler.command = ["ba"];
+handler.command = ['ba']; 
+handler.help = ['ba'];
+handler.tags = ['anime'];
 
 export default handler;
