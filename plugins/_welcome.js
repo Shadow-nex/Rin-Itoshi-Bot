@@ -4,56 +4,81 @@ import fetch from 'node-fetch'
 export async function before(m, { conn, participants, groupMetadata }) {
   if (!m.messageStubType || !m.isGroup) return !0
 
+  // --- FUNCIONES ---
   const getPais = (numero) => {
     const paisesPorPrefijo = {
-      "1": "🇺🇸 𝑬𝒔𝒕𝒂𝒅𝒐𝒔 𝑼𝒏𝒊𝒅𝒐𝒔",
-      "34": "🇪🇸 𝑬𝒔𝒑𝒂ñ𝒂",
-      "52": "🇲🇽 𝑴é𝒙𝒊𝒄𝒐",
-      "54": "🇦🇷 𝑨𝒓𝒈𝒆𝒏𝒕𝒊𝒏𝒂",
-      "55": "🇧🇷 𝑩𝒓𝒂𝒔𝒊𝒍",
-      "56": "🇨🇱 𝑪𝒉𝒊𝒍𝒆",
-      "57": "🇨🇴 𝑪𝒐𝒍𝒐𝒎𝒃𝒊𝒂",
-      "58": "🇻🇪 𝑽𝒆𝒏𝒆𝒛𝒖𝒆𝒍𝒂",
-      "591": "🇧🇴 𝑩𝒐𝒍𝒊𝒗𝒊𝒂",
-      "593": "🇪🇨 𝑬𝒄𝒖𝒂𝒅𝒐𝒓",
-      "595": "🇵🇾 𝑷𝒂𝒓𝒂𝒈𝒖𝒂𝒚",
-      "598": "🇺🇾 𝑼𝒓𝒖𝒈𝒖𝒂𝒚",
-      "502": "🇬🇹 𝑮𝒖𝒂𝒕𝒆𝒎𝒂𝒍𝒂",
-      "503": "🇸🇻 𝑬𝒍 𝑺𝒂𝒍𝒗𝒂𝒅𝒐𝒓",
-      "504": "🇭🇳 𝑯𝒐𝒏𝒅𝒖𝒓𝒂𝒔",
-      "505": "🇳🇮 𝑵𝒊𝒄𝒂𝒓𝒂𝒈𝒖𝒂",
-      "506": "🇨🇷 𝑪𝒐𝒔𝒕𝒂 𝑹𝒊𝒄𝒂",
-      "507": "🇵🇦 𝑷𝒂𝒏𝒂𝒎á",
-      "51": "🇵🇪 𝑷𝒆𝒓𝒖",
-      "53": "🇨🇺 𝑪𝒖𝒃𝒂",
-      "91": "🇮🇳 𝑰𝒏𝒅𝒊𝒂"
+      "1": "🇺🇸 Estados Unidos",
+      "34": "🇪🇸 España",
+      "52": "🇲🇽 México",
+      "54": "🇦🇷 Argentina",
+      "55": "🇧🇷 Brasil",
+      "56": "🇨🇱 Chile",
+      "57": "🇨🇴 Colombia",
+      "58": "🇻🇪 Venezuela",
+      "591": "🇧🇴 Bolivia",
+      "593": "🇪🇨 Ecuador",
+      "595": "🇵🇾 Paraguay",
+      "598": "🇺🇾 Uruguay",
+      "502": "🇬🇹 Guatemala",
+      "503": "🇸🇻 El Salvador",
+      "504": "🇭🇳 Honduras",
+      "505": "🇳🇮 Nicaragua",
+      "506": "🇨🇷 Costa Rica",
+      "507": "🇵🇦 Panamá",
+      "51": "🇵🇪 Perú",
+      "53": "🇨🇺 Cuba",
+      "91": "🇮🇳 India"
     }
+    const numeroLimpio = numero.replace(/\D/g,'') 
     for (let i = 1; i <= 3; i++) {
-      const prefijo = numero.slice(0, i)
+      const prefijo = numeroLimpio.slice(0, i)
       if (paisesPorPrefijo[prefijo]) return paisesPorPrefijo[prefijo]
     }
     return "🌎 Desconocido"
   }
 
+  const getTimeZone = (numero) => {
+    const zonasHorarias = {
+      "1": "America/New_York",
+      "34": "Europe/Madrid",
+      "52": "America/Mexico_City",
+      "54": "America/Argentina/Buenos_Aires",
+      "55": "America/Sao_Paulo",
+      "56": "America/Santiago",
+      "57": "America/Bogota",
+      "58": "America/Caracas",
+      "591": "America/La_Paz",
+      "593": "America/Guayaquil",
+      "595": "America/Asuncion",
+      "598": "America/Montevideo",
+      "502": "America/Guatemala",
+      "503": "America/El_Salvador",
+      "504": "America/Tegucigalpa",
+      "505": "America/Managua",
+      "506": "America/Costa_Rica",
+      "507": "America/Panama",
+      "51": "America/Lima",
+      "53": "America/Havana",
+      "91": "Asia/Kolkata"
+    }
+    const numeroLimpio = numero.replace(/\D/g,'')
+    for (let i = 1; i <= 3; i++) {
+      const prefijo = numeroLimpio.slice(0, i)
+      if (zonasHorarias[prefijo]) return zonasHorarias[prefijo]
+    }
+    return "America/Lima"
+  }
+
   const numeroUsuario = m.key.participant?.split('@')[0]
   if (!numeroUsuario) return
   const pais = getPais(numeroUsuario)
+  const zona = getTimeZone(numeroUsuario)
 
   const thumbRes = await fetch("https://files.catbox.moe/jkw74m.jpg")
   const thumbBuffer = await thumbRes.buffer()
   const fkontak = {
-    key: {
-      participants: "0@s.whatsapp.net",
-      remoteJid: "status@broadcast",
-      fromMe: false,
-      id: "Halo"
-    },
-    message: {
-      locationMessage: {
-        name: `(☆ 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 𝚄𝙻𝚃𝚁𝙰 ☆) ⭐`,
-        jpegThumbnail: thumbBuffer
-      }
-    },
+    key: { participants: "0@s.whatsapp.net", remoteJid: "status@broadcast", fromMe: false, id: "Halo" },
+    message: { locationMessage: { name: `(☆ RIN ITOSHI ULTRA ☆) ⭐`, jpegThumbnail: thumbBuffer } },
     participant: "0@s.whatsapp.net"
   }
 
@@ -66,59 +91,39 @@ export async function before(m, { conn, participants, groupMetadata }) {
   else if (m.messageStubType == 28 || m.messageStubType == 32) groupSize--
 
   let fechaObj = new Date()
-  let hora = fechaObj.toLocaleTimeString('es-PE', { timeZone: 'America/Lima' })
-  let fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Lima' })
-  let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' })
+  let hora = fechaObj.toLocaleTimeString('es-PE', { timeZone: zona, hour: '2-digit', minute: '2-digit' })
+  let fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: zona })
+  let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: zona })
 
-  // 🌸 NUEVO WELCOME
-  let welcomeMessage = `*╔═══⋆★⋆═══╗*
-🌸 𝑩𝒊𝒆𝒏𝒗𝒆𝒏𝒊𝒅𝒐/𝒂 ⚔️
-*╚═══⋆★⋆═══╝*
+  // 🌸 MENSAJE OTaku
+  let welcomeMessage = `*🌸━━✦ WELCOME ✦━━🌸*\n
+✨ ¡@${numeroUsuario}, un nuevo nakama ha llegado al clan! ⚔️
+🎌 Grupo: *${groupMetadata.subject}*
+📅 Fecha: ${dia}, ${fecha}
+⏰ Hora: ${hora}
+🌍 País: ${pais}
+👥 Miembros: ${groupSize}
 
-🎌 ᴳʳᵘᵖᵒ: ${groupMetadata.subject}
-👤 ᵁˢᵘᵃʳⁱᵒ: *@${numeroUsuario}*
-📅 ᶠᵉᶜʰᵃ: *${dia}, ${fecha}*
-⏰ ʰᵒʳᵃ: *${hora}*
-🌍 ᴾᵃⁱˢ: ${pais}
-👥 ᴹⁱᵉᵐᵇʳᵒˢ ᵃᶜᵗᵘᵃˡᵉˢ: *${groupSize}*
-
-✨「 𝑷𝒂𝒔𝒂 𝒂 𝒑𝒐𝒏𝒆𝒓 𝒕𝒖 𝒂𝒖𝒓𝒂 𝒆𝒏 𝒔𝒊𝒏𝒄𝒓𝒐𝒏í𝒂 」🌙
+🌟 ¡Prepara tus poderes y que comience la aventura! 🐉
+💬 Recuerda saludar a todos y compartir tu energía positiva 💖
 `
 
-  // 🌙 NUEVA DESPEDIDA
-  let byeMessage = `*╔═══☆✦☆═══╗*
-💔 𝑯𝒂𝒔𝒕𝒂 𝒑𝒓𝒐𝒏𝒕𝒐 🌸
-*╚═══☆✦☆═══╝*
+  let byeMessage = `*💔━━✦ GOODBYE ✦━━💔*\n
+😢 @${numeroUsuario} ha partido del grupo *${groupMetadata.subject}*.
+📅 Fecha: ${dia}, ${fecha}
+⏰ Hora: ${hora}
+🌍 País: ${pais}
+👥 Miembros restantes: ${groupSize}
 
-🎌 ᴳʳᵘᵖᵒ: ${groupMetadata.subject}
-👋 ᵁˢᵘᵃʳⁱᵒ: *@${numeroUsuario}*
-📅 ᶠᵉᶜʰᵃ: *${dia}, ${fecha}*
-⏰ ʰᵒʳᵃ: *${hora}*
-🌍 ᴾᵃⁱˢ: ${pais}
-👥 ᴹⁱᵉᵐᵇʳᵒˢ: *${groupSize}*
-
-🕊️「 𝑬𝒔𝒑𝒆𝒓𝒂𝒎𝒐𝒔 𝒗𝒆𝒓𝒕𝒆 𝒅𝒆 𝒏𝒖𝒆𝒗𝒐, 𝒔𝒊𝒎𝒑𝒓𝒆 𝒉𝒂𝒚 𝒖𝒏 𝒂𝒔𝒊𝒆𝒏𝒕𝒐 𝒑𝒂𝒓𝒂 𝒕𝒊 」⚡
+🕊️ Que tus caminos sean épicos, nakama 🌸
+⚡ ¡Siempre serás parte de nuestra historia! ✨
 `
 
   const fakeContext = {
     contextInfo: {
       isForwarded: true,
-      forwardedNewsletterMessageInfo: {
-        newsletterJid: "120363401008003732@newsletter",
-        serverMessageId: '',
-        newsletterName: "₊꒰✩ 𝐑𝐢𝐧 𝐈𝐭𝐨𝐬𝐡𝐢 𝐁𝐨𝐭 ✿"
-      },
-      externalAdReply: {
-        title: "☆ Rin Itoshi Bot ☆",
-        body: dev,
-        mediaUrl: null,
-        description: null,
-        previewType: "PHOTO",
-        thumbnailUrl: icono,
-        sourceUrl: "https://instagram.com",
-        mediaType: 1,
-        renderLargerThumbnail: false
-      },
+      forwardedNewsletterMessageInfo: { newsletterJid: "120363401008003732@newsletter", serverMessageId: '', newsletterName: "₊꒰✩ RIN ITOSHI BOT ✿" },
+      externalAdReply: { title: "☆ Rin Itoshi Bot ☆", body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, sourceUrl: "https://instagram.com", mediaType: 1, renderLargerThumbnail: false },
       mentionedJid: [m.key.participant]
     }
   }
