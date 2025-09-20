@@ -40,10 +40,10 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
                 `> *✿ \`Seguidores:\`* ${item.followers}\n` +
                 `> *✬ \`Likes:\`* ${item.likes}\n` +
                 `> *✧ \`Fecha:\`* ${item.created}\n` +
-                `> *✎ \`Descripción:\`* ${item.description || 'Sin descripción'}\n`
+                `> *✎ \`Descripción:\`* ${item.description || 'Sin descripción'}`
         }),
         footer: proto.Message.InteractiveMessage.Footer.fromObject({
-          text: 'xd'
+          text: club
         }),
         header: proto.Message.InteractiveMessage.Header.fromObject({
           title: '🌷 Pinterest Result ☁️',
@@ -110,6 +110,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.help = ['pinterest <texto>']
 handler.tags = ['buscador']
 handler.command = ['pinterest', 'pin']
+handler.register = true
 
 export default handler
 
@@ -123,7 +124,7 @@ const rcanal = {
       newsletterName: channelRD.name
     },
     externalAdReply: {
-      title: "𐔌 . ⋮ ᗩ ᐯ I Տ O .ᐟ ֹ ₊ ꒱",
+      title: "𐔌 . ⋮ 𝗕 𝗨 𝗦 𝗖 𝗔 𝗡 𝗗 𝗢 .ᐟ ֹ ₊ ꒱",
       body: textbot,
       mediaUrl: null,
       description: null,
