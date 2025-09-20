@@ -1,54 +1,80 @@
-import fetch from 'node-fetch';
+import fetch from "node-fetch";
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
-    return conn.reply(
-      m.chat,
-      `🌸✨ Ingresa un nombre de usuario de Instagram ✨🌸\n\nEjemplo:\n*${usedPrefix + command} Shadow.XYZ*`,
-      m
+    return m.reply(
+      `🍂 *Ejemplo de uso:*\n\n✎ ✧ \`${usedPrefix + command}\` naruto`
     );
   }
 
   try {
-    // URL pública del perfil de Instagram
-    const url = `https://www.instagram.com/${encodeURIComponent(text)}/?__a=1`;
+    let res = await fetch(`https://api.siputzx.my.id/api/stalk/instagram?username=${encodeURIComponent(text)}`);
+    if (!res.ok) throw await res.text();
+    let json = await res.json();
 
-    // Realizamos la solicitud con un encabezado User-Agent
-    const res = await fetch(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0' },
-    });
+    if (!json.status || !json.data) throw " No se encontró información del usuario.";
 
-    // Verificamos si la respuesta es exitosa
-    if (!res.ok) {
-      return conn.reply(m.chat, '❌ Usuario no encontrado 🌸', m);
-    }
+    let user = json.data;
+    let bioLinks = (user.bio_links && user.bio_links.length > 0) 
+      ? user.bio_links.map(b => `🌐 ${b.url}`).join("\n") 
+      : "—";
 
-    // Parseamos la respuesta JSON
-    const json = await res.json();
-    const user = json.graphql.user;
+    let caption = `
+╭━━━〔 *Instagram Stalk* 〕━━⬣
+┆ 👤 *Usuario:* ${user.username}
+┆ 📛 *Nombre:* ${user.full_name || "-"}
+┆ 📝 *Bio:* ${user.biography || "-"}
+┆ 🔗 *Perfil:* https://instagram.com/${user.username}
+┆ 🌍 *Bio Links:* 
+${bioLinks}
+┆ 🏷️ *Cuenta:* ${user.is_private ? "Privada 🔒" : "Pública 🌐"}
+┆ 🏢 *Business:* ${user.is_business_account ? "Sí" : "No"}
+┆ ☑️ *Verificado:* ${user.is_verified ? "Sí" : "No"}
+┆ 👥 *Seguidores:* ${user.followers_count.toLocaleString()}
+┆ 👤 *Siguiendo:* ${user.following_count.toLocaleString()}
+┆ 📸 *Posts:* ${user.posts_count.toLocaleString()}
+╰━━━━━━━━━━━━━━━━━━⬣
+`;
 
-    // Construimos el mensaje con la información obtenida
-    const info = `
-🌸✨ Perfil Instagram ✨🌸
-👤 Usuario: @${user.username}
-🌐 Link: https://instagram.com/${user.username}
-    `.trim();
-
-    // Enviamos la foto de perfil y el mensaje al chat
     await conn.sendMessage(m.chat, {
-      image: { url: user.profile_pic_url_hd },
-      caption: info,
+      image: { url: user.profile_pic_url },
+      caption: caption.trim(),
     }, { quoted: m });
+
+    if (user.posts && user.posts.length > 0) {
+      let ultimos = user.posts.slice(0, 3);
+      for (let post of ultimos) {
+        let textPost = `
+🎋 *Post:* https://instagram.com/p/${post.shortcode}
+📝 ${post.caption || "-"}
+❤️ Likes: ${post.like_count || 0}
+💬 Comentarios: ${post.comment_count || 0}
+👀 Vistas: ${post.view_count || 0}
+⏰ Fecha: ${new Date(post.timestamp * 1000).toLocaleString()}
+`;
+
+        if (post.is_video && post.video_url) {
+          await conn.sendMessage(m.chat, {
+            video: { url: post.video_url },
+            caption: textPost.trim(),
+          }, { quoted: m });
+        } else {
+          await conn.sendMessage(m.chat, {
+            image: { url: post.thumbnail_url },
+            caption: textPost.trim(),
+          }, { quoted: m });
+        }
+      }
+    }
 
   } catch (e) {
     console.error(e);
-    conn.reply(m.chat, '❌ Error al obtener el perfil 🌸', m);
+    m.reply("Error al obtener información del usuario.");
   }
 };
 
-handler.help = ['igstalk'].map((v) => v + ' <usuario>');
-handler.tags = ['tools', 'anime', 'otaku'];
-handler.command = ['igstalk'];
-handler.register = true;
+handler.help = ["igstalk"];
+handler.tags = ["internet"];
+handler.command = ["igstalk", "instagramstalk", "stalkig"];
 
 export default handler;
