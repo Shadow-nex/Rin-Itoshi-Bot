@@ -8,6 +8,7 @@ let handler = async (m, { conn, command }) => {
 
   // ✦✦✦ REGLAS DEL BOT ✦✦✦
   if (['botreglas', 'reglasdelbot', 'reglasbot', 'reglas'].includes(command)) {
+    
     let uptime = process.uptime() * 1000
     let muptime = clockString(uptime)
     let userCount = Object.keys(global.db?.data?.users || {}).length || 0
@@ -26,6 +27,11 @@ let handler = async (m, { conn, command }) => {
 ⬣═══════════════════════⬣
 
 ⬣═══════════════════════⬣
+   ❖ ⚜️ *𝐀𝐕𝐈𝐒𝐎 𝐄𝐒𝐏𝐄𝐂𝐈𝐀𝐋* ⚜️ ❖
+\`\`\`❗ Si incumples cualquiera de estas reglas, el bot tomará medidas automáticas.\`\`\`
+⬣═══════════════════════⬣
+
+⬣═══════════════════════⬣
    ❖ 💠 *𝐈𝐍𝐅𝐎 𝐃𝐄𝐋 𝐁𝐎𝐓* 💠 ❖
 🧑‍💻 *Creador:* Shadow.xyz
 🤖 *Nombre:* Rin Itoshi
@@ -36,6 +42,9 @@ let handler = async (m, { conn, command }) => {
 📅 *Fecha:* ${moment.tz('America/Lima').format('DD/MM/YYYY HH:mm')}
 
 ⬣═══════════════════════⬣
+   ❖ ⭐ *𝐑𝐄𝐂𝐎𝐌𝐄𝐍𝐃𝐀𝐂𝐈𝐎𝐍* ⭐ ❖
+\`\`\`⭐ Si te gusta el bot, visita el repositorio y apóyalo con una estrella.\`\`\`
+
 > 🌐 Repositorio: ${md}
 > ${textbot}`.trim();
 
@@ -50,20 +59,17 @@ let handler = async (m, { conn, command }) => {
       const groupInfo = await conn.groupMetadata(m.chat);
       const url = await conn.profilePictureUrl(m.chat, 'image').catch(_ => null);
 
-      // Obtener admins y mostrar nombre o número
-      let adminsArr = groupInfo.participants.filter(p => p.admin);
-      let adminsText = adminsArr.map(a => {
-        let contact = conn.contacts[a.id];
-        if (contact?.name) return `• ${contact.name}`; // Nombre del contacto
-        return `• ${a.id.split('@')[0]}`; // Si no hay nombre, mostrar número
-      }).join('\n') || 'No hay administradores.';
-
-      let adminsMentions = adminsArr.map(a => a.id);
-
+      // Obtener admins y mencionar
+      let admins = groupInfo.participants
+        .filter(p => p.admin)
+        .map(p => `• @${p.id.split('@')[0]}`)
+        .join('\n') || 'No hay administradores.';
+      
       let creador = groupInfo.owner ? `@${groupInfo.owner.split('@')[0]}` : 'Desconocido';
       let fechaCreacion = new Date(groupInfo.creation * 1000)
         .toLocaleString('es-ES', { timeZone: 'America/Lima' });
 
+      // Tomar reglas de la descripción del grupo
       let groupRules = groupInfo.desc?.trim() || 'No hay reglas establecidas en la descripción del grupo.';
 
       const texto = `╭═══ 📜『 𝑹𝒆𝒈𝒍𝒂𝒔 𝒅𝒆𝒍 𝑮𝒓𝒖𝒑𝒐 』📜═══╮
@@ -71,7 +77,7 @@ let handler = async (m, { conn, command }) => {
 👑 *Creador:* ${creador}
 👥 *Miembros:* ${groupInfo.participants.length}
 🛡️ *Admins:*
-${adminsText}
+${admins}
 📅 *Creado el:* ${fechaCreacion}
 
 📝 *Reglas del grupo:*
@@ -80,7 +86,7 @@ ${groupRules}
 
 > © ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ | ☆ ʙʏ sʜᴀᴅᴏᴡ.xʏᴢ`.trim();
 
-      await conn.sendMessage(m.chat, { image: { url: url || img }, caption: texto, mentions: adminsMentions }, { quoted: m });
+      await conn.sendMessage(m.chat, { image: { url: url || img }, caption: texto, mentions: conn.parseMention(texto) }, { quoted: m });
 
     } catch (e) {
       console.error(e);
