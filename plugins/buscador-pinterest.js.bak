@@ -43,7 +43,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
                 `> *✎ \`Descripción:\`* ${item.description || 'Sin descripción'}\n`
         }),
         footer: proto.Message.InteractiveMessage.Footer.fromObject({
-          text: 'xd'
+          text: ''
         }),
         header: proto.Message.InteractiveMessage.Header.fromObject({
           title: '🌷 Pinterest Result ☁️',
