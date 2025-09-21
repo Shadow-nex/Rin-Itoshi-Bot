@@ -21,7 +21,7 @@ let image = await createImage(track.image)
 
         push.push({
             body: proto.Message.InteractiveMessage.Body.fromObject({
-                text: `◦ *Título:* ${track.title} \n◦ *Artistas:* ${track.artist} \n◦ *Duración:* ${track.duration} \n◦ *Popularidad:* ${track.popularity} \n◦ *Fecha:* ${track.publish}`
+                text: `> ◦ *Título:* ${track.title} \n> ◦ *Artistas:* ${track.artist} \n> ° *ID:* ${track.id}> ◦ *Duración:* ${track.duration} \n> ° *Album:* ${track.album} \n> ◦ *Popularidad:* ${track.popularity} \n> ◦ *Fecha:* ${track.publish} \n> ° *Link:* ${track.url}`
             }),
             footer: proto.Message.InteractiveMessage.Footer.fromObject({
                 text: '' 
