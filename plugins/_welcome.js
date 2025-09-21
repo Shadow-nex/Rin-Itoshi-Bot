@@ -141,6 +141,8 @@ import fetch from 'node-fetch'
 export async function before(m, { conn, participants, groupMetadata }) {
   if (!m.messageStubType || !m.isGroup) return true
 
+  const chat = global.db.data.chats[m.chat]
+
   const getPais = (numero) => {
     const paises = {
       "1": "🇺🇸 Estados Unidos", "34": "🇪🇸 España", "52": "🇲🇽 México",
@@ -165,7 +167,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
   const ppUrl = await conn.profilePictureUrl(usuarioJid, 'image')
     .catch(_ => 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg')
 
-  const thumbBuffer = await fetch("https://files.catbox.moe/jkw74m.jpg").then(res => res.buffer())
+  const thumbBuffer = await fetch(icono).then(res => res.buffer())
 
   const fkontak = {
     key: { participants: "0@s.whatsapp.net", remoteJid: "status@broadcast", fromMe: false, id: "Halo" },
@@ -226,7 +228,7 @@ ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}
 💔 Te esperamos pronto de regreso.
 🌟 Usa #help o #menu para ver comandos.`
 
-  if (chat.welcome && m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
+  if (chat?.welcome && m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
     await conn.sendMessage(m.chat, { 
       image: { url: ppUrl }, 
       caption: welcomeMessage, 
@@ -240,7 +242,7 @@ ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}
     }, { quoted: fkontak })
   }
 
-  if (chat.welcome && (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_LEAVE || m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_REMOVE)) {
+  if (chat?.welcome && (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_LEAVE || m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_REMOVE)) {
     await conn.sendMessage(m.chat, { 
       image: { url: ppUrl }, 
       caption: byeMessage, 
