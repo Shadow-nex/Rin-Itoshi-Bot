@@ -70,6 +70,9 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 
   try {
+    // Avisar que está buscando
+    await m.reply("🔎 Buscando videos en *CapCut*...");
+
     let res = await fetch(
       `https://api.vreden.my.id/api/v1/search/capcut?query=${encodeURIComponent(text)}`
     );
@@ -80,43 +83,28 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     let resultados = json.result.search_data;
+
+    // Enviar portada + info general
     let mensaje = `╭━━━〔 📹 𝐂𝐀𝐏𝐂𝐔𝐓 𝐒𝐄𝐀𝐑𝐂𝐇 〕━━⬣\n`;
     mensaje += `┃ ✦ 𝗕𝘂𝘀𝗾𝘂𝗲𝗱𝗮: *${json.result.query}*\n`;
     mensaje += `┃ ✦ 𝗧𝗼𝘁𝗮𝗹: *${json.result.count}*\n`;
     mensaje += `╰━━━━━━━━━━━━━━━━━━⬣\n\n`;
 
-    for (let i = 0; i < resultados.length; i++) {
-      let r = resultados[i];
-      mensaje += `╭─❏ *${i + 1}. ${r.title}*\n`;
-      mensaje += `│ ✿ 𝗦𝗵𝗼𝗿𝘁: ${r.short_title || "N/A"}\n`;
-      mensaje += `│ ⏳ 𝗗𝘂𝗿𝗮𝗰𝗶𝗼́𝗻: ${(r.duration_ms / 1000).toFixed(0)}s\n`;
-      mensaje += `│ 👤 𝗔𝘂𝘁𝗼𝗿: ${r.author.full_name} (@${r.author.username})\n`;
-      mensaje += `│ 📊 Likes: ${r.statistics.like} | ⭐ Fav: ${r.statistics.favorite}\n`;
-      mensaje += `│ 👁️ Plays: ${r.statistics.play} | 🔄 Usos: ${r.statistics.usage}\n`;
-      mensaje += `╰──────────────⬣\n\n`;
-    }
+    await conn.sendFile(m.chat, resultados[0].cover_url, "capcut.jpg", mensaje, m);
 
-    // 📌 Enviar portada + listado
-    await conn.sendFile(
-      m.chat,
-      resultados[0].cover_url,
-      "capcut.jpg",
-      mensaje,
-      m
-    );
-
-    // 📌 Enviar hasta 2 videos por cada resultado
-    for (let r of resultados.slice(0, 3)) {
+    // Enviar hasta 5 resultados con su video original
+    for (let r of resultados.slice(0, 5)) {
       if (r.download?.video_original) {
+        let caption = `🎬 *${r.title}*\n` +
+                      `✿ Short: ${r.short_title || "N/A"}\n` +
+                      `⏳ Duración: ${(r.duration_ms / 1000).toFixed(0)}s\n` +
+                      `👤 Autor: ${r.author.full_name} (@${r.author.username})\n` +
+                      `📊 Likes: ${r.statistics.like} | ⭐ Fav: ${r.statistics.favorite}\n` +
+                      `👁️ Plays: ${r.statistics.play} | 🔄 Usos: ${r.statistics.usage}`;
+
         await conn.sendMessage(m.chat, {
           video: { url: r.download.video_original },
-          caption: `🎞 *${r.title}*\n🔗 Original`,
-        });
-      }
-      if (r.download?.video_watermark) {
-        await conn.sendMessage(m.chat, {
-          video: { url: r.download.video_watermark },
-          caption: `💧 *${r.title}*\n🔗 Con marca de agua`,
+          caption,
         });
       }
     }
