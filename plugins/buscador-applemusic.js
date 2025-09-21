@@ -14,7 +14,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
       if (!Array.isArray(json) || json.length === 0) throw new Error("Sin resultados API 1");
     } catch (e) {
-
       res = await fetch(`https://api.delirius.store/search/applemusicv2?query=${encodeURIComponent(text)}`);
       let alt = await res.json();
 
@@ -31,18 +30,18 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     let result = json.slice(0, 5); // Limitar a 5 resultados
 
-    for (let item of result) {
-      let msg = `🍏 Apple Music 🍄
-> 👾 *Título:* ${item.title}
+    let textMsg = `🍏 *Resultados de Apple Music* 🍄\n\n`;
+    result.forEach((item, i) => {
+      textMsg += `*${i + 1}.*\n> 👾 *Título:* ${item.title}
 > 👤 *Artista:* ${item.artists}
 > 🌱 *Tipo:* ${item.type || "Desconocido"}
-> 🌐 *Enlace:* ${item.url}`;
+> 🌐 *Enlace:* ${item.url}\n\n`;
+    });
 
-      await conn.sendMessage(m.chat, {
-        image: { url: item.image },
-        caption: msg
-      }, { quoted: m });
-    }
+    await conn.sendMessage(m.chat, {
+      image: { url: result[0].image },
+      caption: textMsg
+    }, { quoted: m });
 
   } catch (err) {
     console.error(err);
