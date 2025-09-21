@@ -39,6 +39,28 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     const size = await getSize(dl.url)
     const sizeStr = size ? await formatSize(size) : 'Desconocido'
 
+    const rcanal = {
+  contextInfo: {
+    isForwarded: true,
+    forwardedNewsletterMessageInfo: {
+      newsletterJid: '120363401008003732@newsletter',
+      serverMessageId: '',
+      newsletterName: '囹🎋𑜞 ᪲•˙ꨂ ֢✧: яιи ιтσѕнι ¢нαииєℓ σffι¢ιαℓ ੈ♡‧₊˚'
+    },
+    externalAdReply: {
+      title: "𐔌 . ⋮ Descargando .ᐟ ֹ ₊ ꒱",
+      body: meta.title,
+      mediaUrl: null,
+      description: null,
+      previewType: "PHOTO",
+      thumbnail: await (await fetch(icono)).buffer(),
+      sourceUrl: redes,
+      mediaType: 1,
+      renderLargerThumbnail: false
+    },
+    mentionedJid: null
+  }
+}
 
     const textoInfo = `🍂 *Título:* ${meta.title}
 ⏱️ *Duración:* ${meta.duration.timestamp || video.timestamp || 'Desconocida'}
