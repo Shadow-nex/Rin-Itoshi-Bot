@@ -1,13 +1,9 @@
-/* 
-- Downloader CapCut By Angel-OFC 
-- https://whatsapp.com/channel/0029VaJxgcB0bIdvuOwKTM2Y
-*/
 import fetch from "node-fetch";
 import cheerio from "cheerio";
 
 const handler = async (m, { conn, usedPrefix, command, text }) => {
     if (!text) {
-        return m.reply(`*${xdownload} Por favor, ingresa un link de CapCut.*`);
+        return m.reply(`*🎋 Ingresa un link de CapCut.*\n\n🍄 Ejemplo:\n${usedPrefix + command} https://www.capcut.com/tv2/ZSSCR6UFU/`);
     }
 
     try {
@@ -16,12 +12,37 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
 
         if (!result) {
             await m.react('❌');
-            return m.reply('*❌ No se pudieron obtener los datos. Asegúrate de que la URL ingresada sea correcta.*');
+            return m.reply('*No se pudieron obtener los datos. Asegúrate de que la URL ingresada sea correcta.*');
         }
 
-        const cpt = `\`\`\`◜CapCut - Download◞\`\`\`\n\n° *🌴 Título:* ${result.title}\n° *📆 Fecha:* ${result.date}\n° *👤 Autor:* ${result.author.name}\n° *🤍 Likes:* ${result.likes}\n\n> ${dev}`;
-        await conn.sendFile(m.chat, result.videoUrl, '', cpt, m, {
-            thumbnail: await fetch(result.posterUrl).then(res => res.buffer())
+        const info = `🎬 CAPCUT DOWNLOADER 🎬 
+ 
+° 🌴 *Título:* ${result.title}
+° 👤 *Autor:* ${result.author.name}
+° 📆 *Fecha:* ${result.date}
+° 👥 *Usos:* ${result.uses}
+° 🤍 *Likes:* ${result.likes}
+° 🖼 *Thumbnail:* ${result.posterUrl || 'No disponible'}
+° 📥 *Video URL:* 
+ ${result.videoUrl}
+        `.trim();
+
+        if (result.author.avatarUrl) {
+            await conn.sendMessage(m.chat, {
+                image: { url: result.author.avatarUrl },
+                caption: `👤 *Avatar de ${result.author.name}*`
+            }, { quoted: m });
+        }
+
+        if (result.posterUrl) {
+            await conn.sendMessage(m.chat, {
+                image: { url: result.posterUrl },
+                caption: dev
+            }, { quoted: m });
+        }
+
+        await conn.sendFile(m.chat, result.videoUrl, '', info, m, {
+            thumbnail: result.posterUrl ? await fetch(result.posterUrl).then(res => res.buffer()) : null
         });
 
         await m.react('✅');
@@ -33,7 +54,7 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
 };
 
 handler.help = ["capcut *<url>*"];
-handler.tags = ["descargas"];
+handler.tags = ["downloader"];
 handler.command = ["capcut", "capcutdl"];
 
 export default handler;
@@ -43,30 +64,30 @@ async function capcutdl(url) {
         const response = await fetch(url);
         const html = await response.text();
         const $ = cheerio.load(html);
+
         const videoElement = $('video.player-o3g3Ag');
         const videoSrc = videoElement.attr('src');
         const posterSrc = videoElement.attr('poster');
         const title = $('h1.template-title').text().trim();
         const actionsDetail = $('p.actions-detail').text().trim();
         const [date, uses, likes] = actionsDetail.split(',').map(item => item.trim());
+
         const authorAvatar = $('span.lv-avatar-image img').attr('src');
         const authorName = $('span.lv-avatar-image img').attr('alt');
 
-        if (!videoSrc || !posterSrc || !title || !date || !uses || !likes || !authorAvatar || !authorName) {
-            throw new Error('Algunos elementos importantes no se encontraron en la página.');
-        }
+        if (!videoSrc) throw new Error('No se encontró el link del video.');
 
         return {            
-            title: title,
-            date: date,
-            pengguna: uses,
-            likes: likes,
+            title,
+            date,
+            uses,
+            likes,
             author: {
-                name: authorName,
-                avatarUrl: authorAvatar
+                name: authorName || "Desconocido",
+                avatarUrl: authorAvatar || null
             },
             videoUrl: videoSrc,
-            posterUrl: posterSrc
+            posterUrl: posterSrc || null
         };
     } catch (error) {
         console.error('Error al obtener los detalles del video:', error.message);
