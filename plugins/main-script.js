@@ -8,7 +8,7 @@ let res = await fetch('https://api.github.com/repos/Yuji-XDev/Rin-Itoshi-Bot')
 if (!res.ok) throw new Error('Error al obtener datos del repositorio')
 let json = await res.json()
 
-let txt = `  𝗦𝗖𝗥𝗜𝗣𝗧  •  𝗜𝗡𝗙𝗢\n`
+let txt = `⼢ ⃘𐇽.    𝗦𝗖𝗥𝗜𝗣𝗧  •  𝗜𝗡𝗙𝗢  ଘ(੭*ˊᵕˋ)੭\n`
 txt += `> ❐ *Nombre:* ${json.name}\n`
 txt += `> ✿ *Visitas:* ${json.watchers_count}\n`
 txt += `> 𔓕 *Peso:* ${(json.size / 1024).toFixed(2)} MB\n`
