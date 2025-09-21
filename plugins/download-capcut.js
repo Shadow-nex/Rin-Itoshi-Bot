@@ -27,7 +27,7 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
  ${result.videoUrl}
         `.trim();
 
-        if (result.author.avatarUrl) {
+/*        if (result.author.avatarUrl) {
             await conn.sendMessage(m.chat, {
                 image: { url: result.author.avatarUrl },
                 caption: `👤 *Avatar de ${result.author.name}*`
@@ -39,7 +39,7 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
                 image: { url: result.posterUrl },
                 caption: dev
             }, { quoted: m });
-        }
+        }*/
 
         await conn.sendFile(m.chat, result.videoUrl, '', info, m, {
             thumbnail: result.posterUrl ? await fetch(result.posterUrl).then(res => res.buffer()) : null
