@@ -11,7 +11,9 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
         m
       )
     }
-
+    await conn.sendMessage(m.chat, {
+      react: { text: "⏳", key: m.key }
+    })
     let search = await yts(text)
     let video = search.videos[0]
     if (!video) return conn.reply(m.chat, 'No se encontró ningún resultado.', m)
@@ -47,10 +49,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 💨 *Link:* ${meta.url}
 
 > *≡ Enviando, espera un momento...*`
-
-    await conn.sendMessage(m.chat, {
-      react: { text: "⏳", key: m.key }
-    })
+/*
     await conn.sendMessage(
       m.chat,
       {
@@ -79,7 +78,8 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
         }
       },
       { quoted: m }
-    )
+    )*/
+    await conn.sendFile(m.chat, video.thumbnail, 'ytmp3.jpg', textoInfo, m, null, rcanal)
 
     const audioBuffer = await (await fetch(dl.url)).buffer()
     await conn.sendMessage(m.chat, {
