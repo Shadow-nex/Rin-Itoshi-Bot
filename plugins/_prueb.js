@@ -1,62 +1,99 @@
-import { baileys } from '@whiskeysockets/baileys'
-import fs from 'fs'
+import { jidDecode } from '@whiskeysockets/baileys'
 import path from 'path'
+import fs from 'fs'
 
-// Ruta del JSON
-const subbotsFile = path.join('./database', 'subbots.json');
-
-// Función para leer la DB
-function loadSubbots() {
-    if (!fs.existsSync(subbotsFile)) return {};
-    const data = fs.readFileSync(subbotsFile, 'utf-8');
-    return JSON.parse(data || '{}');
-}
-
-// Función para guardar la DB
-function saveSubbots(db) {
-    fs.writeFileSync(subbotsFile, JSON.stringify(db, null, 2), 'utf-8');
-}
-
-// Comando setprefix solo para subbots
-let handler = async (m, { conn, command, text, usedPrefix, args, subbotId, isSubbot }) => {
-    try {
-        if (!isSubbot) {
-            return conn.reply(m.chat, `Este comando solo funciona en subbots.`, m);
-        }
-
-        if (!text) {
-            return conn.reply(
-                m.chat,
-                `*Uso incorrecto*\n\nEjemplo:\n${usedPrefix}${command} ! # $`,
-                m
-            );
-        }
-
-        let newPrefixes = [...new Set(args)];
-
-        // Cargar DB
-        const db = loadSubbots();
-
-        // Guardar prefijos del subbot
-        db[subbotId] = db[subbotId] || {};
-        db[subbotId].prefixes = newPrefixes;
-
-        // Guardar en el JSON
-        saveSubbots(db);
-
-        let response = `✦ Subbot: *${subbotId}*
-✦ Prefijo(s) actualizado(s):
-  ${newPrefixes.map(p => `• ${p}`).join("\n")}`.trim();
-
-        await conn.reply(m.chat, response, m);
-
-    } catch (err) {
-        console.error(err);
-        await conn.reply(m.chat, `❌ Ocurrió un error al actualizar el prefijo.`, m);
+const handler = async (m, { conn, command, usedPrefix, text }) => {
+  try {
+    // --- VALIDACIÓN DE SUBBOTS ---
+    const isSubBot = [conn.user.jid, ...global.owner.map(([num]) => `${num}@s.whatsapp.net`)].includes(m.sender)
+    if (!isSubBot) {
+      return m.reply(`✦ El comando *${command}* solo puede ser ejecutado por el *Socket*.`)
     }
-};
 
-// Config del comando
-handler.command = ['setprefix'];
-handler.rowner = true; 
-export default handler;
+    switch (command) {
+      // --- MANEJO DE MODOS ---
+      case 'self':
+      case 'public':
+      case 'gponly':
+      case 'sologp':
+      case 'antiprivate': {
+        const config = global.db.data.settings[conn.user.jid] || {}
+        const value = (text || '').trim().toLowerCase()
+
+        // Detectar tipo de modo
+        const type =
+          /self|public/.test(command) ? command :
+          /antiprivado|antiprivate/.test(command) ? 'antiPrivate' :
+          /gponly|sologp/.test(command) ? 'gponly' : null
+
+        if (!type) return m.reply(`⚠︎ Modo no reconocido.`)
+
+        const isEnable = config[type] || false
+        const enable = ['enable', 'on'].includes(value)
+        const disable = ['disable', 'off'].includes(value)
+
+        if (enable || disable) {
+          if (isEnable === enable) {
+            return m.reply(`❀ El modo *${type}* ya estaba ${enable ? 'activado' : 'desactivado'}.`)
+          }
+          config[type] = enable
+          return conn.reply(m.chat, `✧ Has *${enable ? 'activado' : 'desactivado'}* el modo *${type}* para el *Socket*.`, m)
+        }
+
+        return conn.reply(m.chat, 
+          `╭─〔 ⚙️ Configuración de Modo 〕─⬣\n` +
+          `│ ✦ Modo: *${type}*\n` +
+          `│ ✧ Estado: *${isEnable ? '✓ Activado' : '✗ Desactivado'}*\n` +
+          `│\n` +
+          `│ ➤ Activar:  ${usedPrefix + command} enable\n` +
+          `│ ➤ Desactivar:  ${usedPrefix + command} disable\n` +
+          `╰━━━━━━━━━━━━━━━━━━━━⬣`, m
+        )
+      }
+
+      // --- CERRAR SESIÓN SUBBOT ---
+      case 'logout': {
+        const rawId = conn.user?.id || ''
+        const cleanId = jidDecode(rawId)?.user || rawId.split('@')[0]
+
+        const index = global.conns?.findIndex(c => c.user.jid === m.sender)
+
+        if (global.conn.user.jid === conn.user.jid) {
+          return conn.reply(m.chat, '⚠︎ Este comando no está disponible en la sesión principal.', m)
+        }
+        if (index === -1 || !global.conns[index]) {
+          return conn.reply(m.chat, '⚠︎ La sesión ya está cerrada o no existe una conexión activa.', m)
+        }
+
+        conn.reply(m.chat, '❀ Tu sesión será cerrada en unos segundos...', m)
+
+        setTimeout(async () => {
+          try {
+            await global.conns[index].logout()
+            global.conns.splice(index, 1)
+
+            // Eliminar carpeta de sesión
+            const sessionPath = path.join(global.jadi, cleanId)
+            if (fs.existsSync(sessionPath)) {
+              fs.rmSync(sessionPath, { recursive: true, force: true })
+              console.log(`✔ Sesión de ${cleanId} eliminada en: ${sessionPath}`)
+            }
+          } catch (err) {
+            console.error(`Error cerrando sesión de ${cleanId}:`, err)
+          }
+        }, 3000)
+
+        break
+      }
+    }
+  } catch (e) {
+    console.error(e)
+    m.reply('Ocurrió un error al ejecutar el comando.')
+  }
+}
+
+handler.command = ['self', 'public', 'gponly', 'sologp', 'antiprivate', 'logout']
+handler.help = handler.command
+handler.tags = ['socket']
+
+export default handler
