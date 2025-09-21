@@ -4,6 +4,7 @@ import fetch from 'node-fetch'
 export async function before(m, { conn, participants, groupMetadata }) {
     if (!m.messageStubType || !m.isGroup) return true
 
+    // --- FUNCIONES AUXILIARES ---
     const getPais = (numero) => {
         const paisesPorPrefijo = {
             "1": "🇺🇸 Estados Unidos",
@@ -94,8 +95,10 @@ export async function before(m, { conn, participants, groupMetadata }) {
     let fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: zona })
     let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: zona })
 
+    // --- MENSAJE BIENVENIDA ---
     if (chat.welcome && m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
-        const entranteNumero = String(m.messageStubParameters[0] || m.key.participant).split('@')[0].replace(/\D/g,'')
+        // Usamos el número limpio
+        const entranteNumero = String(m.participants?.[0] || m.key.participant).split('@')[0].replace(/\D/g,'')
         let welcomeMessage = `*🌸━━✦ WELCOME ✦━━🌸*\n
 ✨ ¡@${entranteNumero}, un nuevo nakama ha llegado al clan! ⚔️
 🎌 Grupo: *${groupMetadata.subject}*
@@ -118,8 +121,10 @@ export async function before(m, { conn, participants, groupMetadata }) {
         await conn.sendMessage(m.chat, { image: { url: ppUrl }, caption: welcomeMessage, ...fakeContext }, { quoted: fkontak })
     }
 
+    // --- MENSAJE DESPEDIDA ---
     if (chat.welcome && (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_LEAVE || m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_REMOVE)) {
-        const eliminadoNumero = String(m.messageStubParameters[0] || m.key.participant).split('@')[0].replace(/\D/g,'')
+        // Para salidas usamos m.participants[0] que garantiza el número real
+        const eliminadoNumero = String(m.participants?.[0] || m.key.participant).split('@')[0].replace(/\D/g,'')
         let byeMessage = `*💔━━✦ GOODBYE ✦━━💔*\n
 😢 @${eliminadoNumero} ha sido eliminado del grupo *${groupMetadata.subject}*.
 📅 Fecha: ${dia}, ${fecha}
@@ -135,7 +140,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: { newsletterJid: "120363401008003732@newsletter", serverMessageId: '', newsletterName: "₊꒰✩ RIN ITOSHI BOT ✿" },
                 externalAdReply: { title: "☆ Rin Itoshi Bot ☆", body: "Desarrollado x ShadowCore", mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: ppUrl, sourceUrl: "https://instagram.com", mediaType: 1, renderLargerThumbnail: false },
-                mentionedJid: [eliminadoNumero + "@s.whatsapp.net"] // ✅ Etiqueta correcta
+                mentionedJid: [eliminadoNumero + "@s.whatsapp.net"]
             }
         }
         await conn.sendMessage(m.chat, { image: { url: ppUrl }, caption: byeMessage, ...fakeContext }, { quoted: fkontak })
