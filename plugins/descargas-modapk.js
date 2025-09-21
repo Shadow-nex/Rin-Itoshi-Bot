@@ -11,7 +11,8 @@ txt += `≡ Nombre : ${data5.name}\n`
 txt += `≡ Package : ${data5.package}\n`
 txt += `≡ Update : ${data5.lastup}\n`
 txt += `≡ Peso :  ${data5.size}`
-await conn.sendFile(m.chat, data5.icon, 'thumbnail.jpg', txt, m, ...rcanal);
+await conn.sendFile(m.chat, data5.icon, 'thumbnail.jpg', txt, m, null, canal)
+
 if (data5.size.includes('GB') || data5.size.replace(' MB', '') > 999) {
 return await conn.reply(m.chat, `ꕥ El archivo es demasiado pesado.`, m)
 }
