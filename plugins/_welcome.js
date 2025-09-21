@@ -68,7 +68,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
         return "America/Lima"
     }
 
-    const numeroUsuario = m.key.participant?.split('@')[0]
+    const numeroUsuario = m.key.participant?.split('@')[0].replace(/\D/g,'')
     if (!numeroUsuario) return
     const pais = getPais(numeroUsuario)
     const zona = getTimeZone(numeroUsuario)
@@ -95,13 +95,13 @@ export async function before(m, { conn, participants, groupMetadata }) {
     let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: zona })
 
     if (chat.welcome && m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
-        const entranteNumero = m.messageStubParameters[0] || m.key.participant
+        const entranteNumero = String(m.messageStubParameters[0] || m.key.participant).split('@')[0].replace(/\D/g,'')
         let welcomeMessage = `*🌸━━✦ WELCOME ✦━━🌸*\n
-✨ ¡@${entranteNumero.split('@')[0]}, un nuevo nakama ha llegado al clan! ⚔️
+✨ ¡@${entranteNumero}, un nuevo nakama ha llegado al clan! ⚔️
 🎌 Grupo: *${groupMetadata.subject}*
 📅 Fecha: ${dia}, ${fecha}
 ⏰ Hora: ${hora}
-🌍 País: ${getPais(entranteNumero.split('@')[0])}
+🌍 País: ${getPais(entranteNumero)}
 👥 Miembros: ${groupSize}
 
 🌟 ¡Prepara tus poderes y que comience la aventura! 🐉
@@ -112,19 +112,19 @@ export async function before(m, { conn, participants, groupMetadata }) {
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: { newsletterJid: "120363401008003732@newsletter", serverMessageId: '', newsletterName: "₊꒰✩ RIN ITOSHI BOT ✿" },
                 externalAdReply: { title: "☆ Rin Itoshi Bot ☆", body: "Desarrollado x ShadowCore", mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: ppUrl, sourceUrl: "https://instagram.com", mediaType: 1, renderLargerThumbnail: false },
-                mentionedJid: [entranteNumero]
+                mentionedJid: [entranteNumero + "@s.whatsapp.net"]
             }
         }
         await conn.sendMessage(m.chat, { image: { url: ppUrl }, caption: welcomeMessage, ...fakeContext }, { quoted: fkontak })
     }
 
     if (chat.welcome && (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_LEAVE || m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_REMOVE)) {
-        const eliminadoNumero = m.messageStubParameters[0] || m.key.participant
+        const eliminadoNumero = String(m.messageStubParameters[0] || m.key.participant).split('@')[0].replace(/\D/g,'')
         let byeMessage = `*💔━━✦ GOODBYE ✦━━💔*\n
-😢 @${eliminadoNumero.split('@')[0]} ha sido eliminado del grupo *${groupMetadata.subject}*.
+😢 @${eliminadoNumero} ha sido eliminado del grupo *${groupMetadata.subject}*.
 📅 Fecha: ${dia}, ${fecha}
 ⏰ Hora: ${hora}
-🌍 País: ${getPais(eliminadoNumero.split('@')[0])}
+🌍 País: ${getPais(eliminadoNumero)}
 👥 Miembros restantes: ${groupSize}
 
 🕊️ Que tus caminos sean épicos, nakama 🌸
@@ -135,7 +135,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: { newsletterJid: "120363401008003732@newsletter", serverMessageId: '', newsletterName: "₊꒰✩ RIN ITOSHI BOT ✿" },
                 externalAdReply: { title: "☆ Rin Itoshi Bot ☆", body: "Desarrollado x ShadowCore", mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: ppUrl, sourceUrl: "https://instagram.com", mediaType: 1, renderLargerThumbnail: false },
-                mentionedJid: [eliminadoNumero] // ✅ Etiqueta al usuario
+                mentionedJid: [eliminadoNumero + "@s.whatsapp.net"] // ✅ Etiqueta correcta
             }
         }
         await conn.sendMessage(m.chat, { image: { url: ppUrl }, caption: byeMessage, ...fakeContext }, { quoted: fkontak })
