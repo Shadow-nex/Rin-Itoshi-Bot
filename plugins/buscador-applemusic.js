@@ -1,41 +1,57 @@
 import fetch from "node-fetch";
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text) {
+    return m.reply(`🌀 Ingresa un nombre de canción o álbum.\n\n🌱 \`Ejemplo:\`\n> ${usedPrefix + command} Feel Special Twice`);
+  }
+
   try {
-    if (!text) {
-      return conn.reply(
-        m.chat,
-        `🌀 Ingresa un nombre de canción o álbum.\n\n🌱 Ejemplo:\n${usedPrefix + command} Feel Special Twice`,
-        m
-      );
+    let res, json;
+
+    try {
+      res = await fetch(`https://api.delirius.store/search/applemusic?text=${encodeURIComponent(text)}`);
+      json = await res.json();
+
+      if (!Array.isArray(json) || json.length === 0) throw new Error("Sin resultados API 1");
+    } catch (e) {
+
+      res = await fetch(`https://api.delirius.store/search/applemusicv2?query=${encodeURIComponent(text)}`);
+      let alt = await res.json();
+
+      if (!alt?.data || alt.data.length === 0) throw new Error("Sin resultados API 2");
+
+      json = alt.data.map(v => ({
+        title: v.title,
+        type: "Canción",
+        artists: v.artist,
+        url: v.url,
+        image: v.image
+      }));
     }
 
-    let url = `https://delirius-apiofc.vercel.app/search/applemusic?text=${encodeURIComponent(text)}`;
-    let res = await fetch(url);
-    let data = await res.json();
+    let result = json.slice(0, 5); // Limitar a 5 resultados
 
-    if (!data || data.length === 0) {
-      return conn.reply(m.chat, "❌ No se encontraron resultados en Apple Music.", m);
+    for (let item of result) {
+      let msg = `🍏 Apple Music 🍄
+> 👾 *Título:* ${item.title}
+> 👤 *Artista:* ${item.artists}
+> 🌱 *Tipo:* ${item.type || "Desconocido"}
+> 🌐 *Enlace:* ${item.url}`;
+
+      await conn.sendMessage(m.chat, {
+        image: { url: item.image },
+        caption: msg
+      }, { quoted: m });
     }
-
-    let msg = "🍏 *Resultados en Apple Music:*\n\n";
-    data.forEach((item, i) => {
-      msg += `*${i + 1}.* ${item.title}\n`;
-      msg += `   🎶 Tipo: ${item.tipo}\n`;
-      msg += `   👤 Artistas: ${item.artistas}\n`;
-      msg += `   🔗 ${item.url}\n\n`;
-    });
-
-    await conn.sendMessage(m.chat, {
-      image: { url: data[0].imagen },
-      caption: msg.trim()
-    }, { quoted: m });
 
   } catch (err) {
     console.error(err);
-    conn.reply(m.chat, "⚠️ Error al buscar en Apple Music.", m);
+    m.reply("Ocurrió un error al buscar en Apple Music.");
   }
 };
 
+handler.help = ["applemusicsearch <canción>"];
+handler.tags = ["buscadores"];
 handler.command = ['applemusicsearch'];
+
 export default handler;
