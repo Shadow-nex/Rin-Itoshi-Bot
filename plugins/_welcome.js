@@ -87,23 +87,25 @@ export async function before(m, { conn, participants, groupMetadata }) {
 
   let chat = global.db.data.chats[m.chat]
   let groupSize = participants.length
-  if (m.messageStubType == 27) groupSize++         // Añadido
-  else if (m.messageStubType == 28 || m.messageStubType == 32) groupSize--  // Eliminado
+  if (m.messageStubType == 27) groupSize++         
+  else if (m.messageStubType == 28 || m.messageStubType == 32) groupSize--
 
   let fechaObj = new Date()
   let hora = fechaObj.toLocaleTimeString('es-PE', { timeZone: zona, hour: '2-digit', minute: '2-digit' })
   let fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: zona })
   let dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: zona })
 
-  // 🌸 MENSAJE Otaku
+  // 🌸 MENSAJE OTaku
+
+  // ---- Bienvenida ----
   if (chat.welcome && m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
-    const entrante = m.messageStubParameters[0]?.split('@')[0] || numeroUsuario
+    const entranteNumero = m.messageStubParameters[0]?.split('@')[0] || numeroUsuario
     let welcomeMessage = `*🌸━━✦ WELCOME ✦━━🌸*\n
-✨ ¡@${entrante}, un nuevo nakama ha llegado al clan! ⚔️
+✨ ¡@${entranteNumero}, un nuevo nakama ha llegado al clan! ⚔️
 🎌 Grupo: *${groupMetadata.subject}*
 📅 Fecha: ${dia}, ${fecha}
 ⏰ Hora: ${hora}
-🌍 País: ${getPais(entrante)}
+🌍 País: ${getPais(entranteNumero)}
 👥 Miembros: ${groupSize}
 
 🌟 ¡Prepara tus poderes y que comience la aventura! 🐉
@@ -120,13 +122,14 @@ export async function before(m, { conn, participants, groupMetadata }) {
     await conn.sendMessage(m.chat, { image: { url: ppUrl }, caption: welcomeMessage, ...fakeContext }, { quoted: fkontak })
   }
 
+  // ---- Despedida ----
   if (chat.welcome && (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_LEAVE || m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_REMOVE)) {
-    const eliminado = m.messageStubParameters[0]?.split('@')[0] || numeroUsuario
+    const eliminadoNumero = m.messageStubParameters[0]?.split('@')[0] || numeroUsuario
     let byeMessage = `*💔━━✦ GOODBYE ✦━━💔*\n
-😢 @${eliminado} ha sido eliminado del grupo *${groupMetadata.subject}*.
+😢 @${eliminadoNumero} ha sido eliminado del grupo *${groupMetadata.subject}*.
 📅 Fecha: ${dia}, ${fecha}
 ⏰ Hora: ${hora}
-🌍 País: ${getPais(eliminado)}
+🌍 País: ${getPais(eliminadoNumero)}
 👥 Miembros restantes: ${groupSize}
 
 🕊️ Que tus caminos sean épicos, nakama 🌸
