@@ -214,7 +214,7 @@ const welcomeMessage = formatText(chat.sWelcome || `╭┈───────�
         newsletterName: "MagnosBot| CHANNEL"
       },
       externalAdReply: {
-        title: packname,
+        title: namebot,
         body: dev,
         mediaUrl: null,
         description: null,
