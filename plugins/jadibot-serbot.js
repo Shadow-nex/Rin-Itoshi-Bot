@@ -206,9 +206,11 @@ const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
 
 codeBot = await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })*/
 
-txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
-codeBot = await conn.reply(m.chat, `*${secret}*`, m, fake);
+//txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
 
+txtCode = await conn.sendFile(m.chat, banner, 'code.jpg', rtx2, m, null, rcanal)
+
+codeBot = await conn.reply(m.chat, `*${secret}*`, m, fake);
 
 console.log(secret)
 }
