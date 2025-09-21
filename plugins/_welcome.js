@@ -202,7 +202,8 @@ export async function before(m, { conn, participants, groupMetadata }) {
 
   const welcomeMessage = `*╔═══════════════*
 *╟* ⿻ 𝗪𝗘𝗟𝗖𝗢𝗠𝗘 ✰
-*╠═══════════════* *╟* ${groupMetadata.subject} *╟*
+*╠═══════════════* 
+*╟* ${groupMetadata.subject}
 ≡‹⧽🌂 Usuario: @${numeroUsuario}
 ≡‹⧽⚽ Fecha ingreso: ${dia}, ${fecha}
 ≡‹⧽📡 Hora ingreso: ${hora}
@@ -217,7 +218,8 @@ ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}
 
   const byeMessage = `*╔═══════════════*
 *╟* ⿻ ADIOS ✰
-*╠═══════════════* *╟* 🧪 ${groupMetadata.subject} *╟*
+*╠═══════════════* 
+*╟* 🧪 ${groupMetadata.subject}
 ≡‹⧽👋 Usuario: @${numeroUsuario}
 ≡‹⧽📅 Fecha salida: ${dia}, ${fecha}
 ≡‹⧽⏰ Hora salida: ${hora}
