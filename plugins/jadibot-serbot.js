@@ -208,7 +208,16 @@ codeBot = await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id }
 
 //txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
 
-txtCode = await conn.sendMessage(m.chat, { text: rtx2, video: { url: "https://files.catbox.moe/z09oz9.mp4" }, gifPlayback: true, ...rcanal }, { quoted: m })
+txtCode = await conn.sendMessage(
+  m.chat,
+  {
+    video: { url: "https://files.catbox.moe/z09oz9.mp4" },
+    gifPlayback: true,
+    caption: rtx2,
+    ...rcanal
+  },
+  { quoted: m }
+)
 
 codeBot = await conn.reply(m.chat, `*${secret}*`, m, fake);
 
