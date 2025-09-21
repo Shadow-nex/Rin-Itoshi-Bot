@@ -55,7 +55,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 };
 
 handler.help = ["capcut <texto>"];
-handler.tags = ["downloader"];
+handler.tags = ["buscador"];
 handler.command = ["capcutsearch", "capcutse"];
 handler.register = true;
 
