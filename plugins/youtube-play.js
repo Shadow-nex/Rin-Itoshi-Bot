@@ -21,16 +21,29 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
         messageText += `> ☁︎ *\`𝐏𝐮𝐛𝐥𝐢𝐜𝐚𝐝𝐨:\`* ${video.publicado}\n`;
         messageText += `> ➪ *\`𝐋𝐢𝐧𝐤:\`* ${video.url}`;
 
+        const fakeContext = {
+            contextInfo: {
+                isForwarded: true,
+                mentionedJid: [m.sender],
+                externalAdReply: {
+                    title: video.titulo,
+                    body: dev,
+                    mediaUrl: video.url,
+                    description: video.canal,
+                    previewType: "PHOTO",
+                    thumbnail: thumbnail,
+                    sourceUrl: video.url,
+                    mediaType: 1,
+                    renderLargerThumbnail: true
+                }
+            }
+        };
+
         await conn.sendMessage(m.chat, {
             image: thumbnail,
             caption: messageText,
             footer: club,
-            contextInfo: {
-                mentionedJid: [m.sender],
-                forwardingScore: 999,
-                isForwarded: true,
-                ...rcanal
-            },
+            ...fakeContext,
             buttons: [
                 {
                     buttonId: `${usedPrefix}ytmp3doc ${video.url}`,
