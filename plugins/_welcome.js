@@ -50,7 +50,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
       isForwarded: true,
       mentionedJid: [usuarioJid],
       externalAdReply: {
-        title: "☆ Rin Itoshi Bot ☆",
+        title: botname,
         body: dev,
         mediaUrl: null,
         description: null,
@@ -63,35 +63,31 @@ export async function before(m, { conn, participants, groupMetadata }) {
     }
   }
 
-  const welcomeMessage = `*╔═══════════════*
-*╟* ⿻ 𝗪𝗘𝗟𝗖𝗢𝗠𝗘 ✰
-*╠═══════════════* 
-*╟* ${groupMetadata.subject}
-≡‹⧽🌂 Usuario: @${numeroUsuario}
-≡‹⧽⚽ Fecha ingreso: ${dia}, ${fecha}
-≡‹⧽📡 Hora ingreso: ${hora}
-≡‹⧽⚡ País: ${pais}
-≡‹⧽🌷 Miembros actuales: ${groupSize}
-*╚═══════════════*
+  const welcomeMessage = `┏ • 〇〇 • - • - • - • - • - ┓
+🍓⏤͟͟͞͞Ｗ 𝐸 𝐿 𝐶 𝑂 𝑀 𝐸⏤͟͟͞͞🍁
+┗┳┳• - • - • - • - • ┳┳ ┛
 
-🍂 Descripción:
-${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}
+✿ вιєиνєи∂ισ α *_${groupMetadata.subject}_*
+♧ _𝐔𝐬𝐮𝐚𝐫𝐢𝐨:_ @${numeroUsuario}
+● ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}
+❏ αнσяα ѕσмσѕ *${groupSize}* мιєивяσѕ
+❍ _𝐅𝐞𝐜𝐡𝐚:_ ${dia}, ${fecha}
+❁ _𝐇𝐨𝐫𝐚:_ ${hora}
+≡ _𝐏𝐚𝐢𝐬:_ ${pais}
 
-🌟 Usa #help o #menu para ver comandos.`
+> *➮ Puedes usar _#help_ para ver la lista de comandos. ૮₍｡˃ ᵕ ˂ ｡₎ა*`
 
-  const byeMessage = `*╔═══════════════*
-*╟* ⿻ ADIOS ✰
-*╠═══════════════* 
-*╟* 🧪 ${groupMetadata.subject}
-≡‹⧽👋 Usuario: @${numeroUsuario}
-≡‹⧽📅 Fecha salida: ${dia}, ${fecha}
-≡‹⧽⏰ Hora salida: ${hora}
-≡‹⧽⚡ País: ${pais}
-≡‹⧽👥 Miembros: ${groupSize}
-*╚═══════════════*
+  const byeMessage = `✿ α∂ισѕ ∂є *_${groupMetadata.subject}_*
+♧ _𝐔𝐬𝐮𝐚𝐫𝐢𝐨:_ @${numeroUsuario}
+❏ _𝐌𝐢𝐞𝐦𝐛𝐫𝐨𝐬:_ ${groupSize}
+❍ _𝐅𝐞𝐜𝐡𝐚:_ ${dia}, ${fecha}
+❁ _𝐇𝐨𝐫𝐚:_ ${hora}
+≡ _𝐏𝐚𝐢𝐬:_ ${pais}
 
-💔 Te esperamos pronto de regreso.
-🌟 Usa #help o #menu para ver comandos.`
+> 💔 Te esperamos pronto de regreso.
+> *➮ Puedes usar _#help_ para ver la lista de comandos. ૮₍｡˃ ᵕ ˂ ｡₎ა*
+
+*🍓＊✿❀»»——>♡<——««❀✿＊🍁*`
 
   if (chat?.welcome && m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
     await conn.sendMessage(m.chat, { 
