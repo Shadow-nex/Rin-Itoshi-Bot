@@ -18,7 +18,7 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
         messageText += `> ❑ *\`𝐂𝐚𝐧𝐚𝐥:\`* ${video.canal}\n`;
         messageText += `> ✧ *\`𝐃𝐮𝐫𝐚𝐜𝐢𝐨𝐧:\`* ${video.duracion}\n`;
         messageText += `> ♡ *\`𝐕𝐢𝐬𝐭𝐚𝐬:\`* ${video.vistas}\n`;
-        messageText += `> ☁ *\`𝐏𝐮𝐛𝐢𝐜𝐚𝐝𝐨:\`* ${video.publicado}\n`;
+        messageText += `> ☁︎ *\`𝐏𝐮𝐛𝐥𝐢𝐜𝐚𝐝𝐨:\`* ${video.publicado}\n`;
         messageText += `> ➪ *\`𝐋𝐢𝐧𝐤:\`* ${video.url}`;
 
         await conn.sendMessage(m.chat, {
@@ -28,7 +28,8 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
             contextInfo: {
                 mentionedJid: [m.sender],
                 forwardingScore: 999,
-                isForwarded: true
+                isForwarded: true,
+                ...rcanal
             },
             buttons: [
                 {
