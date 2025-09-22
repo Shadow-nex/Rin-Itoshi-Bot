@@ -34,7 +34,7 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
                     thumbnail: thumbnail,
                     sourceUrl: video.url,
                     mediaType: 1,
-                    renderLargerThumbnail: true
+                    renderLargerThumbnail: false
                 }
             }
         };
