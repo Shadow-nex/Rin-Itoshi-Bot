@@ -79,7 +79,7 @@ const handler = async (m, { conn, text }) => {
 
   messageText += "\n✏️ Responde con:\n- `A <número>` → Audio\n- `V <número>` → Video\n- `AD <número>` → Audio Doc\n- `VD <número>` → Video Doc";
 
-  await conn.reply(m.chat, messageText, m, null, rcanal);
+  await conn.reply(m.chat, messageText, m);
 };
 
 handler.help = ['ytsearch <texto>'];
