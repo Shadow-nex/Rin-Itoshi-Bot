@@ -1,21 +1,5 @@
-const handler = async (m, { conn }) => {
+/*const handler = async (m, { conn }) => {
   const { welcome, antiPrivate, antiarabe, restrict, antiBot, autoAceptar, autoRechazar, antiBot2, modoadmin, reaction, nsfw, antiSpam, antiLink2, jadibotmd, detect, antiver, audios, antiLink, antifake } = global.db.data.chats[m.chat] || {};
-    /*
-        let thumbnail = 'https://files.catbox.moe/4dple4.jpg';  
-        let rcanal = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U';
-        
-        await conn.sendMessage(m.chat, { 
-            text: "🏔️ Enviando panel De configuración", 
-            contextInfo: { 
-                externalAdReply: { 
-                    title: '┈ ⋞ 〈 ʀɪɴ ɪᴛᴏsʜɪ - ᴀɪ 〉 ⋟ ┈',
-                    body: '°•°•°•°•°•°•°•°∞°•°•°•°•°•°•°•°',
-                    mediaType: 1, 
-                    thumbnail: await (await fetch(thumbnail)).buffer(), 
-                    sourceUrl: rcanal 
-                }
-            }
-        });*/
         
   const estado = (valor) => valor ? ' *`Activado`*' : ' *`Desactivado`*';
   const itoshi = `Estado:`;
@@ -74,4 +58,4 @@ handler.tags = ['grupo'];
 handler.command = ['off', 'on', 'nable'];
 handler.register = true;
 
-export default handler;
+export default handler;*/
