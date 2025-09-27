@@ -282,12 +282,15 @@ const handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, i
   
   chat[type] = isEnable;
   
-  conn.reply(m.chat, `✦━─〔 ⚡ ꜱɪꜱᴛᴇᴍᴀ ᴅᴇʟ ʙᴏᴛ 🛠  〕─━✦
-╭───────────────────────────╮
-│ 🧩 𝐅𝐮𝐧𝐜𝐢𝐨́𝐧 » *${type}*
-│ ⚙️ 𝐄𝐬𝐭𝐚𝐝𝐨 » ${isEnable ? '✅ 𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎' : '❌ 𝐃𝐄𝐒𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎'}
-│ 🌍 𝐀𝐩𝐥𝐢𝐜𝐚 » ${isAll ? '🌐 𝐓𝐨𝐝𝐨 𝐞𝐥 𝐁𝐨𝐭' : isUser ? '👤 𝐔𝐬𝐮𝐚𝐫𝐢𝐨' : '💬 𝐂𝐡𝐚𝐭'}
-╰───────────────────────────╯`, m, fake);
+  conn.reply(m.chat, `°================================°
+ 💦 𝐏𝐀𝐍𝐄𝐋 𝐃𝐄 𝐂𝐎𝐍𝐅𝐈𝐆𝐔𝐑𝐀𝐂𝐈𝐎𝐍 💦
+°================================°
+
+> 🧩 𝐅𝐮𝐧𝐜𝐢𝐨́𝐧 » *${type}*
+> ⚙️ 𝐄𝐬𝐭𝐚𝐝𝐨 » ${isEnable ? '✅ 𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎' : '❌ 𝐃𝐄𝐒𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎'}
+> 🌍 𝐀𝐩𝐥𝐢𝐜𝐚 » ${isAll ? '🌐 𝐓𝐨𝐝𝐨 𝐞𝐥 𝐁𝐨𝐭' : isUser ? '👤 𝐔𝐬𝐮𝐚𝐫𝐢𝐨' : '💬 𝐂𝐡𝐚𝐭'}
+
+°================================°`, m, rcanal);
 };
 
 handler.help = ['welcome', 'bienvenida', 'antiprivado', 'antiprivate', 'restrict', 'restringir', 'antibot', 'antibots', 'autoaceptar', 'aceptarauto', 'autorechazar', 'rechazarauto', 'autoresponder', 'autorespond', 'antisubbots', 'antibot2', 'modoadmin', 'soloadmin', 'reaction', 'reaccion', 'nsfw', 'modohorny', 'antiSpam', 'antispam', 'jadibotmd', 'modejadibot', 'subbots', 'detect', 'avisos', 'antilink', 'audios', 'antiver', 'antiocultar', 'antilink2', 'antiarabe', 'antifake', 'antivirtuales']

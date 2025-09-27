@@ -63,8 +63,8 @@ global.etiqueta = '@sʜᴀᴅᴏᴡ°ᴄᴏʀᴇ'
 //✎﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏
 
 global.moneda = 'Motoko Points'
-//global.welcom1 = 'Bienvenido/a al campo de juego ⚡🍂\n❍ Edita con el comando *setwelcome*'
-//global.welcom2 = 'El jugador ha salido del partido ⚽🔥\n❍ Edita con el comando *setbye*'
+global.welcom1 = '🌿 𝐄ძі𝗍ᥲ ᥱᥣ ᥕᥱᥣᥴ᥆mᥱ ᥴ᥆ᥒ #sᥱ𝗍ᥕᥱᥣᥴ᥆mᥱ'
+global.welcom2 = '🌷 𝐄ძі𝗍ᥲ ᥱᥣ ᥕᥱᥣᥴ᥆mᥱ ᥴ᥆ᥒ #sᥱ𝗍ᑲᥡᥱ'
 global.banner = 'https://files.catbox.moe/fft2hr.jpg'
 global.avatar = 'https://files.catbox.moe/js2plu.jpg'
 global.logo = 'https://files.catbox.moe/fft2hr.jpg'

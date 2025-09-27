@@ -69,6 +69,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
 
 ✿ вιєиνєи∂ισ α *_${groupMetadata.subject}_*
 ♧ _𝐔𝐬𝐮𝐚𝐫𝐢𝐨:_ @${numeroUsuario}
+${global.welcom1}
 ● ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}
 ❏ αнσяα ѕσмσѕ *${groupSize}* мιєивяσѕ
 ❍ _𝐅𝐞𝐜𝐡𝐚:_ ${dia}, ${fecha}
@@ -78,6 +79,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
 > *➮ Puedes usar _#help_ para ver la lista de comandos. ૮₍｡˃ ᵕ ˂ ｡₎ა*`
 
   const byeMessage = `✿ α∂ισѕ ∂є *_${groupMetadata.subject}_*
+ ${global.welcom2}
 ♧ _𝐔𝐬𝐮𝐚𝐫𝐢𝐨:_ @${numeroUsuario}
 ❏ _𝐌𝐢𝐞𝐦𝐛𝐫𝐨𝐬:_ ${groupSize}
 ❍ _𝐅𝐞𝐜𝐡𝐚:_ ${dia}, ${fecha}
@@ -94,7 +96,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
       image: { url: ppUrl }, 
       caption: welcomeMessage, 
       ...fakeContext, 
-      footer: "☆ Rin Itoshi Bot ☆", 
+      footer: club, 
       buttons: [
         { buttonId: "#reg shadow.18", buttonText: { displayText: "𝗔𝘂𝘁𝗼 𝘃𝗲𝗿𝗶𝗳𝗶𝗰𝗮𝗿" }, type: 1 },
         { buttonId: "#menu", buttonText: { displayText: "𝗠𝗘𝗡𝗨" }, type: 1 }
@@ -108,7 +110,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
       image: { url: ppUrl }, 
       caption: byeMessage, 
       ...fakeContext, 
-      footer: "☆ Rin Itoshi Bot ☆", 
+      footer: club, 
       buttons: [
         { buttonId: "#p", buttonText: { displayText: "𝗣𝗜𝗡𝗚" }, type: 1 },
         { buttonId: "#menu", buttonText: { displayText: "𝗠𝗘𝗡𝗨" }, type: 1 }

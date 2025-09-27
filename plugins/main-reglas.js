@@ -16,7 +16,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     let chats = Object.keys(conn.chats || {}).length
     let groups = Object.values(conn.chats || {}).filter(c => c.id.endsWith('@g.us')).length
 
-    const texto = `⬣═══════════════════════⬣
+    const texto = `=================================
      𝙍𝙀𝙂𝙇𝘼𝙈𝙀𝙉 𝑹𝒊𝒏 𝑰𝒕𝒐𝒔𝒉𝒊 ⚡
  ⚠️ *𝐂𝐨𝐝𝐢𝐠𝐨 𝐝𝐞 𝐎𝐧𝐨𝐫 – Black*
 
@@ -25,14 +25,14 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ▤ ✘ No añadir a grupos sin autorización.
 ▤ ✘ No faltar el respeto al sistema ni a los admins.
 ▤ ✘ Contacta al creador en caso de errores o dudas.
-⬣═══════════════════════⬣
+=================================
 
-⬣═══════════════════════⬣
+=================================
    ❖ ⚜️ *𝐀𝐕𝐈𝐒𝐎 𝐄𝐒𝐏𝐄𝐂𝐈𝐀𝐋* ⚜️ ❖
 \`\`\`❗ Si incumples cualquiera de estas reglas, el bot tomará medidas automáticas.\`\`\`
-⬣═══════════════════════⬣
+=================================
 
-⬣═══════════════════════⬣
+=================================
    ❖ 💠 *𝐈𝐍𝐅𝐎 𝐃𝐄𝐋 𝐁𝐎𝐓* 💠 ❖
 🧑‍💻 *Creador:* Shadow.xyz
 🤖 *Nombre:* Rin Itoshi
@@ -42,7 +42,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ⏱️ *Tiempo activo:* ${muptime}
 📅 *Fecha:* ${moment.tz('America/Lima').format('DD/MM/YYYY HH:mm')}
 
-⬣═══════════════════════⬣
+=================================
    ❖ ⭐ *𝐑𝐄𝐂𝐎𝐌𝐄𝐍𝐃𝐀𝐂𝐈𝐎𝐍* ⭐ ❖
 \`\`\`⭐ Si te gusta el bot, visita el repositorio y apóyalo con una estrella.\`\`\`
 
@@ -64,7 +64,11 @@ let handler = async (m, { conn, usedPrefix, command }) => {
       let creador = groupInfo.owner ? `@${groupInfo.owner.split('@')[0]}` : 'Desconocido';
       let fechaCreacion = new Date(groupInfo.creation * 1000).toLocaleString('es-ES', { timeZone: 'America/Lima' });
 
-      const texto = `╭═══ 📜『 𝑹𝒆𝒈𝒍𝒂𝒔 𝒅𝒆𝒍 𝑮𝒓𝒖𝒑𝒐 』📜═══╮
+      const texto = `
+==============================
+ 📜 𝗥 𝗘 𝗚 𝗟 𝗔 𝗦 • 𝗚 𝗥 𝗢 𝗨 𝗣 📜
+==============================
+
 🏷️ *Nombre:* ${groupInfo.subject}
 👑 *Creador:* ${creador}
 👥 *Miembros:* ${groupInfo.participants.length}
@@ -74,7 +78,8 @@ ${admins}
 
 📝 *Descripción:*
 ${groupInfo.desc?.trim() || 'No hay reglas establecidas en la descripción del grupo.'}
-╰═════════════════════════⬣\n> © ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ | ☆ ʙʏ sʜᴀᴅᴏᴡ.xʏᴢ`.trim();
+
+> © ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ | ☆ ʙʏ sʜᴀᴅᴏᴡ.xʏᴢ`.trim();
 
       await conn.sendMessage(m.chat, { image: { url: url || img }, caption: texto, mentions: conn.parseMention(texto) }, { quoted: m })
 

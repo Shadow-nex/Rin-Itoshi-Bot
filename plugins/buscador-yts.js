@@ -1,3 +1,7 @@
+// - codigo creado x ShadowCore 🎋
+// - https://github.com/Yuji-XDev
+// - https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U
+
 import fetch from "node-fetch";
 import yts from "yt-search";
 import axios from "axios";
@@ -64,30 +68,66 @@ function formatSize(bytes) {
 }
 
 const handler = async (m, { conn, text }) => {
-  if (!text.trim()) return conn.reply(m.chat, "*🎋 Ingresa el nombre de la música a buscar.*", m);
+  if (!text?.trim()) return conn.reply(m.chat, "*🎋 Ingresa el nombre de la música a buscar.*", m);
 
   const search = await yts(text);
-  if (!search.all.length) return conn.reply(m.chat, "❌ No se encontraron resultados.", m);
+  if (!search.all.length) return conn.reply(m.chat, "No se encontraron resultados.", m);
 
   const results = search.all.slice(0, 10);
   videoCache[m.sender] = { results, timestamp: Date.now() };
+  await m.react('🕒');
 
-  let messageText = "⚽ *Resultados de búsqueda:* \n\n";
-  results.forEach((video, i) => {
-    messageText += `\n*${i + 1}.* *${video.title}*\n> ⏱ Duración: *${video.timestamp || "?"}*\n> 📺 Canal: *${video.author?.name || "?"}*\n> 👀 Vistas: *${video.views?.toLocaleString() || "?"}*\n> 📅 Subido: *${video.ago || "?"}*\n> 🔗 ${video.url}\n`;
+  let messageText = `🌷 Resultados de la búsqueda para *<${text}>*\n\n`;
+  results.forEach((v, i) => {
+    messageText += `
+*${i + 1}.*
+✿ *${v.title}*
+> ✦ Canal » *${v.author.name}*
+> ⴵ Duración » *${v.timestamp}*
+> ✐ Subido » *${v.ago}*
+> ✰ Vistas » *${v.views}*
+> 🜸 Enlace » ${v.url}
+
+
+────────────────────────`;
   });
 
-  messageText += "\n✏️ Responde con:\n- `A <número>` → Audio\n- `V <número>` → Video\n- `AD <número>` → Audio Doc\n- `VD <número>` → Video Doc";
+  messageText += `
+\n✏️ Responde con:
+- \`A <número>\` → Audio
+- \`V <número>\` → Video
+- \`AD <número>\` → Audio Doc
+- \`VD <número>\` → Video Doc`;
 
-  await conn.reply(m.chat, messageText, m);
+  // Miniatura
+  const thumbnail2 = results[0]?.thumbnail;
+  const thumb = thumbnail2 ? (await conn.getFile(thumbnail2))?.data : null;
+
+  const fakertX = {
+    contextInfo: {
+      externalAdReply: {
+        title: '🍓 𝗬𝗼𝘂𝗧𝘂𝗯𝗲 🎶 𝗦𝗲𝗮𝗿𝗰𝗵',
+        body: 'Resultados encontrados',
+        mediaType: 1,
+        previewType: 0,
+        sourceUrl: results[0]?.url,
+        thumbnail: thumb,
+        renderLargerThumbnail: true
+      }
+    }
+  };
+
+  await m.react('✔️');
+  await conn.sendMessage(m.chat, { text: messageText, ...fakertX }, { quoted: m });
 };
 
 handler.help = ['ytsearch <texto>'];
 handler.tags = ['buscador'];
 handler.command = ['ytsearch', 'yts'];
+handler.group = true;
 
 handler.before = async (m, { conn }) => {
-  if (!m.quoted || !m.quoted.text.includes("⚽ *Resultados de búsqueda:*")) return;
+  if (!m.quoted || !m.quoted.text.includes("Resultados de la búsqueda")) return;
 
   const match = m.text.trim().match(/^(A|V|AD|VD)\s*(\d+)$/i);
   if (!match) return;
@@ -97,7 +137,7 @@ handler.before = async (m, { conn }) => {
 
   if (!videoCache[m.sender] || !videoCache[m.sender].results[index] || Date.now() - videoCache[m.sender].timestamp > cacheTimeout) {
     delete videoCache[m.sender];
-    return conn.reply(m.chat, "❌ La lista expiró. Usa /ytss otra vez.", m);
+    return conn.reply(m.chat, "🎋 La lista expiró. Usa /yts otra vez.", m);
   }
 
   const videoData = videoCache[m.sender].results[index];
@@ -107,10 +147,10 @@ handler.before = async (m, { conn }) => {
     let mediaType = type.startsWith("A") ? "audio" : "video";
     let asDocument = type.endsWith("D");
 
-    await conn.reply(m.chat, mediaType === "audio" ? "*🎶 ძᥱsᥴᥲrgᥲᥒძ᥆ ᥲᥙძі᥆...*" : "📽 ძᥱsᥴᥲrgᥲᥒძ᥆ ᥎іძᥱ᥆...*", m);
+    await conn.reply(m.chat, mediaType === "audio" ? "*🍂 ძᥱsᥴᥲrgᥲᥒძ᥆ ᥲᥙძі᥆...*" : "☁️ ძᥱsᥴᥲrgᥲᥒძ᥆ ᥎іძᥱ᥆...*", m, fake);
 
     let apiData = await fetchAPI(urlVideo, mediaType);
-    if (!apiData) return conn.reply(m.chat, "⚠️ Error al obtener el enlace.", m);
+    if (!apiData) return conn.reply(m.chat, "Error al obtener el enlace.", m);
 
     let downloadUrl = await shortenURL(apiData.download);
     let sizeBytes = await getSize(apiData.download);
@@ -119,10 +159,10 @@ handler.before = async (m, { conn }) => {
     let fileName = `${apiData.title}.${mediaType === "audio" ? "mp3" : "mp4"}`;
 
     let infoMessage = `
-🌱 *Título:* ${apiData.title}
-⏱ *Duración:* ${videoData.timestamp || "?"}
-💾 *Tamaño:* ${fileSizeMB}
-🔗 *Descarga:* ${downloadUrl}
+> 🌱 *Título:* ${apiData.title}
+> ⏱ *Duración:* ${videoData.timestamp || "?"}
+> 💾 *Tamaño:* ${fileSizeMB}
+> 🔗 *Descarga:* ${downloadUrl}
 `;
 
     if (asDocument) {
@@ -143,7 +183,7 @@ handler.before = async (m, { conn }) => {
         contextInfo: {
           externalAdReply: {
             title: apiData.title,
-            body: `🌿 Duración: ${videoData.timestamp || "?"}`,
+            body: `✐ Duración: ♪ [${videoData.timestamp || "?"}] • ☊ [${fileSizeMB}]`,
             thumbnailUrl: apiData.thumbnail,
             sourceUrl: urlVideo,
             mediaType: 1,
