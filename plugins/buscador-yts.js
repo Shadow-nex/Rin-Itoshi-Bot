@@ -147,22 +147,25 @@ handler.before = async (m, { conn }) => {
     let mediaType = type.startsWith("A") ? "audio" : "video";
     let asDocument = type.endsWith("D");
 
-    await conn.reply(m.chat, mediaType === "audio" ? "*🍂 ძᥱsᥴᥲrgᥲᥒძ᥆ ᥲᥙძі᥆...*" : "☁️ ძᥱsᥴᥲrgᥲᥒძ᥆ ᥎іძᥱ᥆...*", m, fake);
+    await conn.reply(m.chat, mediaType === "audio" ? "*🍂 Descargando audio...*" : "☁️ Descargando video...*", m);
 
     let apiData = await fetchAPI(urlVideo, mediaType);
     if (!apiData) return conn.reply(m.chat, "Error al obtener el enlace.", m);
 
-    let downloadUrl = await shortenURL(apiData.download);
     let sizeBytes = await getSize(apiData.download);
-    let fileSizeMB = formatSize(sizeBytes);
+    let fileSizeMB = sizeBytes ? sizeBytes / (1024 * 1024) : null;
+
+    if (fileSizeMB && fileSizeMB > MAX_FILE_SIZE_MB) {
+      let shortUrl = await shortenURL(apiData.download);
+      return conn.reply(m.chat, `⚠️ El archivo pesa *${formatSize(sizeBytes)}* y excede el límite de ${MAX_FILE_SIZE_MB}MB.\n\n🔗 Descarga manual: ${shortUrl}`, m);
+    }
 
     let fileName = `${apiData.title}.${mediaType === "audio" ? "mp3" : "mp4"}`;
-
     let infoMessage = `
 > 🌱 *Título:* ${apiData.title}
 > ⏱ *Duración:* ${videoData.timestamp || "?"}
-> 💾 *Tamaño:* ${fileSizeMB}
-> 🔗 *Descarga:* ${downloadUrl}
+> 💾 *Tamaño:* ${formatSize(sizeBytes)}
+> 🔗 *Descarga:* ${await shortenURL(apiData.download)}
 `;
 
     if (asDocument) {
@@ -170,8 +173,7 @@ handler.before = async (m, { conn }) => {
         document: { url: apiData.download },
         fileName,
         mimetype: mediaType === "audio" ? "audio/mpeg" : "video/mp4",
-        caption: infoMessage,
-        thumbnail: apiData.thumbnail ? { url: apiData.thumbnail } : null
+        caption: infoMessage
       }, { quoted: m });
     } else if (mediaType === "audio") {
       await conn.sendMessage(m.chat, {
@@ -183,7 +185,7 @@ handler.before = async (m, { conn }) => {
         contextInfo: {
           externalAdReply: {
             title: apiData.title,
-            body: `✐ Duración: ♪ [${videoData.timestamp || "?"}] • ☊ [${fileSizeMB}]`,
+            body: `✐ Duración: ♪ [${videoData.timestamp || "?"}] • ☊ [${formatSize(sizeBytes)}]`,
             thumbnailUrl: apiData.thumbnail,
             sourceUrl: urlVideo,
             mediaType: 1,
@@ -194,8 +196,7 @@ handler.before = async (m, { conn }) => {
     } else {
       await conn.sendMessage(m.chat, {
         video: { url: apiData.download },
-        caption: infoMessage,
-        thumbnail: apiData.thumbnail ? { url: apiData.thumbnail } : null
+        caption: infoMessage
       }, { quoted: m });
     }
 
