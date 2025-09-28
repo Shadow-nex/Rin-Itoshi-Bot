@@ -108,7 +108,7 @@ ${lista || '🌙 No hay Sub-Bots conectados por ahora verifique mas tarde.'}
   await conn.sendMessage(
     m.chat,
     {
-      image: { url: null /*'https://files.catbox.moe/z1zfg6.jpg'*/ },
+      image: { url: 'https://files.catbox.moe/z1zfg6.jpg' },
       caption: textoSubbots.trim(),
       contextInfo: {
         mentionedJid: [m.sender],
