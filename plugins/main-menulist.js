@@ -61,7 +61,7 @@ const handler = async (m, { conn, usedPrefix }) => {
 │☆╰┄┄┄┄┄◦
 └────────────`;
 
-    const imgUrl = 'https://tinyurl.com/29d2bflx'; // cambie x su imagen xd
+    const imgUrl = icono;//'https://tinyurl.com/29d2bflx'; // cambie x su imagen xd
     const imagenBuffer = await (await fetch(imgUrl)).buffer();
     const thumb2 = await sharp(imagenBuffer).resize(400, 400).jpeg({ quality: 70 }).toBuffer();
     
