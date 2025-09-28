@@ -8,11 +8,12 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
     let url = ''
     let title = ''
 
+    // Si es un link directo
     if (/^https?:\/\/(www\.)?youtu/.test(args[0])) {
       url = args[0]
       title = text.replace(args[0], "").trim()
     } else {
-
+      // Buscar por título
       let search = await yts(text)
       if (!search.videos.length) return m.reply('❌ No encontré resultados.')
       let vid = search.videos[0]
@@ -20,6 +21,7 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
       title = vid.title
     }
 
+    // Caso: ya incluye calidad
     if (args[1]) {
       let quality = args[1].replace(/p/i, "")
       await m.reply(`*📥 Descargando en ${quality}p, espera...*`)
@@ -41,12 +43,13 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
       }, { quoted: m })
     }
 
-    await m.reply('*🌱 Buscando...*')
+    // Caso: solo link o texto, mostrar menú
+    await m.reply('*🌱 Buscando información del video...*')
 
     let search = await yts(url)
     let video = search.videos[0]
     if (!video) return m.reply('No se encontró info del video.')
-)
+
     let likes = video.likes ? video.likes.toLocaleString() : 'N/A'
     let desc = video.description ? video.description.slice(0, 200) + "..." : 'Sin descripción'
 
@@ -69,7 +72,7 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
     await conn.sendMessage(m.chat, {
       image: { url: video.thumbnail },
       caption,
-      footer: "🌸 Elige la calidad con los botones o escribe el comando con calidad",
+      footer: " Elige la calidad con los botones o escribe el comando con calidad",
       buttons,
       headerType: 4
     }, { quoted: m })
