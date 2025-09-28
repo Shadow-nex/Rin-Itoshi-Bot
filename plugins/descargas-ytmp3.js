@@ -20,26 +20,25 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     let video = search.videos[0]
     if (!video) return conn.reply(m.chat, '❌ No se encontró ningún resultado.', m)
 
-    const apiUrl = `https://xrljosedevapi.vercel.app/download/ytmp3?url=${encodeURIComponent(video.url)}&apikey=xrlfree`
+    const apiUrl = `https://api-adonix.ultraplus.click/download/ytmp3?apikey=Shadow_xyz&url=${encodeURIComponent(video.url)}`
     const res = await fetch(apiUrl)
     const json = await res.json()
 
-    if (!json?.status || !json?.download_url) {
+    if (!json?.status || !json?.data?.url) {
       return conn.reply(m.chat, '❌ No se pudo obtener el audio.', m)
     }
 
-    const size = await getSize(json.download_url)
+    const size = await getSize(json.data.url)
     const sizeStr = size ? formatSize(size) : 'Desconocido'
 
-
     const meta = {
-      title: json.title || video.title,
+      title: json.data.title || video.title,
       duration: video.timestamp || "Desconocida",
       url: video.url,
       author: video.author?.name || "Desconocido",
       views: video.views?.toLocaleString('es-PE') || "0",
       ago: video.ago || "Desconocido",
-      thumbnail: json.thumbnail || video.thumbnail,
+      thumbnail: video.thumbnail,
       size: sizeStr
     }
 
@@ -65,9 +64,9 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
           renderLargerThumbnail: true
         }
       }
-    }, { quoted: fkontak })
+    }, { quoted: m })
 
-    const audioBuffer = await (await fetch(json.download_url)).buffer()
+    const audioBuffer = await (await fetch(json.data.url)).buffer()
     await conn.sendMessage(m.chat, {
       audio: audioBuffer,
       fileName: `${meta.title}.mp3`,
@@ -101,7 +100,6 @@ handler.tags = ['descargas']
 handler.help = ['ytmp3 <texto o link>', 'song <texto>']
 
 export default handler
-
 
 async function getSize(url) {
   try {
