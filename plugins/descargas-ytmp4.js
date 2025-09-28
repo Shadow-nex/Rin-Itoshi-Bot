@@ -1,64 +1,3 @@
-/*import fetch from 'node-fetch'
-
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) return m.reply(
-    `☁️ Ingresa el nombre de la canción o video que quieres buscar.\n\nEjemplo:\n*${usedPrefix + command} DJ Malam Pagi Slowed*`
-  )
-  await conn.sendMessage(m.chat, {
-    text: `૮₍｡˃ ᵕ ˂ ｡₎ა 🫛 *¡Descargando tu video!*`
-  }, { quoted: m })
-
-  try {
-    let api = `https://api.vreden.my.id/api/ytplaymp4?query=${encodeURIComponent(text)}`
-    let res = await fetch(api)
-    let json = await res.json()
-
-    if (!json.result?.status) return m.reply('❌ No se pudo obtener el video.')
-
-    let meta = json.result.metadata
-    let down = json.result.download
-
-    let caption = `⊜─⌈ 📻 ◜YouTube MP4◞ 📻 ⌋─⊜
-≡ 🌿 *Título:* ${meta.title || '-'}
-≡ 🌷 *Autor:* ${meta.author?.name || '-'}
-≡ 🌱 *Duración:* ${meta.duration?.timestamp || meta.timestamp || '-'}
-≡ 🌤️ *Publicado:* ${meta.ago || '-'}
-≡ ⭐ *Vistas:* ${meta.views?.toLocaleString() || '-'}
-≡ 🎋 *Calidad:* ${down.quality || '-'}
-≡ 🍏 *URL:* ${meta.url || '-'}`
-
-    let head = await fetch(down.url, { method: "HEAD" })
-    let fileSize = head.headers.get("content-length") || 0
-    let fileSizeMB = (fileSize / (1024 * 1024)).toFixed(2)
-
-    if (fileSizeMB >= 50) {
-      await conn.sendMessage(m.chat, {
-        document: { url: down.url },
-        fileName: down.filename || `${meta.title || 'video'}.mp4`,
-        mimetype: 'video/mp4',
-        caption: `${caption}\n\n≡ 📦 *Peso:* ${fileSizeMB} MB\n📂 Enviado como documento por superar 50 MB`
-      }, { quoted: m })
-    } else {
-      await conn.sendMessage(m.chat, {
-        video: { url: down.url },
-        fileName: down.filename || 'video.mp4',
-        mimetype: 'video/mp4',
-        caption: `${caption}\n\n≡ 📦 *Peso:* ${fileSizeMB} MB`
-      }, { quoted: m })
-    }
-
-  } catch (e) {
-    console.error(e)
-    m.reply('❌ Error al procesar la solicitud, intenta nuevamente.')
-  }
-}
-
-handler.help = ['ytmp4 *<texto>*']
-handler.tags = ['downloader']
-handler.command = ['ytmp4', 'playmp4']
-
-export default handler*/
-
 import fetch from "node-fetch";
 import axios from "axios";
 import yts from "yt-search";
@@ -77,13 +16,52 @@ let handler = async (m, { conn, text, args }) => {
 
     await conn.sendMessage(m.chat, { react: { text: '⌛', key: m.key } });
 
-    const videoData = await ytdl(args[0]);
+    let apiUsed = "N/A";
+    let videoData = null;
+
+    try {
+      const vreden = await fetch(`https://api.vreden.my.id/api/v1/download/youtube/video?url=${encodeURIComponent(args[0])}&quality=360`);
+      const jsonVreden = await vreden.json();
+      if (jsonVreden?.status && jsonVreden.result?.download?.url) {
+        videoData = {
+          url: jsonVreden.result.download.url,
+          title: jsonVreden.result.metadata.title,
+          duration: jsonVreden.result.metadata.timestamp,
+          size: jsonVreden.result.download.size || null,
+          image: jsonVreden.result.metadata.thumbnail
+        };
+        apiUsed = "Vreden API";
+      }
+    } catch (e) { console.log("⚠️ Vreden falló:", e.message); }
+
+    if (!videoData) {
+      try {
+        const delirius = await fetch(`https://api.delirius.store/download/ytmp4?url=${encodeURIComponent(args[0])}`);
+        const jsonDelirius = await delirius.json();
+        if (jsonDelirius?.status && jsonDelirius.data?.download?.url) {
+          videoData = {
+            url: jsonDelirius.data.download.url,
+            title: jsonDelirius.data.title,
+            duration: jsonDelirius.data.duration,
+            size: jsonDelirius.data.download.size,
+            image: jsonDelirius.data.image
+          };
+          apiUsed = "Delirius API";
+        }
+      } catch (e) { console.log("⚠️ Delirius falló:", e.message); }
+    }
+
+    if (!videoData) {
+      videoData = await ytdl(args[0]);
+      apiUsed = "YMCDN API";
+    }
+
     const search = await yts({ videoId: extractVideoId(args[0]) });
     const meta = search;
 
     const { title, duration, url } = videoData;
-    const size = await getSize(url);
-    const sizeStr = size ? await formatSize(size) : 'Desconocido';
+    const size = videoData.size ? null : await getSize(videoData.url);
+    const sizeStr = size ? await formatSize(size) : (videoData.size || 'Desconocido');
     const thumbnail = await getThumbnail(args[0]);
     const cleanTitle = title.replace(/[^\w\s]/gi, '').trim().replace(/\s+/g, '_');
     const fileName = `${cleanTitle}.mp4`;
@@ -96,15 +74,18 @@ let handler = async (m, { conn, text, args }) => {
 ≡ ⭐ *Vistas:* ${meta.views?.toLocaleString() || '-'}
 ≡ 🎋 *Calidad:* 480p
 ≡ 📦 *Peso:* ${sizeStr}
-≡ 🍏 *URL:* ${meta.url || args[0]}`;
+≡ 🍏 *URL:* ${meta.url || args[0]}
+≡ 🖥️ *Servidor:* ${apiUsed}`;
 
-    let head = await fetch(url, { method: "HEAD" });
+    let head = await fetch(videoData.url, { method: "HEAD" });
     let fileSize = head.headers.get("content-length") || 0;
     let fileSizeMB = (fileSize / (1024 * 1024)).toFixed(2);
 
-    if (fileSizeMB >= 100) {
+    if (fileSizeMB >= 100 && apiUsed !== "YMCDN API") {
+
+      let fallback = await ytdl(args[0]);
       await conn.sendMessage(m.chat, {
-        document: { url },
+        document: { url: fallback.url },
         mimetype: 'video/mp4',
         fileName,
         caption: `${caption}\n\n📂 *Enviado como documento por superar 100 MB*`,
@@ -120,10 +101,10 @@ let handler = async (m, { conn, text, args }) => {
             renderLargerThumbnail: true
           }
         }
-      }, { quoted: m });
+      }, { quoted: fkontak });
     } else {
       await conn.sendMessage(m.chat, {
-        video: { url },
+        video: { url: videoData.url },
         mimetype: 'video/mp4',
         fileName,
         caption: `${caption}\n\n≡ 📦 *Peso:* ${fileSizeMB} MB`,
@@ -139,7 +120,7 @@ let handler = async (m, { conn, text, args }) => {
             renderLargerThumbnail: true
           }
         }
-      }, { quoted: m });
+      }, { quoted: fkontak });
     }
 
     await conn.sendMessage(m.chat, { react: { text: '✔️', key: m.key } });
@@ -154,6 +135,7 @@ handler.help = ['ytmp4 *<url>*'];
 handler.tags = ['downloader'];
 handler.command = ['ytmp4', 'playmp4'];
 export default handler;
+
 
 async function ytdl(url) {
   const headers = {
