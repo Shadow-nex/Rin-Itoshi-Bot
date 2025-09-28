@@ -60,7 +60,7 @@ let handler = async (m, { conn, text, args }) => {
             renderLargerThumbnail: true
           }
         }
-      }, { quoted: m });
+      }, { quoted: fkontak });
     } else {
       await conn.sendMessage(m.chat, {
         video: { url },
@@ -79,7 +79,7 @@ let handler = async (m, { conn, text, args }) => {
             renderLargerThumbnail: true
           }
         }
-      }, { quoted: m });
+      }, { quoted: fkontak });
     }
 
     await conn.sendMessage(m.chat, { react: { text: '✔️', key: m.key } });
