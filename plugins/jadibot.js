@@ -80,25 +80,26 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
   const disponibles = maxSubbots - total;
 
   const lista = subbotsUnicos.map((bot, i) => {
-    return `╭━═┅═━──────────◈
-│ャ □ ➛ 𝚂𝙾𝙲𝙺𝙴𝚃 ~ #${i + 1} ⚡ﾟ｡◌
-│┌──
-││• 🍧 \`ᴜsᴜᴀʀɪᴏ:\` ${bot.user?.name || '𝚂𝚄𝙱 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸'}
-││• 💖 \`ʟɪɴᴋ:\` wa.me/${(bot.user?.jid || '').replace(/[^0-9]/g, '')}
-││• 🍂 \`ᴇʟ ʟɪɴᴇᴀ:\` ${bot.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - bot.uptime) : 'Desconocido'}
-│└─────•◌•₊˚ 
-╰━═┅═━──────────◈`;
+    return `✿〫𝆬 ${i + 1}
+> ׅ֮ׄ᷋᪲᷼🥧̷̸ּࣱ۪۫͡ଅ :  \`ᴜsᴜᴀʀɪᴏ:\` ${bot.user?.name || '𝚂𝚄𝙱 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸'}
+> ׅ֮ׄ᷋᪲᷼🍏̷̸ּࣱ۪۫͡ଅ :  \`ʟɪɴᴋ:\` wa.me/${(bot.user?.jid || '').replace(/[^0-9]/g, '')}
+> ׅ֮ׄ᷋᪲᷼🍂̷̸ּࣱ۪۫͡ଅ :  \`ᴇʟ ʟɪɴᴇᴀ:\` ${bot.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - bot.uptime) : 'Desconocido'}
+`;
   }).join('\n\n');
 
-  const textoSubbots = `⋆⸼˟꘏⪩ \`𝐏𝐀𝐍𝐄𝐋 𝐃 𝐒𝐔𝐁 𝐁𝐎𝐓𝐒\` ⪨꙳ʾ˒˓ʿʾ˒˓ʿ
+  const textoSubbots = `
+\`\`\`   ݊ ּ͜⏜݆ׄ͜⌒໊݂݁͜⏜݄͜ ͝⃞֟🌷⃛͜͝ ⃞໊݄⏜݆ׄ͜͜⌒ ּ͜⏜݆ׄ݊͜ ּ͜ \`\`\`
+\`\`\`    ۪〫〫𝆬✿〫𝆬 ᮫ᨗ۫ 𝐒𝐎𝐂𝐊𝐄𝐓𝐒 𝐎𝐍𝐋𝐈𝐍𝐄   ּּ籭᮫꫶ֹּּ࣭ٜ〫۫𝆬𝆬ᨗ࠭࠭𝆬ᨗ \`\`\`
+\`\`\`   ֶ֮⏝ ٌ۪͝ ⏝ֶ֮⋃ ֶ֮ ⋃⏝ ٌ۪͝ ⏝ֶ֮ \`\`\`
 
-╔╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╗
-╏✎ *°ʀᴜɴᴛɪᴍᴇ:* _${uptime}_
-╏✎ *°sᴇssɪᴏɴs ʟɪʙʀᴇs:* _${disponibles}_
-╏✎ *°sᴏᴄᴋᴇᴛs ᴄᴏɴᴇᴄᴛᴀᴅᴏs:* _${total}_
-╚╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╝
 
-  🌱 \`\`\`LIST DE SUBS CONECTADOS\`\`\`🔋
+᮫๋𝆬┌๋࣮╸ֻ֔╺〪ׅ֘╼꒷᮫〪𝆬Ս֢֔֔꒡๋ׅ݃⌒᮫ֻ๋〪𝆬꒥꒷꒥ׅ֘⢅๋〪⭐ׅ⡨๋֢╸ׅ݃╺๋ᰱ〪֔╼ֽ꒷Ս๋ׅ꒡ֻ݃⌒꒥ֻ๋〪꒷ׅ꒥╸๋ׅ╺᮫໋〪֘𝆬╼᮫๋֢𝆬┐᮫๋〪ׅ𝆬
+ ࣭݀۫◯࣭ ˚✎ *°ʀᴜɴᴛɪᴍᴇ:* _${uptime}_
+ ࣭݀۫◯࣭ ˚✎ *°sᴇssɪᴏɴs ʟɪʙʀᴇs:* _${disponibles}_
+ ࣭݀۫◯࣭ ˚✎ *°sᴏᴄᴋᴇᴛs ᴄᴏɴᴇᴄᴛᴀᴅᴏs:* _${total}_
+֔࣪└╸᮫໋֔𝆬╺᮫ֽ〭╼֔꒷໋〭Ս᮫ֽ꒡֔⌒ֽ〭꒥᮫࣪𝆬꒷֔꒥⢅᮫໋݃𝆬☁️໋⡨݃╸᮫໋݃𝆬╺ֽ࣪╼֔꒷〭Ս᮫໋݃𝆬꒡֢⌒໋֔꒥᮫𝆬꒷֢꒥֔╸᮫໋〭݃𝆬╺ֽ╼໋〭֔┘᮫໋݃𝆬
+
+
 
 ${lista || '🌙 No hay Sub-Bots conectados por ahora verifique mas tarde.'}
 
@@ -118,8 +119,8 @@ ${lista || '🌙 No hay Sub-Bots conectados por ahora verifique mas tarde.'}
           newsletterName: channelRD.name
         },
         externalAdReply: {
-          title: `🍧 𝑺𝑶𝑪𝑲𝑬𝑻𝑺 𝑨𝑪𝑻𝑰𝑽𝑶𝑺 🍧`,
-          body: `💔 𝙲𝙾𝙽𝙴𝙲𝚃𝙰𝙳𝙾𝚂: ${total}/${maxSubbots}`,
+          title: `◌⃘۪֟፝֯۫ Ｐａｎｅｌ • ｓｕｂ ｂｏｔｓ ♡࣭ ˚`,
+          body: `🌤️⧫̇❀̶࣭۪ٜ݊݊⃛᛫⭐ 𝙲𝙾𝙽𝙴𝙲𝚃𝙰𝙳𝙾𝚂: ${total}/${maxSubbots}`,
           thumbnailUrl: 'https://files.catbox.moe/fleiok.jpg',
           sourceUrl: redes,
           mediaType: 1,
