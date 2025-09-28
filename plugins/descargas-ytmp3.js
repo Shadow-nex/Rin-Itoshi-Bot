@@ -75,12 +75,12 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       contextInfo: {
         externalAdReply: {
           title: meta.title,
-          body: `Duración: ${meta.duration}`,
+          body: `Duración: [${meta.duration}] • [${meta.size}]`,
           mediaUrl: meta.url,
           sourceUrl: meta.url,
           thumbnailUrl: meta.thumbnail,
           mediaType: 1,
-          renderLargerThumbnail: false
+          renderLargerThumbnail: true
         }
       }
     }, { quoted: m })
