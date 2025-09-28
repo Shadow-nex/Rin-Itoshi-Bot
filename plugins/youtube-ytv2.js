@@ -8,12 +8,11 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
     let url = ''
     let title = ''
 
-    // Si es un link directo
     if (/^https?:\/\/(www\.)?youtu/.test(args[0])) {
       url = args[0]
       title = text.replace(args[0], "").trim()
     } else {
-      // Buscar por título
+
       let search = await yts(text)
       if (!search.videos.length) return m.reply('❌ No encontré resultados.')
       let vid = search.videos[0]
@@ -21,7 +20,6 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
       title = vid.title
     }
 
-    // Caso: ya incluye calidad
     if (args[1]) {
       let quality = args[1].replace(/p/i, "")
       await m.reply(`*📥 Descargando en ${quality}p, espera...*`)
@@ -43,7 +41,6 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
       }, { quoted: m })
     }
 
-    // Caso: solo link o texto, mostrar menú
     await m.reply('*🌱 Buscando información del video...*')
 
     let search = await yts(url)
