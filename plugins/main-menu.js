@@ -1,8 +1,3 @@
-//
-// https://vt.tiktok.com/ZSDGHQQF3/
-//https://vt.tiktok.com/ZSDGuHRCp/
-
-
 import axios from 'axios'
 import moment from 'moment-timezone'
 import fs from 'fs'
