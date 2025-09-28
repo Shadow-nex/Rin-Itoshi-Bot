@@ -11,99 +11,63 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
         m
       )
     }
+
     await conn.sendMessage(m.chat, {
       react: { text: "⏳", key: m.key }
     })
+
     let search = await yts(text)
     let video = search.videos[0]
-    if (!video) return conn.reply(m.chat, 'No se encontró ningún resultado.', m)
+    if (!video) return conn.reply(m.chat, '❌ No se encontró ningún resultado.', m)
 
-    const apiUrl = `https://api.zenzxz.my.id/downloader/ytmp3v2?url=${encodeURIComponent(video.url)}`
+    const apiUrl = `https://xrljosedevapi.vercel.app/download/ytmp3?url=${encodeURIComponent(video.url)}&apikey=xrlfree`
     const res = await fetch(apiUrl)
     const json = await res.json()
 
     if (!json?.status || !json?.download_url) {
-      return conn.reply(m.chat, 'No se pudo obtener el audio.', m)
+      return conn.reply(m.chat, '❌ No se pudo obtener el audio.', m)
     }
+
+    const size = await getSize(json.download_url)
+    const sizeStr = size ? formatSize(size) : 'Desconocido'
+
 
     const meta = {
-      title: json.title,
-      duration: { timestamp: formatDuration(json.duration) },
+      title: json.title || video.title,
+      duration: video.timestamp || "Desconocida",
       url: video.url,
-      author: { name: video.author?.name || 'Desconocido' }
+      author: video.author?.name || "Desconocido",
+      views: video.views?.toLocaleString('es-PE') || "0",
+      ago: video.ago || "Desconocido",
+      thumbnail: json.thumbnail || video.thumbnail,
+      size: sizeStr
     }
-    const dl = {
-      url: json.download_url
-    }
-
-    const size = await getSize(dl.url)
-    const sizeStr = size ? await formatSize(size) : 'Desconocido'
-
-    const rcanal = {
-  contextInfo: {
-    isForwarded: true,
-    forwardedNewsletterMessageInfo: {
-      newsletterJid: '120363401008003732@newsletter',
-      serverMessageId: '',
-      newsletterName: '囹🎋𑜞 ᪲•˙ꨂ ֢✧: яιи ιтσѕнι ¢нαииєℓ σffι¢ιαℓ ੈ♡‧₊˚'
-    },
-    externalAdReply: {
-      title: "𐔌 . ⋮ Descargando .ᐟ ֹ ₊ ꒱",
-      body: meta.title,
-      mediaUrl: null,
-      description: null,
-      previewType: "PHOTO",
-      thumbnail: await (await fetch(icono)).buffer(),
-      sourceUrl: redes,
-      mediaType: 1,
-      renderLargerThumbnail: false
-    },
-    mentionedJid: null
-  }
-}
 
     const textoInfo = `🍂 *Título:* ${meta.title}
-⏱️ *Duración:* ${meta.duration.timestamp || video.timestamp || 'Desconocida'}
-🌱 *Canal:* ${meta.author.name}
-🚀 *Vistas:* ${video.views?.toLocaleString('es-PE') || '0'}
-🌷 *Tamaño:* ${sizeStr}
-🧪 *Publicado:* ${video.ago || 'Desconocido'}
+⏱️ *Duración:* ${meta.duration}
+🌱 *Canal:* ${meta.author}
+🚀 *Vistas:* ${meta.views}
+🌷 *Tamaño:* ${meta.size}
+🧪 *Publicado:* ${meta.ago}
 💨 *Link:* ${meta.url}
 
 > *≡ Enviando, espera un momento...*`
-/*
-    await conn.sendMessage(
-      m.chat,
-      {
-        image: { url: video.thumbnail },
-        caption: textoInfo,
-        contextInfo: {
-          mentionedJid: [m.sender],
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-            newsletterJid: '120363401008003732@newsletter',
-            serverMessageId: 100,
-            newsletterName: '🗿 Toca aquí 🌱'
-          },
-          externalAdReply: {
-            title: meta.title,
-            body: "🍂 Descargando desde YouTube 🧪",
-            thumbnailUrl: icono,
-            sourceUrl: video.url,
-            mediaType: 1,
-            renderLargerThumbnail: false
-          },
-          reactions: [
-            { text: "🎵", key: m.key },
-            { text: "⏳", key: m.key }
-          ]
-        }
-      },
-      { quoted: m }
-    )*/
-    await conn.sendFile(m.chat, video.thumbnail, 'ytmp3.jpg', textoInfo, m, null, rcanal)
 
-    const audioBuffer = await (await fetch(dl.url)).buffer()
+    await conn.sendMessage(m.chat, {
+      text: textoInfo,
+      contextInfo: {
+        externalAdReply: {
+          title: "Descargando audio",
+          body: meta.title,
+          thumbnailUrl: meta.thumbnail,
+          sourceUrl: meta.url,
+          mediaType: 1,
+          renderLargerThumbnail: true
+        }
+      }
+    }, { quoted: fkontak })
+
+    const audioBuffer = await (await fetch(json.download_url)).buffer()
     await conn.sendMessage(m.chat, {
       audio: audioBuffer,
       fileName: `${meta.title}.mp3`,
@@ -111,11 +75,11 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       ptt: false,
       contextInfo: {
         externalAdReply: {
-          title: video.title,
-          body: `Duración: ${video.timestamp}`,
-          mediaUrl: video.url,
-          sourceUrl: video.url,
-          thumbnailUrl: video.thumbnail,
+          title: meta.title,
+          body: `Duración: ${meta.duration}`,
+          mediaUrl: meta.url,
+          sourceUrl: meta.url,
+          thumbnailUrl: meta.thumbnail,
           mediaType: 1,
           renderLargerThumbnail: false
         }
@@ -138,6 +102,7 @@ handler.help = ['ytmp3 <texto o link>', 'song <texto>']
 
 export default handler
 
+
 async function getSize(url) {
   try {
     const response = await axios.head(url)
@@ -148,7 +113,7 @@ async function getSize(url) {
   }
 }
 
-async function formatSize(bytes) {
+function formatSize(bytes) {
   const units = ['B', 'KB', 'MB', 'GB']
   let i = 0
   if (!bytes || isNaN(bytes)) return 'Desconocido'
@@ -157,10 +122,4 @@ async function formatSize(bytes) {
     i++
   }
   return `${bytes.toFixed(2)} ${units[i]}`
-}
-
-function formatDuration(seconds) {
-  const min = Math.floor(seconds / 60)
-  const sec = seconds % 60
-  return `${min}:${sec.toString().padStart(2,'0')}`
 }
