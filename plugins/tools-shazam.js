@@ -74,7 +74,7 @@ ${video ? `┃ 🔎 *Encontrado en YouTube:*
         caption: info
       }, { quoted: m })
     } else {
-      await conn.reply(m.chat, info, m, null, rcanal)
+      await conn.reply(m.chat, info, m)
     }
 
     await conn.sendMessage(m.chat, {
