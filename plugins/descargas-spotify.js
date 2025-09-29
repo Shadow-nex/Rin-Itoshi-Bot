@@ -23,18 +23,18 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       (popularity ? `> ✰ Popularidad » *${popularity}*\n` : '') +
       (publish ? `> ☁︎ Publicado » *${publish}*\n` : '') +
       (spotifyUrl ? `> 🜸 Enlace » ${spotifyUrl}` : '')
-    
+
     await conn.sendMessage(m.chat, {
       text: caption,
       contextInfo: {
         externalAdReply: {
-          title: '✧ s⍴᥆𝗍і𝖿ᥡ • mᥙsіᥴ ✧',
-          body: club,
+          title: '🕸️ ✧ s⍴᥆𝗍і𝖿ᥡ • mᥙsіᥴ ✧ 🌿',
+          body: artist,
           thumbnailUrl: image,
           sourceUrl: spotifyUrl,
           mediaType: 1,
           renderLargerThumbnail: true
-       }
+        }
       }
     }, { quoted: m })
 
@@ -43,26 +43,20 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     let downloadUrl = dl1?.data?.result?.downloadUrl
 
     if (!downloadUrl || downloadUrl.includes('undefined')) {
-      let apiV2 = `https://api.nekolabs.my.id/downloader/spotify/v2?url=${encodeURIComponent(spotifyUrl)}`
+      let apiV2 = `https://api.nekolabs.my.id/downloader/spotify/play/v1?q=${encodeURIComponent(title + " " + artist)}`
       let dl2 = await axios.get(apiV2, { timeout: 20000 })
-      downloadUrl = dl2?.data?.result?.downloadUrl
+      downloadUrl = dl2?.data?.downloadUrl
     }
 
     if (downloadUrl) {
       let audio = await fetch(downloadUrl)
       let buffer = await audio.buffer()
-/*
-      await conn.sendMessage(m.chat, {
-        audio: buffer,
-        mimetype: 'audio/mpeg',
-        fileName: `${title}.mp3`
-      }, { quoted: fkontak })
-      */
+
       await conn.sendMessage(m.chat, {
         audio: buffer,
         mimetype: 'audio/mpeg',
         fileName: `${title}.mp3`,
-        ptt: true,
+        ptt: false,
         contextInfo: {
           externalAdReply: {
             title: "🍏 s⍴᥆𝗍і𝖿ᥡ • mᥙsіᥴ 🌿",
@@ -70,17 +64,17 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             thumbnailUrl: image,
             sourceUrl: spotifyUrl,
             mediaType: 1,
-           renderLargerThumbnail: true
+            renderLargerThumbnail: true
           }
         }
       }, { quoted: fkontak })
     } else {
-      conn.reply(m.chat, `No se encontró un link de descarga válido para esta canción.`, m)
+      conn.reply(m.chat, `⚠️ No se encontró un link de descarga válido para esta canción.`, m)
     }
 
   } catch (e) {
     console.error(e)
-    conn.reply(m.chat, `Error al buscar/descargar la canción.`, m)
+    conn.reply(m.chat, `❌ Error al buscar/descargar la canción.`, m)
   }
 }
 
