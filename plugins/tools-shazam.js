@@ -116,9 +116,10 @@ const acr = new acrcloud({
 let handler = async (m, { conn, usedPrefix, command }) => {
   try {
     const q = m.quoted ? m.quoted : m
-    const mime = (q.msg || q).mimetype || q.mediaType || ''
-    
-    if (!/video|audio/.test(mime)) {
+    const mime = q.mimetype || ''
+    const mtype = q.mtype || ''
+
+    if (!/audio|video/.test(mime) && !/audioMessage|videoMessage/.test(mtype)) {
       return conn.reply(
         m.chat,
         `✔️ *Usa el comando así:*\n\nEtiqueta un audio o video corto con: *${usedPrefix + command}* para intentar reconocer la canción.`,
@@ -126,12 +127,14 @@ let handler = async (m, { conn, usedPrefix, command }) => {
       )
     }
 
-    let loadingMsg = await conn.sendMessage(m.chat, {
-      caption: '🍏 *Detectando canción...*'
-    }, { quoted: m })
+    let loadingMsg = await conn.sendMessage(
+      m.chat,
+      { text: '🍏 *Detectando canción...*' },
+      { quoted: m }
+    )
 
-    const buffer = await q.download()
-    if (!buffer) throw 'No se pudo descargar el archivo. Intenta nuevamente.'
+    const buffer = await q.download?.()
+    if (!buffer) throw '❌ No se pudo descargar el archivo. Intenta nuevamente.'
 
     const result = await acr.identify(buffer)
     const { status, metadata } = result
@@ -174,15 +177,13 @@ ${video ? `┃ 🔎 *Encontrado en YouTube:*
         viewOnceMessage: {
           message: {
             interactiveMessage: proto.Message.InteractiveMessage.fromObject({
-              body: proto.Message.InteractiveMessage.Body.fromObject({
-                text: info
-              }),
+              body: proto.Message.InteractiveMessage.Body.fromObject({ text: info }),
               header: proto.Message.InteractiveMessage.Header.fromObject({
                 title: '',
                 hasMediaAttachment: true
               }),
               footer: proto.Message.InteractiveMessage.Footer.fromObject({
-                text: club
+                text: '🎋 Rin Itoshi Ultra'
               }),
               nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
                 buttons: [
@@ -219,12 +220,7 @@ ${video ? `┃ 🔎 *Encontrado en YouTube:*
 
       msg.message.viewOnceMessage.message.interactiveMessage.contextInfo = {
         mentionedJid: [m.sender],
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: channelRD.id,
-          serverMessageId: 1000,
-          newsletterName: channelRD.name
-        }
+        isForwarded: true
       }
 
       await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
@@ -233,15 +229,12 @@ ${video ? `┃ 🔎 *Encontrado en YouTube:*
     }
 
     await conn.sendMessage(m.chat, {
-      react: {
-        text: '✔️',
-        key: m.key
-      }
+      react: { text: '✔️', key: m.key }
     })
 
   } catch (e) {
     console.error(e)
-    conn.reply(m.chat, `> Error al identificar la música:\n${e}`, m)
+    conn.reply(m.chat, `> ❌ Error al identificar la música:\n${e}`, m)
   }
 }
 
