@@ -5,10 +5,10 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
         return conn.reply(m.chat, `*🌸✨ Onichan~ debes poner un link de TikTok uwu 💖*`, m, fake);
     }
 
-    try {
+/*    try {
         await conn.reply(m.chat, `🌷 *Espera un momentito onii-chan...*  
 🌱 *Estoy descargando tu videíto kawaii~* ✨ 𝐀𝐰𝐮𝐮~ `, m);
-
+*/
         const tiktokData = await tiktokdl(args[0]);
 
         if (!tiktokData || !tiktokData.data || !tiktokData.data.play) {

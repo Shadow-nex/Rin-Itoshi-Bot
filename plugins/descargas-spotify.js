@@ -51,13 +51,13 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     if (downloadUrl) {
       let audio = await fetch(downloadUrl)
       let buffer = await audio.buffer()
-
+/*
       await conn.sendMessage(m.chat, {
         audio: buffer,
         mimetype: 'audio/mpeg',
         fileName: `${title}.mp3`
       }, { quoted: fkontak })
-      /*
+      */
       await conn.sendMessage(m.chat, {
         audio: buffer,
         mimetype: 'audio/mpeg',
@@ -73,7 +73,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
            renderLargerThumbnail: true
           }
         }
-      }, { quoted: m })*/
+      }, { quoted: fkontak })
     } else {
       conn.reply(m.chat, `No se encontró un link de descarga válido para esta canción.`, m)
     }
