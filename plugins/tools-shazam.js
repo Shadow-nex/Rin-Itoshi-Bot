@@ -1,3 +1,7 @@
+// - codigo creado x ShadowCore 🎋
+// - https://github.com/Yuji-XDev
+// - https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U
+// - no quitar creditos xD
 import acrcloud from 'acrcloud'
 import ytsearch from 'yt-search'
 
@@ -15,7 +19,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     if (!/video|audio/.test(mime)) {
       return conn.reply(
         m.chat,
-        `🎵 *Usa el comando así:*\n\nEtiqueta un audio o video corto con: *${usedPrefix + command}* para intentar reconocer la canción.`,
+        `✔️ *Usa el comando así:*\n\nEtiqueta un audio o video corto con: *${usedPrefix + command}* para intentar reconocer la canción.`,
         m
       )
     }
@@ -26,15 +30,15 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     }, { quoted: m })
 
     const buffer = await q.download()
-    if (!buffer) throw '❌ No se pudo descargar el archivo. Intenta nuevamente.'
+    if (!buffer) throw 'No se pudo descargar el archivo. Intenta nuevamente.'
 
     const result = await acr.identify(buffer)
     const { status, metadata } = result
 
-    if (status.code !== 0) throw status.msg || '❌ No se pudo identificar la canción.'
+    if (status.code !== 0) throw status.msg || 'No se pudo identificar la canción.'
 
     const music = metadata.music?.[0]
-    if (!music) throw '❌ No se encontró información de la canción.'
+    if (!music) throw 'No se encontró información de la canción.'
 
     const title = music.title || 'Desconocido'
     const artist = music.artists?.map(v => v.name).join(', ') || 'Desconocido'
@@ -58,7 +62,7 @@ ${video ? `┃ 🔎 *Encontrado en YouTube:*
 ┃ ⏱ 𝐃𝐮𝐫𝐚𝐜𝐢𝐨𝐧: ${video.timestamp}
 ┃ 👁 𝐕𝐢𝐬𝐭𝐚𝐬: ${video.views.toLocaleString()}
 ┃ 📺 𝐂𝐚𝐧𝐚𝐥: ${video.author.name}
-┃ 🔗 𝐋𝐢𝐧𝐤: ${video.url}` : '┃ ❌ No se encontró en YouTube'}
+┃ 🔗 𝐋𝐢𝐧𝐤: ${video.url}` : 'No se encontró en YouTube'}
 ╰━━━━━━━━━━━━━━⬣
 `.trim()
 
@@ -70,7 +74,7 @@ ${video ? `┃ 🔎 *Encontrado en YouTube:*
         caption: info
       }, { quoted: m })
     } else {
-      await conn.reply(m.chat, info, m)
+      await conn.reply(m.chat, info, m, null, rcanal)
     }
 
     await conn.sendMessage(m.chat, {
@@ -82,7 +86,7 @@ ${video ? `┃ 🔎 *Encontrado en YouTube:*
 
   } catch (e) {
     console.error(e)
-    conn.reply(m.chat, `❌ Error al identificar la música:\n${e}`, m)
+    conn.reply(m.chat, `> Error al identificar la música:\n${e}`, m)
   }
 }
 
