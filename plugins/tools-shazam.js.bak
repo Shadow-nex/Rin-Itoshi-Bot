@@ -1,4 +1,4 @@
-/*// - codigo creado x ShadowCore 🎋
+// - codigo creado x ShadowCore 🎋
 // - https://github.com/Yuji-XDev
 // - https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U
 // - no quitar creditos xD
@@ -95,7 +95,8 @@ handler.tags = ['tools']
 handler.command = ['shazam', 'whatmusic']
 handler.register = true
 
-export default handler*/
+export default handler
+/*
 
 // - codigo creado x ShadowCore 🎋
 // - https://github.com/Yuji-XDev
@@ -127,10 +128,11 @@ let handler = async (m, { conn, usedPrefix, command }) => {
       )
     }
 
-    let loadingMsg = await conn.sendMessage(m.chat, {
-       image: { url: icono },
-      caption: '🍏 *Detectando canción...*'
-    }, { quoted: m })
+    let loadingMsg = await conn.sendMessage(
+      m.chat,
+      { text: '🍏 *Detectando canción...*' },
+      { quoted: m }
+    )
 
     const buffer = await q.download?.()
     if (!buffer) throw '❌ No se pudo descargar el archivo. Intenta nuevamente.'
@@ -242,4 +244,4 @@ handler.tags = ['tools']
 handler.command = ['shazam', 'whatmusic']
 handler.register = true
 
-export default handler
+export default handler*/
