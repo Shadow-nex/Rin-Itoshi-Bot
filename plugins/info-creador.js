@@ -4,14 +4,14 @@ import { proto } from '@whiskeysockets/baileys';
 import PhoneNumber from 'awesome-phonenumber';
 
 const handler = async (m, { conn }) => {
-  const name = '🌱 𝙎𝙃𝘼𝘿𝙊𝙒.𝙓𝙔𝙕 - 𝘾𝙧𝙚𝙖𝙙𝙤𝙧 ⚡';
+  const name = 'sһᥲძ᥆ᥕ-᥊ᥡz | ᥆𝖿𝖿іᥴіᥲᥣ';
   const numCreador = '51919199620';
   const empresa = 'Rin Itoshi Bot Inc.';
   const about = '💖 Desarrollador de Rin itoshi Ultra - MD';
   const correo = 'blackoficial2025@gmail.com';
   const web = 'https://shadow-xyz.vercel.app/';
   const direccion = 'Tokyo, Japón 🇯🇵';
-  const fotoPerfil = 'https://files.catbox.moe/fft2hr.jpg';
+  const fotoPerfil = 'https://qu.ax/ALOZa.jpg';
 
   const vcard = `
 BEGIN:VCARD
@@ -51,7 +51,7 @@ END:VCARD`.trim();
         sourceUrl: web
       }
     }
-  }, { quoted: m });
+  }, { quoted: fkontak });
 };
 
 handler.help = ['creador'];
