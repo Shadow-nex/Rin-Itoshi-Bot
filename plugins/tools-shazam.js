@@ -19,12 +19,13 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     if (!/video|audio/.test(mime)) {
       return conn.reply(
         m.chat,
-        `✔️ *Usa el comando así:*\n\nEtiqueta un audio o video corto con: *${usedPrefix + command}* para intentar reconocer la canción.`,
+        `✔️ *Usa el comando así:*\n\n 🌤️ Etiqueta un audio o video corto con: *${usedPrefix + command}* para intentar reconocer la canción.`,
         m
       )
     }
 
     let loadingMsg = await conn.sendMessage(m.chat, {
+       image: { url: icono },
       caption: '🍏 *Detectando canción...*'
     }, { quoted: m })
 
