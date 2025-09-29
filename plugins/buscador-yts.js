@@ -1,5 +1,4 @@
 // - codigo creado x ShadowCore 🎋
-// - Fix por ChatGPT 🚀
 
 import fetch from "node-fetch";
 import yts from "yt-search";
@@ -23,19 +22,19 @@ const fetchAPI = async (url, type) => {
   try {
     let endpoint =
       type === "audio"
-        ? `https://api.zenzxz.my.id/downloader/ytmp3?url=${encodeURIComponent(url)}`
-        : `https://api.zenzxz.my.id/downloader/ytmp4?url=${encodeURIComponent(url)}`;
+        ? `https://api.zenzxz.my.id/downloader/ytmp3v2?url=${encodeURIComponent(url)}`
+        : `https://api.zenzxz.my.id/downloader/ytmp4v2?url=${encodeURIComponent(url)}`;
 
     let response = await fetch(endpoint);
     let data = await response.json();
- 
-    if (data?.result?.download_url) {
+
+    if (data?.status && data?.download_url) {
       return {
-        download: data.result.download_url,
-        title: data.result.title || "Desconocido",
-        duration: data.result.duration || 0,
-        thumbnail: data.result.thumbnail || null,
-        format: type === "audio" ? "mp3" : "mp4"
+        download: data.download_url,
+        title: data.title || "Desconocido",
+        duration: data.duration || 0,
+        thumbnail: data.thumbnail || null,
+        format: data.format || (type === "audio" ? "mp3" : "mp4")
       };
     }
     throw new Error("API principal no respondió correctamente.");
@@ -90,20 +89,19 @@ const handler = async (m, { conn, text }) => {
   });
 
   messageText += `
-\n✏️ Responde con:
+\n🍂 Responde con:
 - \`A <número>\` → Audio
 - \`V <número>\` → Video
 - \`AD <número>\` → Audio Doc
 - \`VD <número>\` → Video Doc`;
 
-  // Miniatura
   const thumbnail2 = results[0]?.thumbnail;
   const thumb = thumbnail2 ? (await conn.getFile(thumbnail2))?.data : null;
 
   const fakertX = {
     contextInfo: {
       externalAdReply: {
-        title: "🍓 𝗬𝗼𝘂𝗧𝘂𝗯𝗲 🎶 𝗦𝗲𝗮𝗿𝗰𝗵",
+        title: "🍓 𝗬𝗼𝘂𝗧𝘂𝗯𝗲 🎶 𝗦𝗲𝗮𝗿𝗰𝗵 🌤️",
         body: "Resultados encontrados",
         mediaType: 1,
         previewType: 0,
