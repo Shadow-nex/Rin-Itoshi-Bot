@@ -1,4 +1,4 @@
-/*// - codigo creado x ShadowCore 🎋
+// - codigo creado x ShadowCore 🎋
 // - https://github.com/Yuji-XDev
 // - https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U
 // - no quitar creditos xD
@@ -95,7 +95,7 @@ handler.command = ['shazam', 'whatmusic']
 handler.register = true
 
 export default handler
-*/
+/*
 
 // - codigo creado x ShadowCore 🎋
 // - https://github.com/Yuji-XDev
@@ -243,4 +243,4 @@ handler.tags = ['tools']
 handler.command = ['shazam', 'whatmusic']
 handler.register = true
 
-export default handler
+export default handler*/
