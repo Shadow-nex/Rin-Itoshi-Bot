@@ -1,4 +1,4 @@
-import axios from 'axios'
+/*import axios from 'axios'
 import ws from 'ws';
 import fs from 'fs'
 
@@ -143,4 +143,89 @@ function clockString(ms) {
   let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60;
   let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60;
   return [h, m, s].map(v => v.toString().padStart(2, 0)).join(':');
+}*/
+
+
+import ws from "ws"
+import axios from 'axios'
+
+const handler = async (m, { conn, command, usedPrefix, participants }) => {
+try {
+const users = [global.conn.user.jid, ...new Set(global.conns.filter((conn) => conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED).map((conn) => conn.user.jid))]
+function convertirMsADiasHorasMinutosSegundos(ms) {
+const segundos = Math.floor(ms / 1000)
+const minutos = Math.floor(segundos / 60)
+const horas = Math.floor(minutos / 60)
+const días = Math.floor(horas / 24)
+const segRest = segundos % 60
+const minRest = minutos % 60
+const horasRest = horas % 24
+let resultado = ""
+if (días) resultado += `${días} días, `
+if (horasRest) resultado += `${horasRest} horas, `
+if (minRest) resultado += `${minRest} minutos, `
+if (segRest) resultado += `${segRest} segundos`
+return resultado.trim()
 }
+  const getThumbnail = async () => {
+    const res = await axios.get("https://files.catbox.moe/3su9of.jpg", { responseType: "arraybuffer" })
+    return Buffer.from(res.data, "binary")
+  }
+
+  const thumbnail = await getThumbnail()
+
+  const shadow_xyz = {
+    key: {
+      fromMe: false,
+      participant: "0@s.whatsapp.net",
+      remoteJid: "status@broadcast"
+    },
+    message: {
+      productMessage: {
+        product: {
+          productImage: {
+            mimetype: "image/jpeg",
+            jpegThumbnail: thumbnail
+          },
+          title: "☆ 🍧 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 | 𝐎𝐍𝐋𝐈𝐍𝐄 ⭐ ☆",
+          description: dev,
+          currencyCode: "USD",
+          priceAmount1000: 5000,
+          retailerId: "SubBots",
+          productImageCount: 1
+        },
+        businessOwnerJid: "51919199620@s.whatsapp.net"
+      }
+    }
+  }
+let groupBots = users.filter((bot) => participants.some((p) => p.id === bot))
+if (participants.some((p) => p.id === global.conn.user.jid) && !groupBots.includes(global.conn.user.jid)) { groupBots.push(global.conn.user.jid) }
+const botsGroup = groupBots.length > 0 ? groupBots.map((bot) => {
+const isMainBot = bot === global.conn.user.jid
+const v = global.conns.find((conn) => conn.user.jid === bot)
+const uptime = isMainBot ? convertirMsADiasHorasMinutosSegundos(Date.now() - global.conn.uptime) : v?.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : "Activo desde ahora"
+const mention = bot.replace(/[^0-9]/g, '')
+return `@${mention}\n> Bot: ${isMainBot ? 'Principal' : 'Sub-Bot'}\n> Online: ${uptime}`}).join("\n\n") : `✧ No hay bots activos en este grupo`
+const message = `\`\`\`   ݊ ּ͜⏜݆ׄ͜⌒໊݂݁͜⏜݄͜ ͝⃞֟🌷⃛͜͝ ⃞໊݄⏜݆ׄ͜͜⌒ ּ͜⏜݆ׄ݊͜ ּ͜ \`\`\`
+\`\`\`    ۪〫〫𝆬✿〫𝆬 ᮫ᨗ۫ 𝐒𝐎𝐂𝐊𝐄𝐓𝐒 𝐎𝐍𝐋𝐈𝐍𝐄   ּּ籭᮫꫶ֹּּ࣭ٜ〫۫𝆬𝆬ᨗ࠭࠭𝆬ᨗ \`\`\`
+\`\`\`   ֶ֮⏝ ٌ۪͝ ⏝ֶ֮⋃ ֶ֮ ⋃⏝ ٌ۪͝ ⏝ֶ֮ \`\`\`
+
+*「 ✦ 」 Lista de bots activos*
+
+❀ Principal: *1*
+✿ Subs: *${users.length - 1}*
+
+❏ En este grupo: *${groupBots.length}* bots
+${botsGroup}`
+const mentionList = groupBots.map(bot => bot.endsWith("@s.whatsapp.net") ? bot : `${bot}@s.whatsapp.net`)
+rcanal.contextInfo.mentionedJid = mentionList
+await conn.sendMessage(m.chat, { text: message, ...rcanal }, { quoted: shadow_xyz })
+} catch (error) {
+m.reply(`⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${error.message}`)
+}}
+
+handler.tags = ["serbot"]
+handler.help = ["botlist"]
+handler.command = ["botlist", "listbots", "listbot", "bots", "sockets", "socket"]
+
+export default handler
