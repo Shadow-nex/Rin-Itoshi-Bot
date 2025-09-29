@@ -27,11 +27,11 @@ let handler = async (m, { conn }) => {
 
     let response =
 `╭━━━〔 🍄 𝙎𝙩𝙖𝙩𝙪𝙨 𝙋𝙞𝙣𝙜 🪴 〕━━⬣
-│ 🌷 *Ping:* ${latency} ms
-│ 🍁 *Latencia:* ${latensi.toFixed(4)} ms
-│ 🕸 *RAM usada:* ${usedRAM} MB
-│ 🍧 *Uptime:* ${uptimeFormatted}
-│ ⏰ *Fecha/Hora:* ${fechaHora}
+│ 🌷 *\`Ping:\`* ${latency} ms
+│ 🍁 *\`Latencia:\`* ${latensi.toFixed(4)} ms
+│ 🕸 *\`RAM usada:\`* ${usedRAM} MB
+│ 🍧 *\`Uptime:\`* ${uptimeFormatted}
+│ ⏰ *\`Fecha/Hora:\`* ${fechaHora}
 ╰━━━〔 🪷 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 〕━━⬣
 \`\`\`
 ${sysInfo.trim()}
@@ -44,7 +44,7 @@ ${sysInfo.trim()}
         externalAdReply: {
           title: '🍄 Rɪɴ Iᴛᴏsʜɪ ᴍᴅ 🌹 | 🪾 ʙʏ ᴅᴠ.sʜᴀᴅᴏᴡ 🪴',
           body: club,
-          thumbnailUrl: icono,
+          thumbnailUrl: await (await fetch(icono)).buffer(),
           sourceUrl: redes,
           mediaType: 1,
           renderLargerThumbnail: true
