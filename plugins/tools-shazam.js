@@ -1,4 +1,4 @@
-// - codigo creado x ShadowCore 🎋
+/*// - codigo creado x ShadowCore 🎋
 // - https://github.com/Yuji-XDev
 // - https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U
 // - no quitar creditos xD
@@ -96,7 +96,7 @@ handler.command = ['shazam', 'whatmusic']
 handler.register = true
 
 export default handler
-/*
+*/
 
 // - codigo creado x ShadowCore 🎋
 // - https://github.com/Yuji-XDev
@@ -106,7 +106,7 @@ import acrcloud from 'acrcloud'
 import ytsearch from 'yt-search'
 import baileys from '@whiskeysockets/baileys'
 
-const { generateWAMessageFromContent, proto } = baileys
+const { generateWAMessageFromContent, generateWAMessageContent, proto } = baileys
 
 const acr = new acrcloud({
   host: 'identify-eu-west-1.acrcloud.com',
@@ -128,11 +128,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
       )
     }
 
-    let loadingMsg = await conn.sendMessage(
-      m.chat,
-      { text: '🍏 *Detectando canción...*' },
-      { quoted: m }
-    )
+    await m.react('🕓')
 
     const buffer = await q.download?.()
     if (!buffer) throw '❌ No se pudo descargar el archivo. Intenta nuevamente.'
@@ -153,8 +149,18 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     const yt = await ytsearch(`${title} ${artist}`)
     const video = yt.videos.length > 0 ? yt.videos[0] : null
 
-    let info = `
-╭━━━〔 ✦ 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 - 𝚄𝙻𝚃𝚁𝙰 ✦ 〕━━⬣
+    if (video) {
+      const { imageMessage } = await generateWAMessageContent(
+        { image: { url: video.thumbnail } },
+        { upload: conn.waUploadToServer }
+      )
+
+      const msg = generateWAMessageFromContent(m.chat, {
+        viewOnceMessage: {
+          message: {
+            interactiveMessage: proto.Message.InteractiveMessage.fromObject({
+              body: proto.Message.InteractiveMessage.Body.fromObject({
+                text: `╭━━━〔 ✦ 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 ✦ 〕━━⬣
 ┃ ✧ 𝐂𝐚𝐧𝐜𝐢ó𝐧 𝐝𝐞𝐭𝐞𝐜𝐭𝐚𝐝𝐚 ✧  
 ┃────────────────────
 ┃ 🌿 *𝐓𝐢𝐭𝐮𝐥𝐨:* ${title}
@@ -162,40 +168,23 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ┃ 💿 *𝐀𝐥𝐛𝐮𝐦:* ${album}
 ┃ 📅 *𝐋𝐚𝐧𝐳𝐚𝐦𝐢𝐞𝐧𝐭𝐨:* ${release}
 ┃────────────────────
-${video ? `┃ 🔎 *Encontrado en YouTube:*  
 ┃ 🎥 𝐁𝐮𝐬𝐜𝐚𝐧𝐝𝐨: ${video.title}
 ┃ ⏱ 𝐃𝐮𝐫𝐚𝐜𝐢𝐨𝐧: ${video.timestamp}
 ┃ 👁 𝐕𝐢𝐬𝐭𝐚𝐬: ${video.views.toLocaleString()}
 ┃ 📺 𝐂𝐚𝐧𝐚𝐥: ${video.author.name}
-┃ 🔗 𝐋𝐢𝐧𝐤: ${video.url}` : 'No se encontró en YouTube'}
-╰━━━━━━━━━━━━━━⬣
-`.trim()
-
-    await conn.sendMessage(m.chat, { delete: loadingMsg.key })
-
-    if (video) {
-      const msg = generateWAMessageFromContent(m.chat, {
-        viewOnceMessage: {
-          message: {
-            interactiveMessage: proto.Message.InteractiveMessage.fromObject({
-              body: proto.Message.InteractiveMessage.Body.fromObject({ text: info }),
-              header: proto.Message.InteractiveMessage.Header.fromObject({
-                title: '',
-                hasMediaAttachment: true
+┃ 🔗 𝐋𝐢𝐧𝐤: ${video.url}
+╰━━━━━━━━━━━━━━⬣`
               }),
               footer: proto.Message.InteractiveMessage.Footer.fromObject({
                 text: '🎋 Rin Itoshi Ultra'
               }),
+              header: proto.Message.InteractiveMessage.Header.fromObject({
+                title: '',
+                hasMediaAttachment: true,
+                imageMessage
+              }),
               nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
                 buttons: [
-                  {
-                    name: "cta_url",
-                    buttonParamsJson: JSON.stringify({
-                      display_text: "📢 Canal official",
-                      url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
-                      merchant_url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U"
-                    })
-                  },
                   {
                     name: "cta_copy",
                     buttonParamsJson: JSON.stringify({
@@ -211,27 +200,28 @@ ${video ? `┃ 🔎 *Encontrado en YouTube:*
                       id: "ytmp4",
                       copy_code: `.ytmp4 ${video.url}`
                     })
+                  },
+                  {
+                    name: "cta_url",
+                    buttonParamsJson: JSON.stringify({
+                      display_text: "🌐 Ver en YouTube",
+                      url: video.url,
+                      merchant_url: video.url
+                    })
                   }
                 ]
               })
             })
           }
         }
-      }, { quoted: m, userJid: conn.user.id })
-
-      msg.message.viewOnceMessage.message.interactiveMessage.contextInfo = {
-        mentionedJid: [m.sender],
-        isForwarded: true
-      }
+      }, { quoted: m })
 
       await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+      await m.react('✔️')
     } else {
-      await conn.reply(m.chat, info, m)
+      //await conn.reply(m.chat, `✔️ Detectado:\n\n🎵 ${title}\n👤 ${artist}`, m)
+      //await m.react('❌')
     }
-
-    await conn.sendMessage(m.chat, {
-      react: { text: '✔️', key: m.key }
-    })
 
   } catch (e) {
     console.error(e)
@@ -244,4 +234,4 @@ handler.tags = ['tools']
 handler.command = ['shazam', 'whatmusic']
 handler.register = true
 
-export default handler*/
+export default handler
