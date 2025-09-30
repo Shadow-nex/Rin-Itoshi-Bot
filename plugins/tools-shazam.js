@@ -214,7 +214,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
             })
           }
         }
-      }, { quoted: fkontak })
+      }, { quoted: m })
 
       await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
       await m.react('✔️')
