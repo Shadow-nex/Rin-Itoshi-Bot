@@ -59,13 +59,14 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       servidor
     }
 
-    const textoInfo = `🎶 *ＹＯＵＴＩＢＥ • ＭＰ3*  
+    const textoInfo = `🎶 *ＹＯＵＴＵＢＥ • ＭＰ3* ☁️
 ────────────────────
 > °𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. 𝐓𝐈𝐓𝐔𝐋𝐎: *${meta.title}*
 > °𓃉𐇽ܳ𓏸🌿ᮬᩬִּ〫᪲۟. 𝐃𝐔𝐑𝐀𝐂𝐈𝐎𝐍: *${meta.duration}*
 > °𓃉𐇽ܳ𓏸🍏ᮬᩬִּ〫᪲۟. 𝐂𝐀𝐍𝐀𝐋: *${meta.author}*
 > °𓃉𐇽ܳ𓏸🍄ᮬᩬִּ〫᪲۟. 𝐕𝐈𝐒𝐓𝐀𝐒: *${meta.views}*
 > °𓃉𐇽ܳ𓏸⚽ᮬᩬִּ〫᪲۟. 𝐓𝐀𝐌𝐀𝐍̃𝐎: *${meta.size}*
+> °𓃉𐇽ܳ𓏸☁️ᮬᩬִּ〫᪲۟. 𝐂𝐀𝐋𝐈𝐃𝐀𝐃: *128kbps*
 > °𓃉𐇽ܳ𓏸🌷ᮬᩬִּ〫᪲۟. 𝐏𝐔𝐁𝐈𝐂𝐀𝐃𝐎: *${meta.ago}*
 > °𓃉𐇽ܳ𓏸🕸️ᮬᩬִּ〫᪲۟. 𝐋𝐈𝐍𝐊: *${meta.url}*
 > °𓃉𐇽ܳ𓏸⚙️ᮬᩬִּ〫᪲۟. 𝐒𝐄𝐑𝐕𝐈𝐃𝐎𝐑: *${meta.servidor}*
@@ -112,7 +113,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       contextInfo: {
         externalAdReply: {
           title: meta.title,
-          body: `Duración: [${meta.duration}] • Calidad: [128kbps]`,
+          body: `Duración: ${meta.duration} min | Calidad: 128kbps | Peso: ${meta.size}`,
           mediaUrl: meta.url,
           sourceUrl: meta.url,
           thumbnailUrl: meta.thumbnail,
@@ -135,6 +136,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 handler.command = ['ytmp3', 'song']
 handler.tags = ['descargas']
 handler.help = ['ytmp3 <texto o link>', 'song <texto>']
+handler.group = true
 
 export default handler
 

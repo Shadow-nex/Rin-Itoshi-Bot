@@ -28,15 +28,18 @@ let handler = async (m, { conn, text, args }) => {
     const cleanTitle = title.replace(/[^\w\s]/gi, '').trim().replace(/\s+/g, '_');
     const fileName = `${cleanTitle}.mp4`;
 
-    const caption = `⊜─⌈ 📻 ◜YouTube MP4◞ 📻 ⌋─⊜
-≡ 🌿 *Título:* ${meta.title || '-'}
-≡ 🌷 *Autor:* ${meta.author?.name || '-'}
-≡ 🌱 *Duración:* ${meta.duration?.timestamp || duration || '-'}
-≡ 🌤️ *Publicado:* ${meta.ago || '-'}
-≡ ⭐ *Vistas:* ${meta.views?.toLocaleString() || '-'}
-≡ 🎋 *Calidad:* 480p
-≡ 📦 *Peso:* ${sizeStr}
-≡ 🍏 *URL:* ${meta.url || args[0]}`;
+    const caption = `🎶 *ＹＯＵＴＵＢＥ • ＭＰ4*  🍎
+────────────────────
+> °𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. 𝐓𝐈𝐓𝐔𝐋𝐎: *${meta.title || '-'}*
+> °𓃉𐇽ܳ𓏸🌿ᮬᩬִּ〫᪲۟. 𝐃𝐔𝐑𝐀𝐂𝐈𝐎𝐍: *${meta.duration?.timestamp || duration || '-'}*
+> °𓃉𐇽ܳ𓏸🍏ᮬᩬִּ〫᪲۟. 𝐂𝐀𝐍𝐀𝐋: *${meta.author?.name || '-'}*
+> °𓃉𐇽ܳ𓏸🍄ᮬᩬִּ〫᪲۟. 𝐕𝐈𝐒𝐓𝐀𝐒: *${meta.views?.toLocaleString() || '-'}*
+> °𓃉𐇽ܳ𓏸⚽ᮬᩬִּ〫᪲۟. 𝐓𝐀𝐌𝐀𝐍̃𝐎: *${fileSizeMB}*
+> °𓃉𐇽ܳ𓏸☁️ᮬᩬִּ〫᪲۟. 𝐂𝐀𝐋𝐈𝐃𝐀𝐃: 480p
+> °𓃉𐇽ܳ𓏸🌷ᮬᩬִּ〫᪲۟. 𝐏𝐔𝐁𝐈𝐂𝐀𝐃𝐎: *${meta.ago || '-'}*
+> °𓃉𐇽ܳ𓏸🕸️ᮬᩬִּ〫᪲۟. 𝐋𝐈𝐍𝐊: *${meta.url || args[0]}*
+> °𓃉𐇽ܳ𓏸⚙️ᮬᩬִּ〫᪲۟. 𝐒𝐄𝐑𝐕𝐈𝐃𝐎𝐑: *undefined :(*
+────────────────────`;
 
     let head = await fetch(url, { method: "HEAD" });
     let fileSize = head.headers.get("content-length") || 0;
@@ -47,7 +50,7 @@ let handler = async (m, { conn, text, args }) => {
         document: { url },
         mimetype: 'video/mp4',
         fileName,
-        caption: `${caption}\n\n📂 *Enviado como documento por superar 100 MB*`,
+        caption: `${caption}\n\n> 😔 *Enviado como documento por superar 100 MB*`,
         thumbnail,
         contextInfo: {
           externalAdReply: {
@@ -66,7 +69,7 @@ let handler = async (m, { conn, text, args }) => {
         video: { url },
         mimetype: 'video/mp4',
         fileName,
-        caption: `${caption}\n\n≡ 📦 *Peso:* ${fileSizeMB} MB`,
+        caption: caption,
         thumbnail,
         contextInfo: {
           externalAdReply: {
@@ -86,13 +89,15 @@ let handler = async (m, { conn, text, args }) => {
 
   } catch (e) {
     console.error(e);
-    m.reply(`❌ *Ocurrió un error:*\n${e.message}`);
+    m.reply(`❌ *Ocurrió un error:*\n> ${e.message}`);
   }
 };
 
 handler.help = ['ytmp4 *<url>*'];
 handler.tags = ['downloader'];
 handler.command = ['ytmp4', 'playmp4'];
+handler.group = true;
+
 export default handler;
 
 async function ytdl(url) {
