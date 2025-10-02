@@ -21,8 +21,21 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     if (!video) return conn.reply(m.chat, '☁️ No se encontró ningún resultado.', m)
 
     const apis = [
-      { api: 'ZenzzXD v2', endpoint: `https://api.zenzxz.my.id/downloader/ytmp3v2?url=${encodeURIComponent(video.url)}`, extractor: res => res.download_url },
-      { api: 'Vreden', endpoint: `https://api.vreden.my.id/api/v1/download/youtube/audio?url=${encodeURIComponent(video.url)}&quality=128`, extractor: res => res.result?.download?.url }
+      { 
+        api: 'ZenzzXD v2', 
+        endpoint: `https://api.zenzxz.my.id/downloader/ytmp3v2?url=${encodeURIComponent(video.url)}`, 
+        extractor: res => res.download_url 
+      },
+      { 
+        api: 'Vreden', 
+        endpoint: `https://api.vreden.my.id/api/v1/download/youtube/audio?url=${encodeURIComponent(video.url)}&quality=128`, 
+        extractor: res => res.result?.download?.url 
+      },
+      { 
+        api: 'Xyro', 
+        endpoint: `https://xyro.site/download/youtubemp3?url=${encodeURIComponent(video.url)}`, 
+        extractor: res => res.result?.dl 
+      }
     ]
 
     const { url: downloadUrl, servidor } = await fetchFromApis(apis)
@@ -46,14 +59,17 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       servidor
     }
 
-    const textoInfo = `🍂 *Título:* \`\`\`${meta.title}\`\`\`
-⏱️ *Duración:* \`\`\`${meta.duration}\`\`\`
-🌱 *Canal:* \`\`\`${meta.author}\`\`\`
-🚀 *Vistas:* \`\`\`${meta.views}\`\`\`
-🌷 *Tamaño:* \`\`\`${meta.size}\`\`\`
-🧪 *Publicado:* \`\`\`${meta.ago}\`\`\`
-💨 *Link:* \`\`\`${meta.url}\`\`\`
-🛰️ *Servidor:* \`\`\`${meta.servidor}\`\`\`
+    const textoInfo = `🎶 *ＹＯＵＴＩＢＥ • ＭＰ3*  
+────────────────────
+> °𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. 𝐓𝐈𝐓𝐔𝐋𝐎: *${meta.title}*
+> °𓃉𐇽ܳ𓏸🌿ᮬᩬִּ〫᪲۟. 𝐃𝐔𝐑𝐀𝐂𝐈𝐎𝐍: *${meta.duration}*
+> °𓃉𐇽ܳ𓏸🍏ᮬᩬִּ〫᪲۟. 𝐂𝐀𝐍𝐀𝐋: *${meta.author}*
+> °𓃉𐇽ܳ𓏸🍄ᮬᩬִּ〫᪲۟. 𝐕𝐈𝐒𝐓𝐀𝐒: *${meta.views}*
+> °𓃉𐇽ܳ𓏸⚽ᮬᩬִּ〫᪲۟. 𝐓𝐀𝐌𝐀𝐍̃𝐎: *${meta.size}*
+> °𓃉𐇽ܳ𓏸🌷ᮬᩬִּ〫᪲۟. 𝐏𝐔𝐁𝐈𝐂𝐀𝐃𝐎: *${meta.ago}*
+> °𓃉𐇽ܳ𓏸🕸️ᮬᩬִּ〫᪲۟. 𝐋𝐈𝐍𝐊: *${meta.url}*
+> °𓃉𐇽ܳ𓏸⚙️ᮬᩬִּ〫᪲۟. 𝐒𝐄𝐑𝐕𝐈𝐃𝐎𝐑: *${meta.servidor}*
+────────────────────
 
 > *≡ Enviando, espera un momento...*`
 
