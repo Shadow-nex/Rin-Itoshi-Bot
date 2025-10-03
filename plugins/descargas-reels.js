@@ -1,13 +1,13 @@
 import fetch from "node-fetch";
 import baileys from "@whiskeysockets/baileys";
 
-const { generateWAMessageFromContent, proto, generateWAMessageContent } = baileys;
+const { proto, generateWAMessageFromContent, generateWAMessageContent } = baileys;
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) return m.reply(`🎋 Ingresa un nombre para buscar *Reels de Instagram*`);
 
   await m.react("⏳");
-  await conn.sendMessage(m.chat, { text: "*🔎 Buscando Reels de Instagram...* 🗿" }, { quoted: m });
+  await conn.sendMessage(m.chat, { text: "*🔎 Buscando Reels de Instagram...* 🗿" }, { quoted: fkontak });
 
   try {
     let res = await fetch(
@@ -22,22 +22,18 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     let reels = json.result.search_data.slice(0, 6);
 
-    async function createImage(url) {
-      const { imageMessage } = await generateWAMessageContent({ image: { url } }, { upload: conn.waUploadToServer });
-      return imageMessage;
+    async function createVideoMessage(url) {
+      const { videoMessage } = await generateWAMessageContent({ video: { url } }, { upload: conn.waUploadToServer });
+      return videoMessage;
     }
 
     let cards = [];
     for (let [i, r] of reels.entries()) {
-      let thumb = await createImage(r.thumbnail || r.profile?.profile_pic);
+      let video = await createVideoMessage(r.video || r.links);
 
       cards.push({
         body: proto.Message.InteractiveMessage.Body.fromObject({
-          text: `🌱 Usuario: @${r.profile?.username || "desconocido"}\n🍏 ${
-            r.caption || "Sin descripción"
-          }\n❤️ ${r.statistics?.like_count || 0} | 🌾 ${
-            r.statistics?.comment_count || 0
-          } | 🌿 ${r.statistics?.play_count || 0}`,
+          text: `🌱 Usuario: @${r.profile?.username || "desconocido"}\n🍏 ${r.caption || "Sin descripción"}\n❤️ ${r.statistics?.like_count || 0} | 🌾 ${r.statistics?.comment_count || 0} | 🌿 ${r.statistics?.play_count || 0}`,
         }),
         footer: proto.Message.InteractiveMessage.Footer.fromObject({
           text: "⚽ Instagram Reels",
@@ -45,7 +41,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         header: proto.Message.InteractiveMessage.Header.fromObject({
           title: "📹 Reel #" + (i + 1),
           hasMediaAttachment: true,
-          imageMessage: thumb,
+          videoMessage: video,
         }),
         nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
           buttons: [
@@ -61,6 +57,14 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
               name: "cta_url",
               buttonParamsJson: JSON.stringify({
                 display_text: "🌷 Ver en Instagram",
+                url: r.links,
+                merchant_url: r.links,
+              }),
+            },
+            {
+              name: "cta_url",
+              buttonParamsJson: JSON.stringify({
+                display_text: "📋 Copiar Link",
                 url: r.links,
                 merchant_url: r.links,
               }),
