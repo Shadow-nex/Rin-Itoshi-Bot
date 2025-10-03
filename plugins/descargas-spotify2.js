@@ -1,4 +1,5 @@
 import fetch from 'node-fetch'
+import Jimp from 'jimp'
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
@@ -31,7 +32,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       }
 
     } else {
-
       const resSearch = await fetch(`https://api.yupra.my.id/api/search/spotify?q=${encodeURIComponent(text)}`)
       if (!resSearch.ok) throw await resSearch.text()
       const jSearch = await resSearch.json()
@@ -58,9 +58,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     const author = json.author || "Desconocido"
     const download = json.url
     const durationMs = json.duration || 0
-    const duration = durationMs > 0 ? 
-      new Date(durationMs).toISOString().substr(14, 5) : 
-      "Desconocido"
+    const duration = durationMs > 0 ? new Date(durationMs).toISOString().substr(14, 5) : "Desconocido"
 
     await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } })
 
@@ -73,27 +71,34 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 👤 Artista: ${author}
 ⏱️ Duración: ${duration}\`\`\`${moreInfo}`
 
-    await conn.sendMessage(m.chat, {
-      text: '🍂 *B U S C A N D O. . . ...*',
-      mentions: [m.sender],
-      contextInfo: {
-        externalAdReply: {
-          title: '🍄 Rɪɴ Iᴛᴏsʜɪ ᴍᴅ 🌹 | 🪾 ʙʏ ᴅᴠ.sʜᴀᴅᴏᴡ 🪴',
-          body: name,
-          mediaType: 1,
-          thumbnailUrl: json.image,
-          renderLargerThumbnail: true,
-          sourceUrl: text
-        }
+    let thumb = null
+    if (json.image) {
+      try {
+        const img = await Jimp.read(json.image)
+        img.resize(300, Jimp.AUTO)
+        thumb = await img.getBufferAsync(Jimp.MIME_JPEG)
+      } catch (err) {
+        console.log("⚠️ Error al procesar miniatura:", err)
       }
-    }, { quoted: m })
+    }
 
     await conn.sendMessage(m.chat, {
       document: { url: download },
       mimetype: 'audio/mpeg',
       fileName: `${name}.mp3`,
-      caption: caption
-    }, { quoted: m })
+      caption: caption,
+      ...(thumb ? { jpegThumbnail: thumb } : {}),
+      contextInfo: {
+        externalAdReply: {
+          title: name,
+          body: `👤 ${author} • ⏱️ ${duration}`,
+          mediaType: 2,
+          thumbnailUrl: json.image,
+          renderLargerThumbnail: true,
+          sourceUrl: text
+        }
+      }
+    }, { quoted: fkontak })
 
     await conn.sendMessage(m.chat, {
       audio: { url: download },
@@ -102,14 +107,14 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       contextInfo: {
         externalAdReply: {
           title: name,
-          body: "Spotify",
+          body: `👤 ${author} • ⏱️ ${duration}`,
           mediaType: 2,
           thumbnailUrl: json.image,
           renderLargerThumbnail: true,
           sourceUrl: text
         }
       }
-    }, { quoted: m })
+    }, { quoted: fkontak })
 
   } catch (e) {
     console.error(e)
