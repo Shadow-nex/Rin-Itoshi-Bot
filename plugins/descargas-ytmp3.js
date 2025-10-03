@@ -172,89 +172,7 @@ function formatSize(bytes) {
   }
   return `${bytes.toFixed(2)} ${units[i]}`
 }
-*//*
-
-import fetch from 'node-fetch'
-import yts from 'yt-search'
-
-let handler = async (m, { conn, text, command, usedPrefix }) => {
-  try {
-    if (!text) {
-      return conn.reply(
-        m.chat,
-        `🎋 Ingresa el nombre de la canción o un enlace de YouTube.\n\n🌾 Ejemplo: ${usedPrefix + command} DJ Malam Pagi`,
-        m
-      )
-    }
-
-    await conn.sendMessage(m.chat, {
-      react: { text: "⏳", key: m.key }
-    })
-
-    let url = text
-    let videoId = null
-    if (!/^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\//i.test(text)) {
-      let search = await yts(text)
-      let video = search.videos[0]
-      if (!video) return conn.reply(m.chat, '❌ No se encontró ningún resultado.', m)
-      url = video.url
-      videoId = video.videoId
-    } else {
-      let match = url.match(/(?:v=|\.be\/)([a-zA-Z0-9_-]{11})/)
-      if (match) videoId = match[1]
-    }
-
-    const apiUrl = `https://api.vreden.my.id/api/v1/download/youtube/audio?url=${encodeURIComponent(url)}&quality=92`
-    const res = await fetch(apiUrl)
-    const json = await res.json()
-
-    if (!json?.status || !json?.result?.download?.url) {
-      return conn.reply(m.chat, '❌ No se pudo obtener el audio.', m)
-    }
-
-    let meta = json.result
-    let info = meta.metadata
-    let dl = meta.download
-
-    const audioBuffer = await (await fetch(dl.url)).buffer()
-
-    let thumbnailUrl = videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : (info.image || info.thumbnail)
-
-    // 🎵 Enviar el audio con imagen de carga personalizada
-    await conn.sendMessage(m.chat, {
-      audio: audioBuffer,
-      fileName: `${dl.filename || 'audio'}.mp3`,
-      mimetype: "audio/mpeg",
-      ptt: false,
-      contextInfo: {
-        externalAdReply: {
-          showAdAttribution: true,
-          title: info.title || 'YouTube Music',
-          body: "YouTube - By Shadow'Core", // 👈 Texto fijo debajo de la miniatura
-          mediaType: 2,
-          renderLargerThumbnail: true,
-          thumbnailUrl,
-          mediaUrl: info.url || url,
-          sourceUrl: info.url || url
-        }
-      }
-    }, { quoted: m })
-
-    await conn.sendMessage(m.chat, {
-      react: { text: "✔️", key: m.key }
-    })
-
-  } catch (e) {
-    console.error(e)
-    await conn.reply(m.chat, `❌ Error: ${e.message}`, m)
-  }
-}
-
-handler.command = ['ytmp3', 'song']
-handler.tags = ['descargas']
-handler.help = ['ytmp3 <texto o link>', 'song <texto>']
-
-export default handler*/
+*/
 
 import fetch from 'node-fetch'
 import yts from 'yt-search'
@@ -272,12 +190,10 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
     await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } })
 
-    // 🔎 buscar en YouTube
     let search = await yts(text)
     let video = search.videos[0]
     if (!video) return conn.reply(m.chat, '☁️ No se encontró ningún resultado.', m)
 
-    // 🌐 APIs fallback
     const apis = [
       { 
         api: 'ZenzzXD v2', 
@@ -299,11 +215,9 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     const { url: downloadUrl, servidor } = await fetchFromApis(apis)
     if (!downloadUrl) return conn.reply(m.chat, '❌ Ninguna API devolvió el audio.', m)
 
-    // 📏 calcular tamaño
     const size = await getSize(downloadUrl)
     const sizeStr = size ? formatSize(size) : 'Desconocido'
 
-    // 🎼 metadata
     const meta = {
       title: video.title,
       duration: video.timestamp,
@@ -316,7 +230,6 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       servidor
     }
 
-    // 📝 texto info
     const textoInfo = `🎶 *ＹＯＵＴＵＢＥ • ＭＰ3* ☁️
 ────────────────────
 > 🎋 𝐓𝐈𝐓𝐔𝐋𝐎: *${meta.title}*
@@ -332,13 +245,36 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
 > *≡ Enviando, espera un momento...*`
 
-    // 📸 enviar miniatura + info
+    const rcanal = async () => {
+      return {
+        contextInfo: {
+          isForwarded: true,
+          forwardedNewsletterMessageInfo: {
+            newsletterJid: '120363401008003732@newsletter',
+            serverMessageId: '',
+            newsletterName: '囹🎋𑜞 ᪲•˙ꨂ ֢✧: яιи ιтσѕнι - ¢нαииєℓ σffι¢ιαℓ ੈ♡‧₊˚'
+          },
+          externalAdReply: {
+            title: "𐔌 . ⋮ 𝗕 𝗨 𝗦 𝗖 𝗔 𝗡 𝗗 𝗢 .ᐟ ֹ ₊ ꒱",
+            body: "Buscando en Youtube...",
+            mediaUrl: null,
+            description: null,
+            previewType: "PHOTO",
+            thumbnail: await (await fetch('https://i.pinimg.com/originals/e0/98/ba/e098bac73c8ae72243f66c7bf712045a.jpg')).buffer(),
+            sourceUrl: redes,
+            mediaType: 1,
+            renderLargerThumbnail: false
+          }
+        }
+      }
+    }
+
     await conn.sendMessage(m.chat, {
       image: { url: meta.thumbnail },
-      caption: textoInfo
+      caption: textoInfo,
+      ...(await rcanal())
     }, { quoted: m })
 
-    // 🎵 enviar audio con miniatura en portada
     const audioBuffer = await (await fetch(downloadUrl)).buffer()
     await conn.sendMessage(m.chat, {
       audio: audioBuffer,
@@ -350,7 +286,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
           showAdAttribution: true,
           title: meta.title,
           body: `YouTube - ${meta.author}`,
-          thumbnailUrl: meta.thumbnail, // 👈 portada arriba
+          thumbnailUrl: meta.thumbnail,
           mediaType: 2,
           renderLargerThumbnail: true,
           mediaUrl: meta.url,
@@ -373,7 +309,6 @@ handler.help = ['ytmp3 <texto o link>', 'song <texto>']
 
 export default handler
 
-// 🔧 helpers
 async function fetchFromApis(apis) {
   for (const api of apis) {
     try {
