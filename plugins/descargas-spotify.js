@@ -1,3 +1,6 @@
+// - By Shadow-xyz
+// -51919199620
+
 import axios from 'axios'
 import fetch from 'node-fetch'
 
@@ -84,7 +87,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             renderLargerThumbnail: true
           }
         }
-      }, { quoted: m })
+      }, { quoted: fkontak })
     } else {
       conn.reply(m.chat, `⚠️ No se encontró un link de descarga válido para esta canción.`, m)
     }
