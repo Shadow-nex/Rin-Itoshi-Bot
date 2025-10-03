@@ -133,12 +133,12 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       contextInfo: {
         externalAdReply: {
           title: meta.title,
-          body: "YouTube - By Shadow'Core", // 👈 Texto fijo debajo de la imagen
+          body: `Duración: ${meta.duration} min | Calidad: 128kbps | Peso: ${meta.size}`,
           mediaUrl: meta.url,
           sourceUrl: meta.url,
           thumbnailUrl: meta.thumbnail,
           mediaType: 1,
-          renderLargerThumbnail: true // 👈 Para que salga completa la miniatura
+          renderLargerThumbnail: true
         }
       }
     }, { quoted: fkontak })
