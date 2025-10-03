@@ -119,21 +119,33 @@ global.fkontak = { key: {participant: `0@s.whatsapp.net`, ...(m.chat ? { remoteJ
 global.fake = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, newsletterName: channelRD.name, serverMessageId: -1 }
 }}, { quoted: m }
 
-global.iconos = [
-  'https://files.catbox.moe/ceotf9.jpg',
-  'https://files.catbox.moe/fft2hr.jpg',
-  'https://files.catbox.moe/i97oje.jpg',
-  'https://files.catbox.moe/js2plu.jpg',
-  'https://d.uguu.se/GmSLPtrU.png',
-  'https://h.uguu.se/kbNQSQxM.jpg',
-  'https://h.uguu.se/wzOFAoph.png',
-  'https://h.uguu.se/UGUwjmCs.jpg',
-  'https://n.uguu.se/vqJnHBPm.jpg',
-  'https://n.uguu.se/DlsupQkP.jpg',
-  'https://i.pinimg.com/originals/e0/98/ba/e098bac73c8ae72243f66c7bf712045a.jpg'
-]
+async function getRandomIcon() {
+  const urls = [
+    'https://files.catbox.moe/ceotf9.jpg',
+    'https://files.catbox.moe/fft2hr.jpg',
+    'https://files.catbox.moe/i97oje.jpg',
+    'https://files.catbox.moe/js2plu.jpg',
+    'https://d.uguu.se/GmSLPtrU.png',
+    'https://h.uguu.se/kbNQSQxM.jpg',
+    'https://h.uguu.se/wzOFAoph.png',
+    'https://h.uguu.se/UGUwjmCs.jpg',
+    'https://n.uguu.se/vqJnHBPm.jpg',
+    'https://n.uguu.se/DlsupQkP.jpg',
+    'https://i.pinimg.com/originals/e0/98/ba/e098bac73c8ae72243f66c7bf712045a.jpg'
+  ]
+  
+  let url
+  for (let i = 0; i < urls.length; i++) {
+    url = urls[Math.floor(Math.random() * urls.length)]
+    try {
+      let res = await fetch(url, { method: "HEAD" })
+      if (res.ok) return url
+    } catch (e) {}
+  }
+  return 'https://files.catbox.moe/ceotf9.jpg'
+}
 
-global.icono = global.iconos[Math.floor(Math.random() * global.iconos.length)]
+global.icono = await getRandomIcon()
 
 global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: '', newsletterName: channelRD.name }, externalAdReply: { title: botname, body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnail: await (await fetch(icono)).buffer(), sourceUrl: redes, mediaType: 1, renderLargerThumbnail: false }, mentionedJid: null }}
 }
