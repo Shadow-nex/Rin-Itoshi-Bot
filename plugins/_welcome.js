@@ -129,6 +129,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
   if (!m.messageStubType || !m.isGroup) return true
 
   const chat = global.db.data.chats[m.chat]
+  if (!chat?.welcome) return true
 
   const getPais = (numero) => {
     const paises = {
@@ -156,15 +157,25 @@ export async function before(m, { conn, participants, groupMetadata }) {
     const guildName = groupMetadata.subject
     const memberCount = participants.length
     const avatar = await conn.profilePictureUrl(usuarioJid, 'image').catch(_ => 'https://i.ibb.co/1s8T3sY/48f7ce63c7aa.jpg')
-    const background = 'https://i.pinimg.com/originals/fb/f1/6b/fbf16b6d23fb9a8915a5c414bd15a023.jpg'
+    const background = 'https://files.catbox.moe/b9p86d.jpg'
     const guildIcon = 'https://github.com/Yuji-XDev.png'
-    return `https://api-nv.eliasaryt.pro/api/generate/welcome-image?username=${username}&guildName=${guildName}&memberCount=${memberCount}&avatar=${avatar}&background=${background}&guildIcon=${guildIcon}&key=hYSK8YrJpKRc9jSE`
+
+    const url = `https://api-nv.eliasaryt.pro/api/generate/welcome-image?username=${encodeURIComponent(username)}&guildName=${encodeURIComponent(guildName)}&memberCount=${memberCount}&avatar=${encodeURIComponent(avatar)}&background=${encodeURIComponent(background)}&guildIcon=${encodeURIComponent(guildIcon)}&key=hYSK8YrJpKRc9jSE&type=${tipo}`
+
+    try {
+      const res = await fetch(url)
+      if (!res.ok) throw new Error('API no responde')
+      return url
+    } catch {
+      return background
+    }
   }
 
-  const thumbBuffer = await fetch(icono).then(res => res.buffer())
+  const thumbUrl = Array.isArray(icono) ? icono[Math.floor(Math.random() * icono.length)] : icono
+  const thumbBuffer = await fetch(thumbUrl).then(res => res.buffer())
 
   const fkontak = {
-    key: { participants: "0@s.whatsapp.net", remoteJid: "status@broadcast", fromMe: false, id: "Halo" },
+    key: { participants: "0@s.whatsapp.net", remoteJid: m.chat, fromMe: false, id: "Halo" },
     message: { locationMessage: { name: "☆ 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 𝚄𝙻𝚃𝚁𝙰 ☆ ⭐", jpegThumbnail: thumbBuffer } },
     participant: "0@s.whatsapp.net"
   }
@@ -183,13 +194,10 @@ export async function before(m, { conn, participants, groupMetadata }) {
       externalAdReply: {
         title: botname,
         body: dev,
-        mediaUrl: null,
-        description: null,
         previewType: "PHOTO",
-        thumbnailUrl: icono,
+        thumbnailUrl: thumbUrl,
         sourceUrl: "https://instagram.com",
-        mediaType: 1,
-        renderLargerThumbnail: false
+        mediaType: 1
       }
     }
   }
@@ -198,7 +206,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
 🍓⏤͟͟͞͞Ｗ 𝐸 𝐿 𝐶 𝑂 𝑀 𝐸⏤͟͟͞͞🍁
 ┗┳┳• - • - • - • - • ┳┳ ┛
 
-✿ вιєиνєн∂ισ α *_${groupMetadata.subject}_*
+✿ вιєиνєи∂ισ α *_${groupMetadata.subject}_*
 ♧ _𝐔𝐬𝐮𝐚𝐫𝐢𝐨:_ @${numeroUsuario}
 ${global.welcom1}
 ● ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}
@@ -222,7 +230,7 @@ ${global.welcom1}
 
 *🍓＊✿❀»»——>♡<——««❀✿＊🍁*`
 
-  if (chat?.welcome && m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
+  if (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
     const imgWelcome = await generarImagenUrl('welcome')
     await conn.sendMessage(m.chat, { 
       image: { url: imgWelcome }, 
@@ -230,14 +238,14 @@ ${global.welcom1}
       ...fakeContext, 
       footer: club, 
       buttons: [
-        { buttonId: "#reg shadow.18", buttonText: { displayText: "𝗔𝘂𝘁𝗼 𝘃𝗲𝗿𝗶𝗳𝗶𝗰𝗮𝗿" }, type: 1 },
-        { buttonId: "#menu", buttonText: { displayText: "𝗠𝗘𝗡𝗨" }, type: 1 }
+        { buttonId: "#reg shadow.18", buttonText: { displayText: "Auto verificar" }, type: 1 },
+        { buttonId: "#menu", buttonText: { displayText: "MENU" }, type: 1 }
       ], 
       headerType: 4
     }, { quoted: fkontak })
   }
 
-  if (chat?.welcome && (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_LEAVE || m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_REMOVE)) {
+  if (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_LEAVE || m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_REMOVE) {
     const imgBye = await generarImagenUrl('bye')
     await conn.sendMessage(m.chat, { 
       image: { url: imgBye }, 
@@ -245,8 +253,8 @@ ${global.welcom1}
       ...fakeContext, 
       footer: club, 
       buttons: [
-        { buttonId: "#p", buttonText: { displayText: "𝗣𝗜𝗡𝗚" }, type: 1 },
-        { buttonId: "#menu", buttonText: { displayText: "𝗠𝗘𝗡𝗨" }, type: 1 }
+        { buttonId: "#p", buttonText: { displayText: "PING" }, type: 1 },
+        { buttonId: "#menu", buttonText: { displayText: "MENU" }, type: 1 }
       ], 
       headerType: 4
     }, { quoted: fkontak })
