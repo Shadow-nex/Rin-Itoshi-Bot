@@ -152,15 +152,17 @@ import fetch from "node-fetch"
 
 const handler = async (m, { conn, command, usedPrefix, participants }) => {
   try {
+    // lista de bots conectados (principal + subbots)
     const users = [
       global.conn.user.jid,
       ...new Set(
         global.conns
-          .filter((conn) => conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED)
-          .map((conn) => conn.user.jid)
+          .filter(c => c.user && c.ws.socket && c.ws.socket.readyState !== ws.CLOSED)
+          .map(c => c.user.jid)
       )
     ]
 
+    // conversión de ms a tiempo legible
     function convertirMsADiasHorasMinutosSegundos(ms) {
       const segundos = Math.floor(ms / 1000)
       const minutos = Math.floor(segundos / 60)
@@ -177,12 +179,14 @@ const handler = async (m, { conn, command, usedPrefix, participants }) => {
       return resultado.trim()
     }
 
+    // miniatura para el productMessage
     const getThumbnail = async () => {
       const res = await axios.get("https://files.catbox.moe/3su9of.jpg", { responseType: "arraybuffer" })
       return Buffer.from(res.data, "binary")
     }
     const thumbnail = await getThumbnail()
 
+    // mensaje fake de producto para que salga bonito
     const shadow_xyz = {
       key: {
         fromMe: false,
@@ -196,7 +200,7 @@ const handler = async (m, { conn, command, usedPrefix, participants }) => {
               mimetype: "image/jpeg",
               jpegThumbnail: thumbnail
             },
-            title: "☆ 🍧 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 | 𝐎𝐍𝐋𝐈𝐍𝐄 ☁️ ☆",
+            title: "☆ 🍏 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 | 𝐎𝐍𝐋𝐈𝐍𝐄 ☁️ ☆",
             description: "SubBots conectados en este momento",
             currencyCode: "USD",
             priceAmount1000: 5000,
@@ -208,28 +212,33 @@ const handler = async (m, { conn, command, usedPrefix, participants }) => {
       }
     }
 
-    let groupBots = users.filter((bot) => participants.some((p) => p.id === bot))
-    if (participants.some((p) => p.id === global.conn.user.jid) && !groupBots.includes(global.conn.user.jid)) {
+    // buscar bots dentro del grupo
+    let groupBots = users.filter(bot =>
+      participants.some(p => p.id.toLowerCase() === bot.toLowerCase())
+    )
+
+    // asegurar que el principal SIEMPRE esté en la lista
+    if (!groupBots.includes(global.conn.user.jid)) {
       groupBots.push(global.conn.user.jid)
     }
 
+    // crear texto con los bots detectados
     const botsGroup =
       groupBots.length > 0
-        ? groupBots
-            .map((bot) => {
-              const isMainBot = bot === global.conn.user.jid
-              const v = global.conns.find((conn) => conn.user.jid === bot)
-              const uptime = isMainBot
-                ? convertirMsADiasHorasMinutosSegundos(Date.now() - global.conn.uptime)
-                : v?.uptime
-                ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime)
-                : "Activo desde ahora"
-              const mention = bot.replace(/[^0-9]/g, "")
-              return `@${mention}\n> Bot: ${isMainBot ? "Principal" : "Sub-Bot"}\n> Online: ${uptime}`
-            })
-            .join("\n\n")
+        ? groupBots.map(bot => {
+            const isMainBot = bot === global.conn.user.jid
+            const v = global.conns.find(c => c.user.jid === bot)
+            const uptime = isMainBot
+              ? convertirMsADiasHorasMinutosSegundos(Date.now() - (global.startTime || Date.now()))
+              : v?.uptime
+              ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime)
+              : "Activo desde ahora"
+            const mention = bot.replace(/[^0-9]/g, "")
+            return `@${mention}\n> Bot: ${isMainBot ? "Principal" : "Sub-Bot"}\n> Online: ${uptime}`
+          }).join("\n\n")
         : `✧ No hay bots activos en este grupo`
 
+    // mensaje principal
     const message = `\`\`\`   ݊ ּ͜⏜݆ׄ͜⌒໊݂݁͜⏜݄͜ ͝⃞֟🌷⃛͜͝ ⃞໊݄⏜݆ׄ͜͜⌒ ּ͜⏜݆ׄ݊͜ ּ͜ \`\`\`
 \`\`\`    ۪〫〫𝆬✿〫𝆬 ᮫ᨗ۫ 𝐒𝐎𝐂𝐊𝐄𝐓𝐒 𝐎𝐍𝐋𝐈𝐍𝐄   ּּ籭᮫꫶ֹּּ࣭ٜ〫۫𝆬𝆬ᨗ࠭࠭𝆬ᨗ \`\`\`
 \`\`\`   ֶ֮⏝ ٌ۪͝ ⏝ֶ֮⋃ ֶ֮ ⋃⏝ ٌ۪͝ ⏝ֶ֮ \`\`\`
@@ -242,9 +251,10 @@ const handler = async (m, { conn, command, usedPrefix, participants }) => {
 ❏ En este grupo: *${groupBots.length}* bots
 ${botsGroup}`
 
-    const mentionList = groupBots.map((bot) => (bot.endsWith("@s.whatsapp.net") ? bot : `${bot}@s.whatsapp.net`))
+    // menciones
+    const mentionList = groupBots.map(bot => (bot.endsWith("@s.whatsapp.net") ? bot : `${bot}@s.whatsapp.net`))
 
-/*
+    // rcanal (contextInfo + preview)
     const rcanal = {
       contextInfo: {
         isForwarded: true,
@@ -267,7 +277,8 @@ ${botsGroup}`
         mentionedJid: mentionList
       }
     }
-*/
+
+    // enviar mensaje
     await conn.sendMessage(m.chat, { text: message, ...rcanal }, { quoted: shadow_xyz })
 
   } catch (error) {
