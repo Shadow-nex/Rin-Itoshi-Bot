@@ -1,9 +1,9 @@
-/*import fetch from 'node-fetch'
+import fetch from 'node-fetch'
 import Jimp from 'jimp'
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
-    return m.reply(`🍂 *Ejemplo de uso:*\n\n✎ ✧ \`${usedPrefix + command}\` https://open.spotify.com/track/0RmVGwfIgezMi7EKB3lU0B\n\n✎ ✧ \`${usedPrefix + command}\` TWICE - I CAN'T STOP ME`)
+    return m.reply(`🍂 *Uso correcto:*\n\n✦ \`${usedPrefix + command}\` <url de Spotify>\n\n📌 Ejemplo:\n${usedPrefix + command} https://open.spotify.com/track/3aPRjg26MXywx4V89uyjad`)
   }
 
   try {
@@ -126,7 +126,9 @@ handler.help = ['music <url|nombre>']
 handler.tags = ['dl']
 handler.command = ['music']
 
-export default handler*/
+export default handler
+
+/*
 
 import fetch from 'node-fetch'
 
@@ -172,4 +174,4 @@ handler.help = ['wcom <url>']
 handler.tags = ['downloader']
 handler.command = ['wcom']
 
-export default handler
+export default handler*/
