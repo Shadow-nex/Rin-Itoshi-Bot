@@ -38,7 +38,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
       image: { url: 'https://files.catbox.moe/eml66k.jpg' },
       caption: texto,
       mentions: [m.sender],
-      footer: club,
+      footer: dev,
       buttons: botones,
       headerType: 4,
       contextInfo: {
@@ -75,7 +75,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
       image: { url: 'https://files.catbox.moe/eml66k.jpg' },
       caption: mensaje,
       mentions: [m.sender],
-      footer: club,
+      footer: dev,
       buttons: botones,
       headerType: 4,
       contextInfo: {
