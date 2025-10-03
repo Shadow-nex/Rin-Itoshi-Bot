@@ -89,7 +89,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
             mediaUrl: null,
             description: null,
             previewType: "PHOTO",
-            thumbnail: await (await fetch(icono)).buffer(),
+            thumbnail: await (await fetch('https://i.pinimg.com/originals/e0/98/ba/e098bac73c8ae72243f66c7bf712045a.jpg')).buffer(),
             sourceUrl: redes,
             mediaType: 1,
             renderLargerThumbnail: false
