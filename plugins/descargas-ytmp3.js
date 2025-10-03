@@ -232,15 +232,15 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
     const textoInfo = `🎶 *ＹＯＵＴＵＢＥ • ＭＰ3* ☁️
 ────────────────────
-> 🎋 𝐓𝐈𝐓𝐔𝐋𝐎: *${meta.title}*
-> 🌿 𝐃𝐔𝐑𝐀𝐂𝐈𝐎𝐍: *${meta.duration}*
-> 🍏 𝐂𝐀𝐍𝐀𝐋: *${meta.author}*
-> 🍄 𝐕𝐈𝐒𝐓𝐀𝐒: *${meta.views}*
-> ⚽ 𝐓𝐀𝐌𝐀𝐍̃𝐎: *${meta.size}*
-> ☁️ 𝐂𝐀𝐋𝐈𝐃𝐀𝐃: *128kbps*
-> 🌷 𝐏𝐔𝐁𝐋𝐈𝐂𝐀𝐃𝐎: *${meta.ago}*
-> 🕸️ 𝐋𝐈𝐍𝐊: *${meta.url}*
-> ⚙️ 𝐒𝐄𝐑𝐕𝐈𝐃𝐎𝐑: *${meta.servidor}*
+> °𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. 𝐓𝐈𝐓𝐔𝐋𝐎: *${meta.title}*
+> °𓃉𐇽ܳ𓏸🌿ᮬᩬִּ〫᪲۟. 𝐃𝐔𝐑𝐀𝐂𝐈𝐎𝐍: *${meta.duration}*
+> °𓃉𐇽ܳ𓏸🍏ᮬᩬִּ〫᪲۟. 𝐂𝐀𝐍𝐀𝐋: *${meta.author}*
+> °𓃉𐇽ܳ𓏸🍄ᮬᩬִּ〫᪲۟. 𝐕𝐈𝐒𝐓𝐀𝐒: *${meta.views}*
+> °𓃉𐇽ܳ𓏸⚽ᮬᩬִּ〫᪲۟. 𝐓𝐀𝐌𝐀𝐍̃𝐎: *${meta.size}*
+> °𓃉𐇽ܳ𓏸☁️ᮬᩬִּ〫᪲۟. 𝐂𝐀𝐋𝐈𝐃𝐀𝐃: *128kbps*
+> °𓃉𐇽ܳ𓏸🌷ᮬᩬִּ〫᪲۟. 𝐏𝐔𝐁𝐈𝐂𝐀𝐃𝐎: *${meta.ago}*
+> °𓃉𐇽ܳ𓏸🕸️ᮬᩬִּ〫᪲۟. 𝐋𝐈𝐍𝐊: *${meta.url}*
+> °𓃉𐇽ܳ𓏸⚙️ᮬᩬִּ〫᪲۟. 𝐒𝐄𝐑𝐕𝐈𝐃𝐎𝐑: *${meta.servidor}*
 ────────────────────
 
 > *≡ Enviando, espera un momento...*`
@@ -284,8 +284,8 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       contextInfo: {
         externalAdReply: {
           showAdAttribution: true,
-          title: meta.title,
-          body: `YouTube - ${meta.author}`,
+          title: '𝐘 𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐌 𝐔 𝐒 𝐈 𝐂',
+          body: `Duración: ${meta.duration} min | Calidad: 128kbps | Peso: ${meta.size}`,
           thumbnailUrl: meta.thumbnail,
           mediaType: 2,
           renderLargerThumbnail: true,
