@@ -220,30 +220,24 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
     let thumbnailUrl = videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : (info.image || info.thumbnail)
 
-    // 📌 Aquí agregamos la "marca" en la imagen de carga
+    // 🎵 Enviar el audio con imagen de carga personalizada
     await conn.sendMessage(m.chat, {
+      audio: audioBuffer,
+      fileName: `${dl.filename || 'audio'}.mp3`,
+      mimetype: "audio/mpeg",
+      ptt: false,
       contextInfo: {
         externalAdReply: {
           showAdAttribution: true,
           title: info.title || 'YouTube Music',
-          body: "YouTube - By Shadow'Core", // 👈 Texto fijo debajo de la imagen
+          body: "YouTube - By Shadow'Core", // 👈 Texto fijo debajo de la miniatura
           mediaType: 2,
           renderLargerThumbnail: true,
           thumbnailUrl,
           mediaUrl: info.url || url,
           sourceUrl: info.url || url
         }
-      },
-      image: { url: thumbnailUrl },
-      caption: `🎶 *Título:* ${info.title}\n⏱️ *Duración:* ${info.duration?.timestamp || '-'}\n📊 *Calidad:* ${dl.quality || '92kbps'}\n\n⏳ Enviando audio...`
-    }, { quoted: m })
-
-    // 🎵 Enviar el audio
-    await conn.sendMessage(m.chat, {
-      audio: audioBuffer,
-      fileName: `${dl.filename || 'audio'}.mp3`,
-      mimetype: "audio/mpeg",
-      ptt: false,
+      }
     }, { quoted: m })
 
     await conn.sendMessage(m.chat, {

@@ -200,7 +200,6 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       url = video.url
       videoId = video.videoId
     } else {
-      // si es link, sacamos el videoId del enlace
       let match = url.match(/(?:v=|\.be\/)([a-zA-Z0-9_-]{11})/)
       if (match) videoId = match[1]
     }
@@ -221,22 +220,30 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
     let thumbnailUrl = videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : (info.image || info.thumbnail)
 
+    // 📌 Aquí agregamos la "marca" en la imagen de carga
+    await conn.sendMessage(m.chat, {
+      contextInfo: {
+        externalAdReply: {
+          showAdAttribution: true,
+          title: info.title || 'YouTube Music',
+          body: "YouTube - By Shadow'Core", // 👈 Texto fijo debajo de la imagen
+          mediaType: 2,
+          renderLargerThumbnail: true,
+          thumbnailUrl,
+          mediaUrl: info.url || url,
+          sourceUrl: info.url || url
+        }
+      },
+      image: { url: thumbnailUrl },
+      caption: `🎶 *Título:* ${info.title}\n⏱️ *Duración:* ${info.duration?.timestamp || '-'}\n📊 *Calidad:* ${dl.quality || '92kbps'}\n\n⏳ Enviando audio...`
+    }, { quoted: m })
+
+    // 🎵 Enviar el audio
     await conn.sendMessage(m.chat, {
       audio: audioBuffer,
       fileName: `${dl.filename || 'audio'}.mp3`,
       mimetype: "audio/mpeg",
       ptt: false,
-      contextInfo: {
-        externalAdReply: {
-          title: info.title || 'YouTube Music',
-          body: `🎶 Duración: ${info.duration?.timestamp || '-'} • 📊 Calidad: ${dl.quality || '92kbps'}`,
-          mediaUrl: info.url || url,
-          sourceUrl: info.url || url,
-          thumbnailUrl,
-          mediaType: 1,
-          renderLargerThumbnail: true
-        }
-      }
     }, { quoted: m })
 
     await conn.sendMessage(m.chat, {
