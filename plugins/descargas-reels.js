@@ -1,12 +1,10 @@
 import fetch from "node-fetch";
 import baileys from "@whiskeysockets/baileys";
 
-const { generateWAMessageFromContent, proto } = baileys;
+const { generateWAMessageFromContent, proto, generateWAMessageContent } = baileys;
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) {
-    return m.reply(`🎋 Ingresa un nombre para buscar *Reels de Instagram*`);
-  }
+  if (!text) return m.reply(`🎋 Ingresa un nombre para buscar *Reels de Instagram*`);
 
   await m.react("⏳");
   await conn.sendMessage(m.chat, { text: "*🔎 Buscando Reels de Instagram...* 🗿" }, { quoted: m });
@@ -22,11 +20,18 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       return m.reply("No se encontraron resultados.");
     }
 
-    let reels = json.result.search_data;
+    let reels = json.result.search_data.slice(0, 6);
 
-    // Máximo 6 reels para no saturar
-    let cards = reels.slice(0, 6).map((r, i) => {
-      return {
+    async function createImage(url) {
+      const { imageMessage } = await generateWAMessageContent({ image: { url } }, { upload: conn.waUploadToServer });
+      return imageMessage;
+    }
+
+    let cards = [];
+    for (let [i, r] of reels.entries()) {
+      let thumb = await createImage(r.thumbnail || r.profile?.profile_pic);
+
+      cards.push({
         body: proto.Message.InteractiveMessage.Body.fromObject({
           text: `🌱 Usuario: @${r.profile?.username || "desconocido"}\n🍏 ${
             r.caption || "Sin descripción"
@@ -40,16 +45,14 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         header: proto.Message.InteractiveMessage.Header.fromObject({
           title: "📹 Reel #" + (i + 1),
           hasMediaAttachment: true,
-          videoMessage: proto.Message.VideoMessage.fromObject({
-            url: r.reels?.url,
-          }),
+          imageMessage: thumb,
         }),
         nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
           buttons: [
             {
               name: "cta_url",
               buttonParamsJson: JSON.stringify({
-                display_text: "📢 Canal official",
+                display_text: "📢 Canal oficial",
                 url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
                 merchant_url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
               }),
@@ -64,10 +67,10 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             },
           ],
         }),
-      };
-    });
+      });
+    }
 
-    let msg = generateWAMessageFromContent(
+    const msg = generateWAMessageFromContent(
       m.chat,
       {
         viewOnceMessage: {
@@ -90,7 +93,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     );
 
     await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
-
     await m.react("✅");
   } catch (e) {
     console.error(e);
