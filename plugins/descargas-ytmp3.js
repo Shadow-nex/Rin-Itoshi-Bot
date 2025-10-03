@@ -1,4 +1,4 @@
-/*import fetch from 'node-fetch'
+import fetch from 'node-fetch'
 import yts from 'yt-search'
 import axios from 'axios'
 
@@ -103,6 +103,26 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       caption: textoInfo,
       ...(await rcanal())
     }, { quoted: m })
+/*
+    const audioBuffer = await (await fetch(downloadUrl)).buffer()
+    await conn.sendMessage(m.chat, {
+      audio: audioBuffer,
+      fileName: `${meta.title}.mp3`,
+      mimetype: "audio/mpeg",
+      ptt: false,
+      contextInfo: {
+        externalAdReply: {
+          title: meta.title,
+          body: `Duración: ${meta.duration} min | Calidad: 128kbps | Peso: ${meta.size}`,
+          mediaUrl: meta.url,
+          sourceUrl: meta.url,
+          thumbnailUrl: meta.thumbnail,
+          mediaType: 1,
+          renderLargerThumbnail: true
+        }
+      }
+    }, { quoted: fkontak })
+*/
 
     const audioBuffer = await (await fetch(downloadUrl)).buffer()
     await conn.sendMessage(m.chat, {
@@ -122,7 +142,6 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
         }
       }
     }, { quoted: fkontak })
-
     await conn.sendMessage(m.chat, {
       react: { text: "✔️", key: m.key }
     })
@@ -171,7 +190,7 @@ function formatSize(bytes) {
     i++
   }
   return `${bytes.toFixed(2)} ${units[i]}`
-}*/
+}/*
 
 
 import fetch from 'node-fetch'
@@ -254,4 +273,4 @@ handler.command = ['ytmp3', 'song']
 handler.tags = ['descargas']
 handler.help = ['ytmp3 <texto o link>', 'song <texto>']
 
-export default handler
+export default handler*/
