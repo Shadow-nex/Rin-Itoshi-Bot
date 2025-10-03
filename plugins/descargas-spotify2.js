@@ -136,7 +136,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   }
 
   try {
-    let url = `https://api.neoxr.eu/api/spotify?url=${encodeURIComponent(args[0])}&apikey=6cp02j`
+    let url = `https://api.neoxr.eu/api/spotify?url=${encodeURIComponent(args[0])}&apikey=russellxz`
     let res = await fetch(url)
     let json = await res.json()
 
