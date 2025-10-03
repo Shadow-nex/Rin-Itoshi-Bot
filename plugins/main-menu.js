@@ -62,7 +62,7 @@ let handler = async (m, { conn, args }) => {
         externalAdReply: {
           title: '🍄 Rɪɴ Iᴛᴏsʜɪ ᴍᴅ 🌹 | 🪾 ʙʏ ᴅᴠ.sʜᴀᴅᴏᴡ 🪴',
           body: club,
-          thumbnailUrl: 'https://files.catbox.moe/q8b2br.jpg',
+          thumbnailUrl: await (await fetch('https://files.catbox.moe/q8b2br.jpg')).buffer(),
           sourceUrl: redes,
           mediaType: 1,
           renderLargerThumbnail: false
@@ -748,7 +748,7 @@ ${readMore}
       ],
       headerType: 4,
       contextInfo: {      
-      jpegThumbnail: icono,
+      jpegThumbnail: await (await fetch(icono)).buffer(),
         mentionedJid: [m.sender],
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
