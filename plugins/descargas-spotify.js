@@ -51,9 +51,11 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     if (!downloadUrl || downloadUrl.includes('undefined')) {
       try {
-        let apiV2 = `https://api.nekolabs.my.id/downloader/spotify/play/v1?q=${encodeURIComponent(title + " " + artist)}`
-        let dl2 = await axios.get(apiV2, { timeout: 20000 })
-        downloadUrl = dl2?.data?.downloadUrl
+        let apiSylphy = `https://api.sylphy.xyz/download/spotify?url=${encodeURIComponent(spotifyUrl)}&apikey=sylphy-c519`
+        let dlSylphy = await axios.get(apiSylphy, { timeout: 20000 })
+        if (dlSylphy?.data?.status && dlSylphy?.data?.data?.dl_url) {
+          downloadUrl = dlSylphy.data.data.dl_url
+        }
       } catch { }
     }
 
@@ -94,7 +96,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
   } catch (e) {
     console.error(e)
-    conn.reply(m.chat, `Error al buscar/descargar la canción.`, m)
+    conn.reply(m.chat, `❌ Error al buscar o descargar la canción.`, m)
   }
 }
 
