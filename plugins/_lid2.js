@@ -41,10 +41,10 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
           caption: info,
           ...rcanal
         },
-        { quoted: m }
+        { quoted: fkontak }
       )
     } else {
-      await conn.sendMessage(m.chat, { text: info, ...rcanal }, { quoted: m })
+      await conn.sendMessage(m.chat, { text: info, ...rcanal }, { quoted: fkontak })
     }
 
   } catch (e) {
