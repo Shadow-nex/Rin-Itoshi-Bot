@@ -179,6 +179,7 @@ const handler = async (m, { conn, command, usedPrefix, participants }) => {
       return partes.join(", ")
     }
 
+
     const getThumbnail = async () => {
       const res = await axios.get("https://files.catbox.moe/3su9of.jpg", { responseType: "arraybuffer" })
       return Buffer.from(res.data, "binary")
@@ -222,26 +223,19 @@ const handler = async (m, { conn, command, usedPrefix, participants }) => {
       groupBots.length > 0
         ? groupBots.map(bot => {
             const isMainBot = bot === global.conn.user.jid
-            let uptime
+            const v = global.conns.find(c => c.user?.jid === bot)
 
-            if (isMainBot) {
-              const startTime = global.startTime || Date.now()
-              uptime = convertirMsADiasHorasMinutosSegundos(Date.now() - startTime)
-            } else {
-              const sub = global.conns.find(c => c.user?.jid === bot)
-              if (sub && sub.uptime) {
-                uptime = convertirMsADiasHorasMinutosSegundos(Date.now() - sub.uptime)
-              } else {
-                uptime = "Pocos segundos"
-              }
-            }
+            const uptime = isMainBot
+              ? convertirMsADiasHorasMinutosSegundos(Date.now() - (global.conn.uptime || Date.now()))
+              : v?.uptime
+              ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime)
+              : "Activo desde ahora"
 
             const mention = bot.replace(/[^0-9]/g, "")
             return `@${mention}\n> Bot: ${isMainBot ? "Principal" : "Sub-Bot"}\n> Online: ${uptime}`
           }).join("\n\n")
         : `✧ No hay bots activos en este grupo`
 
-    // mensaje principal
     const message = `\`\`\`   ݊ ּ͜⏜݆ׄ͜⌒໊݂݁͜⏜݄͜ ͝⃞֟🌷⃛͜͝ ⃞໊݄⏜݆ׄ͜͜⌒ ּ͜⏜݆ׄ݊͜ ּ͜ \`\`\`
 \`\`\`    ۪〫〫𝆬✿〫𝆬 ᮫ᨗ۫ 𝐒𝐎𝐂𝐊𝐄𝐓𝐒 𝐎𝐍𝐋𝐈𝐍𝐄   ּּ籭᮫꫶ֹּּ࣭ٜ〫۫𝆬𝆬ᨗ࠭࠭𝆬ᨗ \`\`\`
 \`\`\`   ֶ֮⏝ ٌ۪͝ ⏝ֶ֮⋃ ֶ֮ ⋃⏝ ٌ۪͝ ⏝ֶ֮ \`\`\`
@@ -280,7 +274,6 @@ ${botsGroup}`
     }
 
     await conn.sendMessage(m.chat, { text: message, ...rcanal }, { quoted: shadow_xyz })
-
   } catch (error) {
     m.reply(`⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${error.message}`)
   }
