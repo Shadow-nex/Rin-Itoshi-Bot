@@ -50,7 +50,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
           newsletterName: channelRD.name
         }
       }
-    }, { quoted: m });
+    }, { quoted: fkontak });
  }
   
    if (!Reg.test(text)) {
@@ -87,7 +87,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
           newsletterName: channelRD.name
         }
       }
-    }, { quoted: m });
+    }, { quoted: fkontak });
   }
 
   let hora = new Date().toLocaleTimeString('es-PE', { timeZone: 'America/Lima' });
@@ -113,26 +113,32 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
   user.joincount = (user.joincount || 0) + 20
 
   let sn = createHash('md5').update(m.sender).digest('hex').slice(0, 20)
+  
 
-  let regbot = `✿⊹⊱⋆彡 Registro Finalizado 彡⋆⊰⊹✿
+  let regbot = `≡══════════════════════════≡
+✿⊹⊱⋆彡 𝐑𝐄𝐆𝐈𝐒𝐓𝐑𝐎 • 𝐂𝐎𝐌𝐏𝐋𝐄𝐓𝐎 彡⋆⊰⊹✿
+≡══════════════════════════≡
 
 ╭━━━ ˚₊· ͟͟͞͞➳❥
-🍓 Nombre: ${name}
-🐰 Edad: ${age} añitos ฅ^•ﻌ•^ฅ
-📖 Fecha: ${fecha}
-⌛ Hora: ${hora}
-🌙 Día: ${dia}
+│🍓 ɴᴏᴍʙʀᴇ »  ${name}
+│🐰 ᴇᴅᴀᴅ »  ${age} añitos ฅ^•ﻌ•^ฅ
+├──────────
+│📖 ғᴇᴄʜᴀ »  ${fecha}
+│⌛ ʜᴏʀᴀ »  ${hora}
+│🌙 ᴅɪᴀ » ${dia}
 ╰━━━ ˚₊· ͟͟͞͞➳❥
 
 ﾟ｡⋆｡🎀｡⋆｡ﾟ⋆｡🎀｡⋆｡ﾟ
 💌 〔 𝑹𝑬𝑪𝑶𝑴𝑷𝑬𝑵𝑺𝑨𝑺 〕 💌
 ✧ 💰 +40 → ${moneda}
-✧ 🔮 +300 → exp
-✧ 💎 +20 → tokens
+✧ 🔮 +300 → ᴇxᴘ
+✧ 💎 +20 → ᴛᴏᴋᴇɴs
 ﾟ｡⋆｡🎀｡⋆｡ﾟ⋆｡🎀｡⋆｡ﾟ
 
-(づ๑•ᴗ•๑)づ♡ ¡Yay ${name}!
-Fuiste registrado con mucha ternura kawaii ✨🍓`.trim();
+
+🕊️ ¡Bienvenido ${name}!
+Tu esencia ha sido registrada en el libro celestial ✨
+Que los astros guíen tu camino 🌌 (づ๑•ᴗ•๑)づ♡ `.trim();
 
   await m.react?.('📩')
 
@@ -160,7 +166,7 @@ Fuiste registrado con mucha ternura kawaii ✨🍓`.trim();
         }
       }
     },
-    { quoted: m });
+    { quoted: fkontak });
   };
 
 handler.help = ['reg']
