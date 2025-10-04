@@ -249,54 +249,47 @@ import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysoc
 
 let handler = async (m, { conn, usedPrefix, command }) => {
 try {
-  // Datos del usuario
   let user = global.db.data.users[m.sender]
   let name = conn.getName(m.sender)
-  
-  // Datos del bot
   let totalUsers = Object.keys(global.db.data.users).length
   let totalCommands = Object.keys(global.plugins).length
   let uptime = clockString(process.uptime() * 1000)
   
-  // Fecha
   let fecha = moment.tz('America/Lima').format('DD/MM/YYYY')
   let hora = moment.tz('America/Lima').format('HH:mm:ss')
   let dia = moment.tz('America/Lima').locale('es').format('dddd').toUpperCase()
 
-  let texto = `
-⿻̟֟፝݊͜⃝⁩⚽꫶⃝꙰⿻͜𝐑𝐈𝐍͜ 𝐈͜𝐓𝐎𝐒༙͜ᝲ𝐇𝐈🍧⃟─̶̲̲̲̲̲̲̲̲̲֟፝͠
-  🍨⃟≛⃝🫐๋⭑sʜᴀᴅᴏᴡ.xʏᴢ ⊹༙ᝲ🧪𝆺𝅥𝆹𝅥𝆬! ✰ :
+  let footerText = `
+⿻̟֟፝݊͜⃝⁩⚽꫶⃝꙰⿻͜𝐑𝐈𝐍͜ 𝐈͜𝐓𝐎𝐒༙͜ᝲ𝐇𝐈🍧⃟
+🍨⃟≛⃝🫐๋⭑sʜᴀᴅᴏᴡ.xʏᴢ ⊹༙ᝲ🧪𝆺𝅥𝆹𝅥𝆬!
 
 ┌───────────
-│□╭┄◦ৎ ˖ ࣪⊹ 𝐈𝐍𝐅𝐎 ~ 𝐁𝐎𝐓 ✧⃟ᰳᰬᰶ
-│□┊≡ 🍂 𝙲𝚁𝙴𝙰𝙳𝙾𝚁: *shadow.xyz*
-│□┊≡ 🧸 𝙲𝙾𝙽𝚃𝙰𝙲𝙏𝙾: *wa.link/z1w9sq*
-│□┊≡ 💾 𝚅𝚂: *2.2.5*
-│□┊≡ 👥 𝚄𝚂𝙴𝚁𝚂: *${totalUsers}*
-│□┊≡ 🧰 𝙲𝙾𝙼𝙰𝙽𝙳𝙾𝚂: *${totalCommands}*
-│□┊≡ 🔐 𝙼𝙾𝙳𝙾: *Privado*
-│□┊≡ 📚 𝙻𝙸𝙱𝚁𝙴𝙰: *Baileys-MD*
-│□┊≡ ⏱️ 𝚁𝚄𝙽𝚃𝙸𝙼𝙴: *${uptime}*
-│□╰┄┄┄┄┄◦
-└────────────
+│□ 𝐈𝐍𝐅𝐎 ~ 𝐁𝐎𝐓
+│□ 🍂 Creador: shadow.xyz
+│□ 🧸 Contacto: wa.link/z1w9sq
+│□ 💾 VS: 2.2.5
+│□ 👥 Users: ${totalUsers}
+│□ 🧰 Comandos: ${totalCommands}
+│□ 🔐 Modo: Privado
+│□ 📚 Librería: Baileys-MD
+│□ ⏱️ Runtime: ${uptime}
+└───────────
 
 ┌───────────
-│❏╭┄◦ৎ ˖ ࣪⊹ 𝐈𝐍𝐅𝐎 ~ 𝐔𝐒𝐄𝐑 ✧⃟ᰳᰬᰶ
-│❏┊≡ 🆔 𝙸𝙳: *${name}*
-│❏┊≡ 💸 𝙼𝙾𝚃𝙾𝙺𝙾 𝙿𝙾𝙸𝙽𝚃𝚂: *${user.coin || 0}*
-│❏┊≡ 📊 𝙽𝙸𝚅𝙴𝙻: *${user.level || 0}*
-│❏┊≡ ⚡ 𝙴𝚇𝙿: *${user.exp || 0}*
-│❏┊≡ 👑 𝚁𝙰𝙽𝙶𝙾: *${user.role || 'Sin Rango'}*
-│❏╰┄┄┄┄┄◦
-└────────────
+│❏ 𝐈𝐍𝐅𝐎 ~ 𝐔𝐒𝐄𝐑
+│❏ 🆔 ID: ${name}
+│❏ 💸 Motoko Points: ${user.coin || 0}
+│❏ 📊 Nivel: ${user.level || 0}
+│❏ ⚡ EXP: ${user.exp || 0}
+│❏ 👑 Rango: ${user.role || 'Sin Rango'}
+└───────────
 
 ┌───────────
-│☆╭┄◦ৎ ˖ ࣪⊹ 𝐈𝐍𝐅𝐎 ~ 𝐅𝐄𝐂𝐇𝐀 ✧⃟ᰳᰬᰶ
-│☆┊≡ 📆 𝙵𝙴𝙲𝙷𝙰: *${fecha}*
-│☆┊≡ 🌱 𝙳𝙸𝙰: *${dia}*
-│☆┊≡ 🕓 𝙷𝙾𝚁𝙰: *${hora}*
-│☆╰┄┄┄┄┄◦
-└────────────
+│☆ 𝐈𝐍𝐅𝐎 ~ 𝐅𝐄𝐂𝐇𝐀
+│☆ 📆 Fecha: ${fecha}
+│☆ 🌱 Dia: ${dia}
+│☆ 🕓 Hora: ${hora}
+└───────────
 `
 
   const media = await prepareWAMessageMedia(
@@ -304,57 +297,39 @@ try {
     { upload: conn.waUploadToServer }
   )
 
-  // 🔰 Secciones principales
+  // Secciones con botones y cta_url/cta_copy dentro
   const sections = [
     {
       title: "🌸 Información Principal",
-      highlight_label: "💠 INFO DEL BOT 💠",
       rows: [
-        { title: "🧾 Copiar Información", description: "Copia la info del bot al portapapeles", id: `${usedPrefix}copiar ${texto}` },
-        { title: "📺 Ir a mi Canal", description: "Haz click para visitar mi canal oficial", id: `${usedPrefix}link https://www.youtube.com/@shadowxyz` },
-      ],
-      buttons: [
-        {
-          name: "cta_url",
-          buttonParamsJson: JSON.stringify({
-            display_text: "📢 Canal oficial",
-            url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
-            merchant_url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
-          }),
-        },
-        {
-          name: "cta_copy",
-          buttonParamsJson: JSON.stringify({
-            display_text: "📋 Copiar Owner",
-            id: "owner",
-            copy_code: `owner`,
-          }),
-        },
-      ],
+        { title: "🧾 Copiar Información", description: "Copia la info del bot al portapapeles", id: `${usedPrefix}copiar` },
+        { title: "📺 Ir a mi Canal", description: "Haz click para visitar mi canal oficial", id: `${usedPrefix}link` },
+        { title: "📢 Canal oficial", description: "Visita mi canal de WhatsApp", id: "cta_url" },
+        { title: "📋 Copiar Owner", description: "Copia el owner del bot", id: "cta_copy" }
+      ]
     },
     {
-      title: "🌟 𝐌𝐄𝐍𝐔𝐒 𝐃𝐈𝐒𝐏𝐎𝐍𝐈𝐁𝐋𝐄𝐒 🔋",
+      title: "⚙️ Menús Disponibles",
       rows: [
-        { title: "⪛ 💥 𝐌𝐄𝐍𝐔 𝐂𝐎𝐌𝐏𝐋𝐄𝐓𝐎 ⪜", description: "💫 Ver lista completa de comandos", id: `${usedPrefix}menu` },
-        { title: "⪛ 📥 Mᴇɴᴜ [𝗗𝗟] ⪜", description: "🎧 Descarga contenido multimedia", id: `${usedPrefix}menudl` },
-        { title: "⪛ ⛏️ Mᴇɴᴜ [𝗥𝗣𝗚] ⪜", description: "⚔️ Modo aventura RPG", id: `${usedPrefix}menurpg` },
-        { title: "⪛ 🔍 Mᴇɴᴜ [𝗦𝗘𝗔𝗥𝗖𝗛] ⪜", description: "🌍 Búsquedas avanzadas", id: `${usedPrefix}menuse` },
+        { title: "⪛ 💥 Menu Completo ⪜", description: "Ver lista completa de comandos", id: `${usedPrefix}menu` },
+        { title: "⪛ 📥 Menu [DL] ⪜", description: "Descarga contenido multimedia", id: `${usedPrefix}menudl` },
+        { title: "⪛ ⛏️ Menu [RPG] ⪜", description: "Modo aventura RPG", id: `${usedPrefix}menurpg` },
+        { title: "⪛ 🔍 Menu [SEARCH] ⪜", description: "Búsquedas avanzadas", id: `${usedPrefix}menuse` }
       ]
     }
   ]
 
-  // 🔰 Generamos mensaje interactivo tipo Flow
   const msg = generateWAMessageFromContent(m.chat, {
     viewOnceMessage: {
       message: {
         interactiveMessage: {
           header: {
-            title: "🍧 𝐌𝐄𝐍𝐔 ~ 𝐈𝐍𝐅𝐎 ✧⃟",
+            title: "🍧 MENU ~ INFO",
             hasMediaAttachment: true,
             imageMessage: media.imageMessage
           },
-          body: { text: texto },
-          footer: { text: "🌸 𝐑𝐈𝐍 𝐈𝐓𝐎𝐒𝐇𝐈 | by shadow.xyz" },
+          body: { text: "🌸 Rin Itoshi Info" },
+          footer: { text: footerText },
           nativeFlowMessage: {
             buttons: [],
             messageParamsJson: JSON.stringify({ sections })
@@ -376,7 +351,6 @@ handler.tags = ['main']
 handler.command = /^rininfo|menurinfo|infomenu$/i
 export default handler
 
-// Formato de uptime
 function clockString(ms) {
   let h = Math.floor(ms / 3600000)
   let m = Math.floor(ms / 60000) % 60

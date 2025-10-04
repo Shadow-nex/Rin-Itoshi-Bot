@@ -1,10 +1,11 @@
-/*// ☘️ Código hecho por DEV.𝘚𝘏𝘈𝘋𝘖𝘞 XD
+// ☘️ Código hecho por DEV.𝘚𝘏𝘈𝘋𝘖𝘞 XD
 // - https://github.com/Yuji-XDev
 // - Dejen créditos aunque sea gracias.
 // - 𝘙𝘐𝘕 𝘐𝘛𝘖𝘚𝘏𝘐 BOT MD ⚽
 
-import sharp from 'sharp';
+//import sharp from 'sharp';
 import fetch from 'node-fetch';
+import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys'
 
 const handler = async (m, { conn, usedPrefix }) => {
   await m.react('🌿');
@@ -60,7 +61,7 @@ const handler = async (m, { conn, usedPrefix }) => {
 │☆┊≡
 │☆╰┄┄┄┄┄◦
 └────────────`;
-
+/*
     const imgUrl = icono;//'https://tinyurl.com/29d2bflx'; // cambie x su imagen xd
     const imagenBuffer = await (await fetch(imgUrl)).buffer();
     const thumb2 = await sharp(imagenBuffer).resize(400, 400).jpeg({ quality: 70 }).toBuffer();
@@ -71,7 +72,11 @@ const handler = async (m, { conn, usedPrefix }) => {
      
     const thumb = await sharp(imgBuffer).resize(400, 400).jpeg({ quality: 70 }).toBuffer();
     const docBuffer = await sharp(imagenBuffer).webp({ quality: 90 }).toBuffer();
-    
+*/
+const media = await prepareWAMessageMedia(
+    { image: { url: 'https://files.catbox.moe/rru021.jpg' } },
+    { upload: conn.waUploadToServer }
+  )
     
     const buttons = [
       { buttonId: `${usedPrefix}creador`, buttonText: { displayText: '📞 ᴏᴡɴᴇʀ' }, type: 1 },
@@ -164,11 +169,11 @@ const handler = async (m, { conn, usedPrefix }) => {
       }
     ];
     await conn.sendMessage(m.chat, {
-      document: docBuffer,
+      document: media,
       fileName: `ꭈׁׅꪱׁׅꪀׁׅ ꪱׁׅtׁׅᨵׁׅ꯱ׁׅ֒hׁׅ֮ꪱׁׅ ϐׁׅ֒ᨵׁׅtׁׅ  ꩇׁׅ݊ժׁׅ݊`,
       mimetype: 'image/PNG',
       caption: menutxt,
-      jpegThumbnail: thumb2,
+      jpegThumbnail: media,
       footer: '© ʀɪɴ ɪᴛᴏsʜɪ ᴜʟᴛʀᴀ ʙᴏᴛ | ° ʙʏ sʜᴀᴅᴏᴡ.xʏᴢ',
       buttons: [
         ...buttons,
@@ -241,119 +246,4 @@ function ucapan() {
         res = "Lɪɴᴅᴀ Nᴏᴄʜᴇ 🌃"
     }
     return res
-}*/
-
-
-import moment from 'moment-timezone'
-import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys'
-
-let handler = async (m, { conn, usedPrefix, command }) => {
-try {
-  let user = global.db.data.users[m.sender]
-  let name = conn.getName(m.sender)
-  let totalUsers = Object.keys(global.db.data.users).length
-  let totalCommands = Object.keys(global.plugins).length
-  let uptime = clockString(process.uptime() * 1000)
-  
-  let fecha = moment.tz('America/Lima').format('DD/MM/YYYY')
-  let hora = moment.tz('America/Lima').format('HH:mm:ss')
-  let dia = moment.tz('America/Lima').locale('es').format('dddd').toUpperCase()
-
-  let footerText = `
-⿻̟֟፝݊͜⃝⁩⚽꫶⃝꙰⿻͜𝐑𝐈𝐍͜ 𝐈͜𝐓𝐎𝐒༙͜ᝲ𝐇𝐈🍧⃟
-🍨⃟≛⃝🫐๋⭑sʜᴀᴅᴏᴡ.xʏᴢ ⊹༙ᝲ🧪𝆺𝅥𝆹𝅥𝆬!
-
-┌───────────
-│□ 𝐈𝐍𝐅𝐎 ~ 𝐁𝐎𝐓
-│□ 🍂 Creador: shadow.xyz
-│□ 🧸 Contacto: wa.link/z1w9sq
-│□ 💾 VS: 2.2.5
-│□ 👥 Users: ${totalUsers}
-│□ 🧰 Comandos: ${totalCommands}
-│□ 🔐 Modo: Privado
-│□ 📚 Librería: Baileys-MD
-│□ ⏱️ Runtime: ${uptime}
-└───────────
-
-┌───────────
-│❏ 𝐈𝐍𝐅𝐎 ~ 𝐔𝐒𝐄𝐑
-│❏ 🆔 ID: ${name}
-│❏ 💸 Motoko Points: ${user.coin || 0}
-│❏ 📊 Nivel: ${user.level || 0}
-│❏ ⚡ EXP: ${user.exp || 0}
-│❏ 👑 Rango: ${user.role || 'Sin Rango'}
-└───────────
-
-┌───────────
-│☆ 𝐈𝐍𝐅𝐎 ~ 𝐅𝐄𝐂𝐇𝐀
-│☆ 📆 Fecha: ${fecha}
-│☆ 🌱 Dia: ${dia}
-│☆ 🕓 Hora: ${hora}
-└───────────
-`
-
-  const media = await prepareWAMessageMedia(
-    { image: { url: 'https://files.catbox.moe/rru021.jpg' } },
-    { upload: conn.waUploadToServer }
-  )
-
-  // Secciones con botones y cta_url/cta_copy dentro
-  const sections = [
-    {
-      title: "🌸 Información Principal",
-      rows: [
-        { title: "🧾 Copiar Información", description: "Copia la info del bot al portapapeles", id: `${usedPrefix}copiar` },
-        { title: "📺 Ir a mi Canal", description: "Haz click para visitar mi canal oficial", id: `${usedPrefix}link` },
-        { title: "📢 Canal oficial", description: "Visita mi canal de WhatsApp", id: "cta_url" },
-        { title: "📋 Copiar Owner", description: "Copia el owner del bot", id: "cta_copy" }
-      ]
-    },
-    {
-      title: "⚙️ Menús Disponibles",
-      rows: [
-        { title: "⪛ 💥 Menu Completo ⪜", description: "Ver lista completa de comandos", id: `${usedPrefix}menu` },
-        { title: "⪛ 📥 Menu [DL] ⪜", description: "Descarga contenido multimedia", id: `${usedPrefix}menudl` },
-        { title: "⪛ ⛏️ Menu [RPG] ⪜", description: "Modo aventura RPG", id: `${usedPrefix}menurpg` },
-        { title: "⪛ 🔍 Menu [SEARCH] ⪜", description: "Búsquedas avanzadas", id: `${usedPrefix}menuse` }
-      ]
-    }
-  ]
-
-  const msg = generateWAMessageFromContent(m.chat, {
-    viewOnceMessage: {
-      message: {
-        interactiveMessage: {
-          header: {
-            title: "🍧 MENU ~ INFO",
-            hasMediaAttachment: true,
-            imageMessage: media.imageMessage
-          },
-          body: { text: "🌸 Rin Itoshi Info" },
-          footer: { text: footerText },
-          nativeFlowMessage: {
-            buttons: [],
-            messageParamsJson: JSON.stringify({ sections })
-          }
-        }
-      }
-    }
-  }, { userJid: m.chat, quoted: m })
-
-  await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
-
-} catch (e) {
-  console.error(e)
-  m.reply('❌ Ocurrió un error al generar el menú decorado.')
-}}
-
-handler.help = ['rininfo', 'menurinfo']
-handler.tags = ['main']
-handler.command = /^rininfo|menurinfo|infomenu$/i
-export default handler
-
-function clockString(ms) {
-  let h = Math.floor(ms / 3600000)
-  let m = Math.floor(ms / 60000) % 60
-  let s = Math.floor(ms / 1000) % 60
-  return [h, m, s].map(v => v.toString().padStart(2, 0)).join(':')
 }
