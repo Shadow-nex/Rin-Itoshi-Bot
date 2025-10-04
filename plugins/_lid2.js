@@ -1,55 +1,55 @@
+import fetch from 'node-fetch'
+
 let handler = async (m, { conn, args, usedPrefix, command }) => {
-  let number;
-  
-  if (m.quoted?.sender) {
-    number = m.quoted.sender;
-  } 
-  else if (m.mentionedJid?.length) {
-    number = m.mentionedJid[0];
-  } 
-  else if (args[0]) {
-    let raw = args[0].replace(/[^0-9]/g, '');
-    if (raw.length < 8) {
-      return conn.reply(m.chat, `❌ *Número inválido.*`, m, fake);
-    }
-    number = raw + '@s.whatsapp.net';
-  } 
-  else {
-    return conn.reply(m.chat, `🍁 *Usa el comando así:*\n\n┌ 𝘌𝘫𝘦𝘮𝘱𝘭𝘰:\n├ ${usedPrefix + command} +51999999999\n├ ${usedPrefix + command} @usuario\n└ Responde a un mensaje`, m, fake);
-  }
-
   try {
-    let [user] = await conn.onWhatsApp(number);
+    let number
 
-    if (!user?.lid) {
-      return conn.reply(m.chat, '❌ *No se pudo obtener el LID.* Asegúrate de que el número esté registrado en WhatsApp.', m);
+    if (m.quoted?.sender) {
+      number = m.quoted.sender
+    } else if (m.mentionedJid?.length) {
+      number = m.mentionedJid[0]
+    } else if (args[0]) {
+      let raw = args[0].replace(/[^0-9]/g, '')
+      if (raw.length < 8) return conn.reply(m.chat, `❌ *Número inválido.*`, m)
+      number = raw + '@s.whatsapp.net'
+    } else {
+      return conn.reply(
+        m.chat,
+        `🍁 *Usa el comando correctamente:*\n\n📌 Ejemplos:\n- ${usedPrefix + command} +51999999999\n- ${usedPrefix + command} @usuario\n- O responde a un mensaje.`,
+        m
+      )
     }
 
-    let name = await conn.getName(user.jid);
-    let status = await conn.fetchStatus(user.jid).catch(() => null);
-    let ppUrl = await conn.profilePictureUrl(user.jid, 'image').catch(() => null);
-    let presence = await conn.presenceSubscribe(user.jid).catch(() => null);
+    let [user] = await conn.onWhatsApp(number)
+    if (!user?.jid) return conn.reply(m.chat, '❌ *El número no está registrado en WhatsApp.*', m)
+ 
+    let name = await conn.getName(user.jid)
+    let ppUrl = await conn.profilePictureUrl(user.jid, 'image').catch(() => null)
 
-    let texto = `╭━━━〔 *⚡ WHATSAPP LID* 〕━━⬣
-┃ ✨ *Nombre:* ${name || 'No disponible'}
-┃ 🔖 *Número:* wa.me/${user.jid.replace(/[^0-9]/g, '')}
-┃ 🧩 *LID:* ${user.lid}
-┃ 📛 *JID:* ${user.jid}
-┃ 📝 *Estado:* ${status?.status || 'No disponible'}
-┃ ⏱️ *Últ. visto:* ${status?.setAt ? new Date(status.setAt).toLocaleString('es-PE') : 'No disponible'}
-┃ 📷 *Foto:* ${ppUrl ? 'Sí tiene' : 'No tiene'}
-╰━━━━━━━━━━━━━━━━━━⬣`;
+    let info = `╭━━━〔 ⚡ *WHATSAPP LID* 〕━━⬣
+┃ 🪪 *Nombre:* ${name || 'No disponible'}
+┃ ☎️ *Número:* wa.me/${user.jid.replace(/[^0-9]/g, '')}
+┃ 🧩 *LID:* ${user.lid || 'No disponible'}
+┃ 🔖 *JID:* ${user.jid}
+╰━━━━━━━━━━━━━━━━━━⬣`
 
-    conn.reply(m.chat, texto, m, fake);
-    conn.reply(m.chat, user.lid, m);
+    if (ppUrl) {
+      await conn.sendMessage(m.chat, {
+        image: { url: ppUrl },
+        caption: info
+      }, { quoted: m })
+    } else {
+      await conn.reply(m.chat, info, m)
+    }
+
   } catch (e) {
-    console.error(e);
-    conn.reply(m.chat, '❌ *Ocurrió un error inesperado al obtener el LID.*', m);
+    console.error(e)
+    conn.reply(m.chat, '❌ *Error al obtener el LID o la información del usuario.*', m)
   }
-};
+}
 
-handler.command = ['lid'];
-handler.help = ['lid'];
-handler.tags = ['tools'];
+handler.command = ['lid']
+handler.help = ['lid']
+handler.tags = ['tools']
 
-export default handler;
+export default handler
