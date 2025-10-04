@@ -37,7 +37,6 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       await conn.sendMessage(m.chat, {
         image: { url: ppUrl },
         caption: info
-         ...rcanal
       }, { quoted: m })
     } else {
       await conn.reply(m.chat, info, m)
