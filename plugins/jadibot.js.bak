@@ -152,7 +152,7 @@ import fetch from "node-fetch"
 
 const handler = async (m, { conn, command, usedPrefix, participants }) => {
   try {
-
+    // lista de bots conectados (principal + subbots)
     const users = [
       global.conn.user.jid,
       ...new Set(
@@ -162,6 +162,7 @@ const handler = async (m, { conn, command, usedPrefix, participants }) => {
       )
     ]
 
+    // conversión de ms a tiempo legible
     function convertirMsADiasHorasMinutosSegundos(ms) {
       const segundos = Math.floor(ms / 1000)
       const minutos = Math.floor(segundos / 60)
@@ -170,21 +171,22 @@ const handler = async (m, { conn, command, usedPrefix, participants }) => {
       const segRest = segundos % 60
       const minRest = minutos % 60
       const horasRest = horas % 24
-
-      let partes = []
-      if (días) partes.push(`${días} día${días > 1 ? "s" : ""}`)
-      if (horasRest) partes.push(`${horasRest} hora${horasRest > 1 ? "s" : ""}`)
-      if (minRest) partes.push(`${minRest} minuto${minRest > 1 ? "s" : ""}`)
-      if (segRest && partes.length === 0) partes.push(`${segRest} segundo${segRest > 1 ? "s" : ""}`)
-      return partes.join(", ")
+      let resultado = ""
+      if (días) resultado += `${días} días, `
+      if (horasRest) resultado += `${horasRest} horas, `
+      if (minRest) resultado += `${minRest} minutos, `
+      if (segRest) resultado += `${segRest} segundos`
+      return resultado.trim()
     }
 
+    // miniatura para el productMessage
     const getThumbnail = async () => {
       const res = await axios.get("https://files.catbox.moe/3su9of.jpg", { responseType: "arraybuffer" })
       return Buffer.from(res.data, "binary")
     }
     const thumbnail = await getThumbnail()
 
+    // mensaje fake de producto para que salga bonito
     const shadow_xyz = {
       key: {
         fromMe: false,
@@ -210,32 +212,27 @@ const handler = async (m, { conn, command, usedPrefix, participants }) => {
       }
     }
 
+    // buscar bots dentro del grupo
     let groupBots = users.filter(bot =>
       participants.some(p => p.id.toLowerCase() === bot.toLowerCase())
     )
 
+    // asegurar que el principal SIEMPRE esté en la lista
     if (!groupBots.includes(global.conn.user.jid)) {
       groupBots.push(global.conn.user.jid)
     }
 
+    // crear texto con los bots detectados
     const botsGroup =
       groupBots.length > 0
         ? groupBots.map(bot => {
             const isMainBot = bot === global.conn.user.jid
-            let uptime
-
-            if (isMainBot) {
-              const startTime = global.startTime || Date.now()
-              uptime = convertirMsADiasHorasMinutosSegundos(Date.now() - startTime)
-            } else {
-              const sub = global.conns.find(c => c.user?.jid === bot)
-              if (sub && sub.uptime) {
-                uptime = convertirMsADiasHorasMinutosSegundos(Date.now() - sub.uptime)
-              } else {
-                uptime = "Pocos segundos"
-              }
-            }
-
+            const v = global.conns.find(c => c.user.jid === bot)
+            const uptime = isMainBot
+              ? convertirMsADiasHorasMinutosSegundos(Date.now() - (global.startTime || Date.now()))
+              : v?.uptime
+              ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime)
+              : "Activo desde ahora"
             const mention = bot.replace(/[^0-9]/g, "")
             return `@${mention}\n> Bot: ${isMainBot ? "Principal" : "Sub-Bot"}\n> Online: ${uptime}`
           }).join("\n\n")
@@ -254,8 +251,10 @@ const handler = async (m, { conn, command, usedPrefix, participants }) => {
 ❏ En este grupo: *${groupBots.length}* bots
 ${botsGroup}`
 
+    // menciones
     const mentionList = groupBots.map(bot => (bot.endsWith("@s.whatsapp.net") ? bot : `${bot}@s.whatsapp.net`))
 
+    // rcanal (contextInfo + preview)
     const rcanal = {
       contextInfo: {
         isForwarded: true,
@@ -279,6 +278,7 @@ ${botsGroup}`
       }
     }
 
+    // enviar mensaje
     await conn.sendMessage(m.chat, { text: message, ...rcanal }, { quoted: shadow_xyz })
 
   } catch (error) {
