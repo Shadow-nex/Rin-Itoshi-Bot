@@ -8,7 +8,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
     await m.react("⏳")
 
-    const api = `https://api.neoxr.eu/api/pinterest-v2?q=${encodeURIComponent(text)}&show=10&type=video&apikey=6cp02j`
+    const api = `https://api.neoxr.eu/api/pinterest-v2?q=${encodeURIComponent(text)}&show=10&type=video&apikey=russellxz`
     const res = await fetch(api)
     const json = await res.json()
 
