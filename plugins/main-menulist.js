@@ -66,7 +66,7 @@ const handler = async (m, { conn, usedPrefix }) => {
     const thumb2 = await sharp(imagenBuffer).resize(400, 400).jpeg({ quality: 70 }).toBuffer();
     
     
-    const imgenUrl = 'https://tinyurl.com/2c2wh7v2'; // cambie x su imagen
+    const imgenUrl = 'https://files.catbox.moe/rru021.jpg'; // cambie x su imagen
     const imgBuffer = await (await fetch(imgenUrl)).buffer();
      
     const thumb = await sharp(imgBuffer).resize(400, 400).jpeg({ quality: 70 }).toBuffer();
