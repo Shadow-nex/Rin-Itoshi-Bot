@@ -299,13 +299,12 @@ try {
 └────────────
 `
 
-  // Imagen de portada
   const media = await prepareWAMessageMedia(
     { image: { url: 'https://files.catbox.moe/rru021.jpg' } },
     { upload: conn.waUploadToServer }
   )
 
-  // Secciones del Flow
+  // 🔰 Secciones principales
   const sections = [
     {
       title: "🌸 Información Principal",
@@ -313,11 +312,28 @@ try {
       rows: [
         { title: "🧾 Copiar Información", description: "Copia la info del bot al portapapeles", id: `${usedPrefix}copiar ${texto}` },
         { title: "📺 Ir a mi Canal", description: "Haz click para visitar mi canal oficial", id: `${usedPrefix}link https://www.youtube.com/@shadowxyz` },
-      ]
+      ],
+      buttons: [
+        {
+          name: "cta_url",
+          buttonParamsJson: JSON.stringify({
+            display_text: "📢 Canal oficial",
+            url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
+            merchant_url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
+          }),
+        },
+        {
+          name: "cta_copy",
+          buttonParamsJson: JSON.stringify({
+            display_text: "📋 Copiar Owner",
+            id: "owner",
+            copy_code: `owner`,
+          }),
+        },
+      ],
     },
     {
-      title: "⚙️ Menús Disponibles",
-      highlight_label: "🌟 𝐌𝐄𝐍𝐔𝐒 𝐃𝐈𝐒𝐏𝐎𝐍𝐈𝐁𝐋𝐄𝐒 🔋",
+      title: "🌟 𝐌𝐄𝐍𝐔𝐒 𝐃𝐈𝐒𝐏𝐎𝐍𝐈𝐁𝐋𝐄𝐒 🔋",
       rows: [
         { title: "⪛ 💥 𝐌𝐄𝐍𝐔 𝐂𝐎𝐌𝐏𝐋𝐄𝐓𝐎 ⪜", description: "💫 Ver lista completa de comandos", id: `${usedPrefix}menu` },
         { title: "⪛ 📥 Mᴇɴᴜ [𝗗𝗟] ⪜", description: "🎧 Descarga contenido multimedia", id: `${usedPrefix}menudl` },
@@ -327,27 +343,7 @@ try {
     }
   ]
 
-  // Botones extra (cta_url + cta_copy)
-  const buttons = [
-    {
-      name: "cta_url",
-      buttonParamsJson: JSON.stringify({
-        display_text: "📢 Canal oficial",
-        url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
-        merchant_url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
-      }),
-    },
-    {
-      name: "cta_copy",
-      buttonParamsJson: JSON.stringify({
-        display_text: "📋 Copiar Owner",
-        id: "owner",
-        copy_code: `owner`,
-      }),
-    },
-  ]
-
-  // Generamos el mensaje tipo Flow con imagen + botones
+  // 🔰 Generamos mensaje interactivo tipo Flow
   const msg = generateWAMessageFromContent(m.chat, {
     viewOnceMessage: {
       message: {
@@ -360,7 +356,7 @@ try {
           body: { text: texto },
           footer: { text: "🌸 𝐑𝐈𝐍 𝐈𝐓𝐎𝐒𝐇𝐈 | by shadow.xyz" },
           nativeFlowMessage: {
-            buttons,
+            buttons: [],
             messageParamsJson: JSON.stringify({ sections })
           }
         }
@@ -380,7 +376,7 @@ handler.tags = ['main']
 handler.command = /^rininfo|menurinfo|infomenu$/i
 export default handler
 
-// Uptime format
+// Formato de uptime
 function clockString(ms) {
   let h = Math.floor(ms / 3600000)
   let m = Math.floor(ms / 60000) % 60

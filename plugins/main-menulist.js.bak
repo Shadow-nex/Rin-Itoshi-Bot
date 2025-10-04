@@ -1,4 +1,4 @@
-// ☘️ Código hecho por DEV.𝘚𝘏𝘈𝘋𝘖𝘞 XD
+/*// ☘️ Código hecho por DEV.𝘚𝘏𝘈𝘋𝘖𝘞 XD
 // - https://github.com/Yuji-XDev
 // - Dejen créditos aunque sea gracias.
 // - 𝘙𝘐𝘕 𝘐𝘛𝘖𝘚𝘏𝘐 BOT MD ⚽
@@ -241,4 +241,149 @@ function ucapan() {
         res = "Lɪɴᴅᴀ Nᴏᴄʜᴇ 🌃"
     }
     return res
+}*/
+
+
+import moment from 'moment-timezone'
+import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys'
+
+let handler = async (m, { conn, usedPrefix, command }) => {
+try {
+  // Datos del usuario
+  let user = global.db.data.users[m.sender]
+  let name = conn.getName(m.sender)
+  
+  // Datos del bot
+  let totalUsers = Object.keys(global.db.data.users).length
+  let totalCommands = Object.keys(global.plugins).length
+  let uptime = clockString(process.uptime() * 1000)
+  
+  // Fecha
+  let fecha = moment.tz('America/Lima').format('DD/MM/YYYY')
+  let hora = moment.tz('America/Lima').format('HH:mm:ss')
+  let dia = moment.tz('America/Lima').locale('es').format('dddd').toUpperCase()
+
+  let texto = `
+⿻̟֟፝݊͜⃝⁩⚽꫶⃝꙰⿻͜𝐑𝐈𝐍͜ 𝐈͜𝐓𝐎𝐒༙͜ᝲ𝐇𝐈🍧⃟─̶̲̲̲̲̲̲̲̲̲֟፝͠
+  🍨⃟≛⃝🫐๋⭑sʜᴀᴅᴏᴡ.xʏᴢ ⊹༙ᝲ🧪𝆺𝅥𝆹𝅥𝆬! ✰ :
+
+┌───────────
+│□╭┄◦ৎ ˖ ࣪⊹ 𝐈𝐍𝐅𝐎 ~ 𝐁𝐎𝐓 ✧⃟ᰳᰬᰶ
+│□┊≡ 🍂 𝙲𝚁𝙴𝙰𝙳𝙾𝚁: *shadow.xyz*
+│□┊≡ 🧸 𝙲𝙾𝙽𝚃𝙰𝙲𝙏𝙾: *wa.link/z1w9sq*
+│□┊≡ 💾 𝚅𝚂: *2.2.5*
+│□┊≡ 👥 𝚄𝚂𝙴𝚁𝚂: *${totalUsers}*
+│□┊≡ 🧰 𝙲𝙾𝙼𝙰𝙽𝙳𝙾𝚂: *${totalCommands}*
+│□┊≡ 🔐 𝙼𝙾𝙳𝙾: *Privado*
+│□┊≡ 📚 𝙻𝙸𝙱𝚁𝙴𝙰: *Baileys-MD*
+│□┊≡ ⏱️ 𝚁𝚄𝙽𝚃𝙸𝙼𝙴: *${uptime}*
+│□╰┄┄┄┄┄◦
+└────────────
+
+┌───────────
+│❏╭┄◦ৎ ˖ ࣪⊹ 𝐈𝐍𝐅𝐎 ~ 𝐔𝐒𝐄𝐑 ✧⃟ᰳᰬᰶ
+│❏┊≡ 🆔 𝙸𝙳: *${name}*
+│❏┊≡ 💸 𝙼𝙾𝚃𝙾𝙺𝙾 𝙿𝙾𝙸𝙽𝚃𝚂: *${user.coin || 0}*
+│❏┊≡ 📊 𝙽𝙸𝚅𝙴𝙻: *${user.level || 0}*
+│❏┊≡ ⚡ 𝙴𝚇𝙿: *${user.exp || 0}*
+│❏┊≡ 👑 𝚁𝙰𝙽𝙶𝙾: *${user.role || 'Sin Rango'}*
+│❏╰┄┄┄┄┄◦
+└────────────
+
+┌───────────
+│☆╭┄◦ৎ ˖ ࣪⊹ 𝐈𝐍𝐅𝐎 ~ 𝐅𝐄𝐂𝐇𝐀 ✧⃟ᰳᰬᰶ
+│☆┊≡ 📆 𝙵𝙴𝙲𝙷𝙰: *${fecha}*
+│☆┊≡ 🌱 𝙳𝙸𝙰: *${dia}*
+│☆┊≡ 🕓 𝙷𝙾𝚁𝙰: *${hora}*
+│☆╰┄┄┄┄┄◦
+└────────────
+`
+
+  // Imagen de portada
+  const media = await prepareWAMessageMedia(
+    { image: { url: 'https://files.catbox.moe/rru021.jpg' } },
+    { upload: conn.waUploadToServer }
+  )
+
+  // Secciones del Flow
+  const sections = [
+    {
+      title: "🌸 Información Principal",
+      highlight_label: "💠 INFO DEL BOT 💠",
+      rows: [
+        { title: "🧾 Copiar Información", description: "Copia la info del bot al portapapeles", id: `${usedPrefix}copiar ${texto}` },
+        { title: "📺 Ir a mi Canal", description: "Haz click para visitar mi canal oficial", id: `${usedPrefix}link https://www.youtube.com/@shadowxyz` },
+      ]
+    },
+    {
+      title: "⚙️ Menús Disponibles",
+      highlight_label: "🌟 𝐌𝐄𝐍𝐔𝐒 𝐃𝐈𝐒𝐏𝐎𝐍𝐈𝐁𝐋𝐄𝐒 🔋",
+      rows: [
+        { title: "⪛ 💥 𝐌𝐄𝐍𝐔 𝐂𝐎𝐌𝐏𝐋𝐄𝐓𝐎 ⪜", description: "💫 Ver lista completa de comandos", id: `${usedPrefix}menu` },
+        { title: "⪛ 📥 Mᴇɴᴜ [𝗗𝗟] ⪜", description: "🎧 Descarga contenido multimedia", id: `${usedPrefix}menudl` },
+        { title: "⪛ ⛏️ Mᴇɴᴜ [𝗥𝗣𝗚] ⪜", description: "⚔️ Modo aventura RPG", id: `${usedPrefix}menurpg` },
+        { title: "⪛ 🔍 Mᴇɴᴜ [𝗦𝗘𝗔𝗥𝗖𝗛] ⪜", description: "🌍 Búsquedas avanzadas", id: `${usedPrefix}menuse` },
+      ]
+    }
+  ]
+
+  // Botones extra (cta_url + cta_copy)
+  const buttons = [
+    {
+      name: "cta_url",
+      buttonParamsJson: JSON.stringify({
+        display_text: "📢 Canal oficial",
+        url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
+        merchant_url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
+      }),
+    },
+    {
+      name: "cta_copy",
+      buttonParamsJson: JSON.stringify({
+        display_text: "📋 Copiar Owner",
+        id: "owner",
+        copy_code: `owner`,
+      }),
+    },
+  ]
+
+  // Generamos el mensaje tipo Flow con imagen + botones
+  const msg = generateWAMessageFromContent(m.chat, {
+    viewOnceMessage: {
+      message: {
+        interactiveMessage: {
+          header: {
+            title: "🍧 𝐌𝐄𝐍𝐔 ~ 𝐈𝐍𝐅𝐎 ✧⃟",
+            hasMediaAttachment: true,
+            imageMessage: media.imageMessage
+          },
+          body: { text: texto },
+          footer: { text: "🌸 𝐑𝐈𝐍 𝐈𝐓𝐎𝐒𝐇𝐈 | by shadow.xyz" },
+          nativeFlowMessage: {
+            buttons,
+            messageParamsJson: JSON.stringify({ sections })
+          }
+        }
+      }
+    }
+  }, { userJid: m.chat, quoted: m })
+
+  await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+
+} catch (e) {
+  console.error(e)
+  m.reply('❌ Ocurrió un error al generar el menú decorado.')
+}}
+
+handler.help = ['rininfo', 'menurinfo']
+handler.tags = ['main']
+handler.command = /^rininfo|menurinfo|infomenu$/i
+export default handler
+
+// Uptime format
+function clockString(ms) {
+  let h = Math.floor(ms / 3600000)
+  let m = Math.floor(ms / 60000) % 60
+  let s = Math.floor(ms / 1000) % 60
+  return [h, m, s].map(v => v.toString().padStart(2, 0)).join(':')
 }
