@@ -238,8 +238,8 @@ ${global.welcom1}
       ...fakeContext, 
       footer: club, 
       buttons: [
-        { buttonId: "#reg shadow.18", buttonText: { displayText: "Auto verificar" }, type: 1 },
-        { buttonId: "#menu", buttonText: { displayText: "MENU" }, type: 1 }
+        { buttonId: "#reg shadow.18", buttonText: { displayText: "⿻͢⃟𖤍۬፝͡ 𝗔𝗨𝗧𝗢 𝗩𝗘𝗥𝗜𝗙𝗜𝗖𝗔𝗥͜͡🕸️︎͢⸸𖾏ꦿ" }, type: 1 },
+        { buttonId: "#menu", buttonText: { displayText: "⿻͢⃟𖤍۬፝͡ 𝗠 𝗘 𝗡 𝗨͜͡🌱︎͢⸸𖾏ꦿ" }, type: 1 }
       ], 
       headerType: 4
     }, { quoted: fkontak })
@@ -247,14 +247,14 @@ ${global.welcom1}
 
   if (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_LEAVE || m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_REMOVE) {
     const imgBye = await generarImagenUrl('bye')
-    await conn.sendMessage(m.chat, { 
-      image: { url: imgBye }, 
+    await conn.sendMessage(m.chat, {
+      image: { url: imgBye },
       caption: byeMessage, 
       ...fakeContext, 
       footer: club, 
       buttons: [
-        { buttonId: "#p", buttonText: { displayText: "PING" }, type: 1 },
-        { buttonId: "#menu", buttonText: { displayText: "MENU" }, type: 1 }
+        { buttonId: "#p", buttonText: { displayText: "⿻͢⃟𖤍۬፝͡ 𝗣 𝗜 𝗡 𝗚͜͡🌿︎͢⸸𖾏ꦿ" }, type: 1 },
+        { buttonId: "#menu", buttonText: { displayText: "⿻͢⃟𖤍۬፝͡𝗠 𝗘 𝗡 𝗨͜͡☁️︎͢⸸𖾏ꦿ" }, type: 1 }
       ], 
       headerType: 4
     }, { quoted: fkontak })
