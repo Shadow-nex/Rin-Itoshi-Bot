@@ -12,13 +12,12 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
   let user = global.db.data.users[m.sender]
   let name2 = conn.getName(m.sender)
 
-  // 💫 OBTENER BIO DEL USUARIO
   let bio
   try {
     const info = await conn.fetchStatus(who)
-    bio = info?.status?.trim() || "❌ Sin biografía disponible"
+    bio = info?.status?.trim() || "😔 Sin biografía disponible"
   } catch {
-    bio = "❌ Sin biografía disponible"
+    bio = "Sin biografía disponible"
   }
 
   if (user.registered) {
