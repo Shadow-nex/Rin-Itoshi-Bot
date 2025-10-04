@@ -1,4 +1,4 @@
-/*import axios from "axios";
+import axios from "axios";
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
@@ -86,68 +86,4 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.help = ["tiktok2 *<url>*"];
 handler.tags = ["descargas"];
 handler.command = ["tt2", "tiktok2"];
-export default handler;*/
-
-import fetch from 'node-fetch'
-
-let handler = async (m, { conn }) => {
-  try {
-
-    let regex = /https?:\/\/(?:www\.|vm\.|vt\.)?tiktok\.com\/[^\s]+/i
-    let match = m.text.match(regex)
-    if (!match) return
-
-    let url = match[0]
-
-    await m.react('⏳')
-
-    let api = `https://api.vreden.my.id/api/v1/download/tiktok?url=${encodeURIComponent(url)}`
-    let res = await fetch(api)
-    let json = await res.json()
-
-    if (!json.status || !json.result) {
-      await m.react('❌')
-      return conn.reply(m.chat, '❌ No se pudo obtener el video, inténtalo nuevamente.', m)
-    }
-
-    const { title, region, duration, author, cover, stats, data, music_info } = json.result
-    const videoUrl = data.find(v => v.type === 'nowatermark_hd')?.url || data[0]?.url
-
-    await m.react('📥')
-
-    let info = `╭━━━〔 🎵 𝚃𝙸𝙺𝚃𝙾𝙺 𝙳𝙾𝚆𝙽𝙻𝙾𝙰𝙳𝙴𝚁 〕━━⬣
-┃🎬 *Título:* ${title}
-┃👤 *Autor:* ${author?.nickname || '-'}
-┃🌍 *Región:* ${region}
-┃🕒 *Duración:* ${duration}
-┃👀 *Vistas:* ${stats?.views || '0'}
-┃❤️ *Likes:* ${stats?.likes || '0'}
-┃💬 *Comentarios:* ${stats?.comment || '0'}
-┃🔁 *Compartidos:* ${stats?.share || '0'}
-┃🎧 *Audio:* ${music_info?.title || '-'} - ${music_info?.author || '-'}
-╰━━━━━━━━━━━━━━━━━━⬣`
-    await m.react('📤')
-
-    await conn.sendMessage(
-      m.chat,
-      {
-        video: { url: videoUrl },
-        caption: info,
-        gifPlayback: false,
-        thumbnailUrl: cover
-      },
-      { quoted: m }
-    )
-
-    await m.react('✔️')
-
-  } catch (err) {
-    console.error(err)
-    await m.react('❌')
-    conn.reply(m.chat, '❌ Ocurrió un error al procesar el video de TikTok.', m)
-  }
-}
-
-handler.customPrefix = /https?:\/\/(?:www\.|vm\.|vt\.)?tiktok\.com\/[^\s]+/i
-handler.command = new RegExp
-export default handler
+export default handler;
