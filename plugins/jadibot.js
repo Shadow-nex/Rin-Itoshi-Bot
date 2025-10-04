@@ -199,7 +199,7 @@ const handler = async (m, { conn, command, usedPrefix, participants }) => {
               mimetype: "image/jpeg",
               jpegThumbnail: thumbnail
             },
-            title: "☆ 🍏 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 | 𝐎𝐍𝐋𝐈𝐍𝐄 ☁️ ☆",
+            title: "☆ 🍏 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 • 𝐎𝐍𝐋𝐈𝐍𝐄 ☁️ ☆",
             description: "SubBots conectados en este momento",
             currencyCode: "USD",
             priceAmount1000: 5000,
