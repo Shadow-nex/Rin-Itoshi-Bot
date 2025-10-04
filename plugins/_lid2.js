@@ -22,7 +22,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     let [user] = await conn.onWhatsApp(number)
     if (!user?.jid) return conn.reply(m.chat, '❌ *El número no está registrado en WhatsApp.*', m)
- 
+
     let name = await conn.getName(user.jid)
     let ppUrl = await conn.profilePictureUrl(user.jid, 'image').catch(() => null)
 
@@ -34,13 +34,17 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 ╰━━━━━━━━━━━━━━━━━━⬣`
 
     if (ppUrl) {
-      await conn.sendMessage(m.chat, {
-        image: { url: ppUrl },
-        caption: info
-         ...rcanal
-      }, { quoted: m })
+      await conn.sendMessage(
+        m.chat,
+        {
+          image: { url: ppUrl },
+          caption: info,
+          ...rcanal
+        },
+        { quoted: m }
+      )
     } else {
-      await conn.reply(m.chat, info, m)
+      await conn.sendMessage(m.chat, { text: info, ...rcanal }, { quoted: m })
     }
 
   } catch (e) {
