@@ -44,7 +44,7 @@ ${sysInfo.trim()}
         externalAdReply: {
           title: '🍄 Rɪɴ Iᴛᴏsʜɪ ᴍᴅ 🌹 | 🪾 ʙʏ ᴅᴠ.sʜᴀᴅᴏᴡ 🪴',
           body: club,
-          thumbnailUrl: await (await fetch(icono)).buffer(),
+          thumbnailUrl: await (await fetch('https://n.uguu.se/vqJnHBPm.jpg')).buffer(),
           sourceUrl: redes,
           mediaType: 1,
           renderLargerThumbnail: true
