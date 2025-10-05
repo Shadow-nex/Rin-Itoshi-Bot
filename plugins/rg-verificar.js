@@ -138,34 +138,34 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
 ✧ 💎 +20 → ᴛᴏᴋᴇɴs
 ──────────────────`.trim();
 
-  await m.react?.('📩')
-
-  await conn.sendMessage(
-    m.chat,
-    {
-      image: { url: pp },
-      caption: regbot,
-      contextInfo: {
+await m.react?.('📩')
+await conn.sendMessage(
+  m.chat,
+  {
+    image: { url: pp },
+    caption: regbot,
+    footer: 'xd',
+    contextInfo: {
       mentionedJid: [m.sender],
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: channelRD.id,
-          serverMessageId: 100,
-          newsletterName: channelRD.name
-        },
-        externalAdReply: {
-          title: '❁︩︪•°ֺ໋۪݊🌱 ʀᴇɢɪsᴛʀᴏ - ʀɪɴ ɪᴛᴏsʜɪ ᴜʟᴛʀᴀ ⚡°໋•︪︩❁',
-          body: '꒰🍃꒱ ᴛᴜ ᴄᴜᴇɴᴛᴀ ʜᴀ ꜱɪᴅᴏ ᴀᴄᴛɪᴠᴀᴅᴀ ᴄᴏɴ ᴇxɪᴛᴏ `☯︎ ʙʏ: 𝑺𝒉𝒂𝑫𝒐𝒘•𝑪𝒐𝒓𝒆',
-          mediaType: 1,
-          thumbnailUrl: 'https://files.catbox.moe/1npzmw.jpg',
-          mediaUrl: redes,
-          sourceUrl: redes,
-          renderLargerThumbnail: false
-        }
+      isForwarded: true,
+      forwardedNewsletterMessageInfo: {
+        newsletterJid: channelRD.id,
+        serverMessageId: 100,
+        newsletterName: channelRD.name
+      },
+      externalAdReply: {
+        title: '❁︩︪•°ֺ໋۪݊🌱 ʀᴇɢɪsᴛʀᴏ - ʀɪɴ ɪᴛᴏsʜɪ ᴜʟᴛʀᴀ ☁️°໋•︪︩❁',
+        body: '꒰🍃꒱ ᴛᴜ ᴄᴜᴇɴᴛᴀ ʜᴀ ꜱɪᴅᴏ ᴀᴄᴛɪᴠᴀᴅᴀ ᴄᴏɴ ᴇxɪᴛᴏ `☯︎ ʙʏ: 𝑺𝒉𝒂𝑫𝒐𝒘•𝑪𝒐𝒓𝒆`',
+        mediaType: 1,
+        thumbnailUrl: 'https://files.catbox.moe/1npzmw.jpg',
+        mediaUrl: redes,
+        sourceUrl: redes,
+        renderLargerThumbnail: false
       }
-    },
-    { quoted: fkontak });
-  };
+    }
+  },
+  { quoted: fkontak });
+ };
 
 handler.help = ['reg']
 handler.tags = ['rg']
