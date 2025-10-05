@@ -172,7 +172,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
   }
 
   const thumbUrl = Array.isArray(icono) ? icono[Math.floor(Math.random() * icono.length)] : icono
-  const thumbBuffer = await fetch(thumbUrl).then(res => res.buffer())
+  const thumbBuffer = await fetch('https://files.catbox.moe/7sbozb.jpg').then(res => res.buffer())
 
   const fkontak = {
     key: { participants: "0@s.whatsapp.net", remoteJid: m.chat, fromMe: false, id: "Halo" },
