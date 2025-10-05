@@ -6,8 +6,8 @@ const handler = async (m, { conn, text, usedPrefix }) => {
     try {
         await m.react('🕒');
 
-        // Petición a la API de Pinterest
-        const res = await axios.get(`https://api.vreden.my.id/api/v2/search/pinterest?query=${encodeURIComponent(text)}&limit=5&type=videos`);
+        // Petición a la API
+        const res = await axios.get(`https://api.vreden.my.id/api/v2/search/pinterest?query=${encodeURIComponent(text)}&limit=3&type=videos`);
         const data = res.data;
 
         if (!data?.status || !data?.result?.result?.length) {
@@ -19,33 +19,35 @@ const handler = async (m, { conn, text, usedPrefix }) => {
 
         for (const item of results) {
             const videoData = item.media_urls?.[0];
+            if (!videoData?.url) continue;
+
+            // Descargar el video como buffer
+            const videoBuffer = await downloadVideo(videoData.url);
 
             const caption = createPinterestCaption(item);
 
-            // Enviar miniatura con botón para abrir el video
+            // Enviar video
             await conn.sendMessage(m.chat, {
-                image: { url: videoData?.thumbnail || '' },
-                caption,
-                footer: 'Haz clic en el botón para ver el video',
-                buttons: [
-                    {
-                        buttonId: `ver_${item.pin_url}`, 
-                        buttonText: { displayText: 'Ver video' }, 
-                        type: 1
-                    }
-                ],
-                headerType: 4
+                video: videoBuffer,
+                caption
             }, { quoted: m });
         }
 
         await m.react('✔️');
+
     } catch (e) {
         await m.react('✖️');
         await conn.reply(m.chat, `⚠︎ Se ha producido un error.\n> Usa *${usedPrefix}report* para informarlo.\n\n${e.message}`, m);
     }
 };
 
-// Función para crear el caption de cada pin
+// Función para descargar video como buffer
+async function downloadVideo(url) {
+    const response = await axios.get(url, { responseType: 'arraybuffer' });
+    return Buffer.from(response.data);
+}
+
+// Crear caption
 function createPinterestCaption(item) {
     const uploader = item.uploader || {};
     const video = item.media_urls?.[0] || {};
