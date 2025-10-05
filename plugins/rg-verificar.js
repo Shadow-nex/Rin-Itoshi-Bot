@@ -28,10 +28,9 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
 
     return await conn.sendMessage(m.chat, {
       image: { url: 'https://files.catbox.moe/eml66k.jpg' },
-      caption: '',
+      caption: '   ꒰🍓⚠️ `ＡＶＩＳＯ` ⚠️🍓꒱ ',
       mentions: [m.sender],
-      footer: `꒰🍓⚠️ 𝒂𝒗𝒊𝒔𝒐 ⚠️🍓꒱  
-┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+      footer: `┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
 
 (｡>﹏<｡) 💦  
 *Ya cuentas con un registro activo...*  
@@ -64,7 +63,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
 
     return await conn.sendMessage(m.chat, {
       image: { url: 'https://files.catbox.moe/eml66k.jpg' },
-      caption: '',
+      caption: '    `ＡＶＩＳＯ:`',
       mentions: [m.sender],
       footer: `｡☆✼★━━━━━━━━━━━━★✼☆｡  
 ❀ ₊˚⊹ ᴏᴏᴘꜱ~ ᴄᴏᴍᴀɴᴅᴏ ɪɴᴄᴏʀʀᴇᴄᴛᴏ (｡•́︿•̀｡)  
