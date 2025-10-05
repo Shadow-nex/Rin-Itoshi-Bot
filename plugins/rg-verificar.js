@@ -21,9 +21,17 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
   }
 
   if (user.registered) {
-   const texto = `✦₊˚ 🎀 𓂃 ₊˚⊹♡ ₊˚ 🎀 ✦
-꒰🍓⚠️ 𝒂𝒗𝒊𝒔𝒐 ⚠️🍓꒱  
-┈┈┈┈┈┈┈┈┈┈
+    const botones = [
+      { buttonId: `${usedPrefix}ping`, buttonText: { displayText: '̥ໍ᮫۪࣭۫𝆬𝆬꒰᩠̥ໍ۪ ᴘɪɴɢ ꒱᩠̥ໍ̥' }, type: 1 },
+      { buttonId: `${usedPrefix}unreg`, buttonText: { displayText: '✿〫𝆬 ᮫ᨗ ᴇʟɪᴍɪɴᴀʀ ʀᴇɢɪsᴛʀᴏ ۫✿ꪴᮬ๋۪۪𝆬ໍ' }, type: 1 },
+    ];
+
+    return await conn.sendMessage(m.chat, {
+      image: { url: 'https://files.catbox.moe/eml66k.jpg' },
+      caption: '',
+      mentions: [m.sender],
+      footer: `꒰🍓⚠️ 𝒂𝒗𝒊𝒔𝒐 ⚠️🍓꒱  
+┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
 
 (｡>﹏<｡) 💦  
 *Ya cuentas con un registro activo...*  
@@ -32,20 +40,8 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
 
 💌 Usa *#unreg* para borrar tu registro y comenzar otra vez.  
 
-┈┈┈┈┈┈┈┈┈┈  
-૮₍´｡• ᵕ •｡\`₎ა 🌷 𝒕𝒆 𝒆𝒔𝒑𝒆𝒓𝒂𝒓𝒆𝒎𝒐𝒔 ~  
-✦₊˚ 🎀 𓂃 ₊˚⊹♡ ₊˚ 🎀 ✦`;
-
-    const botones = [
-      { buttonId: `${usedPrefix}ping`, buttonText: { displayText: '🔥 Velocidad' }, type: 1 },
-      { buttonId: `${usedPrefix}unreg`, buttonText: { displayText: '🍁 Eliminar Registro' }, type: 1 },
-    ];
-
-    return await conn.sendMessage(m.chat, {
-      image: { url: 'https://files.catbox.moe/eml66k.jpg' },
-      caption: texto,
-      mentions: [m.sender],
-      footer: dev,
+┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+૮₍´｡• ᵕ •｡\`₎ა 🌷 𝒕𝒆 𝒆𝒔𝒑𝒆𝒓𝒂𝒓𝒆𝒎𝒐𝒔 ~`,
       buttons: botones,
       headerType: 4,
       contextInfo: {
@@ -61,7 +57,16 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
  }
 
   if (!Reg.test(text)) {
-     const mensaje = `｡☆✼★━━━━━━━━━━━━★✼☆｡  
+     const botones = [
+       { buttonId: `${usedPrefix}reg ${name2}.18`, buttonText: { displayText: '̥ໍ᮫۪࣭۫𝆬𝆬꒰᩠̥ໍ۪ ᴀᴜᴛᴏ ᴠᴇʀɪғɪᴄᴀʀ ꒱᩠̥ໍ̥' }, type: 1 },
+       { buttonId: `${usedPrefix}menu`, buttonText: { displayText: '✿〫𝆬 ᮫ᨗ ᴍᴇɴᴜ ᴄᴏᴍᴘʟᴛ ۫✿ꪴᮬ๋۪۪𝆬ໍ'  }, type: 1 },
+     ];
+
+    return await conn.sendMessage(m.chat, {
+      image: { url: 'https://files.catbox.moe/eml66k.jpg' },
+      caption: '',
+      mentions: [m.sender],
+      footer: `｡☆✼★━━━━━━━━━━━━★✼☆｡  
 ❀ ₊˚⊹ ᴏᴏᴘꜱ~ ᴄᴏᴍᴀɴᴅᴏ ɪɴᴄᴏʀʀᴇᴄᴛᴏ (｡•́︿•̀｡)  
 ┈┈┈┈┈┈┈┈┈┈  
 ↳ 𝑼́𝒔𝒂𝒍𝒐 𝒂𝒔𝒊́:  
@@ -71,18 +76,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
 > ${usedPrefix + command} ${name2}.18  
 ┈┈┈┈┈┈┈┈┈┈  
 🌸 𝒏𝒐 𝒕𝒓𝒊𝒔𝒕𝒆~ 𝒗𝒖𝒆𝒍𝒗𝒆 𝒂 𝒊𝒏𝒕𝒆𝒏𝒕𝒂𝒓 ꒰ᐢ. .ᐢ꒱
-｡☆✼★━━━━━━━━━━━━★✼☆｡`;
-
-     const botones = [
-       { buttonId: `${usedPrefix}reg ${name2}.18`, buttonText: { displayText: '🖍️ Auto Verificación' }, type: 1 },
-       { buttonId: `${usedPrefix}menu`, buttonText: { displayText: '🎲 Menu All' }, type: 1 },
-     ];
-
-    return await conn.sendMessage(m.chat, {
-      image: { url: 'https://files.catbox.moe/eml66k.jpg' },
-      caption: mensaje,
-      mentions: [m.sender],
-      footer: dev,
+｡☆✼★━━━━━━━━━━━━★✼☆｡`,
       buttons: botones,
       headerType: 4,
       contextInfo: {
@@ -126,20 +120,20 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
 ✿⊹⊱⋆彡 𝐑𝐄𝐆𝐈𝐒𝐓𝐑𝐎 • 𝐂𝐎𝐌𝐏𝐋𝐄𝐓𝐎 彡⋆⊰⊹✿
 ≡══════════════════════════≡
 
-╭━━━━━ ˚₊· ͟͟͞͞➳❥
-│ *ꛊֵ໋𝅭࣫𝂺ֺׅ🍓̶ᮢ〪〫ꨩ֔ᦡ࣫꒱ֵ֔* ɴᴏᴍʙʀᴇ »  ${name}
-│ *ꛊֵ໋𝅭࣫𝂺ֺׅ💫̶ᮢ〪〫ꨩ֔ᦡ࣫꒱ֵ֔*  ᴜsᴇʀ »  ${name2}
-│ *ꛊֵ໋𝅭࣫𝂺ֺׅ📱̶ᮢ〪〫ꨩ֔ᦡ࣫꒱ֵ֔*  ɴᴜᴍᴇʀᴏ »  ${PhoneNumber('+' + who.replace('@s.whatsapp.net', '')).getNumber('international')}
-│ *ꛊֵ໋𝅭࣫𝂺ֺׅ🐰̶ᮢ〪〫ꨩ֔ᦡ࣫꒱ֵ֔*  ᴇᴅᴀᴅ »  ${age} añitos ฅ^•ﻌ•^ฅ
-│ *ꛊֵ໋𝅭࣫𝂺ֺׅ🕸️̶ᮢ〪〫ꨩ֔ᦡ࣫꒱ֵ֔*  ʙɪᴏ »  ${bio}
-├────────────
-│ *ꛊֵ໋𝅭࣫𝂺ֺׅ📖̶ᮢ〪〫ꨩ֔ᦡ࣫꒱ֵ֔*  ғᴇᴄʜᴀ »  ${fecha}
-│ *ꛊֵ໋𝅭࣫𝂺ֺׅ⌛̶ᮢ〪〫ꨩ֔ᦡ࣫꒱ֵ֔*  ʜᴏʀᴀ »  ${hora}
-│ *ꛊֵ໋𝅭࣫𝂺ֺׅ🌙̶ᮢ〪〫ꨩ֔ᦡ࣫꒱ֵ֔*  ᴅɪᴀ » ${dia}
-╰━━━━━ ˚₊· ͟͟͞͞➳❥
 
-ﾟ｡⋆｡🎀｡⋆｡ﾟ⋆｡🎀｡⋆｡ﾟ
-💌 〔 𝑹𝑬𝑪𝑶𝑴𝑷𝑬𝑵𝑺𝑨𝑺 〕 💌
+> *ꛊֵ໋𝅭࣫𝂺ֺׅ🍓̶ᮢ〪〫ꨩ֔ᦡ࣫꒱ֵ֔* ɴᴏᴍʙʀᴇ »  ${name}
+> *ꛊֵ໋𝅭࣫𝂺ֺׅ💫̶ᮢ〪〫ꨩ֔ᦡ࣫꒱ֵ֔*  ᴜsᴇʀ »  ${name2}
+> *ꛊֵ໋𝅭࣫𝂺ֺׅ📱̶ᮢ〪〫ꨩ֔ᦡ࣫꒱ֵ֔*  ɴᴜᴍᴇʀᴏ »  ${PhoneNumber('+' + who.replace('@s.whatsapp.net', '')).getNumber('international')}
+> *ꛊֵ໋𝅭࣫𝂺ֺׅ🐰̶ᮢ〪〫ꨩ֔ᦡ࣫꒱ֵ֔*  ᴇᴅᴀᴅ »  ${age} añitos ฅ^•ﻌ•^ฅ
+> *ꛊֵ໋𝅭࣫𝂺ֺׅ🕸️̶ᮢ〪〫ꨩ֔ᦡ࣫꒱ֵ֔*  ʙɪᴏ »  ${bio}
+──────────────────
+> *ꛊֵ໋𝅭࣫𝂺ֺׅ📖̶ᮢ〪〫ꨩ֔ᦡ࣫꒱ֵ֔*  ғᴇᴄʜᴀ »  ${fecha}
+> *ꛊֵ໋𝅭࣫𝂺ֺׅ⌛̶ᮢ〪〫ꨩ֔ᦡ࣫꒱ֵ֔*  ʜᴏʀᴀ »  ${hora}
+> *ꛊֵ໋𝅭࣫𝂺ֺׅ🌙̶ᮢ〪〫ꨩ֔ᦡ࣫꒱ֵ֔*  ᴅɪᴀ » ${dia}
+
+\`\`    ּ͜⌒໊݂݁͜    ݊ ּ͜⌒໊݂݁͜⏜݄݊͜ ͜⏜݆ׄ͜⌒໊݂͜.    ּ͜⌒໊݂݁͜\`\`
+\`\`\`   ͜છֶ̤͝🍰 𝐑𝐄𝐂𝐎𝐌𝐏𝐄𝐍𝐒𝐀𝐒 🍏ֶ͝છ̤͜  \`\`\`
+\`\`\`︶ִֶָ⏝︶ִֶָ⏝˖ ࣪ ୨✧୧ ࣪ ˖⏝ִֶָ︶⏝ִֶָ︶\`\`\`
 ✧ 💰 +40 → ${moneda}
 ✧ 🔮 +300 → ᴇxᴘ
 ✧ 💎 +20 → ᴛᴏᴋᴇɴs
@@ -172,7 +166,7 @@ Que los astros guíen tu camino 🌌 (づ๑•ᴗ•๑)づ♡ `.trim();
           thumbnailUrl: 'https://files.catbox.moe/1npzmw.jpg',
           mediaUrl: redes,
           sourceUrl: redes,
-          renderLargerThumbnail: true
+          renderLargerThumbnail: false
         }
       }
     },
