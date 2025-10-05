@@ -6,6 +6,7 @@ const handler = async (m, { conn, text, usedPrefix }) => {
     try {
         await m.react('🕒');
 
+        // Petición a la API de Pinterest
         const res = await axios.get(`https://api.vreden.my.id/api/v2/search/pinterest?query=${encodeURIComponent(text)}&limit=5&type=videos`);
         const data = res.data;
 
@@ -18,16 +19,22 @@ const handler = async (m, { conn, text, usedPrefix }) => {
 
         for (const item of results) {
             const videoData = item.media_urls?.[0];
-            if (!videoData?.url) continue;
-
-            // Descargar el video como buffer
-            const videoBuffer = await downloadVideo(videoData.url);
 
             const caption = createPinterestCaption(item);
 
+            // Enviar miniatura con botón para abrir el video
             await conn.sendMessage(m.chat, {
-                video: videoBuffer,
-                caption
+                image: { url: videoData?.thumbnail || '' },
+                caption,
+                footer: 'Haz clic en el botón para ver el video',
+                buttons: [
+                    {
+                        buttonId: `ver_${item.pin_url}`, 
+                        buttonText: { displayText: 'Ver video' }, 
+                        type: 1
+                    }
+                ],
+                headerType: 4
             }, { quoted: m });
         }
 
@@ -38,12 +45,7 @@ const handler = async (m, { conn, text, usedPrefix }) => {
     }
 };
 
-// Función para descargar video como buffer
-async function downloadVideo(url) {
-    const response = await axios.get(url, { responseType: 'arraybuffer' });
-    return Buffer.from(response.data);
-}
-
+// Función para crear el caption de cada pin
 function createPinterestCaption(item) {
     const uploader = item.uploader || {};
     const video = item.media_urls?.[0] || {};
