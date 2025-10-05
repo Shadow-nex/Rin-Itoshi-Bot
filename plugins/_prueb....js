@@ -6,57 +6,43 @@ const handler = async (m, { conn, text, usedPrefix }) => {
     try {
         await m.react('🕒');
 
-        // Petición a la API
-        const res = await axios.get(`https://api.vreden.my.id/api/v2/search/pinterest?query=${encodeURIComponent(text)}&limit=3&type=videos`);
+        // Realizar la solicitud a la API de Zyla Labs
+        const res = await axios.get(`https://zylalabs.com/api/1851/videos+and+images+downloader+from+pinterest+api/1513/fetch+video+or+image?url=${encodeURIComponent(text)}`, {
+            headers: {
+                'Authorization': 'Bearer YOUR_API_KEY'
+            }
+        });
+
         const data = res.data;
 
-        if (!data?.status || !data?.result?.result?.length) {
-            await conn.reply(m.chat, '⚠︎ No se encontraron videos para ese término.', m);
+        if (!data?.status || !data?.video_url) {
+            await conn.reply(m.chat, '⚠︎ No se encontró un video válido para ese término.', m);
             return;
         }
 
-        const results = data.result.result;
+        const videoUrl = data.video_url;
 
-        for (const item of results) {
-            const videoData = item.media_urls?.[0];
-            if (!videoData?.url) continue;
+        // Descargar el video como buffer
+        const videoBuffer = await downloadVideo(videoUrl);
 
-            // Descargar el video como buffer
-            const videoBuffer = await downloadVideo(videoData.url);
-
-            const caption = createPinterestCaption(item);
-
-            // Enviar video
-            await conn.sendMessage(m.chat, {
-                video: videoBuffer,
-                caption
-            }, { quoted: m });
-        }
+        // Enviar el video a WhatsApp
+        await conn.sendMessage(m.chat, {
+            video: videoBuffer,
+            caption: `❀ Video de Pinterest: ${text}`,
+            mimetype: 'video/mp4'
+        }, { quoted: m });
 
         await m.react('✔️');
-
     } catch (e) {
         await m.react('✖️');
         await conn.reply(m.chat, `⚠︎ Se ha producido un error.\n> Usa *${usedPrefix}report* para informarlo.\n\n${e.message}`, m);
     }
 };
 
-// Función para descargar video como buffer
+// Función para descargar el video como buffer
 async function downloadVideo(url) {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
     return Buffer.from(response.data);
-}
-
-// Crear caption
-function createPinterestCaption(item) {
-    const uploader = item.uploader || {};
-    const video = item.media_urls?.[0] || {};
-
-    return `❀ Título › ${item.title || 'No disponible'}
-> ☕︎ Autor › ${uploader.full_name || uploader.username || 'Desconocido'}
-> ✧︎ Calidad › ${video.quality || 'No disponible'}
-> 🕒 Duración › ${video.duration_ms ? Math.floor(video.duration_ms / 1000) + 's' : 'No disponible'}
-> 🔗 Pin › ${item.pin_url || 'No disponible'}`;
 }
 
 handler.help = ['pinterest2 <término>'];
