@@ -64,7 +64,7 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
               name: 'cta_copy',
               buttonParamsJson: JSON.stringify({
                 display_text: "🎧  𝘝𝘦𝘳 𝘦𝘯 𝘴𝘰𝘶𝘯𝘤𝘭𝘰𝘶𝘥",
-                id: track.url,
+                url: track.url,
                 merchant_url: track.url
               })
             },
@@ -72,7 +72,7 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
               name: 'cta_copy',
               buttonParamsJson: JSON.stringify({
                 display_text: "🕸️ 𝘊𝘢𝘯𝘢𝘭 𝘰𝘧𝘧𝘪𝘤𝘪𝘢𝘭",
-                id: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
+                url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
                 merchant_url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U" 
               })
             }
