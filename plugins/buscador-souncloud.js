@@ -5,7 +5,7 @@ const { generateWAMessageContent, generateWAMessageFromContent, proto } = bailey
 
 let handler = async (m, { conn, usedPrefix, command, text }) => {
   if (!text) return m.reply(`*⚙️ Por favor, ingresa el texto que deseas buscar en SoundCloud.*\n> *Ejemplo:* ${usedPrefix + command} Que te parece`);
-  await m.react('🕓');
+  await m.react('🎐');
 
   try {
     const response = await axios.get(`https://apis-starlights-team.koyeb.app/starlight/soundcloud-search?text=${encodeURIComponent(text)}`);
@@ -55,23 +55,23 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
             {
               name: 'cta_copy',
               buttonParamsJson: JSON.stringify({
-                display_text: "📋 Copiar Link",
+                display_text: "📋 𝘊𝘰𝘱𝘪𝘢𝘳 𝘭𝘪𝘯𝘬",
                 id: "copy_link",
                 copy_code: track.url
               })
             },
             {
-              name: 'url',
+              name: 'cta_copy',
               buttonParamsJson: JSON.stringify({
-                display_text: "🎧 ver",
-                id: "open_audio",
+                display_text: "🎧  𝘝𝘦𝘳 𝘦𝘯 𝘴𝘰𝘶𝘯𝘤𝘭𝘰𝘶𝘥",
+                id: track.url,
                 url: track.url
               })
             },
             {
-              name: 'url',
+              name: 'cta_copy',
               buttonParamsJson: JSON.stringify({
-                display_text: "🕸️ Canal official",
+                display_text: "🕸️ 𝘊𝘢𝘯𝘢𝘭 𝘰𝘧𝘧𝘪𝘤𝘪𝘢𝘭",
                 id: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
                 url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U" 
               })
