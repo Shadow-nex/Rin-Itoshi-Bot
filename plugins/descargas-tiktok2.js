@@ -1,153 +1,77 @@
-/*import axios from "axios";
-
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) {
-    return conn.reply(
-      m.chat,
-      `🚫 *Formato incorrecto.*\n\n🍂 \`Usa:\` ${usedPrefix + command} <enlace de TikTok>`,
-      m
-    );
-  }
-
-  try {
-    await m.react("🕒");
-    let url = `https://delirius-apiofc.vercel.app/download/tiktok?url=${encodeURIComponent(text)}`;
-    let { data } = await axios.get(url);
-
-    if (!data.status) {
-      return conn.reply(m.chat, "⚠️ No se pudo descargar el video.", m);
-    }
-
-    const {
-      id,
-      region,
-      title,
-      duration,
-      repro,
-      like,
-      share,
-      comment,
-      download,
-      published,
-      author,
-      music,
-      meta
-    } = data.data;
-
-    const { org, hd, wm, size_org, size_hd } = meta.media[0];
-    let caption = ` 🜸✧ TIKTOK DOWNLOADER ✧🜸
-> ❏ \`Título:\` *${title || "-"}*
-> ⌬ \`Autor:\` *${author?.nickname || "-"} (${author?.username || "@"})*
-> ⬡ \`ID:\` *${id}*
-> ✧ \`Región:\` *${region}*
-> 🜸 \`Duración:\` *${duration || 0}s*
-> ❏ \`Publicado:\` *${published}*
-> ⌬ \`Audio:\` *${music?.title || "-"} - ${music?.author || "-"}*
-
-> ⬡ \`Reproducciones:\` *${repro}*
-> ✧ \`Likes:\` *${like}*
-> 🜸 \`Comentarios:\` *${comment}*
-> ❏ \`Compartidos:\` *${share}*
-> ⌬ \`Descargas:\` *${download}*`.trim();
-    await conn.sendMessage(
-      m.chat,
-      {
-        video: { url: org },
-        caption,
-        footer: "© ᴘᴏᴡᴇʀᴇᴅ ʙʏ sʜᴀᴅᴏᴡ.xʏᴢ | ʀɪɴ ɪᴛᴏsʜɪ",
-        buttons: [
-          {
-            buttonId: `.tiktokmp3 ${text}`,
-            buttonText: { displayText: "🎧 Extraer Audio" },
-            type: 1,
-          },
-          {
-            buttonId: `.tiktokhd ${hd}`,
-            buttonText: { displayText: "📺 Descargar en HD" },
-            type: 1,
-          },
-        ],
-        headerType: 4,
-      },
-      { quoted: m }
-    );
-
-    await m.react("✅");
-  } catch (error) {
-    console.error(error);
-    conn.reply(
-      m.chat,
-      `❌ *Ocurrió un error al procesar el enlace.*\n\n📌 Asegúrate de que el enlace de TikTok sea válido y vuelve a intentarlo.`,
-      m
-    );
-  }
-};
-
-handler.help = ["tiktok2 *<url>*"];
-handler.tags = ["descargas"];
-handler.command = ["tt2", "tiktok2"];
-export default handler;*/
-
-import fetch from 'node-fetch'
+import fetch from "node-fetch";
+import baileys from "@whiskeysockets/baileys";
+const { proto, generateWAMessageFromContent, generateWAMessageContent } = baileys;
 
 let handler = async (m, { conn }) => {
   try {
+    let regex = /https?:\/\/(?:www\.|vm\.|vt\.)?tiktok\.com\/[^\s]+/i;
+    let match = m.text.match(regex);
+    if (!match) return;
 
-    let regex = /https?:\/\/(?:www\.|vm\.|vt\.)?tiktok\.com\/[^\s]+/i
-    let match = m.text.match(regex)
-    if (!match) return
+    let url = match[0];
+    await m.react("⏳");
 
-    let url = match[0]
-
-    await m.react('⏳')
-
-    let api = `https://api.vreden.my.id/api/v1/download/tiktok?url=${encodeURIComponent(url)}`
-    let res = await fetch(api)
-    let json = await res.json()
+    let api = `https://api.vreden.my.id/api/v1/download/tiktok?url=${encodeURIComponent(url)}`;
+    let res = await fetch(api);
+    let json = await res.json();
 
     if (!json.status || !json.result) {
-      await m.react('❌')
-      return conn.reply(m.chat, '❌ No se pudo obtener el video, inténtalo nuevamente.', m)
+      await m.react("❌");
+      return conn.reply(m.chat, "❌ No se pudo obtener el video, inténtalo nuevamente.", m);
     }
 
-    const { title, region, duration, author, cover, stats, data, music_info } = json.result
-    const videoUrl = data.find(v => v.type === 'nowatermark_hd')?.url || data[0]?.url
+    const { title, region, duration, author, cover, stats, data, music_info } = json.result;
+    const videoUrl = data.find(v => v.type === "nowatermark_hd")?.url || data[0]?.url;
 
-    await m.react('📥')
+    await m.react("📥");
 
-    let info = `╭━━━〔 🎵 𝚃𝙸𝙺𝚃𝙾𝙺 𝙳𝙾𝚆𝙽𝙻𝙾𝙰𝙳𝙴𝚁 〕━━⬣
-┃🎬 *Título:* ${title}
-┃👤 *Autor:* ${author?.nickname || '-'}
-┃🌍 *Región:* ${region}
-┃🕒 *Duración:* ${duration}
-┃👀 *Vistas:* ${stats?.views || '0'}
-┃❤️ *Likes:* ${stats?.likes || '0'}
-┃💬 *Comentarios:* ${stats?.comment || '0'}
-┃🔁 *Compartidos:* ${stats?.share || '0'}
-┃🎧 *Audio:* ${music_info?.title || '-'} - ${music_info?.author || '-'}
-╰━━━━━━━━━━━━━━━━━━⬣`
-    await m.react('📤')
+    let description = `🌟 *TikTok Downloader*
 
-    await conn.sendMessage(
+🎬 *Title:* ${title}
+🧑‍🎤 *Author:* ${author?.nickname || "-"}
+⏱️ *Duration:* ${duration || "-"}   🌎 *Region:* ${region || "-"}
+👁️‍🗨️ *Views:* ${stats?.views || "0"}   ❤️ *Likes:* ${stats?.likes || "0"}
+💬 *Comments:* ${stats?.comment || "0"}   🔄 *Shares:* ${stats?.share || "0"}
+🎶 *Audio:* ${music_info?.title || "-"} - ${music_info?.author || "-"}`;
+    const videoMessage = await generateWAMessageContent({ video: { url: videoUrl }, caption: description, thumbnailUrl: cover });
+
+    const msg = generateWAMessageFromContent(
       m.chat,
       {
-        video: { url: videoUrl },
-        caption: info,
-        gifPlayback: false,
-        thumbnailUrl: cover
+        viewOnceMessage: {
+          message: {
+            interactiveMessage: proto.Message.InteractiveMessage.fromObject({
+              body: proto.Message.InteractiveMessage.Body.create({ text: description }),
+              footer: proto.Message.InteractiveMessage.Footer.create({ text: "📥 TikTok Downloader" }),
+              nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
+                buttons: [
+                  {
+                    name: "cta_url",
+                    buttonParamsJson: JSON.stringify({
+                      display_text: "📢 Canal Oficial",
+                      url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
+                      merchant_url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
+                    }),
+                  },
+                ],
+              }),
+            }),
+          },
+        },
       },
       { quoted: m }
-    )
+    );
 
-    await m.react('✔️')
+    await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
+    await m.react("✔️");
 
   } catch (err) {
-    console.error(err)
-    await m.react('❌')
-    conn.reply(m.chat, '❌ Ocurrió un error al procesar el video de TikTok.', m)
+    console.error(err);
+    await m.react("❌");
+    conn.reply(m.chat, "❌ Ocurrió un error al procesar el video de TikTok.", m);
   }
-}
+};
 
-handler.customPrefix = /https?:\/\/(?:www\.|vm\.|vt\.)?tiktok\.com\/[^\s]+/i
-handler.command = new RegExp
-export default handler
+handler.customPrefix = /https?:\/\/(?:www\.|vm\.|vt\.)?tiktok\.com\/[^\s]+/i;
+handler.command = new RegExp;
+export default handler;
