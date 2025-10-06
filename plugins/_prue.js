@@ -1,4 +1,5 @@
 import yts from 'yt-search';
+import fetch from 'node-fetch';
 import { proto } from '@whiskeysockets/baileys';
 
 let handler = async (m, { conn, usedPrefix }) => {
@@ -16,66 +17,70 @@ let handler = async (m, { conn, usedPrefix }) => {
     // Detectar link de YouTube
     let regex = /(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/[^\s]+/i;
     let match = text.match(regex);
-    if (!match) return; // No es link de YouTube
+
+    // Si no hay link, no hacemos nada
+    if (!match) return;
 
     let url = match[0];
 
-    // Reacción de carga
-    await conn.sendMessage(m.chat, { react: { text: '⏳', key: m.key } });
+    await m.react('🕓');
 
-    // Buscar info del video
-    let searchResult = await yts(url);
-    let video = searchResult.videos[0];
+    // Buscar video con yt-search
+    let res = await yts(url);
+    let video = res.videos[0];
     if (!video) {
-      await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
-      return conn.sendMessage(m.chat, { text: '❌ No se encontró el video.' }, { quoted: m });
+      await m.react('✖️');
+      return conn.reply(m.chat, '❌ No se encontró el video.', m);
     }
 
-    // Reacción de info obtenida
-    await conn.sendMessage(m.chat, { react: { text: '📥', key: m.key } });
+    // Miniatura
+    let thumbnail;
+    try {
+      thumbnail = await (await fetch(video.thumbnail)).buffer();
+    } catch {
+      thumbnail = await (await fetch('https://telegra.ph/file/36f2a1bd2aaf902e4d1ff.jpg')).buffer();
+    }
 
-    // Preparar lista de descarga
-    const sections = [
-      {
-        title: "🎵 FORMATOS DISPONIBLES",
-        rows: [
-          { title: "🎵 YTMP3", description: "Descargar solo audio", rowId: `#ytmp3 ${video.url}` },
-          { title: "🎬 YTMP4", description: "Descargar video", rowId: `#ytmp4 ${video.url}` },
-          { title: "🎧 YTA", description: "Audio alta calidad", rowId: `#yta ${video.url}` },
-          { title: "📹 YTV", description: "Video alta calidad", rowId: `#ytv ${video.url}` },
-        ]
-      }
-    ];
+    // Mensaje principal
+    const caption = `╭━━━〔 📀  𝐌𝐔𝐒𝐈𝐂 - 𝐘𝐎𝐔𝐓𝐔𝐁𝐄 〕━━⬣
+┃ ✦ 𝗧𝗶́𝘁𝘂𝗹𝗼 › *${video.title || 'No encontrado'}*
+┃ ✦ 𝗖𝗮𝗻𝗮𝗹 › *${video.author.name || 'No encontrado'}*
+┃ ✦ 𝗗𝘂𝗿𝗮𝗰𝗶𝗼́𝗻 › *${video.duration || 'No encontrado'}*
+┃ ✦ 𝗩𝗶𝘀𝘁𝗮𝘀 › *${video.views || 'No encontrado'}*
+┃ ✦ 𝗣𝘂𝗯𝗹𝗶𝗰𝗮𝗱𝗼 › *${video.ago || 'No encontrado'}*
+┃ ✦ 𝗘𝗻𝗹𝗮𝗰𝗲 › ${video.url}`;
 
-    const listMessage = {
-      text: `╭━━━〔 🎶 YOUTUBE DETECTADO 〕━━⬣
-> 🎬 Título: ${video.title}
-> ⏱️ Duración: ${video.timestamp}
-> 👁️ Vistas: ${video.views}
-> 🔗 Enlace: ${video.url}
-╰━━━━━━━━━━━━━━━━━━⬣
+    // Lista de otros resultados de YouTube
+    let ytSections = res.videos.slice(1, 11).map((v, index) => ({
+      title: `${index + 1}┃ ${v.title}`,
+      rows: [
+        { title: `🎶 Descargar MP3`, description: `Duración: ${v.duration}`, id: `${usedPrefix}ytmp3 ${v.url}` },
+        { title: `🎥 Descargar MP4`, description: `Duración: ${v.duration}`, id: `${usedPrefix}ytmp4 ${v.url}` },
+      ]
+    }));
 
-Selecciona el formato que deseas descargar:`,
-      footer: "Kaneki Bot • YouTube Downloader",
-      title: "📥 DESCARGA TU VIDEO",
-      buttonText: "Seleccionar formato",
-      sections
-    };
-
-    // Enviar mensaje con miniatura y lista
+    // Enviar mensaje con miniatura, caption y lista
     await conn.sendMessage(m.chat, {
-      image: { url: video.thumbnail },
-      ...listMessage
+      image: thumbnail,
+      caption,
+      footer: '┃✨ 𝐄𝐥𝐢𝐣𝐚 𝐮𝐧𝐚 𝐨𝐩𝐜𝐢𝐨́𝐧 ✨\n┃  🎧 › Audio\n┃  📹 › Video\n╰━━━━━━━━━━━━━━━━━━⬣',
+      buttons: [
+        { buttonId: `${usedPrefix}ytmp3 ${video.url}`, buttonText: { displayText: '🍂 Audio' }, type: 1 },
+        { buttonId: `${usedPrefix}ytmp4 ${video.url}`, buttonText: { displayText: '🌱 Video' }, type: 1 }
+      ],
+      contextInfo: {
+        mentionedJid: [m.sender],
+      },
+      headerType: 1,
+      viewOnce: true
     }, { quoted: m });
 
-    // Reacción de listo
-    await conn.sendMessage(m.chat, { react: { text: '✔️', key: m.key } });
+    await m.react('✅');
 
-  } catch (err) {
-    console.error(err);
-    // Reacción de error
-    await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
-    conn.sendMessage(m.chat, { text: '❌ Ocurrió un error al procesar el video de YouTube.' }, { quoted: m });
+  } catch (e) {
+    console.error(e);
+    await m.react('✖️');
+    conn.reply(m.chat, '*`Error al procesar el link de YouTube.`*', m);
   }
 };
 
