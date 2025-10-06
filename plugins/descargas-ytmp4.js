@@ -3,6 +3,9 @@ import fetch from "node-fetch";
 import fs from "fs";
 import { sizeFormatter } from "human-readable";
 
+
+let calidadPredeterminada = "360"; 
+
 const formatSize = sizeFormatter({
   std: "JEDEC",
   decimalPlaces: 2,
@@ -18,9 +21,13 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         m
       );
 
-    await conn.reply(m.chat, "⏳ *Procesando tu solicitud...*", m);
+    await conn.reply(
+      m.chat,
+      `⏳ *Procesando tu solicitud...*\n🎚️ Calidad actual: *${calidadPredeterminada}p*`,
+      m
+    );
     
-    const apiUrl = `https://api.vreden.my.id/api/v1/download/youtube/video?url=${encodeURIComponent(text)}&quality=360`;
+    const apiUrl = `https://api.vreden.my.id/api/v1/download/youtube/video?url=${encodeURIComponent(text)}&quality=${calidadPredeterminada}`;
     const res = await axios.get(apiUrl);
 
     if (!res.data?.status) throw new Error("No se pudo obtener información del video.");
@@ -32,7 +39,9 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     const head = await fetch(dl.url, { method: "HEAD" });
     const size = head.headers.get("content-length");
     const fileSize = size ? formatSize(parseInt(size)) : "Desconocido";
-    const info = `🎬 ＹＯＵＴＵＢＥ • ＭＰ4 
+    const sizeMB = size ? parseInt(size) / 1024 / 1024 : 0;
+
+    const info = `🎬 ＹＯＵＴＵＢＥ • ＭＰ4  
 
 🍷 *Título:* ${meta.title}
 👤 *Autor:* ${meta.author?.name || "-"}
@@ -50,18 +59,14 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       caption: info,
     });
 
-    // Detectar tamaño y tipo de envío
-    const limitMB = 100;
-    const sizeMB = size ? parseInt(size) / 1024 / 1024 : 0;
-
-    if (sizeMB > limitMB) {
+    if (sizeMB > 100) {
       await conn.sendMessage(
         m.chat,
         {
           document: { url: dl.url },
           mimetype: "video/mp4",
           fileName: dl.filename,
-          caption: `🎥 *${meta.title}*\n📦 Tamaño: ${fileSize}\n🧩 Calidad: ${dl.quality}p\n📁 Enviado como documento por superar 100 MB.`,
+          caption: `🎥 *${meta.title}*\n📦 Tamaño: ${fileSize}\n🧩 Calidad: ${dl.quality}p\n📁 Enviado como documento (más de 100 MB).`,
         },
         { quoted: m }
       );
@@ -72,7 +77,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
           video: { url: dl.url },
           mimetype: "video/mp4",
           fileName: dl.filename,
-          caption: `> *${meta.title}*\n> Tamaño: ${fileSize}\n> Calidad: ${dl.quality}p`,
+          caption: `🎥 *${meta.title}*\n📦 Tamaño: ${fileSize}\n🧩 Calidad: ${dl.quality}p`,
         },
         { quoted: m }
       );
@@ -89,6 +94,29 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
 handler.help = ["ytmp4 <url>"];
 handler.tags = ["descargas"];
-handler.command = ['ytmp4'];
+handler.command = ["ytmp4"];
 
 export default handler;
+
+
+let setCalidadHandler = async (m, { text, usedPrefix, command }) => {
+  const calidad = text.trim();
+
+  if (!calidad)
+    return m.reply(
+      `🎚️ *Debes especificar la calidad de descarga.*\n\n📌 Ejemplo:\n${usedPrefix + command} 720`
+    );
+
+  const opciones = ["144", "240", "360", "480", "720", "1080"];
+  if (!opciones.includes(calidad))
+    return m.reply(`⚠️ *Calidad inválida.* Usa una de estas:\n> ${opciones.join("p, ")}p`);
+
+  calidadPredeterminada = calidad;
+  m.reply(`✅ *Calidad predeterminada actualizada a:* ${calidad}p`);
+};
+
+setCalidadHandler.help = ["setcalidad <valor>"];
+setCalidadHandler.tags = ["config"];
+setCalidadHandler.command = ["setcalidad", "setquality"];
+
+export { setCalidadHandler };
