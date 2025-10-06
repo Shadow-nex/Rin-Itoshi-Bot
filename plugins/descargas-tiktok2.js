@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import baileys from "@whiskeysockets/baileys";
-const { proto, generateWAMessageFromContent, generateWAMessageContent } = baileys;
+const { proto } = baileys;
 
 let handler = async (m, { conn }) => {
   try {
@@ -23,8 +23,6 @@ let handler = async (m, { conn }) => {
     const { title, region, duration, author, cover, stats, data, music_info } = json.result;
     const videoUrl = data.find(v => v.type === "nowatermark_hd")?.url || data[0]?.url;
 
-    await m.react("📥");
-
     let description = `🌟 *TikTok Downloader*
 
 🎬 *Title:* ${title}
@@ -33,36 +31,22 @@ let handler = async (m, { conn }) => {
 👁️‍🗨️ *Views:* ${stats?.views || "0"}   ❤️ *Likes:* ${stats?.likes || "0"}
 💬 *Comments:* ${stats?.comment || "0"}   🔄 *Shares:* ${stats?.share || "0"}
 🎶 *Audio:* ${music_info?.title || "-"} - ${music_info?.author || "-"}`;
-    const videoMessage = await generateWAMessageContent({ video: { url: videoUrl }, caption: description, thumbnailUrl: cover });
 
-    const msg = generateWAMessageFromContent(
-      m.chat,
-      {
-        viewOnceMessage: {
-          message: {
-            interactiveMessage: proto.Message.InteractiveMessage.fromObject({
-              body: proto.Message.InteractiveMessage.Body.create({ text: description }),
-              footer: proto.Message.InteractiveMessage.Footer.create({ text: "📥 TikTok Downloader" }),
-              nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
-                buttons: [
-                  {
-                    name: "cta_url",
-                    buttonParamsJson: JSON.stringify({
-                      display_text: "📢 Canal Oficial",
-                      url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
-                      merchant_url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
-                    }),
-                  },
-                ],
-              }),
-            }),
+    const template = {
+      video: { url: videoUrl },
+      caption: description,
+      footer: "📥 TikTok Downloader",
+      templateButtons: [
+        {
+          urlButton: {
+            displayText: "📢 Canal Oficial",
+            url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
           },
         },
-      },
-      { quoted: m }
-    );
+      ],
+    };
 
-    await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
+    await conn.sendMessage(m.chat, template, { quoted: m });
     await m.react("✔️");
 
   } catch (err) {
