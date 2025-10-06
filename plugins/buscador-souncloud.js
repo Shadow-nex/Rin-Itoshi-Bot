@@ -1,47 +1,117 @@
 import axios from 'axios';
+import baileys from '@whiskeysockets/baileys';
+
+const { generateWAMessageContent, generateWAMessageFromContent, proto } = baileys;
 
 let handler = async (m, { conn, usedPrefix, command, text }) => {
-  if (!text) return conn.reply(m.chat, '🌴 Ingresa el texto que deseas buscar en SoundCloud.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* Que te parece`, m, rcanal);
+  if (!text) return m.reply(`*⚙️ Por favor, ingresa el texto que deseas buscar en SoundCloud.*\n> *Ejemplo:* ${usedPrefix + command} Que te parece`);
   await m.react('🕓');
 
   try {
     const response = await axios.get(`https://apis-starlights-team.koyeb.app/starlight/soundcloud-search?text=${encodeURIComponent(text)}`);
+    const results = response.data;
 
-    if (response.data && Array.isArray(response.data)) {
-      const results = response.data;
-      if (results.length > 0) {
-        for (let i = 0; i < results.length; i++) {
-          let track = results[i];
-          let txt = '`乂  S O U N D C L O U D  -  B U S Q U E D A`\n\n';
-          txt += `🍬 *Nro* : ${i + 1}\n`;
-          txt += `🍬 *Título* : ${track.title || 'Sin título'}\n`;
-          txt += `🍬 *Artista* : ${track.artist || 'Desconocido'}\n`;
-          txt += `🍬 *Reproducciones* : ${track.repro || 'N/A'}\n`;
-          txt += `🍬 *Duración* : ${track.duration || 'N/A'}\n`;
-          txt += `🍬 *Creador* : ${track.creator || 'Desconocido'}\n`;
-          txt += `🍬 *URL* : ${track.url}\n\n`;
-          txt += `🍬 *Imagen* : ${track.image}`;
-
-          await conn.sendMessage(m.chat, { text: txt, caption: '🧩 Escucha aquí:', url: track.url }, { quoted: m });
-        }
-        await m.react('✅');
-      } else {
-        await m.react('✖️');
-        await conn.reply(m.chat, 'No se encontraron resultados para esta búsqueda en SoundCloud.', m);
-      }
-    } else {
+    if (!results || !Array.isArray(results) || results.length === 0) {
       await m.react('✖️');
-      await conn.reply(m.chat, 'Error al obtener datos de la API de SoundCloud.', m);
+      return m.reply('⚠️ No se encontraron resultados para esta búsqueda en SoundCloud.');
     }
+
+    async function createImage(url) {
+      const { imageMessage } = await generateWAMessageContent(
+        { image: { url } },
+        { upload: conn.waUploadToServer }
+      );
+      return imageMessage;
+    }
+
+    let cards = [];
+    for (let i = 0; i < results.length; i++) {
+      let track = results[i];
+
+      const image = await createImage(track.image || banner);
+
+      const infoHeader = `🎵 𝗦𝗢𝗨𝗡𝗗𝗖𝗟𝗢𝗨𝗗  • 𝗕𝗨𝗦𝗤𝗨𝗘𝗗𝗔`;
+      const infoBody = `
+🎋 *Nro:* ${i + 1}
+🍬 *Título:* ${track.title || 'Sin título'}
+🍧 *Artista:* ${track.artist || 'Desconocido'}
+👽 *Reproducciones:* ${track.repro || 'N/A'}
+⚽ *Duración:* ${track.duration || 'N/A'}
+🍏 *Creador:* ${track.creator || 'Desconocido'}
+🎐 *URL:* ${track.url}
+🎃 *Imagen:* ${track.image || 'No disponible'}
+`;
+
+      cards.push({
+        body: proto.Message.InteractiveMessage.Body.fromObject({ text: infoHeader }),
+        footer: proto.Message.InteractiveMessage.Footer.fromObject({ text: infoBody }),
+        header: proto.Message.InteractiveMessage.Header.fromObject({
+          title: '',
+          hasMediaAttachment: true,
+          imageMessage: image
+        }),
+        nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
+          buttons: [
+            {
+              name: 'cta_copy',
+              buttonParamsJson: JSON.stringify({
+                display_text: "📋 Copiar Link",
+                id: "copy_link",
+                copy_code: track.url
+              })
+            },
+            {
+              name: 'url',
+              buttonParamsJson: JSON.stringify({
+                display_text: "🎧 ver",
+                id: "open_audio",
+                url: track.url
+              })
+            },
+            {
+              name: 'url',
+              buttonParamsJson: JSON.stringify({
+                display_text: "🕸️ Canal official",
+                id: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U",
+                url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U" 
+              })
+            }
+          ]
+        })
+      });
+    }
+
+    const msg = generateWAMessageFromContent(m.chat, {
+      viewOnceMessage: {
+        message: {
+          messageContextInfo: {
+            deviceListMetadata: {},
+            deviceListMetadataVersion: 2
+          },
+          interactiveMessage: proto.Message.InteractiveMessage.fromObject({
+            body: proto.Message.InteractiveMessage.Body.create({
+              text: `⚽ 𝗥𝗲𝘀𝘂𝗹𝘁𝗮𝗱𝗼𝘀 de: \`${text}\`\n> Mostrando ${cards.length} resultados`
+            }),
+            footer: proto.Message.InteractiveMessage.Footer.create({ text: '_SoundCloud - Search_' }),
+            header: proto.Message.InteractiveMessage.Header.create({ hasMediaAttachment: false }),
+            carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({ cards })
+          })
+        }
+      }
+    }, { quoted: m });
+
+    await m.react('✔️');
+    await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
+
   } catch (error) {
     console.error(error);
     await m.react('✖️');
-    await conn.reply(m.chat, 'Hubo un error al procesar la solicitud. Intenta de nuevo más tarde.', m);
+    await m.reply('❌ Hubo un error al procesar la búsqueda en SoundCloud.');
   }
 }
 
 handler.tags = ['buscador'];
-handler.help = ['soundcloudsearch *<texto>*'];
+handler.help = ['soundcloudsearch <texto>'];
 handler.command = ['soundcloudsearch', 'scsearch'];
 handler.register = true;
 handler.coin = 5;
