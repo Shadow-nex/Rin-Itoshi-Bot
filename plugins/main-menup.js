@@ -21,75 +21,88 @@ let handler = async (m, { conn }) => {
       name: 'Rin Itoshi Updates'
     }
 
-    // ⏱️ Calcular latencia correctamente
+    // Datos del sistema
     let timestamp = speed()
     let mentionedJid = m.mentionedJid?.[0] || m.sender
     let name = await conn.getName(m.sender)
     let uptime = clockString(process.uptime() * 1000)
     let totalCommands = Object.keys(global.plugins).length
     let totalUsers = Object.keys(global.db.data.users).length
-    let registeredUsers = Object.values(global.db.data.users).filter(user => user.registered).length
+    let registeredUsers = Object.values(global.db.data.users).filter(u => u.registered).length
     let fecha = moment.tz('America/Lima').format('DD/MM/YYYY')
     let hora = moment.tz('America/Lima').format('HH:mm:ss')
     let dia = moment.tz('America/Lima').format('dddd')
-
-    // Simular carga para medir latencia real
     let _speed = speed() - timestamp
 
-    // 🩵 Texto decorado
+    // 🩵 Texto principal
     let menuText = `
-\`\`\`  ݊ ּ͜⏜݆ׄ͜⌒໊݂݁͜⏜݄͜ ͝⃞֟☁️⃛͜͝ ⃞໊݄⏜݆ׄ͜͜⌒ ּ͜⏜݆ׄ݊͜ ּ͜ \`\`\`
-\`\`\`  ໍ۪۫꒰̥᷑ໍ᮫۪۫𝆬⭐ ࣮࣮᷑᷑𝐊֘𝐀۫𝐍〪࣮࣫𝐄۪۫࣫𝐊𝐈᮫࣮𝆬᷑•۫֘ ᮫𝆬ᤲ࣫𝐕֘ ᮫𝆬ᤲ࣫3֘ ᮫𝆬ᤲ࣫ 🌿᩠̥ໍ۪۫꒱̥ໍ۪۫ \`\`\`
-\`\`\` ︶ִֶָ⏝︶ִֶָ⏝˖ ࣪ ୨✧୧ ࣪ ˖⏝ִֶָ︶⏝ִֶָ︶ \`\`\`
+\`\`\`  ༺🌸 ʀɪɴ ɪᴛᴏsʜɪ ᴍᴇɴᴜ 🌸༻ \`\`\`
 
-> \`\`\`${ucapan()} ᭡̵໋࡙ᮬ @${mentionedJid.split('@')[0]}\`\`\`
-> ꨩ🍄ּֽ֪۪۪〫ࣳׄ ${dia} | ${fecha} | ${hora} *⃟░
+> ${ucapan()} ᭡̵໋࡙ᮬ @${mentionedJid.split('@')[0]}
+> ${dia} | ${fecha} | ${hora}
 
-  ☁️ *ᴜsᴜᴀʀɪᴏ:* ${name}
-  🪷 *ᴄʀᴇᴀᴅᴏʀ:* 𝐒𝐡𝐚𝐝𝐨𝐰-𝐱𝐲𝐳
-  🎋 *ᴄᴏᴍᴀɴᴅᴏs:* ${totalCommands}
-  🪾 *ᴠs:* ${vs}
-  🍃 *ʟɪʙʀᴇʀɪᴀ:* ${libreria}
-  🪹 *ʙᴏᴛ:* ${(conn.user.jid == global.conn.user.jid ? 'Principal' : 'Sub-Bot')}
-  🌹 *ʀᴜɴᴛɪᴍᴇ:* ${uptime}
-  🪴 *ʀᴇɢɪsᴛʀᴀᴅᴏs:* ${totalUsers} (${registeredUsers})
-  🫟 *ɴᴏ ʀᴇɢɪsᴛʀᴀᴅᴏs:* ${totalUsers - registeredUsers}
-
-  🫛 *ʟᴀᴛᴇɴᴄɪᴀ:* ${_speed.toFixed(4)} ms
-  🍓 *ʀᴀᴍ ᴜsᴀᴅᴀ:* ${format(totalmem() - freemem())}
-  🌲 *ʀᴀᴍ ᴛᴏᴛᴀʟ:* ${format(totalmem())}
-  🕸️ *ʀᴀᴍ ʟɪʙʀᴇ:* ${format(freemem())}
-  👻 *sᴏᴄᴋᴇᴛs ᴏɴʟɪɴᴇ:* ${totalUsers || '0'}
-  🪵 *ᴄᴏᴍᴀɴᴅᴏꜱ ᴜꜱᴀᴅᴏꜱ:* ${toNum(totalCommands)}
+☁️ *Usuario:* ${name}  
+🪷 *Creador:* 𝐒𝐡𝐚𝐝𝐨𝐰-𝐱𝐲𝐳  
+🎋 *Comandos:* ${totalCommands}  
+🪾 *Versión:* ${vs}  
+🍃 *Librería:* ${libreria}  
+🪹 *Bot:* ${(conn.user.jid == global.conn.user.jid ? 'Principal' : 'Sub-Bot')}  
+🌹 *Runtime:* ${uptime}  
+🪴 *Registrados:* ${totalUsers} (${registeredUsers})  
+🫛 *Latencia:* ${_speed.toFixed(4)} ms  
+🍓 *RAM usada:* ${format(totalmem() - freemem())}  
+🌲 *RAM total:* ${format(totalmem())}  
+🕸️ *RAM libre:* ${format(freemem())}
 `
 
+    // 🖼️ Imagen del producto
     const thumbnail = (await axios.get('https://files.catbox.moe/rru021.jpg', { responseType: 'arraybuffer' })).data
 
-    // 🛍️ Mini portada tipo producto
+    // 📦 Enviar mensaje tipo producto
     await conn.sendMessage(
       m.chat,
       {
         productMessage: {
           product: {
-            productImage: {
-              mimetype: 'image/jpeg',
-              jpegThumbnail: thumbnail
-            },
             title: '🌸 ʀɪɴ ɪᴛᴏsʜɪ ᴍᴇɴᴜ 🌸',
             description: '✨ Tu asistente personal - Shadowxyz ✨',
             currencyCode: 'USD',
             priceAmount1000: 100000,
             retailerId: 'menu-rin',
             productImageCount: 1,
+            productImage: {
+              url: 'https://files.catbox.moe/rru021.jpg'
+            },
             businessOwnerJid: '51919199620@s.whatsapp.net'
           },
-          businessOwnerJid: '51919199620@s.whatsapp.net'
+          businessOwnerJid: '51919199620@s.whatsapp.net',
+          messageContextInfo: {
+            messageType: 'product',
+            isForwarded: true
+          },
+          contextInfo: {
+            mentionedJid: [mentionedJid],
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+              newsletterJid: channelRD.id,
+              serverMessageId: 100,
+              newsletterName: channelRD.name
+            },
+            externalAdReply: {
+              title: '🌸 Rin Itoshi Menu 🌸',
+              body: 'Tu asistente personal ✨',
+              mediaType: 1,
+              thumbnail,
+              sourceUrl: 'https://github.com/Yuji-XDev',
+              renderLargerThumbnail: true
+            }
+          }
         }
       },
       { quoted: m }
     )
 
-    // 💬 Enviar mensaje principal
+    // 💬 Enviar el texto principal con footer
     await conn.sendMessage(
       m.chat,
       {
@@ -97,17 +110,11 @@ let handler = async (m, { conn }) => {
         footer: club,
         contextInfo: {
           mentionedJid: [mentionedJid],
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-            newsletterJid: channelRD.id,
-            serverMessageId: 100,
-            newsletterName: channelRD.name
-          },
           externalAdReply: {
             title: '🌸 Rin Itoshi Menu 🌸',
             body: 'Tu asistente personal ✨',
-            thumbnail,
             mediaType: 1,
+            thumbnail,
             sourceUrl: 'https://github.com/Yuji-XDev',
             renderLargerThumbnail: true
           }
@@ -117,7 +124,7 @@ let handler = async (m, { conn }) => {
     )
   } catch (e) {
     console.error(e)
-    m.reply('⚠️ Error al generar el menú. Revisa variables o la conexión de la imagen.')
+    await m.reply('⚠️ Error al generar el menú. Verifica la conexión o el formato del mensaje.')
   }
 }
 
@@ -127,7 +134,7 @@ handler.command = ['menup', 'menú', 'help']
 handler.register = true
 export default handler
 
-// 🧭 Funciones auxiliares
+// 🔧 Funciones auxiliares
 function clockString(ms) {
   let seconds = Math.floor((ms / 1000) % 60)
   let minutes = Math.floor((ms / (1000 * 60)) % 60)
@@ -140,10 +147,4 @@ function ucapan() {
   if (time >= 5 && time < 12) return 'Buenos días'
   if (time >= 12 && time < 18) return 'Buenas tardes'
   return 'Buenas noches'
-}
-
-function toNum(number) {
-  if (number >= 1_000_000) return (number / 1_000_000).toFixed(1) + 'M'
-  if (number >= 1_000) return (number / 1_000).toFixed(1) + 'K'
-  return number
 }
