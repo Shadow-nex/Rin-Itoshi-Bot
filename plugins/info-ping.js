@@ -21,7 +21,7 @@ let handler = async (m, { conn }) => {
   const usedRAM = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)
   const fechaHora = moment().tz('America/Lima').format('YYYY/MM/DD, h:mm A')
 
-  const thumbBuffer = Buffer.from(await (await fetch('https://files.catbox.moe/e7zkt3.jpg')).arrayBuffer())
+  const thumbBuffer = Buffer.from(await (await fetch('https://d.uguu.se/VpyXZrTP.webp')).arrayBuffer())
 
   exec(`neofetch --stdout`, async (error, stdout) => {
     let sysInfo = stdout.toString("utf-8").replace(/Memory:/, "Ram:")
