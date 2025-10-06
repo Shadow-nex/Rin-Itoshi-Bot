@@ -34,22 +34,23 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
     await conn.reply(m.chat, infoMessage, m);
 
-    // Dependiendo del comando, descargar audio o video
+    // Audio
     if (['playaudio'].includes(command)) {
       try {
-        const apiUrl = `https://api.savetube.me/api/download/yt.js?url=${encodeURIComponent(url)}&format=audio`;
+        const apiUrl = `https://dark-core-api.vercel.app/api/download/YTMP3?key=api&url=${encodeURIComponent(url)}`;
         const res = await fetch(apiUrl);
         const json = await res.json();
 
-        if (!json.data?.audio) throw '*⚠ No se obtuvo un enlace de audio válido.*';
+        if (!json.status || !json.download)
+          throw '*⚠ No se obtuvo un enlace de audio válido.*';
 
         await conn.sendMessage(m.chat, {
-          audio: { url: json.data.audio },
+          audio: { url: json.download },
           mimetype: 'audio/mpeg',
-          fileName: `${json.data.title || title}.mp3`,
+          fileName: `${json.title || title}.mp3`,
           contextInfo: {
             externalAdReply: {
-              title,
+              title: json.title || title,
               body: '🎶 Descarga en curso...',
               mediaType: 1,
               thumbnail: thumb,
@@ -62,22 +63,25 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
         await m.react('✅');
       } catch (e) {
+        console.error(e);
         return conn.reply(m.chat, '*⚠ No se pudo enviar el audio. Puede ser muy pesado o hubo un error en el enlace.*', m);
       }
+
+    // Video
     } else if (['playvideo'].includes(command)) {
       try {
-        const apiUrl = `https://api.savetube.me/api/download/yt.js?url=${encodeURIComponent(url)}&format=video`;
+        const apiUrl = `https://api.delirius.store/download/ytmp4?url=${encodeURIComponent(url)}`;
         const res = await fetch(apiUrl);
         const json = await res.json();
 
-        if (!json.data?.video) throw '⚠ No se obtuvo enlace de video válido.';
-        const data = json.data;
+        if (!json.status || !json.data?.download?.url)
+          throw '⚠ No se obtuvo enlace de video válido.';
 
-        const size = await getSize(data.video);
-        const sizeStr = size ? await formatSize(size) : 'Desconocido';
+        const data = json.data.download;
 
-        const caption = `> ✦ *Título:* ${data.title}
-> ❏ *Canal:* ${canal}
+        const sizeStr = data.size || 'Desconocido';
+        const caption = `> ✦ *Título:* ${json.data.title}
+> ❏ *Canal:* ${json.data.author}
 > ⌬ *Duración:* ${timestamp || 'Desconocido'}
 > ⨳ *Tamaño:* ${sizeStr}
 > 🜸 *Vistas:* ${vistas}
@@ -86,21 +90,24 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
         await conn.sendFile(
           m.chat,
-          data.video,
-          `${data.title || 'video'}.mp4`,
+          data.url,
+          data.filename || `${json.data.title || 'video'}.mp4`,
           caption,
-          m
+          m,
+          { mimetype: 'video/mp4', thumbnail: thumb }
         );
 
         await m.react('✅');
       } catch (e) {
+        console.error(e);
         return conn.reply(m.chat, '⚠ No se pudo enviar el video. Puede ser muy pesado o hubo un error en el enlace.', m);
       }
     } else {
-      return conn.reply(m.chat, '✧︎ Comando no reconocido.', m);
+      return conn.reply(m.chat, '✧ Comando no reconocido.', m);
     }
 
   } catch (err) {
+    console.error(err);
     return m.reply(`⚠ Ocurrió un error:\n${err}`);
   }
 };
@@ -115,26 +122,4 @@ function formatViews(views) {
   if (views >= 1e6) return `${(views / 1e6).toFixed(1)}M (${views.toLocaleString()})`;
   if (views >= 1e3) return `${(views / 1e3).toFixed(1)}K (${views.toLocaleString()})`;
   return views.toString();
-}
-
-async function getSize(downloadUrl) {
-  try {
-    const response = await axios.head(downloadUrl, { maxRedirects: 5 });
-    const length = response.headers['content-length'];
-    return length ? parseInt(length, 10) : null;
-  } catch (error) {
-    console.error("Error al obtener el tamaño:", error.message);
-    return null;
-  }
-}
-
-async function formatSize(bytes) {
-  const units = ['B', 'KB', 'MB', 'GB'];
-  let i = 0;
-  if (!bytes || isNaN(bytes)) return 'Desconocido';
-  while (bytes >= 1024 && i < units.length - 1) {
-    bytes /= 1024;
-    i++;
-  }
-  return `${bytes.toFixed(2)} ${units[i]}`;
 }
