@@ -3,27 +3,14 @@ import { proto } from '@whiskeysockets/baileys';
 
 let handler = async (m, { conn, usedPrefix }) => {
   try {
-    // Obtener cualquier texto posible del mensaje
-    let text =
-      m.message?.conversation ||
-      m.message?.extendedTextMessage?.text ||
-      m.message?.imageMessage?.caption ||
-      m.message?.videoMessage?.caption ||
-      "";
 
-    if (!text) return; // No hay texto, salir
-
-    // Detectar link de YouTube
     let regex = /(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/[^\s]+/i;
-    let match = text.match(regex);
-    if (!match) return; // No es link de YouTube
+    let match = m.text.match(regex);
+    if (!match) return;
 
     let url = match[0];
-
-    // Reacción de carga
     await conn.sendMessage(m.chat, { react: { text: '⏳', key: m.key } });
 
-    // Buscar info del video
     let searchResult = await yts(url);
     let video = searchResult.videos[0];
     if (!video) {
@@ -31,10 +18,8 @@ let handler = async (m, { conn, usedPrefix }) => {
       return conn.sendMessage(m.chat, { text: '❌ No se encontró el video.' }, { quoted: m });
     }
 
-    // Reacción de info obtenida
     await conn.sendMessage(m.chat, { react: { text: '📥', key: m.key } });
 
-    // Preparar lista de descarga
     const sections = [
       {
         title: "🎵 FORMATOS DISPONIBLES",
@@ -48,12 +33,12 @@ let handler = async (m, { conn, usedPrefix }) => {
     ];
 
     const listMessage = {
-      text: `╭━━━〔 🎶 YOUTUBE DETECTADO 〕━━⬣
+      text: ` YOUTUBE DETECTADO
 > 🎬 Título: ${video.title}
 > ⏱️ Duración: ${video.timestamp}
 > 👁️ Vistas: ${video.views}
 > 🔗 Enlace: ${video.url}
-╰━━━━━━━━━━━━━━━━━━⬣
+
 
 Selecciona el formato que deseas descargar:`,
       footer: "Kaneki Bot • YouTube Downloader",
@@ -62,24 +47,20 @@ Selecciona el formato que deseas descargar:`,
       sections
     };
 
-    // Enviar mensaje con miniatura y lista
     await conn.sendMessage(m.chat, {
       image: { url: video.thumbnail },
       ...listMessage
     }, { quoted: m });
 
-    // Reacción de listo
     await conn.sendMessage(m.chat, { react: { text: '✔️', key: m.key } });
 
   } catch (err) {
     console.error(err);
-    // Reacción de error
     await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
     conn.sendMessage(m.chat, { text: '❌ Ocurrió un error al procesar el video de YouTube.' }, { quoted: m });
   }
 };
 
-// Detecta automáticamente cualquier link de YouTube
 handler.customPrefix = /(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/[^\s]+/i;
 handler.command = new RegExp();
 export default handler;
