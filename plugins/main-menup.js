@@ -15,6 +15,13 @@ const format = sizeFormatter({
 let handler = async (m, { conn }) => {
   try {
     const totalStats = 0
+    const vs = '1.0.0'
+    const libreria = 'Baileys'
+    const club = '© Rin Itoshi | Shadow-xyz'
+    const channelRD = {
+      id: '120363401008003732@newsletter',
+      name: 'Rin Itoshi Updates'
+    }
 
     let timestamp = speed()
     let latensi = speed() - timestamp
@@ -30,6 +37,7 @@ let handler = async (m, { conn }) => {
     let hora = moment.tz('America/Lima').format('HH:mm:ss')
     let dia = moment.tz('America/Lima').format('dddd')
 
+    // 🔮 Mantengo tu estilo decorado completo:
     let menuText = `
 \`\`\`  ݊ ּ͜⏜݆ׄ͜⌒໊݂݁͜⏜݄͜ ͝⃞֟☁️⃛͜͝ ⃞໊݄⏜݆ׄ͜͜⌒ ּ͜⏜݆ׄ݊͜ ּ͜ \`\`\`
 \`\`\`  ໍ۪۫꒰̥᷑ໍ᮫۪۫𝆬⭐ ࣮࣮᷑᷑𝐊֘𝐀۫𝐍〪࣮࣫𝐄۪۫࣫𝐊𝐈᮫࣮𝆬᷑•۫֘ ᮫𝆬ᤲ࣫𝐕֘ ᮫𝆬ᤲ࣫3֘ ᮫𝆬ᤲ࣫ 🌿᩠̥ໍ۪۫꒱̥ໍ۪۫ \`\`\`
@@ -47,19 +55,17 @@ let handler = async (m, { conn }) => {
   🌹᮫๋໋֢᳝ꨪᰰ⃟ુ᭡̵̷໋࡙ ݊ᩞ *ʀᴜɴᴛɪᴍᴇ:* ${uptime}
   🪴᮫๋໋֢᳝ꨪᰰ⃟ુ᭡̵̷໋࡙ ݊ᩞ *ʀᴇɢɪsᴛʀᴀᴅᴏs:* ${totalUsers}(${registeredUsers})
   🫟᮫๋໋֢᳝ꨪᰰ⃟ુ᭡̵̷໋࡙ ݊ᩞ *ɴᴏ ʀᴇɢɪsᴛʀᴀᴅᴏs:* ${totalUsers - registeredUsers}
- 
   
   🫛᮫๋໋֢᳝ꨪᰰ⃟ુ᭡̵̷໋࡙ ݊ᩞ *ʟᴀᴛᴇɴᴄɪᴀ:* ${latensi.toFixed(4)} ms
   🍓᮫๋໋֢᳝ꨪᰰ⃟ુ᭡̵̷໋࡙ ݊ᩞ *ʀᴀᴍ ᴜsᴀᴅᴀ:* ${format(totalmem() - freemem())}
-  🌲᮫๋໋֢᳝ꨪᰰ⃟ુ᭡̵̷໋࡙ ݊ᩞ *ʀᴀɴ ᴛᴏᴛᴀʟ:* ${format(totalmem())}
+  🌲᮫๋໋֢᳝ꨪᰰ⃟ુ᭡̵̷໋࡙ ݊ᩞ *ʀᴀᴍ ᴛᴏᴛᴀʟ:* ${format(totalmem())}
   🕸️᮫๋໋֢᳝ꨪᰰ⃟ુ᭡̵̷໋࡙ ݊ᩞ *ʀᴀᴍ ʟɪʙʀᴇ:* ${format(freemem())}  
   👻᮫๋໋֢᳝ꨪᰰ⃟ુ᭡̵̷໋࡙ ݊ᩞ *sᴏᴄᴋᴇᴛs ᴏɴʟɪɴᴇ:* ${totalUsers || '0'}
-  🪵᮫๋໋֢᳝ꨪᰰ⃟ુ᭡̵̷໋࡙ ݊ᩞ *ᴄᴏᴍᴀɴᴅᴏꜱ ᴜꜱᴀᴅᴏꜱ:* ${toNum(totalStats)} (${totalStats}`
+  🪵᮫๋໋֢᳝ꨪᰰ⃟ુ᭡̵̷໋࡙ ݊ᩞ *ᴄᴏᴍᴀɴᴅᴏꜱ ᴜꜱᴀᴅᴏꜱ:* ${toNum(totalStats)} (${totalStats})
+`
 
-    // Imagen principal (miniatura tipo Mahiru)
     const thumbnail = (await axios.get('https://files.catbox.moe/ipahdi.jpg', { responseType: 'arraybuffer' })).data
 
-    // Primer mensaje tipo producto
     await conn.sendMessage(
       m.chat,
       {
@@ -76,17 +82,17 @@ let handler = async (m, { conn }) => {
             retailerId: 'menu-rin',
             productImageCount: 1
           },
-          businessOwnerJid: '51987474433@s.whatsapp.net'
+          businessOwnerJid: '51919199620@s.whatsapp.net'
         }
       },
       { quoted: m }
     )
 
-    // Segundo mensaje: texto + footer + miniatura + mención
     await conn.sendMessage(
       m.chat,
       {
         text: menuText,
+        footer: club,
         contextInfo: {
           mentionedJid: [mentionedJid],
           isForwarded: true,
@@ -103,14 +109,13 @@ let handler = async (m, { conn }) => {
             sourceUrl: 'https://github.com/Yuji-XDev',
             renderLargerThumbnail: true
           }
-        },
-        footer: club
+        }
       },
       { quoted: m }
     )
   } catch (e) {
     console.error(e)
-    m.reply('⚠️ Error al generar el menú.')
+    m.reply('⚠️ Error al generar el menú. Revisa las variables faltantes o la conexión de la imagen.')
   }
 }
 
@@ -136,7 +141,4 @@ function ucapan() {
 }
 
 function toNum(number) {
-  if (number >= 1_000_000) return (number / 1_000_000).toFixed(1) + 'M'
-  if (number >= 1_000) return (number / 1_000).toFixed(1) + 'k'
-  return number.toString()
-}
+  if (number >= 1_000_000) return (number / 1_000_000).toFixed(1)
