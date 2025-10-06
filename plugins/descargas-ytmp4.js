@@ -1,127 +1,153 @@
-import fetch from "node-fetch"
-import axios from "axios"
+import fetch from "node-fetch";
+import axios from "axios";
+import yts from "yt-search";
 
-let handler = async (m, { conn, text }) => {
+let handler = async (m, { conn, text, args }) => {
   try {
-    if (!text)
-      return conn.reply(m.chat, `🚫 *Por favor, ingresa la URL del vídeo de YouTube.*`, m)
+    if (!text) return conn.reply(m.chat, `🌷 *Por favor, ingresa la URL del vídeo de YouTube.*`, m);
 
-    if (!/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/i.test(text))
-      return m.reply(`⚠️ *Enlace inválido. Asegúrate de colocar un enlace válido de YouTube.*`)
-
-    await m.react('🕒')
-
-    // 🔹 Obtener información del video desde la API
-    const infoAPI = `https://api.ymcdn.org/api/v1/video?url=${encodeURIComponent(text)}`
-    const res = await fetch(infoAPI)
-    const data = await res.json()
-
-    if (!data || !data.url) throw new Error("No se pudo obtener el enlace de descarga.")
-
-    const meta = data
-    const url = meta.url
-    const fileName = `${meta.title || "video"}.mp4`
-    const thumbnail = meta.thumbnail || meta.image || "https://i.imgur.com/0Z2Z7KX.jpg"
-
-    // 🔹 Obtener tamaño real del archivo
-    const size = await getSize(url)
-    const sizeStr = size ? await formatSize(size) : 'Desconocido'
-
-    // 🔹 Crear mensaje decorado
-    const caption = `
-🎶 *ＹＯＵＴＵＢＥ • ＭＰ4* 🍎
-────────────────────
-> °𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. 𝐓𝐈𝐓𝐔𝐋𝐎: *${meta.title || '-'}*
-> °𓃉𐇽ܳ𓏸🌿ᮬᩬִּ〫᪲۟. 𝐃𝐔𝐑𝐀𝐂𝐈𝐎𝐍: *${meta.duration || '-'}*
-> °𓃉𐇽ܳ𓏸🍏ᮬᩬִּ〫᪲۟. 𝐂𝐀𝐍𝐀𝐋: *${meta.channel || meta.author || '-'}*
-> °𓃉𐇽ܳ𓏸🍄ᮬᩬִּ〫᪲۟. 𝐕𝐈𝐒𝐓𝐀𝐒: *${meta.views || '-'}*
-> °𓃉𐇽ܳ𓏸⚽ᮬᩬִּ〫᪲۟. 𝐓𝐀𝐌𝐀Ñ𝐎: *${sizeStr}*
-> °𓃉𐇽ܳ𓏸☁️ᮬᩬִּ〫᪲۟. 𝐂𝐀𝐋𝐈𝐃𝐀𝐃: *480p*
-> °𓃉𐇽ܳ𓏸🌷ᮬᩬִּ〫᪲۟. 𝐏𝐔𝐁𝐋𝐈𝐂𝐀𝐃𝐎: *${meta.uploaded || meta.publish || '-'}*
-> °𓃉𐇽ܳ𓏸🕸️ᮬᩬִּ〫᪲۟. 𝐋𝐈𝐍𝐊: *${meta.link || text}*
-> °𓃉𐇽ܳ𓏸⚙️ᮬᩬִּ〫᪲۟. 𝐒𝐄𝐑𝐕𝐈𝐃𝐎𝐑: *ymcdn.org*
-────────────────────
-`
-
-    // 🔹 Comprobación de tamaño para envío
-    const head = await fetch(url, { method: "HEAD" })
-    const fileSize = head.headers.get("content-length") || 0
-    const fileSizeMB = (fileSize / (1024 * 1024)).toFixed(2)
-
-    if (fileSizeMB >= 100) {
-      // 📦 Enviar como documento
-      await conn.sendMessage(m.chat, {
-        document: { url },
-        mimetype: 'video/mp4',
-        fileName,
-        caption: `${caption}\n\n> 😔 *Enviado como documento por superar 100 MB*`,
-        contextInfo: {
-          externalAdReply: {
-            title: meta.title,
-            body: '💦 ᥡ᥆ᥙ𝗍ᥙᑲᥱ ძ᥆ᥴ | ʀɪɴ ɪᴛᴏsʜɪ 🌾',
-            mediaUrl: text,
-            sourceUrl: text,
-            thumbnailUrl: thumbnail,
-            mediaType: 1,
-            renderLargerThumbnail: true
-          }
-        }
-      }, { quoted: m })
-    } else {
-      // 🎥 Enviar como video
-      await conn.sendMessage(m.chat, {
-        video: { url },
-        mimetype: 'video/mp4',
-        fileName,
-        caption,
-        contextInfo: {
-          externalAdReply: {
-            title: meta.title,
-            body: '✅ Descarga completa',
-            mediaUrl: text,
-            sourceUrl: text,
-            thumbnailUrl: thumbnail,
-            mediaType: 1,
-            renderLargerThumbnail: true
-          }
-        }
-      }, { quoted: m })
+    await conn.sendMessage(m.chat, { text: `૮₍｡˃ ᵕ ˂ ｡₎ა 🫛 *¡Descargando tu video!*` }, { quoted: fkontak });
+    if (!/^(?:https?:\/\/)?(?:www\.|m\.|music\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)/.test(args[0])) {
+      return conn.reply(m.chat, `*❌ Enlace inválido.* Por favor, ingresa una URL válida de YouTube.`, m);
     }
 
-    await m.react('✅')
+    await conn.sendMessage(m.chat, { react: { text: '⌛', key: m.key } });
+
+    const videoId = extractVideoId(args[0]);
+    const meta = await yts({ videoId });
+    const thumbnail = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+
+    let videoUrl, title, duration;
+    try {
+      const apiRes = await fetch(`https://api.yupra.my.id/api/downloader/ytmp4?url=${encodeURIComponent(args[0])}`);
+      const apiJson = await apiRes.json();
+
+      if (apiJson?.status === 200 && apiJson?.result?.formats?.length) {
+        const best = apiJson.result.formats.find(f => f.qualityLabel === "360p") || apiJson.result.formats[0];
+        videoUrl = best.url;
+        title = apiJson.result.title;
+        duration = best.approxDurationMs ? `${(best.approxDurationMs / 1000 / 60).toFixed(1)} min` : 'Desconocido';
+        console.log('⚡ API Yupra usada con éxito');
+      } else throw new Error("Yupra API sin resultado válido");
+    } catch (e) {
+      console.log('⚠️ Falló la API Yupra, usando respaldo ymcdn.org');
+      const fallback = await ytdl(args[0]);
+      videoUrl = fallback.url;
+      title = fallback.title;
+      duration = fallback.duration;
+    }
+
+    const size = await getSize(videoUrl);
+    const sizeStr = size ? await formatSize(size) : 'Desconocido';
+    const cleanTitle = title.replace(/[^\w\s]/gi, '').trim().replace(/\s+/g, '_');
+    const fileName = `${cleanTitle}.mp4`;
+
+    const caption = `🎶 *ＹＯＵＴＵＢＥ • ＭＰ4* 🍎
+────────────────────
+> °🎋 𝐓𝐈𝐓𝐔𝐋𝐎: *${meta.title || title || '-'}*
+> °🌿 𝐃𝐔𝐑𝐀𝐂𝐈𝐎𝐍: *${meta.duration?.timestamp || duration || '-'}*
+> °🍏 𝐂𝐀𝐍𝐀𝐋: *${meta.author?.name || '-'}*
+> °🍄 𝐕𝐈𝐒𝐓𝐀𝐒: *${meta.views?.toLocaleString() || '-'}*
+> °☁️ 𝐓𝐀𝐌𝐀𝐍̃𝐎: *${sizeStr}*
+> °⚙️ 𝐂𝐀𝐋𝐈𝐃𝐀𝐃: *360p*
+> °🌷 𝐏𝐔𝐁𝐋𝐈𝐂𝐀𝐃𝐎: *${meta.ago || '-'}*
+> °🕸️ 𝐋𝐈𝐍𝐊: *${meta.url || args[0]}*
+> °⚡ 𝐒𝐄𝐑𝐕𝐈𝐃𝐎𝐑: *${videoUrl.includes('googlevideo') ? 'Yupra' : 'ymcdn.org'}*
+────────────────────`;
+
+    const fileSizeMB = size ? (size / (1024 * 1024)).toFixed(2) : 0;
+
+    const sendOpts = {
+      mimetype: 'video/mp4',
+      fileName,
+      caption,
+      contextInfo: {
+        externalAdReply: {
+          title: meta.title,
+          body: '💦 ᥡ᥆ᥙ𝗍ᥙᑲᥱ ძ᥆ᥴ |  кαиєкι вσт ν2 🌾',
+          mediaUrl: args[0],
+          sourceUrl: args[0],
+          thumbnailUrl: thumbnail,
+          mediaType: 1,
+          renderLargerThumbnail: true
+        }
+      }
+    };
+
+    if (fileSizeMB >= 100) {
+      await conn.sendMessage(m.chat, { document: { url: videoUrl }, ...sendOpts }, { quoted: m });
+    } else {
+      await conn.sendMessage(m.chat, { video: { url: videoUrl }, ...sendOpts }, { quoted: m });
+    }
+
+    await conn.sendMessage(m.chat, { react: { text: '✔️', key: m.key } });
 
   } catch (e) {
-    console.error(e)
-    await m.react('❌')
-    await m.reply(`❌ *Ocurrió un error al procesar tu solicitud:*\n\n${e.message}`)
+    console.error(e);
+    m.reply(`❌ *Ocurrió un error:*\n> ${e.message}`);
   }
+};
+
+handler.help = ['ytmp4 *<url>*'];
+handler.tags = ['downloader'];
+handler.command = ['ytmp4', 'playmp4'];
+handler.group = true;
+
+export default handler;
+
+
+async function ytdl(url) {
+  const headers = {
+    "accept": "*/*",
+    "accept-language": "es-PE,es;q=0.9",
+    "sec-fetch-mode": "cors",
+    "Referer": "https://id.ytmp3.mobi/"
+  };
+
+  const initRes = await fetch(`https://d.ymcdn.org/api/v1/init?p=y&23=1llum1n471&_=${Math.random()}`, { headers });
+  const init = await initRes.json();
+  const videoId = extractVideoId(url);
+  const convertURL = init.convertURL + `&v=${videoId}&f=mp4&_=${Math.random()}`;
+
+  const convertRes = await fetch(convertURL, { headers });
+  const convert = await convertRes.json();
+
+  let info = {};
+  for (let i = 0; i < 3; i++) {
+    const progressRes = await fetch(convert.progressURL, { headers });
+    info = await progressRes.json();
+    if (info.progress === 3) break;
+  }
+
+  return {
+    url: convert.downloadURL,
+    title: info.title || 'video',
+    duration: info.duration || 'Desconocido'
+  };
 }
 
-handler.help = ['ytmp4']
-handler.command = ['ytmp4']
-handler.tags = ['descargas']
-export default handler
+function extractVideoId(url) {
+  return url.match(/(?:youtu\.be\/|youtube\.com\/(?:.*v=|.*\/|.*embed\/))([^&?/]+)/)?.[1];
+}
 
-// 🔹 Obtener tamaño del archivo
+async function formatSize(bytes) {
+  const units = ['B', 'KB', 'MB', 'GB'];
+  let i = 0;
+  if (!bytes || isNaN(bytes)) return 'Desconocido';
+  while (bytes >= 1024 && i < units.length - 1) {
+    bytes /= 1024;
+    i++;
+  }
+  return `${bytes.toFixed(2)} ${units[i]}`;
+}
+
 async function getSize(url) {
   try {
-    const res = await axios.head(url)
-    const length = res.headers['content-length']
-    return length ? parseInt(length, 10) : null
-  } catch (e) {
-    console.log("Error obteniendo tamaño:", e.message)
-    return null
+    const res = await axios.head(url);
+    const length = res.headers['content-length'];
+    return length ? parseInt(length, 10) : null;
+  } catch (err) {
+    console.error('😢 Error al obtener tamaño del archivo:', err.message);
+    return null;
   }
-}
-
-// 🔹 Formatear bytes a MB/GB
-async function formatSize(bytes) {
-  if (!bytes) return '0 B'
-  const units = ['B', 'KB', 'MB', 'GB', 'TB']
-  let i = 0
-  while (bytes >= 1024 && i < units.length - 1) {
-    bytes /= 1024
-    i++
-  }
-  return `${bytes.toFixed(2)} ${units[i]}`
 }
