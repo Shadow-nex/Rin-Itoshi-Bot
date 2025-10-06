@@ -158,9 +158,9 @@ const handler = async (m, { conn, usedPrefix, command }) => {
   }
 }
 
-handler.help = ['menu']
+handler.help = ['menupp']
 handler.tags = ['main']
-handler.command = /^(menu|menú)$/i
+handler.command = /^(menupp|menú)$/i
 
 export default handler
 
