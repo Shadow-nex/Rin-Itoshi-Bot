@@ -63,7 +63,7 @@ let handler = async (m, { conn }) => {
   🪵 *ᴄᴏᴍᴀɴᴅᴏꜱ ᴜꜱᴀᴅᴏꜱ:* ${toNum(totalCommands)}
 `
 
-    const thumbnail = (await axios.get('https://files.catbox.moe/ipahdi.jpg', { responseType: 'arraybuffer' })).data
+    const thumbnail = (await axios.get('https://files.catbox.moe/rru021.jpg', { responseType: 'arraybuffer' })).data
 
     // 🛍️ Mini portada tipo producto
     await conn.sendMessage(
