@@ -8,7 +8,7 @@ let handler = async (m, { conn }) => {
   let latensi = speed() - timestamp
 
   const start = new Date().getTime()
-  await conn.sendMessage(m.chat, { text: `*🍂 Calculando ping...*` }, { quoted: m })
+  await conn.sendMessage(m.chat, { text: `*⚙️ 𝘊𝘢𝘭𝘤𝘶𝘭𝘢𝘯𝘥𝘰 𝘱𝘪𝘯𝘨...*` }, { quoted: m })
   const end = new Date().getTime()
   const latency = end - start
 
@@ -21,7 +21,7 @@ let handler = async (m, { conn }) => {
   const usedRAM = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)
   const fechaHora = moment().tz('America/Lima').format('YYYY/MM/DD, h:mm A')
 
-  const thumbBuffer = Buffer.from(await (await fetch('https://files.catbox.moe/h3gzw2.jpg')).arrayBuffer())
+  const thumbBuffer = Buffer.from(await (await fetch('https://files.catbox.moe/e7zkt3.jpg')).arrayBuffer())
 
   exec(`neofetch --stdout`, async (error, stdout) => {
     let sysInfo = stdout.toString("utf-8").replace(/Memory:/, "Ram:")
