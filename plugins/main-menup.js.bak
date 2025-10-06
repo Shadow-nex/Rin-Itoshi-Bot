@@ -9,12 +9,12 @@ const format = sizeFormatter({
   keepTrailingZeroes: false
 })
 
-let handler = async (m, { conn }) => {
+let handler = async (m, { conn, usedPrefix }) => {
   try {
     const _speed = speed()
     const uptime = clockString(process.uptime() * 1000)
     const totalUsers = Object.keys(global.db.data.users).length
-    const registeredUsers = Object.values(global.db.data.users).filter(user => user.registered).length
+    const registeredUsers = Object.values(global.db.data.users).filter(u => u.registered).length
     const name = await conn.getName(m.sender)
     const date = moment.tz('America/Lima').format('DD/MM/YYYY')
     const time = moment.tz('America/Lima').format('HH:mm:ss')
@@ -43,8 +43,8 @@ let handler = async (m, { conn }) => {
       caption: menu,
       footer: '🌸 ʀɪɴ ɪᴛᴏsʜɪ 🌸',
       buttons: [
-        { buttonId: 'menu', buttonText: { displayText: '🌸 Menú Principal' }, type: 1 },
-        { buttonId: 'info', buttonText: { displayText: '📜 Información' }, type: 1 }
+        { buttonId: usedPrefix + 'menu', buttonText: { displayText: '🌸 Menú Principal' }, type: 1 },
+        { buttonId: usedPrefix + 'info', buttonText: { displayText: '📜 Información' }, type: 1 }
       ],
       headerType: 4,
       contextInfo: {
@@ -65,11 +65,16 @@ let handler = async (m, { conn }) => {
         }
       }
     }, { quoted: m })
-  } catch (err) {
-    console.log(err)
+
+  } catch (e) {
+    console.log(e)
     m.reply('❌ Error al enviar el menú.')
   }
 }
+
+handler.help = ['menup']
+handler.tags = ['main']
+handler.command = ['menup', 'menú', 'help']
 
 export default handler
 

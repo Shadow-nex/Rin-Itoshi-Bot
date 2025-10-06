@@ -39,7 +39,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 `
 
     await conn.sendMessage(m.chat, {
-      image: { url: 'https://i.ibb.co/Fb6Tn6n/rin.jpg' },
+      image: { url: 'https://files.catbox.moe/rru021.jpg' },
       caption: menu,
       footer: '🌸 ʀɪɴ ɪᴛᴏsʜɪ 🌸',
       buttons: [
@@ -57,7 +57,7 @@ let handler = async (m, { conn, usedPrefix }) => {
         externalAdReply: {
           title: '🌸 ʀɪɴ ɪᴛᴏsʜɪ ᴍᴇɴᴜ 🌸',
           body: '✨ Tu asistente personal - Shadowxyz ✨',
-          thumbnailUrl: 'https://i.ibb.co/Fb6Tn6n/rin.jpg',
+          thumbnailUrl: 'https://files.catbox.moe/rru021.jpg',
           sourceUrl: 'https://shadow-xyz.vercel.app',
           mediaType: 1,
           renderLargerThumbnail: true,
