@@ -52,18 +52,21 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       const fileSize = size ? formatSize(parseInt(size)) : "Desconocido"
       const sizeMB = size ? parseInt(size) / 1024 / 1024 : 0
 
-      const info = `🎬 ＹＯＵＴＵＢＥ • ＭＰ4  
+      const info = `🎶 *ＹＯＵＴＵＢＥ • ＭＰ4*  🍎
+────────────────────
+> °𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. 𝐓𝐈𝐓𝐔𝐋𝐎: *${meta.title}*
+> °𓃉𐇽ܳ𓏸🌿ᮬᩬִּ〫᪲۟. 𝐃𝐔𝐑𝐀𝐂𝐈𝐎𝐍: *${meta.duration?.timestamp || meta.timestamp}*
+> °𓃉𐇽ܳ𓏸🍏ᮬᩬִּ〫᪲۟. 𝐂𝐀𝐍𝐀𝐋: *${meta.author?.name || "-"}*
+> °𓃉𐇽ܳ𓏸🍄ᮬᩬִּ〫᪲۟. 𝐕𝐈𝐒𝐓𝐀𝐒: *${meta.views?.toLocaleString() || "-"}*
+> °𓃉𐇽ܳ𓏸⚽ᮬᩬִּ〫᪲۟. 𝐓𝐀𝐌𝐀𝐍̃𝐎: *${fileSize}*
+> °𓃉𐇽ܳ𓏸☁️ᮬᩬִּ〫᪲۟. 𝐂𝐀𝐋𝐈𝐃𝐀𝐃: *480p*
+> °𓃉𐇽ܳ𓏸🌷ᮬᩬִּ〫᪲۟. 𝐏𝐔𝐁𝐈𝐂𝐀𝐃𝐎: *${meta.ago}*
+> °𓃉𐇽ܳ𓏸🕸️ᮬᩬִּ〫᪲۟. 𝐋𝐈𝐍𝐊: *${meta.url}*
+> °𓃉𐇽ܳ𓏸⚙️ᮬᩬִּ〫᪲۟. 𝐒𝐄𝐑𝐕𝐈𝐃𝐎𝐑: *vreden*
+────────────────────
 
-🍷 *Título:* ${meta.title}
-👤 *Autor:* ${meta.author?.name || "-"}
-🕒 *Duración:* ${meta.duration?.timestamp || meta.timestamp}
-👁️‍🗨️ *Vistas:* ${meta.views?.toLocaleString() || "-"}
-📆 *Publicado:* ${meta.ago}
-📦 *Tamaño:* ${fileSize}
-🧩 *Calidad:* ${dl.quality}
-🌐 *Fuente:* api.vreden.my.id
-📎 *Enlace:* ${meta.url}
-`
+> \`N O T A:\`
+> ρєяѕσиαℓιzα ℓα ¢αℓι∂α∂ ∂єℓ νι∂єσ ¢σи /setquality`
 
       await conn.sendMessage(m.chat, {
         image: { url: meta.thumbnail },
@@ -77,7 +80,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             document: { url: dl.url },
             mimetype: "video/mp4",
             fileName: dl.filename,
-            caption: `🎥 *${meta.title}*\n📦 Tamaño: ${fileSize}\n🧩 Calidad: ${dl.quality}p\n📁 Enviado como documento (más de 100 MB).`,
+            caption: `> *${meta.title}*\n> Tamaño: ${fileSize}\n Calidad: ${dl.quality}\n> Enviado como documento (más de 100 MB).`,
           },
           { quoted: m }
         )
@@ -88,7 +91,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             video: { url: dl.url },
             mimetype: "video/mp4",
             fileName: dl.filename,
-            caption: `🎥 *${meta.title}*\n📦 Tamaño: ${fileSize}\n🧩 Calidad: ${dl.quality}p`,
+            caption: `> *${meta.title}*\n> Tamaño: ${fileSize}\n> Calidad: ${dl.quality}`,
           },
           { quoted: m }
         )
