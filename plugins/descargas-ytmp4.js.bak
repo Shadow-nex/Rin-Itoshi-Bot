@@ -1,95 +1,94 @@
 import axios from "axios";
+import fetch from "node-fetch";
+import fs from "fs";
+import { sizeFormatter } from "human-readable";
+
+const formatSize = sizeFormatter({
+  std: "JEDEC",
+  decimalPlaces: 2,
+  keepTrailingZeroes: false,
+});
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
     if (!text)
       return conn.reply(
         m.chat,
-        `🍷 *Ingresa el enlace de YouTube que deseas descargar en formato MP4.*\n\n📌 Ejemplo:\n${usedPrefix + command} https://youtube.com/watch?v=dQw4w9WgXcQ`,
+        `🍷 *Ingresa el enlace de YouTube que deseas descargar en formato MP4.*\n\n📌 Ejemplo:\n${usedPrefix + command} https://youtu.be/HWjCStB6k4o`,
         m
       );
 
-    await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-
-    const apiUrl = `https://api.yupra.my.id/api/downloader/ytmp4?url=${encodeURIComponent(text)}`;
+    await conn.reply(m.chat, "⏳ *Procesando tu solicitud...*", m);
+    
+    const apiUrl = `https://api.vreden.my.id/api/v1/download/youtube/video?url=${encodeURIComponent(text)}&quality=360`;
     const res = await axios.get(apiUrl);
 
-    if (res.data.status !== 200 || !res.data.result)
-      throw "❌ No se pudo obtener la información del video.";
+    if (!res.data?.status) throw new Error("No se pudo obtener información del video.");
 
-    const info = res.data.result;
-    const format = info.formats?.[0];
+    const result = res.data.result;
+    const meta = result.metadata;
+    const dl = result.download;
 
-    if (!format || !format.url) throw "⚠️ No se encontró el enlace de descarga MP4.";
+    const head = await fetch(dl.url, { method: "HEAD" });
+    const size = head.headers.get("content-length");
+    const fileSize = size ? formatSize(parseInt(size)) : "Desconocido";
+    const info = `🎬 ＹＯＵＴＵＢＥ • ＭＰ4 
 
-    // Datos del video
-    const {
-      title,
-      formats,
-    } = info;
-
-    const {
-      qualityLabel,
-      mimeType,
-      bitrate,
-      width,
-      height,
-      fps,
-      contentLength,
-      url: videoUrl,
-      approxDurationMs,
-      audioQuality,
-      audioSampleRate,
-      audioChannels,
-    } = format;
-
-    const duration = `${(approxDurationMs / 60000).toFixed(1)} min`;
-    const sizeMB = (contentLength / 1024 / 1024).toFixed(2) + " MB";
-
-    const caption = `
-╭━━━〔 🎥 ＹＯＵＴＵＢＥ ＭＰ4 🍎 〕━━⬣
-│🌸 *Título:* ${title}
-│💠 *Calidad:* ${qualityLabel || "Desconocida"}
-│🎚️ *Resolución:* ${width}x${height}
-│🎵 *Audio:* ${audioQuality || "-"} (${audioSampleRate} Hz)
-│💾 *Tamaño:* ${sizeMB}
-│🕒 *Duración:* ${duration}
-│⚙️ *Bitrate:* ${bitrate} bps
-│🎬 *FPS:* ${fps}
-│🔊 *Canales:* ${audioChannels}
-│🧩 *Tipo:* ${mimeType.split(";")[0]}
-╰━━━━━━━━━━━━━━━━━━⬣
-👑 *Fuente:* Yupra API
-🌷 *By:* Rin Itoshi Bot
+🍷 *Título:* ${meta.title}
+👤 *Autor:* ${meta.author?.name || "-"}
+🕒 *Duración:* ${meta.duration?.timestamp || meta.timestamp}
+👁️‍🗨️ *Vistas:* ${meta.views?.toLocaleString() || "-"}
+📆 *Publicado:* ${meta.ago}
+📦 *Tamaño:* ${fileSize}
+🧩 *Calidad:* ${dl.quality}p
+🌐 *Fuente:* api.vreden.my.id
+📎 *Enlace:* ${meta.url}
 `;
 
-    const thumb = `https://i.ytimg.com/vi/${text.split("v=")[1]}/hqdefault.jpg`;
-
     await conn.sendMessage(m.chat, {
-      image: { url: thumb },
-      caption,
+      image: { url: meta.thumbnail },
+      caption: info,
     });
 
-    await conn.sendMessage(
-      m.chat,
-      {
-        video: { url: videoUrl },
-        mimetype: "video/mp4",
-        caption: `🎬 *${title}*`,
-      },
-      { quoted: m }
-    );
+    // Detectar tamaño y tipo de envío
+    const limitMB = 100;
+    const sizeMB = size ? parseInt(size) / 1024 / 1024 : 0;
 
-    await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key } });
-  } catch (e) {
-    console.error(e);
-    await conn.sendMessage(m.chat, { react: { text: "⚠️", key: m.key } });
-    conn.reply(m.chat, `❌ *Error:* ${e?.message || e}`, m);
+    if (sizeMB > limitMB) {
+      await conn.sendMessage(
+        m.chat,
+        {
+          document: { url: dl.url },
+          mimetype: "video/mp4",
+          fileName: dl.filename,
+          caption: `🎥 *${meta.title}*\n📦 Tamaño: ${fileSize}\n🧩 Calidad: ${dl.quality}p\n📁 Enviado como documento por superar 100 MB.`,
+        },
+        { quoted: m }
+      );
+    } else {
+      await conn.sendMessage(
+        m.chat,
+        {
+          video: { url: dl.url },
+          mimetype: "video/mp4",
+          fileName: dl.filename,
+          caption: `> *${meta.title}*\n> Tamaño: ${fileSize}\n> Calidad: ${dl.quality}p`,
+        },
+        { quoted: m }
+      );
+    }
+  } catch (err) {
+    console.error(err);
+    conn.reply(
+      m.chat,
+      "❌ *Ocurrió un error al procesar tu solicitud.*\nVerifica el enlace o intenta con otro video.",
+      m
+    );
   }
 };
 
-handler.help = ["ytmp4"];
-handler.tags = ["downloader"];
-handler.command = ["ytmp4", "ytvideo", "youtubevideo"];
+handler.help = ["ytmp4 <url>"];
+handler.tags = ["descargas"];
+handler.command = ['ytmp4'];
 
 export default handler;

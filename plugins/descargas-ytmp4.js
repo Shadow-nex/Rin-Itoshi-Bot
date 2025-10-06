@@ -1,95 +1,94 @@
 import axios from "axios";
+import fetch from "node-fetch";
+import fs from "fs";
+import { sizeFormatter } from "human-readable";
+
+const formatSize = sizeFormatter({
+  std: "JEDEC",
+  decimalPlaces: 2,
+  keepTrailingZeroes: false,
+});
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
     if (!text)
       return conn.reply(
         m.chat,
-        `🍷 *Ingresa el enlace de YouTube que deseas descargar en formato MP4.*\n\n📌 Ejemplo:\n${usedPrefix + command} https://youtu.be/dQw4w9WgXcQ`,
+        `🍷 *Ingresa el enlace de YouTube que deseas descargar en formato MP4.*\n\n👻 Ejemplo:\n${usedPrefix + command} https://youtu.be/HWjCStB6k4o`,
         m
       );
 
-    await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-
-    const apiUrl = `https://api.bk9.dev/download/youtube?url=${encodeURIComponent(text)}`;
+    await conn.reply(m.chat, "⏳ *Procesando tu solicitud...*", m);
+    
+    const apiUrl = `https://api.vreden.my.id/api/v1/download/youtube/video?url=${encodeURIComponent(text)}&quality=360`;
     const res = await axios.get(apiUrl);
 
-    if (!res.data.status || !res.data.BK9)
-      throw "❌ No se pudo obtener la información del video.";
+    if (!res.data?.status) throw new Error("No se pudo obtener información del video.");
 
-    const info = res.data.BK9;
-    const format = info.formats.find(f => f.extension === "mp4" && f.has_audio) || info.formats[0];
+    const result = res.data.result;
+    const meta = result.metadata;
+    const dl = result.download;
 
-    if (!format || !format.url)
-      throw "⚠️ No se encontró un enlace de descarga MP4 válido.";
+    const head = await fetch(dl.url, { method: "HEAD" });
+    const size = head.headers.get("content-length");
+    const fileSize = size ? formatSize(parseInt(size)) : "Desconocido";
+    const info = `🎬 ＹＯＵＴＵＢＥ • ＭＰ4 
 
-    const {
-      title,
-      author,
-      duration,
-      source,
-      thumbnail,
-      media_count,
-    } = info;
-
-    const {
-      quality,
-      type,
-      extension,
-      size,
-      bitrate,
-      fps,
-      mime_type,
-      has_audio,
-      has_video,
-      url: videoUrl
-    } = format;
-
-    const caption = `
-╭━━━〔 🎥 ＹＯＵＴＵＢＥ ＭＰ4 🍎 〕━━⬣
-│🌸 *Título:* ${title}
-│👤 *Autor:* ${author}
-│🎚️ *Calidad:* ${quality || "Desconocida"}
-│💾 *Tamaño:* ${size || "N/A"}
-│🕒 *Duración:* ${duration || "N/A"}
-│🎞️ *FPS:* ${fps || "N/A"}
-│🎵 *Audio:* ${has_audio ? "Sí" : "No"}
-│🎬 *Video:* ${has_video ? "Sí" : "No"}
-│⚙️ *Bitrate:* ${bitrate || "N/A"}
-│🧩 *Tipo:* ${mime_type?.split(";")[0] || type}
-│📡 *Fuente:* ${source || "YouTube"}
-│🔢 *Formatos:* ${media_count || "N/A"}
-╰━━━━━━━━━━━━━━━━━━⬣
-👑 *API:* BK9 Dev
-🌷 *By:* Rin Itoshi Bot
+🍷 *Título:* ${meta.title}
+👤 *Autor:* ${meta.author?.name || "-"}
+🕒 *Duración:* ${meta.duration?.timestamp || meta.timestamp}
+👁️‍🗨️ *Vistas:* ${meta.views?.toLocaleString() || "-"}
+📆 *Publicado:* ${meta.ago}
+📦 *Tamaño:* ${fileSize}
+🧩 *Calidad:* ${dl.quality}p
+🌐 *Fuente:* api.vreden.my.id
+📎 *Enlace:* ${meta.url}
 `;
 
     await conn.sendMessage(m.chat, {
-      image: { url: thumbnail },
-      caption,
+      image: { url: meta.thumbnail },
+      caption: info,
     });
 
-    await conn.sendMessage(
+    // Detectar tamaño y tipo de envío
+    const limitMB = 100;
+    const sizeMB = size ? parseInt(size) / 1024 / 1024 : 0;
+
+    if (sizeMB > limitMB) {
+      await conn.sendMessage(
+        m.chat,
+        {
+          document: { url: dl.url },
+          mimetype: "video/mp4",
+          fileName: dl.filename,
+          caption: `🎥 *${meta.title}*\n📦 Tamaño: ${fileSize}\n🧩 Calidad: ${dl.quality}p\n📁 Enviado como documento por superar 100 MB.`,
+        },
+        { quoted: m }
+      );
+    } else {
+      await conn.sendMessage(
+        m.chat,
+        {
+          video: { url: dl.url },
+          mimetype: "video/mp4",
+          fileName: dl.filename,
+          caption: `> *${meta.title}*\n> Tamaño: ${fileSize}\n> Calidad: ${dl.quality}p`,
+        },
+        { quoted: m }
+      );
+    }
+  } catch (err) {
+    console.error(err);
+    conn.reply(
       m.chat,
-      {
-        video: { url: videoUrl },
-        mimetype: "video/mp4",
-        caption: `🎬 *${title}*`,
-      },
-      { quoted: m }
+      "❌ *Ocurrió un error al procesar tu solicitud.*\nVerifica el enlace o intenta con otro video.",
+      m
     );
-
-    await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key } });
-
-  } catch (e) {
-    console.error(e);
-    await conn.sendMessage(m.chat, { react: { text: "⚠️", key: m.key } });
-    conn.reply(m.chat, `❌ *Error:* ${e?.message || e}`, m);
   }
 };
 
-handler.help = ["ytmp4"];
-handler.tags = ["downloader"];
-handler.command = ["ytmp4", "ytvideo", "youtubevideo"];
+handler.help = ["ytmp4 <url>"];
+handler.tags = ["descargas"];
+handler.command = ['ytmp4'];
 
 export default handler;
