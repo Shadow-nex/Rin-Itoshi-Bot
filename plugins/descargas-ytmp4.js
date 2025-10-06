@@ -1,44 +1,95 @@
-import axios from 'axios'
+import axios from "axios";
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
     if (!text)
-      return conn.reply(m.chat, `🚫 *Por favor, ingresa un enlace de YouTube.*\n\n📌 Ejemplo:\n${usedPrefix + command} https://youtu.be/f09Omvw5C70`, m)
+      return conn.reply(
+        m.chat,
+        `🍷 *Ingresa el enlace de YouTube que deseas descargar en formato MP4.*\n\n📌 Ejemplo:\n${usedPrefix + command} https://youtube.com/watch?v=dQw4w9WgXcQ`,
+        m
+      );
 
-    const apiUrl = `https://api.yupra.my.id/api/downloader/ytmp4?url=${encodeURIComponent(text)}`
-    const response = await axios.get(apiUrl)
-    const data = response.data
+    await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 
-    if (data.status !== 200 || !data.result || !data.result.formats?.length)
-      throw new Error('❌ No se pudo obtener información del video.')
+    const apiUrl = `https://api.yupra.my.id/api/downloader/ytmp4?url=${encodeURIComponent(text)}`;
+    const res = await axios.get(apiUrl);
 
-    const video = data.result.formats.find(v => v.itag === 18) || data.result.formats[0]
+    if (res.data.status !== 200 || !res.data.result)
+      throw "❌ No se pudo obtener la información del video.";
+
+    const info = res.data.result;
+    const format = info.formats?.[0];
+
+    if (!format || !format.url) throw "⚠️ No se encontró el enlace de descarga MP4.";
+
+    // Datos del video
+    const {
+      title,
+      formats,
+    } = info;
+
+    const {
+      qualityLabel,
+      mimeType,
+      bitrate,
+      width,
+      height,
+      fps,
+      contentLength,
+      url: videoUrl,
+      approxDurationMs,
+      audioQuality,
+      audioSampleRate,
+      audioChannels,
+    } = format;
+
+    const duration = `${(approxDurationMs / 60000).toFixed(1)} min`;
+    const sizeMB = (contentLength / 1024 / 1024).toFixed(2) + " MB";
 
     const caption = `
-╭━━━〔 🌸 *RIN ITOSHI - YT VIDEO* 🌸 〕━━⬣
-┃ 🎬 *Título:* ${data.result.title}
-┃ 📺 *Calidad:* ${video.qualityLabel || 'Desconocida'}
-┃ ⏱️ *Duración:* ${(video.approxDurationMs / 1000 / 60).toFixed(1)} min
-┃ 💾 *Tamaño:* ${(video.contentLength / 1048576).toFixed(1)} MB
+╭━━━〔 🎥 ＹＯＵＴＵＢＥ ＭＰ4 🍎 〕━━⬣
+│🌸 *Título:* ${title}
+│💠 *Calidad:* ${qualityLabel || "Desconocida"}
+│🎚️ *Resolución:* ${width}x${height}
+│🎵 *Audio:* ${audioQuality || "-"} (${audioSampleRate} Hz)
+│💾 *Tamaño:* ${sizeMB}
+│🕒 *Duración:* ${duration}
+│⚙️ *Bitrate:* ${bitrate} bps
+│🎬 *FPS:* ${fps}
+│🔊 *Canales:* ${audioChannels}
+│🧩 *Tipo:* ${mimeType.split(";")[0]}
 ╰━━━━━━━━━━━━━━━━━━⬣
-✨ *Descarga completada con éxito.*
-`
+👑 *Fuente:* Yupra API
+🌷 *By:* Rin Itoshi Bot
+`;
+
+    const thumb = `https://i.ytimg.com/vi/${text.split("v=")[1]}/hqdefault.jpg`;
 
     await conn.sendMessage(m.chat, {
-      video: { url: video.url },
+      image: { url: thumb },
       caption,
-      mimetype: 'video/mp4'
-    }, { quoted: m })
+    });
 
-  } catch (err) {
-    console.error(err)
-    conn.reply(m.chat, '❌ *Error al descargar el video.*\nVerifica que el enlace sea válido.', m)
+    await conn.sendMessage(
+      m.chat,
+      {
+        video: { url: videoUrl },
+        mimetype: "video/mp4",
+        caption: `🎬 *${title}*`,
+      },
+      { quoted: m }
+    );
+
+    await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key } });
+  } catch (e) {
+    console.error(e);
+    await conn.sendMessage(m.chat, { react: { text: "⚠️", key: m.key } });
+    conn.reply(m.chat, `❌ *Error:* ${e?.message || e}`, m);
   }
-}
+};
 
-handler.help = ['ytmp4 *<url>*'];
-handler.tags = ['downloader'];
-handler.command = ['ytmp4', 'playmp4'];
-handler.group = true;
+handler.help = ["ytmp4"];
+handler.tags = ["downloader"];
+handler.command = ["ytmp4", "ytvideo", "youtubevideo"];
 
 export default handler;
