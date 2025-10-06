@@ -1,62 +1,38 @@
-import axios from "axios"
+import axios from 'axios'
 
-let handler = async (m, { conn, text, usedPrefix, command, args }) => {
+let handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
     if (!text)
-      return conn.reply(
-        m.chat,
-        `🚫 *Ingresa un enlace de YouTube válido.*\n\n📌 Ejemplo:\n${usedPrefix + command} https://youtu.be/f09Omvw5C70`,
-        m
-      )
+      return conn.reply(m.chat, `🚫 *Por favor, ingresa un enlace de YouTube.*\n\n📌 Ejemplo:\n${usedPrefix + command} https://youtu.be/f09Omvw5C70`, m)
 
     const apiUrl = `https://api.yupra.my.id/api/downloader/ytmp4?url=${encodeURIComponent(text)}`
-    const res = await axios.get(apiUrl)
-    const data = res.data
+    const response = await axios.get(apiUrl)
+    const data = response.data
 
-    if (data.status !== 200 || !data.result)
-      throw new Error("❌ No se pudo obtener la información del video.")
+    if (data.status !== 200 || !data.result || !data.result.formats?.length)
+      throw new Error('❌ No se pudo obtener información del video.')
 
-    const info = data.result
-    const video = info.formats?.find(v => v.itag === 18) || info.formats?.[0]
-
-    // Calcular tamaño en MB
-    const sizeMB = video?.contentLength ? (video.contentLength / 1048576).toFixed(2) : "Desconocido"
-    const duracion = video?.approxDurationMs
-      ? (video.approxDurationMs / 1000 / 60).toFixed(1) + " minutos"
-      : "-"
-
-    // Detectar servidor
-    const servidor = video?.url?.includes("googlevideo") ? "Yupra" : "ymcdn.org"
+    const video = data.result.formats.find(v => v.itag === 18) || data.result.formats[0]
 
     const caption = `
-🎶 *ＹＯＵＴＵＢＥ • ＭＰ4* 🍎
-────────────────────
-> °🎋 𝐓𝐈𝐓𝐔𝐋𝐎: *${info.title || "-"}*
-> °🌿 𝐃𝐔𝐑𝐀𝐂𝐈𝐎𝐍: *${duracion}*
-> °🍏 𝐂𝐀𝐋𝐈𝐃𝐀𝐃: *${video.qualityLabel || "Desconocida"}*
-> °☁️ 𝐓𝐀𝐌𝐀𝐍̃𝐎: *${sizeMB} MB*
-> °⚙️ 𝐂𝐎𝐃𝐄𝐂𝐒: *${video.mimeType?.split(";")[0] || "-"}*
-> °🕸️ 𝐒𝐄𝐑𝐕𝐈𝐃𝐎𝐑: *${servidor}*
-> °🔢 𝐈𝐓𝐀𝐆: *${video.itag || "-"}*
-> °🔊 𝐀𝐔𝐃𝐈𝐎: *${video.audioQuality || "-"}*
-> °📈 𝐅𝐏𝐒: *${video.fps || "-"}*
-────────────────────
-✨ *Descargando video...*
+╭━━━〔 🌸 *RIN ITOSHI - YT VIDEO* 🌸 〕━━⬣
+┃ 🎬 *Título:* ${data.result.title}
+┃ 📺 *Calidad:* ${video.qualityLabel || 'Desconocida'}
+┃ ⏱️ *Duración:* ${(video.approxDurationMs / 1000 / 60).toFixed(1)} min
+┃ 💾 *Tamaño:* ${(video.contentLength / 1048576).toFixed(1)} MB
+╰━━━━━━━━━━━━━━━━━━⬣
+✨ *Descarga completada con éxito.*
 `
 
-    await conn.sendMessage(
-      m.chat,
-      {
-        video: { url: video.url },
-        caption,
-        mimetype: "video/mp4",
-        fileName: `${info.title || "video"}.mp4`
-      },
-      { quoted: m }
-    )
-  } catch (e) {
-    console.error(e)
-    conn.reply(m.chat, "❌ *Error al descargar el video.*\nVerifica que el enlace sea válido o intenta nuevamente.", m)
+    await conn.sendMessage(m.chat, {
+      video: { url: video.url },
+      caption,
+      mimetype: 'video/mp4'
+    }, { quoted: m })
+
+  } catch (err) {
+    console.error(err)
+    conn.reply(m.chat, '❌ *Error al descargar el video.*\nVerifica que el enlace sea válido.', m)
   }
 }
 
