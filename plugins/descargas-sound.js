@@ -1,7 +1,10 @@
 import axios from 'axios';
+import baileys from '@whiskeysockets/baileys';
 
-const handler = async (m, { conn, text }) => {
-  if (!text) return m.reply('🌪️ *Por favor, ingresa el nombre de una canción o artista en SoundCloud.*');
+const { generateWAMessageFromContent, proto } = baileys;
+
+const handler = async (m, { conn, text, channelRD }) => {
+  if (!text) return m.reply('🎃 *Ingresa el nombre de la canción o artista que deseas buscar en SoundCloud.*');
 
   try {
     await m.react('⏳');
@@ -11,26 +14,36 @@ const handler = async (m, { conn, text }) => {
     });
 
     const song = searchRes.data.data[0];
-    if (!song) return m.reply('❌ No se encontraron resultados en SoundCloud.');
+    if (!song) return m.reply('❌ No encontré resultados para esa búsqueda en SoundCloud.');
 
     const dlRes = await axios.get('https://api.siputzx.my.id/api/d/soundcloud', {
       params: { url: song.link }
     });
 
-    if (!dlRes.data.status) {
-      return m.reply('❌ No se pudo descargar el audio de SoundCloud.');
-    }
+    if (!dlRes.data.status) return m.reply('> No se pudo descargar el audio. Intenta con otra canción.');
 
     const audio = dlRes.data.data;
 
-    const caption = `*✦ SOUND CLOUD ✦*\n\n` +
-      `🎧 *Título:* ${audio.title || 'Desconocido'}\n` +
-      `👤 *Artista:* ${audio.user || 'Desconocido'}\n` +
-      `🕒 *Duración:* ${msToTime(audio.duration) || 'Desconocido'}\n` +
-      `📝 *Descripción:* ${audio.description || 'Sin descripción'}\n` +
-      `🔗 *Link:* ${song.link || 'N/A'}`;
+    const fake = {
+      contextInfo: {
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: channelRD.id,
+          newsletterName: channelRD?.name,
+          serverMessageId: '-1'
+        }
+      }
+    };
 
-    await conn.sendFile(m.chat, audio.thumbnail, 'cover.jpg', caption, m);
+    const caption = `
+             🎶 SOUND CLOUD 🎶
+ 🎧 *Título:* ${audio.title || 'Desconocido'}
+ 👤 *Artista:* ${audio.user || 'Desconocido'}
+ ⏱ *Duración:* ${msToTime(audio.duration) || 'Desconocido'}
+ 📝 *Descripción:* ${audio.description || 'Sin descripción'}
+ 🔗 *Link:* ${song.link || 'N/A'}`;
+
+    await conn.sendFile(m.chat, audio.thumbnail, 'cover.jpg', caption, { ...fake, quoted: m });
 
     await conn.sendMessage(m.chat, {
       audio: { url: audio.url },
@@ -40,7 +53,7 @@ const handler = async (m, { conn, text }) => {
       contextInfo: {
         externalAdReply: {
           title: audio.title,
-          body: `Dᴇsᴄᴀʀɢᴀ ᴄᴏᴍᴘʟᴇᴛᴀ | ʀɪɴ ɪᴛᴏsʜɪ ᴍᴅ`,
+          body: `🎵 Descarga completa | Rin Itoshi MD`,
           thumbnailUrl: audio.thumbnail,
           mediaType: 1,
           renderLargerThumbnail: true
@@ -63,7 +76,7 @@ function msToTime(ms) {
 }
 
 handler.command = ['sound', 'soundcloud'];
-handler.help = ['soundcloud <nombre>'];
+handler.help = ['soundcloud <nombre de canción o artista>'];
 handler.tags = ['descargas'];
 handler.register = true;
 handler.limit = 2;
