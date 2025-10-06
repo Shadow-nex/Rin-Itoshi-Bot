@@ -9,7 +9,7 @@ const handler = async (m, { conn, args, participants, isAdmin, isOwner, usedPref
     throw false;
   }
 
-  const customEmoji = global.db.data.chats[m.chat]?.customEmoji || '🌟';
+  const customEmoji = global.db.data.chats[m.chat]?.customEmoji || '🌿';
   await m.react(customEmoji);
 
   const mensaje = args.length ? args.join(' ') : '✨ *Sin mensaje adicional.*';
@@ -23,19 +23,13 @@ const handler = async (m, { conn, args, participants, isAdmin, isOwner, usedPref
     imagenGrupo = logo;
   }
 
-  let texto = `
-╭━━━〔 👑 𝑻𝒂𝒈 𝑬𝒍𝒊𝒕𝒆 👑 〕━━━⬣
-│
-│ 📝 𝑴𝒆𝒏𝒔𝒂𝒋𝒆:
-│    ${mensaje}
-│
-│ 🍂 𝑮𝒓𝒖𝒑𝒐: ${grupo}
-│ 👥 𝑴𝒊𝒆𝒎𝒃𝒓𝒐𝒔: ${participants.length}
-│
-╰━━━〔 ⚡ Rin Itoshi ⚡ 〕━━━⬣
-`;
+  let texto = `🍂 𝑮𝒓𝒖𝒑𝒐: ${grupo}
+ 👥 𝑴𝒊𝒆𝒎𝒃𝒓𝒐𝒔: ${participants.length}
 
-  let lista = mencionados.map(u => `  ${customEmoji} \`@${u.split('@')[0]}\``).join('\n');
+📝 𝑴𝒆𝒏𝒔𝒂𝒋𝒆:
+> ${mensaje}`;
+
+  let lista = mencionados.map(u => `> ᨫ᤻፝ᨫ᤻⣽${customEmoji}᳕၇ : \`\`\`@${u.split('@')[0]}\`\`\``).join('\n');
 
   await conn.sendMessage(m.chat, {
     text: texto + '\n' + lista,
@@ -48,7 +42,7 @@ const handler = async (m, { conn, args, participants, isAdmin, isOwner, usedPref
         thumbnailUrl: imagenGrupo,
         mediaType: 1,
         renderLargerThumbnail: true,
-        sourceUrl: 'https://github.com/Yuji-XDev'
+        sourceUrl: grupo
       }
     }
   }, { quoted: m });
