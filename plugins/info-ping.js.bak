@@ -22,7 +22,7 @@ let handler = async (m, { conn }) => {
   const fechaHora = moment().tz('America/Lima').format('YYYY/MM/DD, h:mm A')
 
   // Usando Jimp para cargar la imagen correctamente
-  const thumb = await Jimp.read('https://i.pinimg.com/originals/d0/bc/19/d0bc19ccb8e9441e1b3962990bfb09a6.png')
+  const thumb = await Jimp.read('https://files.catbox.moe/3y1n1m.png')
   const thumbBuffer = await thumb.getBufferAsync(Jimp.MIME_PNG)
 
   exec(`neofetch --stdout`, async (error, stdout) => {
