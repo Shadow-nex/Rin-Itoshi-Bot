@@ -21,21 +21,21 @@ let handler = async (m, { conn }) => {
   const usedRAM = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)
   const fechaHora = moment().tz('America/Lima').format('YYYY/MM/DD, h:mm A')
 
-  const thumbBuffer = Buffer.from(await (await fetch('https://n.uguu.se/vqJnHBPm.jpg')).arrayBuffer())
+  const thumbBuffer = Buffer.from(await (await fetch('https://files.catbox.moe/h3gzw2.jpg')).arrayBuffer())
 
   exec(`neofetch --stdout`, async (error, stdout) => {
     let sysInfo = stdout.toString("utf-8").replace(/Memory:/, "Ram:")
 
     let response = 
-`╭━━━〔 🍄 𝙎𝙩𝙖𝙩𝙪𝙨 𝙋𝙞𝙣𝙜 🪴 〕━━⬣
-│ 🌷 *\`Ping:\`* ${latency} ms
-│ 🍁 *\`Latencia:\`* ${latensi.toFixed(4)} ms
-│ 🕸 *\`RAM usada:\`* ${usedRAM} MB
-│ 🍧 *\`Uptime:\`* ${uptimeFormatted}
-│ ⏰ *\`Fecha/Hora:\`* ${fechaHora}
-╰━━━〔 🪷 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 〕━━⬣
+` \`⚡ 𝗦 𝗧 𝗔 𝗧 𝗨 𝗦 • 𝗣 𝗜 𝗡 𝗚 🌿\`
+
+┌ ° 🌟 *Ping:* ${latency} ms
+│ ° 📡 *Latency:* ${latensi.toFixed(4)} ms
+│ ° 💻 *RAM Usage:* ${usedRAM} MB
+│ ° ⏳ *Uptime:* ${uptimeFormatted}
+└ ° 🗓️ *Date/Time:* ${fechaHora}
 \`\`\`${sysInfo.trim()}\`\`\`
-> кαиєкι вσт ν3 | 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 𝚂𝙷𝙰𝙳𝙾𝚆-𝚇𝚈𝚉`
+> ☄︎ кαиєкι вσт ν3 | 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 𝚂𝙷𝙰𝙳𝙾𝚆-𝚇𝚈𝚉`
 
     await conn.sendMessage(m.chat, {
       text: response,
@@ -43,7 +43,7 @@ let handler = async (m, { conn }) => {
       contextInfo: {
         externalAdReply: {
           title: '🍄 Rɪɴ Iᴛᴏsʜɪ ᴍᴅ 🌹 | 🪾 ʙʏ ᴅᴠ.sʜᴀᴅᴏᴡ 🪴',
-          body: club,
+          body: '',
           thumbnail: thumbBuffer,
           sourceUrl: redes,
           mediaType: 1,
