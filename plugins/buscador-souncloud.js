@@ -61,14 +61,14 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
               })
             },
             {
-              name: 'urlButton',
+              name: 'cta_url',
               buttonParamsJson: JSON.stringify({
                 display_text: "🎧  𝘝𝘦𝘳 𝘦𝗻 𝘀𝗼𝘂𝗻𝗱𝗰𝗹𝗼𝘂𝗱",
                 url: track.url
               })
             },
             {
-              name: 'urlButton',
+              name: 'cta_url',
               buttonParamsJson: JSON.stringify({
                 display_text: "🕸️ 𝘊𝘢𝘯𝘢𝘭 𝘰𝘧𝘧𝘪𝘤𝘪𝘢𝘭",
                 url: "https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U"
