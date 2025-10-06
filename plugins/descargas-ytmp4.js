@@ -1,92 +1,64 @@
-import fetch from "node-fetch";
-import axios from "axios";
-import yts from "yt-search";
+import axios from "axios"
 
-let handler = async (m, { conn, text, args }) => {
+let handler = async (m, { conn, text, usedPrefix, command, args }) => {
   try {
-    if (!text) return conn.reply(m.chat, `🌷 *Por favor, ingresa la URL del vídeo de YouTube.*`, m);
+    if (!text)
+      return conn.reply(
+        m.chat,
+        `🚫 *Ingresa un enlace de YouTube válido.*\n\n📌 Ejemplo:\n${usedPrefix + command} https://youtu.be/f09Omvw5C70`,
+        m
+      )
 
-    await conn.sendMessage(m.chat, { text: `૮₍｡˃ ᵕ ˂ ｡₎ა 🫛 *¡Descargando tu video!*` }, { quoted: fkontak });
-    if (!/^(?:https?:\/\/)?(?:www\.|m\.|music\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)/.test(args[0])) {
-      return conn.reply(m.chat, `*❌ Enlace inválido.* Por favor, ingresa una URL válida de YouTube.`, m);
-    }
+    const apiUrl = `https://api.yupra.my.id/api/downloader/ytmp4?url=${encodeURIComponent(text)}`
+    const res = await axios.get(apiUrl)
+    const data = res.data
 
-    await conn.sendMessage(m.chat, { react: { text: '⌛', key: m.key } });
+    if (data.status !== 200 || !data.result)
+      throw new Error("❌ No se pudo obtener la información del video.")
 
-    const videoId = extractVideoId(args[0]);
-    const meta = await yts({ videoId });
-    const thumbnail = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+    const info = data.result
+    const video = info.formats?.find(v => v.itag === 18) || info.formats?.[0]
 
-    let videoUrl, title, duration;
-    try {
-      const apiRes = await fetch(`https://api.yupra.my.id/api/downloader/ytmp4?url=${encodeURIComponent(args[0])}`);
-      const apiJson = await apiRes.json();
+    // Calcular tamaño en MB
+    const sizeMB = video?.contentLength ? (video.contentLength / 1048576).toFixed(2) : "Desconocido"
+    const duracion = video?.approxDurationMs
+      ? (video.approxDurationMs / 1000 / 60).toFixed(1) + " minutos"
+      : "-"
 
-      if (apiJson?.status === 200 && apiJson?.result?.formats?.length) {
-        const best = apiJson.result.formats.find(f => f.qualityLabel === "360p") || apiJson.result.formats[0];
-        videoUrl = best.url;
-        title = apiJson.result.title;
-        duration = best.approxDurationMs ? `${(best.approxDurationMs / 1000 / 60).toFixed(1)} min` : 'Desconocido';
-        console.log('⚡ API Yupra usada con éxito');
-      } else throw new Error("Yupra API sin resultado válido");
-    } catch (e) {
-      console.log('⚠️ Falló la API Yupra, usando respaldo ymcdn.org');
-      const fallback = await ytdl(args[0]);
-      videoUrl = fallback.url;
-      title = fallback.title;
-      duration = fallback.duration;
-    }
+    // Detectar servidor
+    const servidor = video?.url?.includes("googlevideo") ? "Yupra" : "ymcdn.org"
 
-    const size = await getSize(videoUrl);
-    const sizeStr = size ? await formatSize(size) : 'Desconocido';
-    const cleanTitle = title.replace(/[^\w\s]/gi, '').trim().replace(/\s+/g, '_');
-    const fileName = `${cleanTitle}.mp4`;
-
-    const caption = `🎶 *ＹＯＵＴＵＢＥ • ＭＰ4* 🍎
+    const caption = `
+🎶 *ＹＯＵＴＵＢＥ • ＭＰ4* 🍎
 ────────────────────
-> °🎋 𝐓𝐈𝐓𝐔𝐋𝐎: *${meta.title || title || '-'}*
-> °🌿 𝐃𝐔𝐑𝐀𝐂𝐈𝐎𝐍: *${meta.duration?.timestamp || duration || '-'}*
-> °🍏 𝐂𝐀𝐍𝐀𝐋: *${meta.author?.name || '-'}*
-> °🍄 𝐕𝐈𝐒𝐓𝐀𝐒: *${meta.views?.toLocaleString() || '-'}*
-> °☁️ 𝐓𝐀𝐌𝐀𝐍̃𝐎: *${sizeStr}*
-> °⚙️ 𝐂𝐀𝐋𝐈𝐃𝐀𝐃: *360p*
-> °🌷 𝐏𝐔𝐁𝐋𝐈𝐂𝐀𝐃𝐎: *${meta.ago || '-'}*
-> °🕸️ 𝐋𝐈𝐍𝐊: *${meta.url || args[0]}*
-> °⚡ 𝐒𝐄𝐑𝐕𝐈𝐃𝐎𝐑: *${videoUrl.includes('googlevideo') ? 'Yupra' : 'ymcdn.org'}*
-────────────────────`;
+> °🎋 𝐓𝐈𝐓𝐔𝐋𝐎: *${info.title || "-"}*
+> °🌿 𝐃𝐔𝐑𝐀𝐂𝐈𝐎𝐍: *${duracion}*
+> °🍏 𝐂𝐀𝐋𝐈𝐃𝐀𝐃: *${video.qualityLabel || "Desconocida"}*
+> °☁️ 𝐓𝐀𝐌𝐀𝐍̃𝐎: *${sizeMB} MB*
+> °⚙️ 𝐂𝐎𝐃𝐄𝐂𝐒: *${video.mimeType?.split(";")[0] || "-"}*
+> °🕸️ 𝐒𝐄𝐑𝐕𝐈𝐃𝐎𝐑: *${servidor}*
+> °🔢 𝐈𝐓𝐀𝐆: *${video.itag || "-"}*
+> °🔊 𝐀𝐔𝐃𝐈𝐎: *${video.audioQuality || "-"}*
+> °📈 𝐅𝐏𝐒: *${video.fps || "-"}*
+────────────────────
+✨ *Descargando video...*
+`
 
-    const fileSizeMB = size ? (size / (1024 * 1024)).toFixed(2) : 0;
-
-    const sendOpts = {
-      mimetype: 'video/mp4',
-      fileName,
-      caption,
-      contextInfo: {
-        externalAdReply: {
-          title: meta.title,
-          body: '💦 ᥡ᥆ᥙ𝗍ᥙᑲᥱ ძ᥆ᥴ |  кαиєкι вσт ν2 🌾',
-          mediaUrl: args[0],
-          sourceUrl: args[0],
-          thumbnailUrl: thumbnail,
-          mediaType: 1,
-          renderLargerThumbnail: true
-        }
-      }
-    };
-
-    if (fileSizeMB >= 100) {
-      await conn.sendMessage(m.chat, { document: { url: videoUrl }, ...sendOpts }, { quoted: m });
-    } else {
-      await conn.sendMessage(m.chat, { video: { url: videoUrl }, ...sendOpts }, { quoted: m });
-    }
-
-    await conn.sendMessage(m.chat, { react: { text: '✔️', key: m.key } });
-
+    await conn.sendMessage(
+      m.chat,
+      {
+        video: { url: video.url },
+        caption,
+        mimetype: "video/mp4",
+        fileName: `${info.title || "video"}.mp4`
+      },
+      { quoted: m }
+    )
   } catch (e) {
-    console.error(e);
-    m.reply(`❌ *Ocurrió un error:*\n> ${e.message}`);
+    console.error(e)
+    conn.reply(m.chat, "❌ *Error al descargar el video.*\nVerifica que el enlace sea válido o intenta nuevamente.", m)
   }
-};
+}
 
 handler.help = ['ytmp4 *<url>*'];
 handler.tags = ['downloader'];
@@ -94,60 +66,3 @@ handler.command = ['ytmp4', 'playmp4'];
 handler.group = true;
 
 export default handler;
-
-
-async function ytdl(url) {
-  const headers = {
-    "accept": "*/*",
-    "accept-language": "es-PE,es;q=0.9",
-    "sec-fetch-mode": "cors",
-    "Referer": "https://id.ytmp3.mobi/"
-  };
-
-  const initRes = await fetch(`https://d.ymcdn.org/api/v1/init?p=y&23=1llum1n471&_=${Math.random()}`, { headers });
-  const init = await initRes.json();
-  const videoId = extractVideoId(url);
-  const convertURL = init.convertURL + `&v=${videoId}&f=mp4&_=${Math.random()}`;
-
-  const convertRes = await fetch(convertURL, { headers });
-  const convert = await convertRes.json();
-
-  let info = {};
-  for (let i = 0; i < 3; i++) {
-    const progressRes = await fetch(convert.progressURL, { headers });
-    info = await progressRes.json();
-    if (info.progress === 3) break;
-  }
-
-  return {
-    url: convert.downloadURL,
-    title: info.title || 'video',
-    duration: info.duration || 'Desconocido'
-  };
-}
-
-function extractVideoId(url) {
-  return url.match(/(?:youtu\.be\/|youtube\.com\/(?:.*v=|.*\/|.*embed\/))([^&?/]+)/)?.[1];
-}
-
-async function formatSize(bytes) {
-  const units = ['B', 'KB', 'MB', 'GB'];
-  let i = 0;
-  if (!bytes || isNaN(bytes)) return 'Desconocido';
-  while (bytes >= 1024 && i < units.length - 1) {
-    bytes /= 1024;
-    i++;
-  }
-  return `${bytes.toFixed(2)} ${units[i]}`;
-}
-
-async function getSize(url) {
-  try {
-    const res = await axios.head(url);
-    const length = res.headers['content-length'];
-    return length ? parseInt(length, 10) : null;
-  } catch (err) {
-    console.error('😢 Error al obtener tamaño del archivo:', err.message);
-    return null;
-  }
-}
