@@ -2,37 +2,51 @@ import fetch from 'node-fetch'
 
 let handler = async (m, { conn }) => {
   try {
-
     let regex = /https?:\/\/(?:www\.|vm\.|vt\.)?tiktok\.com\/[^\s]+/i
     let match = m.text.match(regex)
     if (!match) return
 
     let url = match[0]
-
     await m.react('⏳')
 
-    let api = `https://api.vreden.my.id/api/v1/download/tiktok?url=${encodeURIComponent(url)}`
+    let api = `https://api.delirius.store/download/tiktok?url=${encodeURIComponent(url)}`
     let res = await fetch(api)
     let json = await res.json()
 
-    if (!json.status || !json.result) {
+    if (!json.status || !json.data) {
       await m.react('❌')
       return conn.reply(m.chat, '❌ No se pudo obtener el video, inténtalo nuevamente.', m)
     }
 
-    const { title, region, duration, author, cover, stats, data, music_info } = json.result
-    const videoUrl = data.find(v => v.type === 'nowatermark_hd')?.url || data[0]?.url
+    const videoData = json.data
+    const { creator, title, region, duration, author, music, meta, published, repro, like, share, comment, download } = videoData
+
+
+    const videoUrl = meta.media.find(v => v.hd && v.hd !== '0 B')?.hd
+                    || meta.media.find(v => v.org)?.org
+                    || meta.media[0]?.wm
 
     await m.react('📥')
+    let info = `
+🌟 *TikTok Downloader*
 
-    let info = `🌟 *TikTok Downloader*
+📝 *Creator API:* ${creator || "-"}
+🎬 *Title:* ${title || "-"}
+🧑‍🎤 *Author:* ${author?.nickname || "-"} (${author?.username || "-"})
+⏱️ *Duration:* ${duration || "-"}s
+🌎 *Region:* ${region || "-"}
+📅 *Published:* ${published || "-"}
 
-🎬 *Title:* ${title}
-🧑‍🎤 *Author:* ${author?.nickname || "-"}
-⏱️ *Duration:* ${duration || "-"}   🌎 *Region:* ${region || "-"}
-👁️‍🗨️ *Views:* ${stats?.views || "0"}   ❤️ *Likes:* ${stats?.likes || "0"}
-💬 *Comments:* ${stats?.comment || "0"}   🔄 *Shares:* ${stats?.share || "0"}
-🎶 *Audio:* ${music_info?.title || "-"} - ${music_info?.author || "-"}`
+👁️‍🗨️ *Views:* ${repro || "0"}   ❤️ *Likes:* ${like || "0"}
+💬 *Comments:* ${comment || "0"}   🔄 *Shares:* ${share || "0"}
+⬇️ *Downloads:* ${download || "0"}
+
+🎶 *Audio:* ${music?.title || "-"} - ${music?.author || "-"} (${music?.duration || "-"}s)
+
+📦 *Media Info:*
+${meta.media.map((v, i) => `  ${i+1}. Type: ${v.type || "-"} | HD: ${v.hd || "N/A"} | WM: ${v.wm || "N/A"} | Original: ${v.org || "N/A"} | Size: ${v.size_hd || v.size_org || "N/A"}`).join("\n")}
+`
+
     await m.react('📤')
 
     await conn.sendMessage(
@@ -41,7 +55,7 @@ let handler = async (m, { conn }) => {
         video: { url: videoUrl },
         caption: info,
         gifPlayback: false,
-        thumbnailUrl: cover
+        thumbnailUrl: meta.media[0]?.org
       },
       { quoted: m }
     )
