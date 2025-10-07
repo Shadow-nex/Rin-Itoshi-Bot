@@ -1,7 +1,7 @@
 import speed from 'performance-now'
 import { exec } from 'child_process'
 import moment from 'moment-timezone'
-import Jimp from 'jimp'
+import fetch from 'node-fetch'
 
 let handler = async (m, { conn }) => {
   let timestamp = speed()
@@ -21,9 +21,7 @@ let handler = async (m, { conn }) => {
   const usedRAM = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)
   const fechaHora = moment().tz('America/Lima').format('YYYY/MM/DD, h:mm A')
 
-  // Usando Jimp para cargar la imagen correctamente
-  const thumb = await Jimp.read('https://i.pinimg.com/originals/d0/bc/19/d0bc19ccb8e9441e1b3962990bfb09a6.png')
-  const thumbBuffer = await thumb.getBufferAsync(Jimp.MIME_PNG)
+  const thumbBuffer = Buffer.from(await (await fetch('https://i.pinimg.com/originals/d0/bc/19/d0bc19ccb8e9441e1b3962990bfb09a6.png')).arrayBuffer())
 
   exec(`neofetch --stdout`, async (error, stdout) => {
     let sysInfo = stdout.toString("utf-8").replace(/Memory:/, "Ram:")
@@ -45,7 +43,7 @@ let handler = async (m, { conn }) => {
       contextInfo: {
         externalAdReply: {
           title: '🍄 Rɪɴ Iᴛᴏsʜɪ ᴍᴅ 🌹 | 🪾 ʙʏ ᴅᴠ.sʜᴀᴅᴏᴡ 🪴',
-          body: '                    🎃',
+          body: '                     🎃',
           thumbnail: thumbBuffer,
           sourceUrl: redes,
           mediaType: 1,
