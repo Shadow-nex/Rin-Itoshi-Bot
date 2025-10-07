@@ -741,7 +741,7 @@ const menuText1 = `
       ],
       headerType: 4,
       contextInfo: {      
-      jpegThumbnail: await (await fetch(icono)).buffer(),
+      jpegThumbnail: await (await fetch('https://i.pinimg.com/originals/db/d2/3f/dbd23fd3c722ee5f46a633cfcc242c14.jpg')).buffer(),
         mentionedJid: [m.sender],
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
