@@ -2,63 +2,77 @@ import fetch from 'node-fetch'
 
 let handler = async (m, { conn }) => {
   try {
+
     let regex = /https?:\/\/(?:www\.|vm\.|vt\.)?tiktok\.com\/[^\s]+/i
     let match = m.text.match(regex)
     if (!match) return
 
     let url = match[0]
     await m.react('⏳')
-
-    let api = `https://api.delirius.store/download/tiktok?url=${encodeURIComponent(url)}`
+    let api = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}?hd=1`
     let res = await fetch(api)
     let json = await res.json()
 
-    if (!json.status || !json.data) {
+    if (!json || json.code !== 0 || !json.data) {
       await m.react('❌')
-      return conn.reply(m.chat, '❌ No se pudo obtener el video, inténtalo nuevamente.', m)
+      return conn.reply(m.chat, '❌ No se pudo obtener el video, intenta nuevamente.', m)
     }
 
-    const videoData = json.data
-    const { creator, title, region, duration, author, music, meta, published, repro, like, share, comment, download } = videoData
+    const data = json.data
+    const {
+      id, region, title, cover, origin_cover, duration,
+      play, wmplay, music, music_info, play_count, digg_count,
+      comment_count, share_count, download_count, author, images, create_time
+    } = data
 
+    const info = `
+╭━━━〔 🎵 𝗧𝗜𝗞𝗧𝗢𝗞 𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗥 〕━━⬣
+│ 🆔 *ID:* ${id || '-'}
+│ 🌎 *Región:* ${region || '-'}
+│ 🧠 *Título:* ${title || 'Sin título'}
+│
+│ 👤 *Autor:* ${author?.nickname || '-'} (@${author?.unique_id || '-'})
+│ 🕒 *Duración:* ${duration || '0'}s
+│ 📅 *Publicado:* ${new Date(create_time * 1000).toLocaleString()}
+│
+│ 👁️‍🗨️ *Reproducciones:* ${play_count || 0}
+│ ❤️ *Likes:* ${digg_count || 0}
+│ 💬 *Comentarios:* ${comment_count || 0}
+│ 🔁 *Compartidos:* ${share_count || 0}
+│ ⬇️ *Descargas:* ${download_count || 0}
+│
+│ 🎶 *Audio:* ${music_info?.title || '-'}
+│ 👤 *Artista:* ${music_info?.author || '-'}
+│ 🎧 *Duración música:* ${music_info?.duration || '0'}s
+│ 💽 *Link música:* ${music_info?.play || music || '-'}
+╰━━━━━━━━━━━━━━━━━━⬣
+    `.trim()
+    if (images && images.length > 0) {
 
-    const videoUrl = meta.media.find(v => v.hd && v.hd !== '0 B')?.hd
-                    || meta.media.find(v => v.org)?.org
-                    || meta.media[0]?.wm
-
-    await m.react('📥')
-    let info = `
-🌟 *TikTok Downloader*
-
-📝 *Creator API:* ${creator || "-"}
-🎬 *Title:* ${title || "-"}
-🧑‍🎤 *Author:* ${author?.nickname || "-"} (${author?.username || "-"})
-⏱️ *Duration:* ${duration || "-"}s
-🌎 *Region:* ${region || "-"}
-📅 *Published:* ${published || "-"}
-
-👁️‍🗨️ *Views:* ${repro || "0"}   ❤️ *Likes:* ${like || "0"}
-💬 *Comments:* ${comment || "0"}   🔄 *Shares:* ${share || "0"}
-⬇️ *Downloads:* ${download || "0"}
-
-🎶 *Audio:* ${music?.title || "-"} - ${music?.author || "-"} (${music?.duration || "-"}s)
-
-📦 *Media Info:*
-${meta.media.map((v, i) => `  ${i+1}. Type: ${v.type || "-"} | HD: ${v.hd || "N/A"} | WM: ${v.wm || "N/A"} | Original: ${v.org || "N/A"} | Size: ${v.size_hd || v.size_org || "N/A"}`).join("\n")}
-`
-
-    await m.react('📤')
-
-    await conn.sendMessage(
-      m.chat,
-      {
-        video: { url: videoUrl },
-        caption: info,
-        gifPlayback: false,
-        thumbnailUrl: meta.media[0]?.org
-      },
-      { quoted: m }
-    )
+      await m.react('🖼️')
+      for (let i = 0; i < images.length; i++) {
+        await conn.sendMessage(
+          m.chat,
+          {
+            image: { url: images[i] },
+            caption: i === 0 ? info : undefined
+          },
+          { quoted: m }
+        )
+      }
+    } else {
+      await m.react('📥')
+      await conn.sendMessage(
+        m.chat,
+        {
+          video: { url: play },
+          caption: info,
+          gifPlayback: false,
+          jpegThumbnail: Buffer.from(await (await fetch(cover)).arrayBuffer())
+        },
+        { quoted: m }
+      )
+    }
 
     await m.react('✔️')
 
