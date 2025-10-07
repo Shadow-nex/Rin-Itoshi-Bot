@@ -43,7 +43,7 @@ let handler = async (m, { conn }) => {
       contextInfo: {
         externalAdReply: {
           title: '🍄 Rɪɴ Iᴛᴏsʜɪ ᴍᴅ 🌹 | 🪾 ʙʏ ᴅᴠ.sʜᴀᴅᴏᴡ 🪴',
-          body: '                     🎃',
+          body: '',
           thumbnail: thumbBuffer,
           sourceUrl: redes,
           mediaType: 1,
