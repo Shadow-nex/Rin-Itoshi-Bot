@@ -31,7 +31,7 @@ const handler = async (m, { conn }) => {
 = ° 🔗 *𝚄𝚁𝙻:* ${video.url}
 ===========================`
     },
-    footer: { text: '┊▬ ʀɪɴ ɪᴛᴏsʜɪ вσт | ву ѕнα∂σω 𝚇𝙳 ▬ ❜┊' },
+    footer: { text: '┊▬ ʀɪɴ ɪᴛᴏsʜɪ вσт| ву ѕнα∂σω 𝚇𝙳 ▬ ❜┊' },
     header: {
       title: '        乂 𝘠𝘖𝘜𝘛𝘜𝘉𝘌 - 𝘚𝘌𝘈𝘙𝘊𝘏 乂',
       hasMediaAttachment: true,
@@ -67,7 +67,7 @@ const handler = async (m, { conn }) => {
                   },
                   {
                     header: '𝐘 𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐘 𝐓 𝐌 𝐏 𝟒 𝐃.𝐎 𝐂',
-                    title: '✿ 🎋 ᴅᴇsᴄᴀʀɢᴀ ᴠɪᴅᴇᴏ ᴇɴ ᴅᴏᴄᴜᴍᴇɴᴛᴏ '',
+                    title: '✿ 🎋 ᴅᴇsᴄᴀʀɢᴀ ᴠɪᴅᴇᴏ ᴇɴ ᴅᴏᴄᴜᴍᴇɴᴛᴏ',
                     description: `✎ Duración: ${video.timestamp}`,
                     id: `/ytmp4doc ${video.url}`
                   },
@@ -87,6 +87,13 @@ const handler = async (m, { conn }) => {
               }
             ]
           })
+        },
+        {
+          name: 'cta_url',
+          buttonParamsJson: JSON.stringify({
+            display_text: '🌐 Abrir en YouTube',
+            url: video.url
+          })
         }
       ],
       messageParamsJson: ''
@@ -94,7 +101,11 @@ const handler = async (m, { conn }) => {
   };
 
   const userJid = conn?.user?.jid || m.key.participant || m.chat;
-  const msg = generateWAMessageFromContent(m.chat, { interactiveMessage }, { userJid, quoted: fkontak });
+  const msg = generateWAMessageFromContent(
+    m.chat,
+    { interactiveMessage },
+    { userJid, quoted: fkontak }
+  );
   await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
 
   await m.react('✔️');
