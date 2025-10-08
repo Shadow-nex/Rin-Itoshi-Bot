@@ -1,4 +1,4 @@
-/*import fetch from 'node-fetch'
+import fetch from 'node-fetch'
 import baileys from '@whiskeysockets/baileys'
 
 const { generateWAMessageContent, generateWAMessageFromContent, proto } = baileys
@@ -136,8 +136,8 @@ const rcanal = {
     },
     mentionedJid: null
   }
-}*/
-
+}
+/*
 import axios from 'axios';
 import baileys from '@whiskeysockets/baileys';
 
@@ -288,4 +288,4 @@ const rcanal = async () => {
       }
     }
   }
-}
+}*/
