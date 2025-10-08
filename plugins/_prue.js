@@ -1,29 +1,28 @@
-import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys';
-import yts from 'yt-search';
+import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys'
+import yts from 'yt-search'
 
 const handler = async (m, { conn }) => {
-  const youtubeRegex = /https?:\/\/(?:www\.|youtu\.be\/|youtube\.com\/watch\?v=)[^\s]+/i;
-  const match = m.text?.match(youtubeRegex);
-  if (!match) return;
+  const youtubeRegex = /https?:\/\/(?:www\.|youtu\.be\/|youtube\.com\/watch\?v=)[^\s]+/i
+  const match = m.text?.match(youtubeRegex)
+  if (!match) return
+  if (m.text.trim().startsWith('/')) return
+  const url = match[0]
+  await m.react('🕸️')
 
-  const url = match[0];
+  const result = await yts(url)
+  if (!result?.videos?.length) return conn.reply(m.chat, '⚠️ No se encontró el video.', m)
 
-  await m.react('⏳');
-
-  const result = await yts(url);
-  if (!result?.videos?.length) return conn.reply(m.chat, '⚠️ No se encontró el video.', m);
-
-  const video = result.videos[0];
+  const video = result.videos[0]
 
   const media = await prepareWAMessageMedia(
     { image: { url: video.thumbnail } },
     { upload: conn.waUploadToServer }
-  );
+  )
 
   const interactiveMessage = {
     body: {
       text: `===========================
-      ✿ *\`${video.title}\`*
+✿ *\`${video.title}\`*
 
 = ° 🌵 *𝙰𝚄𝚃𝙾𝚁:* ${video.author.name}
 = ° 🍁 *𝚅𝙸𝚂𝚃𝙰𝚂:* ${video.views.toLocaleString()}
@@ -31,9 +30,9 @@ const handler = async (m, { conn }) => {
 = ° 🔗 *𝚄𝚁𝙻:* ${video.url}
 ===========================`
     },
-    footer: { text: '┊▬ ʀɪɴ ɪᴛᴏsʜɪ вσт| ву ѕнα∂σω 𝚇𝙳 ▬ ❜┊' },
+    footer: { text: '┊▬ ʀɪɴ ɪᴛᴏsʜɪ вσт | ву ѕнα∂σω 𝚇𝙳 ▬ ❜┊' },
     header: {
-      title: '        乂 𝘠𝘖𝘜𝘛𝘜𝘉𝘌 - 𝘚𝘌𝘈𝘙𝘊𝘏 乂',
+      title: '乂 𝘠𝘖𝘜𝘛𝘜𝘉𝘌 - 𝘚𝘌𝘈𝘙𝘊𝘏 乂',
       hasMediaAttachment: true,
       imageMessage: media.imageMessage
     },
@@ -48,39 +47,39 @@ const handler = async (m, { conn }) => {
                 title: video.title,
                 rows: [
                   {
-                    header: '𝐘 𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐘 𝐓 𝐌 𝐏 𝟑',
+                    header: '𝐘𝐎𝐔𝐓𝐔𝐁𝐄 • 𝐘𝐓𝐌𝐏𝟑',
                     title: '✿ 🎧 Descargar audio',
                     description: `✎ Duración: ${video.timestamp}`,
                     id: `/ytmp3 ${video.url}`
                   },
                   {
-                    header: '𝐘 𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐘 𝐓 𝐌 𝐏 𝟒',
+                    header: '𝐘𝐎𝐔𝐓𝐔𝐁𝐄 • 𝐘𝐓𝐌𝐏𝟒',
                     title: '✿ 📹 Descargar video',
                     description: `✎ Duración: ${video.timestamp}`,
                     id: `/ytmp4 ${video.url}`
                   },
                   {
-                    header: '𝐘 𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐘 𝐓 𝐌 𝐏 𝟑 𝐃 𝐎 𝐂',
-                    title: '✿ 🎋 ᴅᴇsᴄᴀʀɢᴀ ᴀᴜᴅɪᴏ ᴇɴ ᴅᴏᴄᴜᴍᴇɴᴛᴏ',
+                    header: '𝐘𝐎𝐔𝐓𝐔𝐁𝐄 • 𝐘𝐓𝐌𝐏𝟑 𝐃𝐎𝐂',
+                    title: '✿ 🌿 Audio en documento',
                     description: `✎ Duración: ${video.timestamp}`,
                     id: `/ytmp3doc ${video.url}`
                   },
                   {
-                    header: '𝐘 𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐘 𝐓 𝐌 𝐏 𝟒 𝐃.𝐎 𝐂',
-                    title: '✿ 🎋 ᴅᴇsᴄᴀʀɢᴀ ᴠɪᴅᴇᴏ ᴇɴ ᴅᴏᴄᴜᴍᴇɴᴛᴏ',
+                    header: '𝐘𝐎𝐔𝐓𝐔𝐁𝐄 • 𝐘𝐓𝐌𝐏𝟒 𝐃𝐎𝐂',
+                    title: '✿ 👽 Video en documento',
                     description: `✎ Duración: ${video.timestamp}`,
                     id: `/ytmp4doc ${video.url}`
                   },
                   {
-                    header: '𝐘 𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐘 𝐓 𝐀',
-                    title: '✿ 🎋 ᴅᴇsᴄᴀʀɢᴀ ʀᴀᴘɪᴅᴀ ᴅᴇ ᴀᴜᴅɪᴏ ',
+                    header: '𝐘𝐎𝐔𝐓𝐔𝐁𝐄 • 𝐘𝐓𝐀',
+                    title: '✿ ⚡ Descarga rápida de audio',
                     description: `✎ Duración: ${video.timestamp}`,
                     id: `/yta ${video.url}`
                   },
                   {
-                    header: '𝐘 𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐘 𝐓 𝐕',
-                    title: '✿ 🍧 ᴅᴇsᴄᴀʀɢᴀ ʀᴀᴘɪᴅᴀ ᴅᴇ ᴠɪᴅᴇᴏ',
-                    description: `✎ Duración: ${video.timestamp} `,
+                    header: '𝐘𝐎𝐔𝐓𝐔𝐁𝐄 • 𝐘𝐓𝐕',
+                    title: '✿ ⚡ Descarga rápida de video',
+                    description: `✎ Duración: ${video.timestamp}`,
                     id: `/ytv ${video.url}`
                   }
                 ]
@@ -91,27 +90,25 @@ const handler = async (m, { conn }) => {
         {
           name: 'cta_url',
           buttonParamsJson: JSON.stringify({
-            display_text: '🌐 Abrir en YouTube',
+            display_text: '🍧 Abrir en YouTube',
             url: video.url
           })
         }
       ],
       messageParamsJson: ''
     }
-  };
+  }
 
-  const userJid = conn?.user?.jid || m.key.participant || m.chat;
+  const userJid = conn?.user?.jid || m.key.participant || m.chat
   const msg = generateWAMessageFromContent(
     m.chat,
     { interactiveMessage },
     { userJid, quoted: fkontak }
-  );
-  await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
+  )
+  await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+  await m.react('✔️')
+}
 
-  await m.react('✔️');
-};
-
-handler.customPrefix = /https?:\/\/(?:www\.|youtu\.be\/|youtube\.com\/watch\?v=)[^\s]+/i;
-handler.command = new RegExp();
-
-export default handler;
+handler.customPrefix = /https?:\/\/(?:www\.|youtu\.be\/|youtube\.com\/watch\?v=)[^\s]+/i
+handler.command = []
+export default handler
