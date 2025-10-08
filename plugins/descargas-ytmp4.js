@@ -54,15 +54,15 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
       const info = `🎶 *ＹＯＵＴＵＢＥ • ＭＰ4*  🍎
 ────────────────────
-> °𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. 𝐓𝐈𝐓𝐔𝐋𝐎: *${meta.title}*
-> °𓃉𐇽ܳ𓏸🌿ᮬᩬִּ〫᪲۟. 𝐃𝐔𝐑𝐀𝐂𝐈𝐎𝐍: *${meta.duration?.timestamp || meta.timestamp}*
-> °𓃉𐇽ܳ𓏸🍏ᮬᩬִּ〫᪲۟. 𝐂𝐀𝐍𝐀𝐋: *${meta.author?.name || "-"}*
-> °𓃉𐇽ܳ𓏸🍄ᮬᩬִּ〫᪲۟. 𝐕𝐈𝐒𝐓𝐀𝐒: *${meta.views?.toLocaleString() || "-"}*
-> °𓃉𐇽ܳ𓏸⚽ᮬᩬִּ〫᪲۟. 𝐓𝐀𝐌𝐀𝐍̃𝐎: *${fileSize}*
-> °𓃉𐇽ܳ𓏸☁️ᮬᩬִּ〫᪲۟. 𝐂𝐀𝐋𝐈𝐃𝐀𝐃: *${dl.quality}*
-> °𓃉𐇽ܳ𓏸🌷ᮬᩬִּ〫᪲۟. 𝐏𝐔𝐁𝐈𝐂𝐀𝐃𝐎: *${meta.ago}*
-> °𓃉𐇽ܳ𓏸🕸️ᮬᩬִּ〫᪲۟. 𝐋𝐈𝐍𝐊: *${meta.url}*
-> °𓃉𐇽ܳ𓏸⚙️ᮬᩬִּ〫᪲۟. 𝐒𝐄𝐑𝐕𝐈𝐃𝐎𝐑: *vreden*
+> °𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. 𝐓𝐢𝐭𝐮𝐥𝐨: *${meta.title}*
+> °𓃉𐇽ܳ𓏸🌿ᮬᩬִּ〫᪲۟. 𝐃𝐮𝐫𝐚𝐜𝐢𝐨𝐧: *${meta.duration?.timestamp || meta.timestamp}*
+> °𓃉𐇽ܳ𓏸🍏ᮬᩬִּ〫᪲۟. 𝐂𝐚𝐧𝐚𝐥: *${meta.author?.name || "-"}*
+> °𓃉𐇽ܳ𓏸🍄ᮬᩬִּ〫᪲۟. 𝐕𝐢𝐬𝐭𝐚𝐬: *${meta.views?.toLocaleString() || "-"}*
+> °𓃉𐇽ܳ𓏸⚽ᮬᩬִּ〫᪲۟. 𝐓𝐚𝐦𝐚𝐧̃𝐨: *${fileSize}*
+> °𓃉𐇽ܳ𓏸☁️ᮬᩬִּ〫᪲۟. 𝐂𝐚𝐥𝐢𝐝𝐚𝐝: *${dl.quality}*
+> °𓃉𐇽ܳ𓏸🌷ᮬᩬִּ〫᪲۟. 𝐏𝐮𝐛𝐥𝐢𝐜𝐚𝐝𝐨: *${meta.ago}*
+> °𓃉𐇽ܳ𓏸🕸️ᮬᩬִּ〫᪲۟. 𝐋𝐢𝐧𝐤: *${meta.url}*
+> °𓃉𐇽ܳ𓏸⚙️ᮬᩬִּ〫᪲۟. 𝐒𝐞𝐫𝐯𝐢𝐝𝐨𝐫: *Vreden*
 ────────────────────
 
 > \`N O T A:\`
@@ -70,7 +70,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
       await conn.sendMessage(m.chat, {
         image: { url: meta.thumbnail },
-        caption: info,
+        caption: info, rcanal
       })
 
       if (sizeMB > 100) {
@@ -91,7 +91,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             video: { url: dl.url },
             mimetype: "video/mp4",
             fileName: dl.filename,
-            caption: `> *${meta.title}*\n> Tamaño: ${fileSize}\n> Calidad: ${dl.quality}`,
+            caption: `> 🌿 *${meta.title}*\n> 🎐 Tamaño: ${fileSize}\n> 🍧 Calidad: ${dl.quality}`,
           },
           { quoted: m }
         )
@@ -101,7 +101,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     console.error(err)
     conn.reply(
       m.chat,
-      "❌ *Ocurrió un error al procesar tu solicitud.*\nVerifica el enlace o intenta con otro video.",
+      " *Ocurrió un error al procesar tu solicitud.*\nVerifica el enlace o intenta con otro video.",
       m
     )
   }

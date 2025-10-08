@@ -1,92 +1,3 @@
-/*import fetch from 'node-fetch'
-import Jimp from 'jimp'
-
-let handler = async (m, { conn, args, usedPrefix, command }) => {
-  let q = args.join(" ").trim()
-  if (!q) {
-    return conn.sendMessage(m.chat, {
-      text: `*🧪 Ingresa el nombre del video a descargar.*`
-    }, { quoted: m })
-  }
-
-  await conn.sendMessage(m.chat, {
-    text: `🌸≽───────≼🌸
-૮₍｡˃ ᵕ ˂ ｡₎ა 🎶 *¡Descargando tu archiwito kawaii!*
-  
-˚₊· ͟͟͞͞➳❥ 📊 Progresito:  
-[▓▓▓▓▓░░░░░] 50% 🍬💗  
-🌸≽───────≼🌸`
-  }, { quoted: m })
-  
-  try {
-
-    let res = await fetch(`https://delirius-apiofc.vercel.app/search/ytsearch?q=${encodeURIComponent(q)}`)
-    let json = await res.json()
-
-    if (!json.status || !json.data || !json.data.length) {
-      return conn.sendMessage(m.chat, { text: `No encontré resultados para *${q}*.` }, { quoted: m })
-    }
-
-    let vid = json.data[0]
-
-    let dl = await fetch(`https://api.starlights.uk/api/downloader/youtube?url=${encodeURIComponent(vid.url)}`)
-    let info = await dl.json()
-
-    if (!info.status || !info.mp4) {
-      return conn.sendMessage(m.chat, { text: `⚠️ No se pudo obtener el video de *${vid.title}*.` }, { quoted: m })
-    }
-
-    let { mp4 } = info
-
-    let caption = `
-= 💎 *${vid.title}*
-= 🌱 𝐃𝐮𝐫𝐚𝐜𝐢𝐨𝐧: ${vid.duration}
-= ☘️ 𝐂𝐚𝐧𝐚𝐥: ${vid.author?.name || "Desconocido"}
-= 💥 𝐓𝐚𝐦𝐚𝐧̃𝐨: ${mp4.size}
-= 💖 𝐂𝐚𝐥𝐢𝐝𝐚𝐝: ${mp4.quality}
-= 🍧 𝐋𝐢𝐧𝐤: ${vid.url}
-`.trim()
-
-    let thumb = null
-    try {
-      const img = await Jimp.read(mp4.thumbnail || vid.thumbnail || "")
-      img.resize(300, Jimp.AUTO)
-      thumb = await img.getBufferAsync(Jimp.MIME_JPEG)
-    } catch (err) {
-      console.log("⚠️ Error al procesar miniatura:", err)
-    }
-
-    await conn.sendMessage(m.chat, {
-      document: { url: mp4.dl_url },
-      mimetype: "video/mp4",
-      fileName: `${vid.title}.mp4`,
-      caption,
-      ...(thumb ? { jpegThumbnail: thumb } : {}),
-      contextInfo: {
-        externalAdReply: {
-          title: vid.title,
-          body: "🚀 YouTube Video 💖",
-          mediaUrl: vid.url,
-          sourceUrl: vid.url,
-          thumbnailUrl: mp4.thumbnail || vid.thumbnail,
-          mediaType: 1,
-          renderLargerThumbnail: true
-        }
-      }
-    }, { quoted: m })
-
-  } catch (err) {
-    console.error("[Error en ytmp4doc:]", err)
-    conn.sendMessage(m.chat, { text: `💔 Error: ${err.message}` }, { quoted: m })
-  }
-}
-
-handler.command = ['ytmp4doc', 'ytvdoc', 'ytdoc']
-handler.help = ['ytmp4doc']
-handler.tags = ['descargas']
-
-export default handler*/
-
 import fetch from 'node-fetch'
 import Jimp from 'jimp'
 import axios from 'axios'
@@ -164,7 +75,7 @@ const savetube = {
     if (!response.status) return response;
     return { status: true, code: 200, data: response.data.cdn };
   },
-  download: async (link, quality = '360') => {
+  download: async (link) => {
     if (!link) return { status: false, code: 400, error: "Falta el enlace de YouTube." };
     if (!savetube.isUrl(link)) return { status: false, code: 400, error: "URL inválida de YouTube." };
 
@@ -185,8 +96,8 @@ const savetube = {
 
       const dl = await savetube.request(`https://${cdn}${savetube.api.download}`, {
         id: id,
-        downloadType: 'video',
-        quality: quality, // 360p
+        downloadType: 'audio',
+        quality: '128',
         key: decrypted.key
       });
 
@@ -198,7 +109,7 @@ const savetube = {
           thumbnail: decrypted.thumbnail || `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`,
           download: dl.data.data.downloadUrl,
           duration: decrypted.duration,
-          quality: quality,
+          quality: '128',
           id
         }
       };
@@ -213,41 +124,45 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   let q = args.join(" ").trim()
   if (!q) {
     return conn.sendMessage(m.chat, {
-      text: `*🧪 Ingresa el nombre del video a descargar.*`
+      text: `*\`🍉 ɪɴɢʀᴇsᴇ ᴇʟ ɴᴏᴍʙʀᴇ ᴅᴇʟ ᴀᴜᴅɪᴏ ᴀ ᴅᴇsᴄᴀʀɢᴀʀ.\`*`
     }, { quoted: m })
   }
 
   await conn.sendMessage(m.chat, {
-    text: `૮₍｡˃ ᵕ ˂ ｡₎ა 🎶 *¡Descargando tu archiwito kawaii!*
-  
+    text: `૮₍｡˃ ᵕ ˂ ｡₎ა 🎶 *¡𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰𝙽𝙳𝙾 𝚃𝚄 𝙰𝚄𝙳𝙸𝙾!*
+
+> ✅ єѕρєяє υи мσмєитσ, єѕтσ ρυє∂є тαя∂αя ∂єρє∂ιєи∂σ ∂єℓ ρєѕσ ∂єℓ αυ∂ισ χ∂
+
 ˚₊· ͟͟͞͞➳❥ 📊 Progresito:  
-[▓▓▓▓▓░░░░░] 50% 🍬💗  `
-  }, { quoted: m })
-  
+[▓▓▓▓▓░░░░░] 50%`
+  }, { quoted: fkontak })
+
   try {
     // 🔍 Buscar en YT
     let res = await fetch(`https://delirius-apiofc.vercel.app/search/ytsearch?q=${encodeURIComponent(q)}`)
     let json = await res.json()
     if (!json.status || !json.data || !json.data.length) {
-      return conn.sendMessage(m.chat, { text: `No encontré resultados para *${q}*.` }, { quoted: m })
+      return conn.sendMessage(m.chat, { text: `❌ No encontré resultados para *${q}*.` }, { quoted: m })
     }
 
     let vid = json.data[0]
 
-    let info = await savetube.download(vid.url, '360')
+    // 📥 Descargar con SAVETUBE
+    let info = await savetube.download(vid.url)
     if (!info.status) {
-      return conn.sendMessage(m.chat, { text: `⚠️ No se pudo obtener el video de *${vid.title}*.` }, { quoted: m })
+      return conn.sendMessage(m.chat, { text: `🌿 No se pudo obtener el audio de *${vid.title}*.` }, { quoted: m })
     }
 
     let { result } = info
 
     let caption = `
-= 💎 *${result.title}*
-= 🌱 𝐃𝐮𝐫𝐚𝐜𝐢𝐨𝐧: ${vid.duration}
-= ☘️ 𝐂𝐚𝐧𝐚𝐥: ${vid.author?.name || "Desconocido"}
-= 💥 𝐂𝐚𝐥𝐢𝐝𝐚𝐝: ${result.quality}p
-= 🍧 𝐋𝐢𝐧𝐤: ${vid.url}
-`.trim()
+= 📀 *${result.title}*
+= ⏱️ 𝐃𝐮𝐫𝐚𝐜𝐢𝐨𝐧: ${vid.duration}
+= ⚡ 𝐂𝐚𝐧𝐚𝐥: ${vid.author?.name || "Desconocido"}
+= 🍧 𝐂𝐚𝐥𝐢𝐝𝐚𝐝: ${result.quality}
+= 🔗 𝐋𝐢𝐧𝐤: ${vid.url}
+
+> яιи ιтσαнι вσт | 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 𝚂𝙷𝙰𝙳𝙾𝚆-𝚇𝚈𝚉`.trim()
 
     let thumb = null
     try {
@@ -255,19 +170,44 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       img.resize(300, Jimp.AUTO)
       thumb = await img.getBufferAsync(Jimp.MIME_JPEG)
     } catch (err) {
-      console.log("Error al procesar miniatura:", err)
+      console.log("⚠️ Error al procesar miniatura:", err)
     }
 
+    const Shadow_url = await (await fetch("https://files.catbox.moe/qm569c.jpg")).buffer()
+    const fkontak = {
+      key: {
+        fromMe: false,
+        participant: "0@s.whatsapp.net",
+        remoteJid: "status@broadcast"
+      },
+      message: {
+        productMessage: {
+          product: {
+            productImage: {
+              mimetype: "image/jpeg",
+              jpegThumbnail: Shadow_url
+            },
+            title: "💾 𝐃𝐄𝐒𝐂𝐀𝐑𝐆𝐀 𝐂𝐎𝐌𝐏𝐋𝐄𝐓𝐀 ⚡",
+            description: "",
+            currencyCode: "USD",
+            priceAmount1000: 100000,
+            retailerId: "descarga-premium"
+          },
+          businessOwnerJid: "51919199620@s.whatsapp.net"
+        }
+      }
+    }
+    
     await conn.sendMessage(m.chat, {
       document: { url: result.download },
-      mimetype: "video/mp4",
-      fileName: `${result.title}.mp4`,
+      mimetype: "audio/mpeg",
+      fileName: `${result.title}.mp3`,
       caption,
       ...(thumb ? { jpegThumbnail: thumb } : {}),
       contextInfo: {
         externalAdReply: {
           title: result.title,
-          body: "🚀 YouTube Video 💖",
+          body: "",
           mediaUrl: vid.url,
           sourceUrl: vid.url,
           thumbnailUrl: result.thumbnail,
@@ -275,16 +215,16 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
           renderLargerThumbnail: true
         }
       }
-    }, { quoted: m })
+    }, { quoted: fkontak })
 
   } catch (err) {
-    console.error("[Error en ytmp4doc:]", err)
-    conn.sendMessage(m.chat, { text: `💔 Error: ${err.message}` }, { quoted: m })
+    console.error("[Error en ytmp3doc]", err)
+    conn.sendMessage(m.chat, { text: `Error: ${err.message}` }, { quoted: m })
   }
 }
 
-handler.command = ['ytmp4doc', 'ytvdoc', 'ytdoc']
-handler.help = ['ytmp4doc']
+handler.command = ['ytmp3doc', 'ytadoc']
+handler.help = ['ytmp3doc <texto>']
 handler.tags = ['descargas']
 
 export default handler
