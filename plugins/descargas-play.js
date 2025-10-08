@@ -32,7 +32,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
     const thumb = (await conn.getFile(thumbnail))?.data;
 
-    await conn.reply(m.chat, infoMessage, m);
+    await conn.reply(m.chat, thumb, infoMessage, m);
 
     // Audio
     if (['playaudio'].includes(command)) {
