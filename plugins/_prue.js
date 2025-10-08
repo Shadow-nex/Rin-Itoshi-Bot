@@ -1,4 +1,4 @@
-import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys'
+/*import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys'
 import yts from 'yt-search'
 
 const handler = async (m, { conn }) => {
@@ -124,4 +124,4 @@ const handler = async (m, { conn }) => {
 
 handler.customPrefix = /https?:\/\/(?:www\.|youtu\.be\/|youtube\.com\/watch\?v=)[^\s]+/i
 handler.command = new RegExp
-export default handler
+export default handler*/
