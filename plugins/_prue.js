@@ -118,5 +118,5 @@ const handler = async (m, { conn }) => {
 }
 
 handler.customPrefix = /https?:\/\/(?:www\.|youtu\.be\/|youtube\.com\/watch\?v=)[^\s]+/i
-handler.command = []
+andler.command = new RegExp
 export default handler
