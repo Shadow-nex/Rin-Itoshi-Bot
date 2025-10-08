@@ -1,24 +1,35 @@
 import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys'
 import yts from 'yt-search'
+import fetch from 'node-fetch'
 
 const handler = async (m, { conn }) => {
   const youtubeRegex = /https?:\/\/(?:www\.|youtu\.be\/|youtube\.com\/watch\?v=)[^\s]+/i
   const match = m.text?.match(youtubeRegex)
   if (!match) return
   if (m.text.trim().startsWith('/')) return
+
   const url = match[0]
   await m.react('🕸️')
 
-  const result = await yts(url)
-  if (!result?.videos?.length) return conn.reply(m.chat, '⚠️ No se encontró el video.', m)
+  // Buscar información del video
+  let id = url.split('v=')[1] || url.split('/').pop()
+  if (id.includes('&')) id = id.split('&')[0]
 
-  const video = result.videos[0]
+  const result = await yts({ videoId: id })
+  const video = result?.video || result?.videos?.[0]
 
+  if (!video) {
+    await m.react('❌')
+    return conn.reply(m.chat, '⚠️ No se encontró el video en YouTube.', m)
+  }
+
+  // Preparar imagen
   const media = await prepareWAMessageMedia(
     { image: { url: video.thumbnail } },
     { upload: conn.waUploadToServer }
   )
 
+  // Crear mensaje interactivo
   const interactiveMessage = {
     body: {
       text: `===========================
@@ -32,7 +43,7 @@ const handler = async (m, { conn }) => {
     },
     footer: { text: '┊▬ ʀɪɴ ɪᴛᴏsʜɪ вσт | ву ѕнα∂σω 𝚇𝙳 ▬ ❜┊' },
     header: {
-      title: '乂 𝘠𝘖𝘜𝘛𝘜𝘉𝘌 - 𝘚𝘌𝘈𝘙𝘊𝘏 乂',
+      title: '乂 𝘠𝘖𝘜𝘛𝘜𝘉𝘌 - 𝘋𝘖𝘞𝘕𝘓𝘖𝘈𝘋 乂',
       hasMediaAttachment: true,
       imageMessage: media.imageMessage
     },
@@ -99,12 +110,12 @@ const handler = async (m, { conn }) => {
     }
   }
 
-  const userJid = conn?.user?.jid || m.key.participant || m.chat
   const msg = generateWAMessageFromContent(
     m.chat,
-    { interactiveMessage },
-    { userJid, quoted: fkontak }
+    { viewOnceMessage: { message: { interactiveMessage } } },
+    { quoted: m }
   )
+
   await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
   await m.react('✔️')
 }
