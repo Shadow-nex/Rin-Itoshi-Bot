@@ -5,12 +5,13 @@ const handler = async (m, { conn }) => {
   const youtubeRegex = /https?:\/\/(?:www\.|youtu\.be\/|youtube\.com\/watch\?v=)[^\s]+/i
   const match = m.text?.match(youtubeRegex)
   if (!match) return
-  if (m.text.trim().startsWith('/')) return
 
-  const url = match[0]
+  // 🛡️ Evita activarse si el mensaje tiene más texto además del link
+  if (m.text.trim() !== match[0]) return
+
   await m.react('🕸️')
 
-  // Buscar video usando yt-search
+  const url = match[0]
   const search = await yts(url)
   const video = search.videos[0]
 
@@ -46,7 +47,7 @@ const handler = async (m, { conn }) => {
         {
           name: 'single_select',
           buttonParamsJson: JSON.stringify({
-            title: '      ᴏᴘᴄɪᴏɴᴇs ᴅᴇ ᴅᴇsᴄᴀʀɢᴀ 🎋',
+            title: '    🌷  ᴏᴘᴄɪᴏɴᴇs ᴅᴇ ᴅᴇsᴄᴀʀɢᴀ 🎋',
             sections: [
               {
                 title: video.title,

@@ -1,21 +1,19 @@
 import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys'
 import yts from 'yt-search'
-import fetch from 'node-fetch'
 
 const handler = async (m, { conn }) => {
   const youtubeRegex = /https?:\/\/(?:www\.|youtu\.be\/|youtube\.com\/watch\?v=)[^\s]+/i
   const match = m.text?.match(youtubeRegex)
   if (!match) return
-  if (m.text.trim().startsWith('/')) return
 
-  const url = match[0]
+  // 🛡️ Evita activarse si el mensaje tiene más texto además del link
+  if (m.text.trim() !== match[0]) return
+
   await m.react('🕸️')
 
-  let id = url.split('v=')[1] || url.split('/').pop()
-  if (id.includes('&')) id = id.split('&')[0]
-
-  const result = await yts({ videoId: id })
-  const video = result?.video || result?.videos?.[0]
+  const url = match[0]
+  const search = await yts(url)
+  const video = search.videos[0]
 
   if (!video) {
     await m.react('❌')
@@ -109,7 +107,14 @@ const handler = async (m, { conn }) => {
 
   const msg = generateWAMessageFromContent(
     m.chat,
-    { viewOnceMessage: { message: { interactiveMessage } } },
+    {
+      viewOnceMessage: {
+        message: {
+          messageContextInfo: { deviceListMetadata: {}, deviceListMetadataVersion: 2 },
+          interactiveMessage
+        }
+      }
+    },
     { quoted: m }
   )
 
@@ -118,5 +123,5 @@ const handler = async (m, { conn }) => {
 }
 
 handler.customPrefix = /https?:\/\/(?:www\.|youtu\.be\/|youtube\.com\/watch\?v=)[^\s]+/i
-andler.command = new RegExp
+handler.command = new RegExp
 export default handler
