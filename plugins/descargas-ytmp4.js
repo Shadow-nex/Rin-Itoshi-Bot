@@ -1,4 +1,4 @@
-import axios from "axios"
+/*import axios from "axios"
 import fetch from "node-fetch"
 import { sizeFormatter } from "human-readable"
 
@@ -110,5 +110,45 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.help = ["ytmp4 <url>", "setcalidad <valor>"]
 handler.tags = ["descargas"]
 handler.command = ["ytmp4", "setcalidad", "setquality"]
+
+export default handler*/
+
+import fetch from "node-fetch"
+
+let handler = async (m, { conn, text }) => {
+  if (!text) return m.reply("*🌿 Ingresa un enlace de YouTube.*")
+
+  try {
+    m.react("⏳")
+    let api = `https://api.stellarwa.xyz/dow/ytmp4?url=${encodeURIComponent(text)}&apikey=Diamond`
+    let res = await fetch(api)
+    let json = await res.json()
+
+    if (!json.status || !json.data?.dl) {
+      return m.reply("❌ No se pudo obtener el video. Verifica el enlace o intenta más tarde.")
+    }
+
+    let { title, author, dl } = json.data
+
+    let caption = `> 🌿 *Título:* ${title}`
+
+    await conn.sendMessage(m.chat, {
+      video: { url: dl },
+      caption,
+      mimetype: "video/mp4",
+      fileName: `${title}.mp4`
+    }, { quoted: m })
+
+    m.react("✅")
+
+  } catch (e) {
+    console.error(e)
+    m.reply("⚠️ Error al procesar la descarga. Intenta nuevamente más tarde.")
+  }
+}
+
+handler.help = ["ytmp4"]
+handler.tags = ["downloader"]
+handler.command = ["ytmp4"]
 
 export default handler
