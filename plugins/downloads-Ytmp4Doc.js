@@ -159,11 +159,16 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let { result } = info
 
     let caption = `
-= 💎 *${result.title}*
-= 🌱 𝐃𝐮𝐫𝐚𝐜𝐢𝐨𝐧: ${vid.duration}
-= ☘️ 𝐂𝐚𝐧𝐚𝐥: ${vid.author?.name || "Desconocido"}
-= 💥 𝐂𝐚𝐥𝐢𝐝𝐚𝐝: ${result.quality}p
-= 🍧 𝐋𝐢𝐧𝐤: ${vid.url}
+           *⏜⏜੭୧ֹ⏜⏜*
+  *( \`☄︎ 𝙔𝙊𝙐𝙏𝙐𝘽𝙀 𝙈𝙋𝟰 𝘿𝙊𝘾 ☄\` *)*
+          *⏝⏝୨୧⏝⏝*
+> ┌──
+> │ ° 📌 *Titulo:* ${result.title}
+> │ °  ⏱️ *Duracion:* ${vid.duration}
+> │ °  👽 *Canal:* ${vid.author?.name || "Desconocido"}
+> │ °  🍧 *Calidad:* ${result.quality}P
+> │ °  🏔️ *Link:* ${vid.url}
+> └──
 
 > яιи ιтσαнι вσт | 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 𝚂𝙷𝙰𝙳𝙾𝚆-𝚇𝚈𝚉`.trim()
 
