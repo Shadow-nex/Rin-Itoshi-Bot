@@ -1,5 +1,6 @@
 import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys'
 import yts from 'yt-search'
+import fetch from 'node-fetch'
 
 const handler = async (m, { conn }) => {
   const youtubeRegex = /https?:\/\/(?:www\.|youtu\.be\/|youtube\.com\/watch\?v=)[^\s]+/i
@@ -10,9 +11,11 @@ const handler = async (m, { conn }) => {
   const url = match[0]
   await m.react('🕸️')
 
-  // Buscar video usando yt-search
-  const search = await yts(url)
-  const video = search.videos[0]
+  let id = url.split('v=')[1] || url.split('/').pop()
+  if (id.includes('&')) id = id.split('&')[0]
+
+  const result = await yts({ videoId: id })
+  const video = result?.video || result?.videos?.[0]
 
   if (!video) {
     await m.react('❌')
@@ -106,14 +109,7 @@ const handler = async (m, { conn }) => {
 
   const msg = generateWAMessageFromContent(
     m.chat,
-    {
-      viewOnceMessage: {
-        message: {
-          messageContextInfo: { deviceListMetadata: {}, deviceListMetadataVersion: 2 },
-          interactiveMessage
-        }
-      }
-    },
+    { viewOnceMessage: { message: { interactiveMessage } } },
     { quoted: m }
   )
 
@@ -122,5 +118,5 @@ const handler = async (m, { conn }) => {
 }
 
 handler.customPrefix = /https?:\/\/(?:www\.|youtu\.be\/|youtube\.com\/watch\?v=)[^\s]+/i
-handler.command = new RegExp
+andler.command = new RegExp
 export default handler
