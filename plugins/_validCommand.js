@@ -39,24 +39,34 @@ export async function before(m, { conn }) {
     let user = global.db.data.users[m.sender];
 
     if (chat?.isBanned) {
-      const avisoDesactivado = `     🔒 𝐁𝐎𝐓 𝐃𝐄𝐒𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎
-🚫 *${bot}* 𝑒𝑠𝑡𝑎 *desactivado* 𝑒𝑛 𝑒𝑠𝑡𝑒 𝑔𝑟𝑢𝑝𝑜.
-🎮 𝑆𝑖𝑛 𝑒𝑙 𝑠𝑖𝑠𝑡𝑒𝑚𝑎 𝑎𝑐𝑡𝑖𝑣𝑜, 𝑛𝑜 𝑝𝑢𝑒𝑑𝑒𝑠 𝑢𝑠𝑎𝑟 𝑐𝑜𝑚𝑎𝑛𝑑𝑜𝑠.
-🧃 𝐒𝐨𝐥𝐨 𝐮𝐧 *administrador* 𝐩𝐮𝐞𝐝𝐞 𝐯𝐨𝐥𝐯𝐞𝐫 𝐚 𝐚𝐜𝐭𝐢𝐯𝐚𝐫𝐥𝐨.
-✅ 𝐔𝐬𝐚: *${usedPrefix}bot on*`;
+      const avisoDesactivado = `╭─⭑༺ 🔒 𝐁𝐎𝐓 𝐃𝐄𝐒𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎 ༻⭑─╮
+│ ✖️  *${bot}* está en *modo inactivo*.  
+│ 💬  Los comandos están *bloqueados*.  
+│ 👑  Solo un *administrador* puede  
+│      volver a *activarlo*.  
+│  
+│ 💠  Actívalo con: *${usedPrefix}bot on*  
+╰───────────────────────⬯`;
 
       await conn.sendMessage(m.chat, {
         text: avisoDesactivado,
         mentions: [m.sender],
         contextInfo: {
+          isForwarded: true,
+          forwardedNewsletterMessageInfo: {
+             newsletterJid: channelRD.id,
+             serverMessageId: '',
+             newsletterName: channelRD.name
+          },
           externalAdReply: {
             title: '◌*̥₊ 𝗥𝗶𝗻 𝗜𝘁𝗼𝘀𝗵𝗶 𝗕𝗼𝘁 𝗠𝗗 ◌🍧༉',
             body: '',
-            thumbnailUrl: 'https://files.catbox.moe/mez710.jpg',
+            thumbnailUrl: 'https://files.catbox.moe/6fj9u7.jpg',
             sourceUrl: '',
             mediaType: 1,
             renderLargerThumbnail: true
           }
+          mentionedJid: null
         }
       }, { quoted: fkontak });
       return;
