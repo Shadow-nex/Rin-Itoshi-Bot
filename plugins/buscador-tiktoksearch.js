@@ -1,7 +1,6 @@
 import axios from "axios"
 import fs from "fs"
 import path from "path"
-import { fileURLToPath } from "url"
 import { tmpdir } from "os"
 
 const {
@@ -19,17 +18,16 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       rcanal
     )
 
-  // 📦 Función para crear videoMessage correctamente
+  // 📦 Crear mensaje de video usando Buffer (NO ruta local)
   async function createVideoMessage(url) {
     try {
       const response = await axios.get(url, { responseType: "arraybuffer" })
-      const tempPath = path.join(tmpdir(), `tiktok_${Date.now()}.mp4`)
-      fs.writeFileSync(tempPath, Buffer.from(response.data))
+      const buffer = Buffer.from(response.data)
+
       const { videoMessage } = await generateWAMessageContent(
-        { video: { url: tempPath } },
+        { video: buffer },
         { upload: conn.waUploadToServer }
       )
-      fs.unlinkSync(tempPath)
       return videoMessage
     } catch (err) {
       console.error("Error creando videoMessage:", err)
@@ -37,7 +35,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
   }
 
-  // 🔁 Mezcla los resultados
+  // 🔁 Mezclar resultados aleatoriamente
   function shuffleArray(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
