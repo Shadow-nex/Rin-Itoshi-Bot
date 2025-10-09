@@ -128,7 +128,8 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   let q = args.join(" ").trim()
   if (!q) {
     return conn.sendMessage(m.chat, {
-      text: `*🧪 Ingresa el nombre del video a descargar.*`
+      text: `*🧪 Ingresa el nombre del video a descargar.*`,
+      ...rcanal
     }, { quoted: m })
   }
 
