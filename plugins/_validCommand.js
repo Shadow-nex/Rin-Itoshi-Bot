@@ -6,7 +6,7 @@ export async function before(m, { conn }) {
   const usedPrefix = global.prefix.exec(m.text)[0];
   const command = m.text.slice(usedPrefix.length).trim().split(' ')[0].toLowerCase();
   
-  const thumbRes = await fetch("https://files.catbox.moe/jkw74m.jpg");
+  const thumbRes = await fetch("https://files.catbox.moe/xydiwe.jpg");
   const thumbBuffer = await thumbRes.buffer();
   const fkontak = {
         key: {
@@ -17,7 +17,7 @@ export async function before(m, { conn }) {
         },
         message: {
             locationMessage: {
-                name: ` ⟢❏☆ 𝐂𝐎𝐌𝐀𝐍𝐃𝐎 𝐃𝐄𝐒𝐂𝐎𝐍𝐎𝐂𝐈𝐃𝐎 ☆❐𑁭𑁘`,
+                name: `❏ 𝐂𝐎𝐌𝐀𝐍𝐃𝐎 𝐃𝐄𝐒𝐂𝐎𝐍𝐎𝐂𝐈𝐃𝐎 ❐`,
                 jpegThumbnail: thumbBuffer
             }
         },
@@ -39,22 +39,21 @@ export async function before(m, { conn }) {
     let user = global.db.data.users[m.sender];
 
     if (chat?.isBanned) {
-      const avisoDesactivado = `╭─⭑❨ 🔒 𝐁𝐎𝐓 𝐃𝐄𝐒𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎 ❩⭑─╮
-│ 🚫 *${bot}* 𝑒𝑠𝑡𝑎 *desactivado* 𝑒𝑛 𝑒𝑠𝑡𝑒 𝑔𝑟𝑢𝑝𝑜.
-│ 🎮 𝑆𝑖𝑛 𝑒𝑙 𝑠𝑖𝑠𝑡𝑒𝑚𝑎 𝑎𝑐𝑡𝑖𝑣𝑜, 𝑛𝑜 𝑝𝑢𝑒𝑑𝑒𝑠 𝑢𝑠𝑎𝑟 𝑐𝑜𝑚𝑎𝑛𝑑𝑜𝑠.
-│ 🧃 𝐒𝐨𝐥𝐨 𝐮𝐧 *administrador* 𝐩𝐮𝐞𝐝𝐞 𝐯𝐨𝐥𝐯𝐞𝐫 𝐚 𝐚𝐜𝐭𝐢𝐯𝐚𝐫𝐥𝐨.
-│ ✅ 𝐔𝐬𝐚: *${usedPrefix}bot on*
-╰────────────────────────╯`;
+      const avisoDesactivado = `     🔒 𝐁𝐎𝐓 𝐃𝐄𝐒𝐀𝐂𝐓𝐈𝐕𝐀𝐃𝐎
+🚫 *${bot}* 𝑒𝑠𝑡𝑎 *desactivado* 𝑒𝑛 𝑒𝑠𝑡𝑒 𝑔𝑟𝑢𝑝𝑜.
+🎮 𝑆𝑖𝑛 𝑒𝑙 𝑠𝑖𝑠𝑡𝑒𝑚𝑎 𝑎𝑐𝑡𝑖𝑣𝑜, 𝑛𝑜 𝑝𝑢𝑒𝑑𝑒𝑠 𝑢𝑠𝑎𝑟 𝑐𝑜𝑚𝑎𝑛𝑑𝑜𝑠.
+🧃 𝐒𝐨𝐥𝐨 𝐮𝐧 *administrador* 𝐩𝐮𝐞𝐝𝐞 𝐯𝐨𝐥𝐯𝐞𝐫 𝐚 𝐚𝐜𝐭𝐢𝐯𝐚𝐫𝐥𝐨.
+✅ 𝐔𝐬𝐚: *${usedPrefix}bot on*`;
 
       await conn.sendMessage(m.chat, {
         text: avisoDesactivado,
         mentions: [m.sender],
         contextInfo: {
           externalAdReply: {
-            title: '🌱 Dv.Shadow 🇦🇱',
-            body: '💎◌*̥₊ ʀɪɴ ɪᴛᴏsʜɪ ᴀɪ ◌❐⚽༉',
+            title: '◌*̥₊ 𝗥𝗶𝗻 𝗜𝘁𝗼𝘀𝗵𝗶 𝗕𝗼𝘁 𝗠𝗗 ◌🍧༉',
+            body: '',
             thumbnailUrl: 'https://files.catbox.moe/mez710.jpg',
-            sourceUrl: 'https://github.com/Yuji-XDev',
+            sourceUrl: '',
             mediaType: 1,
             renderLargerThumbnail: true
           }
@@ -70,9 +69,7 @@ export async function before(m, { conn }) {
 
   //await m.react('💔');
   const mensajesNoEncontrado = [
-    `𓆩̟֟፝݊͜𝐂𝐎𝐌𝐀𝐍𝐃𝐎 𝐈𝐍𝐄𝐗𝐈𝐒𝐓𝐄𝐍𝐓𝐄̟֟፝݊͜𓆪.  🥧
- 
-> ⌗ El comando *"${command}"* no se reconoce.
+    `> ⌗ El comando *"${command}"* no se reconoce.
 > ⌗ Menú disponible: *${usedPrefix}menu*`,
 
     `✧ *"${command}"* no forma parte del sistema.
@@ -92,20 +89,44 @@ export async function before(m, { conn }) {
   ];
 
   const texto = mensajesNoEncontrado[Math.floor(Math.random() * mensajesNoEncontrado.length)];
-  const thumb = 'https://files.catbox.moe/9mwuqe.jpg';
+  const thumb = 'https://files.catbox.moe/6fj9u7.jpg';
 
+  const rcanal = {
+    contextInfo: {
+      isForwarded: true,
+      forwardedNewsletterMessageInfo: {
+        newsletterJid: channelRD.id,
+        serverMessageId: '',
+        newsletterName: channelRD.name
+      },
+      externalAdReply: {
+        title: botname,
+        body: dev,
+        mediaUrl: null,
+        description: null,
+        previewType: 'PHOTO',
+        thumbnail: await (await fetch(icono)).buffer(),
+        sourceUrl: redes,
+        mediaType: 1,
+        renderLargerThumbnail: false
+      },
+      mentionedJid: null
+    }
+  }
+  
   await conn.sendMessage(m.chat, {
     text: texto,
     mentions: [m.sender],
     contextInfo: {
       externalAdReply: {
-        title: packname,
-        body: club,
+        title: ' 🎃 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 𝘽𝙤𝙩 𝙐𝙡𝙩𝙧𝙖 🍧',
+        body: '',
         thumbnailUrl: thumb,
-        sourceUrl: 'https://instagram.com',
+        sourceUrl: '',
         mediaType: 1,
         renderLargerThumbnail: true
-      }
+      },
+      ...rcanal.contextInfo
     }
   }, { quoted: fkontak });
 }
