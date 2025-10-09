@@ -152,7 +152,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         externalAdReply: {
           title: '🎬 𝗬𝗢𝗨𝗧𝗨𝗕𝗘 - 𝗠𝗣𝟯 ° 𝗗𝗢𝗖 ⚙️',
           body: '',
-          thumbnailUrl: 'https://i.pinimg.com/originals/87/ad/73/87ad73e9f7ed89dcf4fc502f84c4e75c.png',
+          thumbnailUrl: await (await fetch('https://files.catbox.moe/j7bg0i.jpg')).buffer(),
           sourceUrl: '',
           mediaType: 1,
           renderLargerThumbnail: true
