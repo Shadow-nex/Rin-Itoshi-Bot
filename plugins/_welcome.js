@@ -36,7 +36,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
     const background = 'https://files.catbox.moe/b9p86d.jpg'
     const guildIcon = 'https://github.com/Yuji-XDev.png'
 
-    const url = `https://api-nv.eliasaryt.pro/api/generate/welcome-image?username=${encodeURIComponent(username)}&guildName=${encodeURIComponent(guildName)}&memberCount=${memberCount}&avatar=${encodeURIComponent(avatar)}&background=${encodeURIComponent(background)}&guildIcon=${encodeURIComponent(guildIcon)}&key=hYSK8YrJpKRc9jSE&type=${tipo}`
+    const url = `https://goo.su/Vtek/api/generate/welcome-image?username=${encodeURIComponent(username)}&guildName=${encodeURIComponent(guildName)}&memberCount=${memberCount}&avatar=${encodeURIComponent(avatar)}&background=${encodeURIComponent(background)}&guildIcon=${encodeURIComponent(guildIcon)}&key=hYSK8YrJpKRc9jSE&type=${tipo}`
 
     try {
       const res = await fetch(url)
