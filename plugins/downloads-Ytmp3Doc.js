@@ -132,14 +132,20 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     }, { quoted: m })
   }
 
-  await conn.sendMessage(m.chat, {
+/*  await conn.sendMessage(m.chat, {
     text: `૮₍｡˃ ᵕ ˂ ｡₎ა 🎶 *¡𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰𝙽𝙳𝙾 𝚃𝚄 𝙰𝚄𝙳𝙸𝙾!*
 
 > ✅ єѕρєяє υи мσмєитσ, єѕтσ ρυє∂є тαя∂αя ∂єρє∂ιєи∂σ ∂єℓ ρєѕσ ∂єℓ αυ∂ισ χ∂
 
 ˚₊· ͟͟͞͞➳❥ 📊 Progresito:  
 [▓▓▓▓▓░░░░░] 50%`
-  }, { quoted: fkontak })
+  }, { quoted: fkontak })*/
+  await conn.sendMessage(m.chat, { text: `૮₍｡˃ ᵕ ˂ ｡₎ა 🎶 *¡𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰𝙽𝙳𝙾 𝚃𝚄 𝙰𝚄𝙳𝙸𝙾!*
+
+> ✅ єѕρєяє υи мσмєитσ, єѕтσ ρυє∂є тαя∂αя ∂єρє∂ιєи∂σ ∂єℓ ρєѕσ ∂єℓ αυ∂ισ χ∂
+
+˚₊· ͟͟͞͞➳❥ 📊 Progresito:  
+[▓▓▓▓▓░░░░░] 50%`, mentions: [m.sender], contextInfo: { externalAdReply: { title: ' 𝗬 𝗢 𝗨 𝗧 𝗨 𝗕 𝗘 - 𝗠 𝗣 𝟯 ° 𝗗 𝗢 𝗖', body: '', thumbnailUrl: 'https://i.pinimg.com/originals/87/ad/73/87ad73e9f7ed89dcf4fc502f84c4e75c.png', sourceUrl: '', mediaType: 1 } } }, { quoted: fkontak })
 
   try {
     // 🔍 Buscar en YT
