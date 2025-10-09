@@ -129,7 +129,7 @@ const rcanal = {
       mediaUrl: null,
       description: null,
       previewType: "PHOTO",
-      thumbnail: await (await fetch(icono)).buffer(),
+      thumbnail: logo,
       sourceUrl: redes,
       mediaType: 1,
       renderLargerThumbnail: false
