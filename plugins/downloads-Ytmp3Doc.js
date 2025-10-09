@@ -141,20 +141,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 ˚₊· ͟͟͞͞➳❥ 📊 Progresito:  
 [▓▓▓▓▓░░░░░] 50%`
   }, { quoted: fkontak })
-  await conn.sendMessage(m.chat, {
-      text: ``,
-      mentions: [m.sender],
-      contextInfo: {
-        externalAdReply: {
-          title: '🎬 𝗬𝗢𝗨𝗧𝗨𝗕𝗘 - 𝗠𝗣𝟯 ° 𝗗𝗢𝗖 ⚙️',
-          body: '',
-          thumbnailUrl: await (await fetch('https://files.catbox.moe/j7bg0i.jpg')).buffer(),
-          sourceUrl: '',
-          mediaType: 1,
-          renderLargerThumbnail: true
-        }
-      }
-    }, { quoted: fkontak })*/
+*/
   await conn.sendMessage(m.chat, {
     text:  `૮₍｡˃ ᵕ ˂ ｡₎ა 🎶 *¡𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰𝙽𝙳𝙾 𝚃𝚄 𝙰𝚄𝙳𝙸𝙾!*
 
@@ -212,7 +199,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 > │ °  🏔️ *Link:* ${vid.url}
 > └──
 
-> яιи ιтσαнι вσт | 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 𝚂𝙷𝙰𝙳𝙾𝚆-𝚇𝚈𝚉`.trim()
+> ☁️ яιи ιтσαнι вσт | 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 𝚂𝙷𝙰𝙳𝙾𝚆-𝚇𝚈𝚉`.trim()
 
     let thumb = null
     try {
