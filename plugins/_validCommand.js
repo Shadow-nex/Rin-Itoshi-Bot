@@ -17,7 +17,7 @@ export async function before(m, { conn }) {
         },
         message: {
             locationMessage: {
-                name: `❏ 𝐂𝐎𝐌𝐀𝐍𝐃𝐎 𝐃𝐄𝐒𝐂𝐎𝐍𝐎𝐂𝐈𝐃𝐎 ❐`,
+                name: `*̥₊🍄 𝐑𝐢𝐧 𝐈𝐭𝐨𝐬𝐡𝐢 𝐔𝐥𝐭𝐫𝐚 | © 𝘣𝘺 𝘚𝘩𝘢𝘥𝘰𝘸--𝘯𝘦𝘹 ◌🚨`,
                 jpegThumbnail: thumbBuffer
             }
         },
