@@ -114,29 +114,6 @@ handler.register = true
 
 export default handler
 
-
-const rcanal = {
-  contextInfo: {
-    isForwarded: true,
-    forwardedNewsletterMessageInfo: {
-      newsletterJid: '120363401008003732@newsletter',
-      serverMessageId: '',
-      newsletterName: '囹🎋𑜞 ᪲•˙ꨂ ֢✧: яιи ιтσѕнι ¢нαииєℓ σffι¢ιαℓ ੈ♡‧₊˚'
-    },
-    externalAdReply: {
-      title: "𐔌 . ⋮ 𝗕 𝗨 𝗦 𝗖 𝗔 𝗡 𝗗 𝗢 .ᐟ ֹ ₊ ꒱",
-      body: textbot,
-      mediaUrl: null,
-      description: null,
-      previewType: "PHOTO",
-      thumbnail: logo,
-      sourceUrl: redes,
-      mediaType: 1,
-      renderLargerThumbnail: false
-    },
-    mentionedJid: null
-  }
-}
 /*
 import axios from 'axios';
 import baileys from '@whiskeysockets/baileys';
