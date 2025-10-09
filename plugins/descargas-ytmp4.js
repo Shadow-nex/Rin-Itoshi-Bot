@@ -89,15 +89,15 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
       const info = `🎶 *ＹＯＵＴＵＢＥ • ＭＰ4*  🕸️
 ────────────────────
-°𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. 𝐓𝐢𝐭𝐮𝐥𝐨: *${meta.title}*
-°𓃉𐇽ܳ𓏸🌿ᮬᩬִּ〫᪲۟. 𝐃𝐮𝐫𝐚𝐜𝐢𝐨𝐧: *${meta.duration?.timestamp || meta.timestamp}*
-°𓃉𐇽ܳ𓏸🍏ᮬᩬִּ〫᪲۟. 𝐂𝐚𝐧𝐚𝐥: *${meta.author?.name || "-"}*
-°𓃉𐇽ܳ𓏸🍄ᮬᩬִּ〫᪲۟. 𝐕𝐢𝐬𝐭𝐚𝐬: *${meta.views?.toLocaleString() || "-"}*
-°𓃉𐇽ܳ𓏸⚽ᮬᩬִּ〫᪲۟. 𝐓𝐚𝐦𝐚𝐧̃𝐨: *${fileSize}*
-°𓃉𐇽ܳ𓏸☁️ᮬᩬִּ〫᪲۟. 𝐂𝐚𝐥𝐢𝐝𝐚𝐝: *${dl.quality}*
-°𓃉𐇽ܳ𓏸🌷ᮬᩬִּ〫᪲۟. 𝐏𝐮𝐛𝐥𝐢𝐜𝐚𝐝𝐨: *${meta.ago}*
-°𓃉𐇽ܳ𓏸🕸️ᮬᩬִּ〫᪲۟. 𝐋𝐢𝐧𝐤: *${meta.url}*
-°𓃉𐇽ܳ𓏸⚙️ᮬᩬִּ〫᪲۟. 𝐒𝐞𝐫𝐯𝐢𝐝𝐨𝐫: *${apiUsada}*
+🎋ᮬᩬִּ〫᪲۟. 𝐓𝐢𝐭𝐮𝐥𝐨: ${meta.title}
+🌿ᮬᩬִּ〫᪲۟. 𝐃𝐮𝐫𝐚𝐜𝐢𝐨𝐧: ${meta.duration?.timestamp || meta.timestamp}
+🍏ᮬᩬִּ〫᪲۟. 𝐂𝐚𝐧𝐚𝐥: ${meta.author?.name || "-"}
+🍄ᮬᩬִּ〫᪲۟. 𝐕𝐢𝐬𝐭𝐚𝐬: ${meta.views?.toLocaleString() || "-"}
+⚽ᮬᩬִּ〫᪲۟. 𝐓𝐚𝐦𝐚𝐧̃𝐨: ${fileSize}
+☁️ᮬᩬִּ〫᪲۟. 𝐂𝐚𝐥𝐢𝐝𝐚𝐝: ${dl.quality}
+🌷ᮬᩬִּ〫᪲۟. 𝐏𝐮𝐛𝐥𝐢𝐜𝐚𝐝𝐨: ${meta.ago}
+🕸️ᮬᩬִּ〫᪲۟. 𝐋𝐢𝐧𝐤: ${meta.url}
+⚙️ᮬᩬִּ〫᪲۟. 𝐒𝐞𝐫𝐯𝐢𝐝𝐨𝐫: ${apiUsada}
 ────────────────────
 > /setquality`
 
@@ -131,7 +131,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             document: { url: dl.url },
             mimetype: "video/mp4",
             fileName: dl.filename,
-            caption: `> *${meta.title}*\n> Tamaño: ${fileSize}\n> Calidad: ${dl.quality}\n> Servidor: ${apiUsada}\n> Enviado como documento (más de 100 MB).`,
+            caption: `> *${meta.title}*\n> *📌 Tamaño:* ${fileSize}\n> *🍉 Calidad: ${dl.quality}\n> *♻️ Servidor:* ${apiUsada}\n> 🚨  Enviado como documento (más de 100 MB).`,
           },
           { quoted: m }
         )
