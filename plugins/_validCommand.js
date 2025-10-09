@@ -91,7 +91,10 @@ export async function before(m, { conn }) {
   const texto = mensajesNoEncontrado[Math.floor(Math.random() * mensajesNoEncontrado.length)];
   const thumb = 'https://files.catbox.moe/6fj9u7.jpg';
 
-  const rcanal = {
+  
+  await conn.sendMessage(m.chat, {
+    text: texto,
+    mentions: [m.sender],
     contextInfo: {
       isForwarded: true,
       forwardedNewsletterMessageInfo: {
@@ -100,25 +103,6 @@ export async function before(m, { conn }) {
         newsletterName: channelRD.name
       },
       externalAdReply: {
-        title: botname,
-        body: dev,
-        mediaUrl: null,
-        description: null,
-        previewType: 'PHOTO',
-        thumbnail: await (await fetch(icono)).buffer(),
-        sourceUrl: redes,
-        mediaType: 1,
-        renderLargerThumbnail: false
-      },
-      mentionedJid: null
-    }
-  }
-  
-  await conn.sendMessage(m.chat, {
-    text: texto,
-    mentions: [m.sender],
-    contextInfo: {
-      externalAdReply: {
         title: ' 🎃 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 𝘽𝙤𝙩 𝙐𝙡𝙩𝙧𝙖 🍧',
         body: '',
         thumbnailUrl: thumb,
@@ -126,7 +110,7 @@ export async function before(m, { conn }) {
         mediaType: 1,
         renderLargerThumbnail: true
       },
-      ...rcanal.contextInfo
+     mentionedJid: null
     }
   }, { quoted: fkontak });
 }
