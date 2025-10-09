@@ -49,27 +49,27 @@ export async function before(m, { conn }) {
 ╰───────────────────────⬯`;
 
       await conn.sendMessage(m.chat, {
-        text: avisoDesactivado,
-        mentions: [m.sender],
-        contextInfo: {
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-             newsletterJid: channelRD.id,
-             serverMessageId: '',
-             newsletterName: channelRD.name
-          },
-          externalAdReply: {
-            title: '◌*̥₊ 𝗥𝗶𝗻 𝗜𝘁𝗼𝘀𝗵𝗶 𝗕𝗼𝘁 𝗠𝗗 ◌🍧༉',
-            body: '',
-            thumbnailUrl: 'https://files.catbox.moe/6fj9u7.jpg',
-            sourceUrl: '',
-            mediaType: 1,
-            renderLargerThumbnail: true
-          }
-          mentionedJid: null
-        }
-      }, { quoted: fkontak });
-      return;
+      text: avisoDesactivado,
+      mentions: [m.sender],
+      contextInfo: {
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: channelRD.id,
+          serverMessageId: '',
+          newsletterName: channelRD.name
+        },
+        externalAdReply: {
+          title: '◌*̥₊ 𝗥𝗶𝗻 𝗜𝘁𝗼𝘀𝗵𝗶 𝗕𝗼𝘁 𝗠𝗗 ◌🍧༉',
+          body: '',
+          thumbnailUrl: 'https://files.catbox.moe/6fj9u7.jpg',
+          sourceUrl: '',
+          mediaType: 1,
+          renderLargerThumbnail: true
+        },
+        mentionedJid: null
+      }
+    }, { quoted: fkontak });
+    return;
     }
 
     if (!user.commands) user.commands = 0;
