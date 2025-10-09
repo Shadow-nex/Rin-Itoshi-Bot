@@ -140,14 +140,9 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
 ˚₊· ͟͟͞͞➳❥ 📊 Progresito:  
 [▓▓▓▓▓░░░░░] 50%`
-  }, { quoted: fkontak })*/
+  }, { quoted: fkontak })
   await conn.sendMessage(m.chat, {
-      text: `૮₍｡˃ ᵕ ˂ ｡₎ა 🎶 *¡𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰𝙽𝙳𝙾 𝚃𝚄 𝙰𝚄𝙳𝙸𝙾!*
-
-> ✅ єѕρєяє υи мσмєитσ, єѕтσ ρυє∂є тαя∂αя ∂єρє∂ιєи∂σ ∂єℓ ρєѕσ ∂єℓ αυ∂ισ χ∂
-
-˚₊· ͟͟͞͞➳❥ 📊 Progresito:  
-[▓▓▓▓▓░░░░░] 50%`,
+      text: ``,
       mentions: [m.sender],
       contextInfo: {
         externalAdReply: {
@@ -159,7 +154,33 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
           renderLargerThumbnail: true
         }
       }
-    }, { quoted: fkontak })
+    }, { quoted: fkontak })*/
+  await conn.sendMessage(m.chat, {
+    text:  `૮₍｡˃ ᵕ ˂ ｡₎ა 🎶 *¡𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰𝙽𝙳𝙾 𝚃𝚄 𝙰𝚄𝙳𝙸𝙾!*
+
+> ⭐ єѕρєяє υи мσмєитσ, єѕтσ ρυє∂є тαя∂αя ∂єρє∂ιєи∂σ ∂єℓ ρєѕσ ∂єℓ αυ∂ισ χ∂
+
+˚₊· ͟͟͞͞➳❥ 📊 Progresito:  
+[▓▓▓▓▓░░░░░] 50%` ,
+    mentions: [m.sender],
+    contextInfo: {
+      isForwarded: true,
+      forwardedNewsletterMessageInfo: {
+        newsletterJid: channelRD.id,
+        serverMessageId: '',
+        newsletterName: channelRD.name
+      },
+      externalAdReply: {
+        title: '🎬 𝗬𝗢𝗨𝗧𝗨𝗕𝗘 - 𝗠𝗣𝟯 ° 𝗗𝗢𝗖 ⚙️',
+        body: '',
+        thumbnailUrl: 'https://files.catbox.moe/j7bg0i.jpg',
+        sourceUrl: '',
+        mediaType: 1,
+        renderLargerThumbnail: true
+      },
+     mentionedJid: null
+    }
+  }, { quoted: m })
 
   try {
     // 🔍 Buscar en YT
