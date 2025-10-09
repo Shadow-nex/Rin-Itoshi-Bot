@@ -1,4 +1,9 @@
 import axios from "axios"
+import fs from "fs"
+import path from "path"
+import { fileURLToPath } from "url"
+import { tmpdir } from "os"
+
 const {
   proto,
   generateWAMessageFromContent,
@@ -14,16 +19,25 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       rcanal
     )
 
-  // Función para crear video en mensaje
+  // 📦 Función para crear videoMessage correctamente
   async function createVideoMessage(url) {
-    const { videoMessage } = await generateWAMessageContent(
-      { video: { url } },
-      { upload: conn.waUploadToServer }
-    )
-    return videoMessage
+    try {
+      const response = await axios.get(url, { responseType: "arraybuffer" })
+      const tempPath = path.join(tmpdir(), `tiktok_${Date.now()}.mp4`)
+      fs.writeFileSync(tempPath, Buffer.from(response.data))
+      const { videoMessage } = await generateWAMessageContent(
+        { video: { url: tempPath } },
+        { upload: conn.waUploadToServer }
+      )
+      fs.unlinkSync(tempPath)
+      return videoMessage
+    } catch (err) {
+      console.error("Error creando videoMessage:", err)
+      return null
+    }
   }
 
-  // Función para mezclar resultados
+  // 🔁 Mezcla los resultados
   function shuffleArray(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
@@ -39,7 +53,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
           title: "✿ 𝙱𝚄𝚂𝙲𝙰𝙽𝙳𝙾 𝙴𝙽 𝚃𝙸𝙺𝚃𝙾𝙺 ✿",
           body: "Por favor espera un momento...",
           mediaType: 1,
-          thumbnail: avatar,
+          thumbnail: logo,
           sourceUrl: redes
         }
       }
@@ -54,15 +68,15 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     let results = data.result.data
     shuffleArray(results)
-    let topResults = results.slice(0, 10)
+    let topResults = results.slice(0, 8)
 
     let cards = []
     for (let v of topResults) {
       const info = `
-🎬 *Título:* \`${v.title || "Sin título"}\`
+🎬 *Título:* ${v.title || "Sin título"}
 👤 *Autor:* ${v.creator || "Desconocido"}
 🌍 *Región:* ${v.region || "N/A"}
-🆔 *ID del Video:* ${v.video_id || "N/A"}
+🆔 *Video ID:* ${v.video_id || "N/A"}
 
 🕒 *Publicado:* ${
         v.create_time ? new Date(v.create_time * 1000).toLocaleString() : "Desconocido"
@@ -76,20 +90,19 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 🔁 *Compartidos:* ${v.share?.toLocaleString() || 0}
 ⬇️ *Descargas:* ${v.download?.toLocaleString() || 0}
 
-🔗 *Enlace directo:* ${v.url || "No disponible"}
+🔗 *Enlace:* ${v.url || "No disponible"}
 `.trim()
 
+      let videoMsg = await createVideoMessage(v.nowm)
+      if (!videoMsg) continue
+
       cards.push({
-        body: proto.Message.InteractiveMessage.Body.fromObject({
-          text: info
-        }),
-        footer: proto.Message.InteractiveMessage.Footer.fromObject({
-          text: club
-        }),
+        body: proto.Message.InteractiveMessage.Body.fromObject({ text: info }),
+        footer: proto.Message.InteractiveMessage.Footer.fromObject({ text: club }),
         header: proto.Message.InteractiveMessage.Header.fromObject({
           title: v.title || "Video TikTok",
           hasMediaAttachment: true,
-          videoMessage: await createVideoMessage(v.nowm)
+          videoMessage: videoMsg
         }),
         nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
           buttons: [
@@ -103,14 +116,17 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             {
               name: "cta_url",
               buttonParamsJson: JSON.stringify({
-                display_text: "⭕ Canal - official",
-                url: 'https://whatsapp.com/channel/0029VbBPa8EFsn0aLfyZl23j'
+                display_text: "⭕ Canal oficial",
+                url: "https://whatsapp.com/channel/0029VbBPa8EFsn0aLfyZl23j"
               })
             }
           ]
         })
       })
     }
+
+    if (cards.length === 0)
+      throw new Error("⚠️ Ningún video pudo procesarse correctamente.")
 
     const content = generateWAMessageFromContent(
       m.chat,
@@ -123,7 +139,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
                 text: `🌺 *Resultados de TikTok para:* ${text}`
               }),
               footer: proto.Message.InteractiveMessage.Footer.create({
-                text: "🌸 Fuente: Rin itoshi"
+                text: "🌸 Fuente: Rin Itoshi"
               }),
               header: proto.Message.InteractiveMessage.Header.create({
                 hasMediaAttachment: false
