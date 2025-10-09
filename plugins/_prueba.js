@@ -33,7 +33,7 @@ let handler = async (m, { conn, text }) => {
 
     await conn.sendMessage(m.chat, {
       image: thumb,
-      caption: `✅ Aquí tienes tu imagen lista para WhatsApp (≤64KB)\n\n📦 Peso: ${(thumb.length / 1024).toFixed(1)} KB\n\n\`\`\`Código Base64:\`\`\`\n${base64Thumb.substring(0,200)}...`
+      caption: `🎃 Aquí tienes tu imagen lista para WhatsApp (≤64KB)\n\n🍧 Peso: ${(thumb.length / 1024).toFixed(1)} KB\n\n\`\`\`Código Base64:\`\`\`\n${base64Thumb.substring(0,200)}...`
     }, { quoted: m })
 
   } catch (e) {
