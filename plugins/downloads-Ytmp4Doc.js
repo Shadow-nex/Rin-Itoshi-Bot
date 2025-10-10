@@ -79,7 +79,7 @@ const savetube = {
     if (!response.status) return response;
     return { status: true, code: 200, data: response.data.cdn };
   },
-  download: async (link, quality = '360') => {
+  download: async (link, quality = '720') => {
     if (!link) return { status: false, code: 400, error: "Falta el enlace de YouTube." };
     if (!savetube.isUrl(link)) return { status: false, code: 400, error: "URL inválida de YouTube." };
 
@@ -101,7 +101,7 @@ const savetube = {
       const dl = await savetube.request(`https://${cdn}${savetube.api.download}`, {
         id: id,
         downloadType: 'video',
-        quality: quality, // 360p
+        quality: quality, // 720p
         key: decrypted.key
       });
 
@@ -179,7 +179,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     let vid = json.data[0]
 
-    let info = await savetube.download(vid.url, '360')
+    let info = await savetube.download(vid.url, '720')
     if (!info.status) {
       return conn.sendMessage(m.chat, { text: `⚠️ No se pudo obtener el video de *${vid.title}*.` }, { quoted: m })
     }
