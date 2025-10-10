@@ -21,11 +21,11 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     txt += `╰━━━━━━━━━━━━━━━━━━⬣\n\n`
 
     json.results.forEach((file, i) => {
-      txt += `📁 *${i + 1}.* ${file.filename}\n`
-      txt += `┆📦 *Tamaño:* ${file.filesize}\n`
-      txt += `┆🔗 *Link:* ${file.url}\n`
-      txt += `┆🌐 *Fuente:* ${file.source_title}\n`
-      txt += `┆🔸 *URL Fuente:* ${file.source_url}\n`
+      txt += `📁 *${i + 1}.* ${file.filename || 'Archivo desconocido'}\n`
+      txt += `┆📦 *Tamaño:* ${file.filesize || 'Desconocido'}\n`
+      txt += `┆🔗 *Link:* ${file.url || 'No disponible'}\n`
+      txt += `┆🌐 *Fuente:* ${file.source_title || 'Sin título'}\n`
+      txt += `┆🔸 *URL Fuente:* ${file.source_url || 'No disponible'}\n`
       txt += `╰━━━━━━━━━━━━⬣\n\n`
     })
 
