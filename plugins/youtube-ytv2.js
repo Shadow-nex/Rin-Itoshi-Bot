@@ -24,7 +24,7 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
       let quality = args[1].replace(/p/i, "")
       await m.reply(`*📥 Descargando en ${quality}p, espera...*`)
 
-      let api = `https://api.sylphy.xyz/download/ytmp4v2?url=${encodeURIComponent(url)}&q=${quality}&apikey=sylphy-c519`
+      let api = `https://api.sylphy.xyz/download/ytmp4v2?url=${encodeURIComponent(url)}&q=${quality}&apikey=sylphy_2962`
       let res = await fetch(api)
       let json = await res.json()
 
