@@ -1,35 +1,46 @@
 import fetch from 'node-fetch'
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) return conn.reply(m.chat, `*⚡ Usa el comando así:*\n\n> ${usedPrefix + command} WhatsApp`, m, fake)
+
+  if (!text) return conn.reply(m.chat, `*⚡ Usa el comando así:*\n\n> ${usedPrefix + command} Dragon Ball`, m, rcanal);
+
+  await m.react('🕐')
 
   try {
 
-    let res = await fetch(`https://api.stellarwa.xyz/search/mediafire?query=${encodeURIComponent(text)}&apikey=Diamond`)
+    let res = await fetch(`https://api.stellarwa.xyz/search/mediafire?query=${encodeURIComponent(text)}&apikey=Shadow-nex`)
     let json = await res.json()
 
     if (!json.status || !json.results || json.results.length === 0) {
-      throw `❌ No encontré resultados para: *${text}*`
+      throw `❌ No se encontraron resultados para: *${text}*`
     }
 
-    let txt = `✨ *Resultados MediaFire para:* ${text}\n\n`
+    let txt = `╭━━━〔 🔍 *Resultados de MediaFire* 〕━━⬣\n`
+    txt += `┃ ✨ *Búsqueda:* ${text}\n`
+    txt += `┃ 👑 *Creador:* ${json.creator || 'Desconocido'}\n`
+    txt += `╰━━━━━━━━━━━━━━━━━━⬣\n\n`
+
     json.results.forEach((file, i) => {
-      txt += `*${i + 1}.* ${file.filename}\n`
-      txt += `   📦 Tamaño: ${file.filesize}\n`
-      txt += `   🔗 Link: ${file.url}\n`
-      txt += `   🌐 Fuente: ${file.source_title}\n\n`
+      txt += `📁 *${i + 1}.* ${file.filename}\n`
+      txt += `┆📦 *Tamaño:* ${file.filesize}\n`
+      txt += `┆🔗 *Link:* ${file.url}\n`
+      txt += `┆🌐 *Fuente:* ${file.source_title}\n`
+      txt += `┆🔸 *URL Fuente:* ${file.source_url}\n`
+      txt += `╰━━━━━━━━━━━━⬣\n\n`
     })
 
-    await conn.reply(m.chat, txt, m)
+    await m.react('✔️')
+    await conn.reply(m.chat, txt.trim(), m)
 
   } catch (err) {
     console.error(err)
-    await conn.reply(m.chat, '❌ Ocurrió un error al consultar la API.', m)
+    await conn.reply(m.chat, '*Error al consultar la API de MediaFire.*', m)
   }
 }
 
 handler.help = ['mediafiresearch <texto>']
 handler.tags = ['buscador']
 handler.command = ['mediafiresearch', 'mfse']
+handler.group = true
 
 export default handler
