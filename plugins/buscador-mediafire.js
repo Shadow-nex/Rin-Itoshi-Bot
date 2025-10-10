@@ -17,7 +17,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     let txt = `╭━━━〔 🔍 *Resultados de MediaFire* 〕━━⬣\n`
     txt += `┃ ✨ *Búsqueda:* ${text}\n`
-    txt += `┃ 👑 *Creador:* ${json.creator || 'Desconocido'}\n`
+    txt += `┃ 👑 *Creador:* shadow_xyz \n`
     txt += `╰━━━━━━━━━━━━━━━━━━⬣\n\n`
 
     json.results.forEach((file, i) => {
