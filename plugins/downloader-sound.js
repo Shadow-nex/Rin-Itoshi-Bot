@@ -22,18 +22,18 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     const { title, url, thumbnail, user } = json.data
     let msg = `
 𝗜 𝗡 𝗜 𝗖 𝗜 𝗔 𝗡 𝗗 𝗢 • 𝗗 𝗘 𝗦 𝗖 𝗔 𝗥 𝗚 𝗔 
-> 📌 ${title}
-> 🏔️ ${user}`
+> 📌 *${title}*
+> 🏔️ *${user}*`
 
-    await conn.sendMessage(m.chat, { image: { url: thumbnail }, caption: msg }, { quoted: m })
+    await conn.sendMessage(m.chat, { image: { url: thumbnail }, caption: msg ...rcanal }, { quoted: m })
 
     await conn.sendMessage(m.chat, {
-      document: { url },
+      audio: { url: url },
       mimetype: 'audio/mpeg',
       fileName: `${title}.mp3`
-    }, { quoted: m })
+    }, { quoted: fkontak })
 
-    await m.react('✅')
+    await m.react('✔️')
 
   } catch (err) {
     console.error(err)
