@@ -6,7 +6,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   await m.react('🎶')
 
   try {
-
     const res = await fetch('https://api.siputzx.my.id/api/d/soundcloud', {
       method: 'POST',
       headers: {
@@ -17,27 +16,36 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     })
 
     const json = await res.json()
-    if (!json.status) throw ' No se pudo obtener el audio.'
+    if (!json.status || !json.data) throw '❌ No se pudo obtener el audio.'
 
     const { title, url, thumbnail, user } = json.data
-    let msg = `
-𝗜 𝗡 𝗜 𝗖 𝗜 𝗔 𝗡 𝗗 𝗢 • 𝗗 𝗘 𝗦 𝗖 𝗔 𝗥 𝗚 𝗔 
-> 📌 *${title}*
-> 🏔️ *${user}*`
 
-    await conn.sendMessage(m.chat, { image: { url: thumbnail }, caption: msg ...rcanal }, { quoted: m })
+    const caption = `
+ 🎧 𝐒𝐎𝐔𝐍𝐃𝐂𝐋𝐎𝐔𝐃 𝐃𝐎𝐖𝐍𝐋𝐎𝐀𝐃𝐄𝐑 🍏
+
+> 🌿 *Título:* ${title}
+> 🎋 *Artista:* ${user}
+> 🌐 *Enlace:* ${url}
+
+📌 *Preparando audio...*
+    `.trim()
 
     await conn.sendMessage(m.chat, {
-      audio: { url: url },
+      image: { url: thumbnail },
+      caption: caption
+    }, { quoted: m })
+
+    await conn.sendMessage(m.chat, {
+      audio: { url },
       mimetype: 'audio/mpeg',
       fileName: `${title}.mp3`
-    }, { quoted: fkontak })
+    }, { quoted: m })
 
-    await m.react('✔️')
+    await m.react('✅')
 
   } catch (err) {
     console.error(err)
-    await m.reply('⚠️ Error al descargar el audio. Asegúrate de que el enlace sea válido o inténtalo más tarde.')
+    await m.reply(' *Error al descargar el audio.*\nVerifica el enlace o inténtalo más tarde.')
   }
 }
 
