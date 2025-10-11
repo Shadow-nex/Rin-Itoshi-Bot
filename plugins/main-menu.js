@@ -14,6 +14,7 @@ let handler = async (m, { conn, args }) => {
     let _uptime = process.uptime() * 1000
     let uptime = clockString(_uptime)
     let totalreg = Object.keys(global.db.data.users).length
+    let registeredUsers = Object.values(global.db.data.users).filter(u => u.registered).length
     let totalCommands = Object.keys(global.plugins).length
 
     let videos = [
@@ -83,31 +84,33 @@ let handler = async (m, { conn, args }) => {
 \`\`\`       ׅ ෫@${userId.split('@')[0]} ಒ \`\`\`
 \`\`\` ׅ  . ׅ  ֹ─ׂ┄꯭──ׂ ͜છֶ̤͝🍰ֶ͝છ̤͜ ┄꯭─┄ׅ─   . ׅ   . ׅ    ֹ\`\`\`
 
+> \`\`\` ꨩ🍄ּֽ֪۪۪〫ࣳׄ ${dia} | ${fecha} | ${hora} *⃟░\`\`\`
 
-    ⁞)ֶָ֢֯᷼͝🐾 [ 𝗨𝗦𝗘𝗥 • 𝗜𝗡𝗙𝗢 ]  ׅ🐾ׁ᷒ᮬ ׅ
- ৎּٜ̊🐱ꨩ〪̥〭 𝘜𝘴𝘦𝘳: *${name}*
- ৎּٜ̊🕸️ꨩ〪〭 𝘊𝘰𝘪𝘯𝘴: ${coin}
- ৎּٜ̊🌻ꨩ〪̥〭 𝘕𝘪𝘷𝘦𝘭: *${level}*
- ৎּٜ̊🍀ꨩ〪̥〭 𝘌𝘹𝘱 𝘵𝘰𝘵𝘢𝘭: *${exp}*
- ৎּٜ̊🌸ꨩ〪̥〭 𝘙𝘢𝘯𝘨𝘰: ${role}
- ৎּٜ̊🌈ꨩ〪̥〭 ᴘʀᴏɢʀᴇsᴏ: ░▒▓████████
+
+      ꮚ ׅ  🄸🄽🄵🄾 - 🄱🄾🅃   ᭡̵໋࡙ᮬ
+  🔥 *ᴍᴏᴅᴏ:* Gratis
+  🍃 *ᴏᴡɴᴇʀ:* 
+  🍉 *ʟɪʙʀᴇʀɪᴀ:* ${libreria}
+  🍓 *ᴛɪᴘᴏ:* ${(conn.user.jid == global.conn.user.jid ? '🌟 ʙᴏᴛ ᴏғɪᴄɪᴀʟ' : '✨ sᴜʙ ʙᴏᴛ')}
+  🪴 *ʀᴇɢɪsᴛʀᴀᴅᴏs:* ${totalreg} (${registeredUsers})
+  🫟 *ɴᴏ ʀᴇɢɪsᴛʀᴀᴅᴏs:* ${totalreg - registeredUsers}
+  🍃 *ᴄᴏᴍᴀɴᴅᴏs:* ${totalCommands}
+  🌹 *ʀᴜɴᴛɪᴍᴇ:* ${uptime}
+  📚 *ᴠs:* ${vs}
+${readMore}  
+  ═─═─═─═─═─═─═─═─═─═
+
+   ⛓️⟢・🕯️ 🅂🅃🄰🅃🅄🅂 • 🅄🅂🄴🅁 ・⟣⛓️
+   🩸༺😼ꨩ〪〭 ᴜsᴇʀ: *${name}*
+   🔥༺💀ꨩ〪〭 ᴄᴏɪɴs: *${coin}*
+   ⚡༺🕸️ꨩ〪〭 ɴɪᴠᴇʟ: *${level}*
+   🌑༺🪬ꨩ〪〭 ᴇxᴘ.ᴛᴏᴛᴀʟ: *${exp}*
+   👁️‍🗨️༺🥀ꨩ〪〭 ʀᴀɴɢᴏ: *${role}*
+   🍏༺🌈ꨩ〪〭 ➨ \`ᴘʀᴏɢʀᴇsᴏ:\` *${user.exp - min} => ${xp}* _(${Math.floor(((user.exp - min) / xp) * 100)}%)_
+   🔩༺⚙️ꨩ〪〭 ༺ ❒ \`ᴄᴏᴍᴀɴᴅᴏs ᴛᴏᴛᴀʟᴇs:\` *${user.commands || 0}
+   🜲━━━━━━━⬣  
  
 ${readMore}
-
-    ⁞)ֶָ֢֯᷼͝🦄 [ 𝗜𝗡𝗙𝗢 • 𝗨𝗦𝗘𝗥 ] ׅ🌿ׁ᷒ᮬ ׅ 
- ৎּٜ̊🔧ꨩ〪〭 𝘔𝘰𝘥𝘰: *ɢʀᴀᴛɪs 🧪*
- ৎּٜ̊👑ꨩ〪̥〭 𝘖𝘸𝘯𝘦𝘳: *+${suittag}*
- ৎּٜ̊🤖ꨩ〪̥〭 𝘛𝘪𝘱𝘰: ${(conn.user.jid == global.conn.user.jid ? '🌟 ʙᴏᴛ ᴏғɪᴄɪᴀʟ' : '✨ sᴜʙ ʙᴏᴛ')}
- ৎּٜ̊📖ꨩ〪̥〭 𝘊𝘰𝘮𝘢𝘯𝘥𝘰𝘴: *${totalCommands}*
- ৎּٜ̊🧑‍🤝‍🧑ꨩ〪̥〭 𝘛𝘰𝘵𝘢𝘭 𝘶𝘴𝘦𝘳𝘴: *${totalreg}*
- ৎּٜ̊⏳ꨩ〪̥〭 𝘙𝘶𝘯𝘵𝘪𝘮𝘦: *${uptime}*
-
-${readMore}
-
-    ⁞)ֶָ֢֯᷼͝🕹️ [ 𝗙𝗘𝗖𝗛𝗔 • 𝗛𝗢𝗥𝗔 ] ׅ🍄ׁ᷒ᮬ ׅ 
- ৎּٜ̊⏰ꨩ〪̥〭 𝘏𝘰𝘳𝘢: *${hora}*
- ৎּٜ̊📆ꨩ〪̥〭 𝘍𝘦𝘤𝘩𝘢: *${fecha}*
- ৎּٜ̊🌙ꨩ〪̥〭 𝘋𝘪𝘢: *${dia}*
 
   ᧙🔥 \`𝗖𝗢𝗠𝗔𝗡𝗗𝗢𝗦 𝗗𝗜𝗦𝗣𝗢𝗡𝗜𝗕𝗟𝗘𝗦\` 🐉
 
