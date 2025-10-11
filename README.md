@@ -243,9 +243,9 @@ npm start
 </p>
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=Yuji-XDev&repo=Rin-Itoshi-Bot&show_icons=true&theme=tokyonight&bg_color=0D1117&title_color=ff00ff&text_color=00ffff&icon_color=f1c40f&hide_border=true" alt="Estadísticas de GitHub">
+  <img src="https://github-readme-stats.vercel.app/api?username=Shadow-nex&repo=Rin-Itoshi-Bot&show_icons=true&theme=tokyonight&bg_color=0D1117&title_color=ff00ff&text_color=00ffff&icon_color=f1c40f&hide_border=true" alt="Estadísticas de GitHub">
 
-  <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=Yuji-XDev&theme=tokyonight" alt="Detalles del perfil">
+  <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=Shadow-nex&theme=tokyonight" alt="Detalles del perfil">
 </p>
 
 ---
@@ -253,7 +253,7 @@ npm start
 <div align="center">
   <h1 align="center">🌱 EDITOR Y PROPIETARIO DEL BOT ⚽</h1>
 
-<a href="https://github.com/Yuji-XDev"><img src="https://github.com/Yuji-XDev.png" width="300" height="300" alt="Yuji-XDev"/></a>
+<a href="https://github.com/Shadow-nex"><img src="https://github.com/Shadow-nex.png" width="300" height="300" alt="Yuji-XDev"/></a>
 
 `𝑹𝑰𝑵 𝑰𝑻𝑶𝑺𝑯𝑰 𝑩𝑶𝑻 𝑿 𝑩𝒀 𝑺𝑯𝑨𝑫𝑶𝑾:𝑪𝑶𝑹𝑬`
   ### `𝑺𝑯𝑨𝑫𝑶𝑾'𝑪𝑶𝑹𝑬 • 𝑶𝑭𝑪`
