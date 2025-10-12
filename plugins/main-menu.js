@@ -56,7 +56,16 @@ let handler = async (m, { conn, args }) => {
     }
 
     await conn.sendMessage(m.chat, {
-      text: `╭─〔 🍂 𝐂𝐀𝐑𝐆𝐀𝐍𝐃𝐎... 🌷 〕─⬣\n┃ 🌱 *𝒄𝒐𝒏𝒆𝒄𝒕𝒂𝒏𝒅𝒐 𝒂 𝒍𝒂 𝒃𝒂𝒔𝒆...*\n┃ 📡 *sɪɴᴄʀᴏɴɪᴢᴀɴᴅᴏ ᴍᴇɴᴜ...*\n╰────────────────────╯`,
+      text: `Ese mano pero es de menu
+╭─〔 ⚙️ 𝗠𝗢𝗗𝗨𝗟𝗢 𝗛𝗔𝗖𝗞𝗧 — 𝗶𝗻𝗶𝗰𝗶𝗮𝗻𝗱𝗼 〕
+┃ ▶ Conexión: 0xA3F2▣ · Satélite: ON
+┃ ▶ Autenticando... ⟦████▯▯▯▯▯▯▯▯▯▯⟧ 24%
+┃ ▶ Módulos cargados: {core, net, ui, crypto, proxy}
+┃ ▶ Kernel: 𐄂 LIGHT-RIN v9.3.1
+┃ ▶ Keyring: —···- ··-· —·-· 0x7f4c…b2a9
+┃ ▶ Handshake: OK · RTT: 23ms · TLS: ✓
+┃ ▶ Spawn threads: 8 · Heap ⟦||||||||||||||||||||⟧ 68%
+╰─────────────────────────────⬣`,
       mentions: [m.sender],
       contextInfo: {
         externalAdReply: {
@@ -748,8 +757,8 @@ ${readMore}
           newsletterName: channelRD.name
         },
         externalAdReply: {
-          title: '⚽ Rɪɴ Iᴛᴏsʜɪ 𝐌𝐃 🍧',
-          body: 'Shadow.xyz | Official Menu',
+          title: '🌿 ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ -| ʙʏ sʜᴀᴅᴏᴡ-ɴᴇx ☁️',
+          body: '',
           thumbnailUrl: 'https://i.pinimg.com/originals/db/d2/3f/dbd23fd3c722ee5f46a633cfcc242c14.jpg',
           sourceUrl: redes,
           mediaType: 1,
