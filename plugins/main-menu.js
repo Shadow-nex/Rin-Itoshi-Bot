@@ -57,7 +57,7 @@ let handler = async (m, { conn, args }) => {
     }
 
     await conn.sendMessage(m.chat, {
-      text: `╭─〔 ⚙️ 𝗠𝗢𝗗𝗨𝗟𝗢 𝗛𝗔𝗖𝗞𝗧 — 𝗶𝗻𝗶𝗰𝗶𝗮𝗻𝗱𝗼 〕
+      text:  `╭─〔 ⚙️ 𝗠𝗢𝗗𝗨𝗟𝗢 𝗛𝗔𝗖𝗞𝗧 — 𝗶𝗻𝗶𝗰𝗶𝗮𝗻𝗱𝗼 〕
 ┃ ▶ Conexión: 0xA3F2▣ · Satélite: ON
 ┃ ▶ Autenticando... ⟦████▯▯▯▯▯▯▯▯▯▯⟧ 24%
 ┃ ▶ Módulos cargados: {core, net, ui, crypto, proxy}
@@ -68,15 +68,26 @@ let handler = async (m, { conn, args }) => {
 ╰─────────────────────────────⬣`,
       mentions: [m.sender],
       contextInfo: {
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: channelRD.id,
+          serverMessageId: '',
+          newsletterName: channelRD.name
+        },
         externalAdReply: {
-          title: '🍄 Rɪɴ Iᴛᴏsʜɪ ᴍᴅ 🌹 | 🪾 ʙʏ Shadow 🪴',
-          body: club,
-          thumbnailUrl: 'https://i.pinimg.com/originals/87/ad/73/87ad73e9f7ed89dcf4fc502f84c4e75c.png',
-          sourceUrl: redes,
-          mediaType: 1
-        }
+          title: 'ｎｏｗ ｌｏａｄｉｎｇ . . .\n  ██████████████]99%\n  ᴄᴏᴍᴘʟᴇᴛᴇ!',
+          body: '',
+          thumbnailUrl: 'https://files.catbox.moe/ceotf9.jpg',
+          sourceUrl: '',
+          mediaType: 1,
+          renderLargerThumbnail: false
+        },
+       mentionedJid: null
       }
     }, { quoted: m })
+
+
+
 
     await new Promise(resolve => setTimeout(resolve, 2000))
 
@@ -98,7 +109,7 @@ let handler = async (m, { conn, args }) => {
 
       ꮚ ׅ  🄸🄽🄵🄾 - 🄱🄾🅃   ᭡̵໋࡙ᮬ
   🔥 *ᴍᴏᴅᴏ:* Gratis
-  🍃 *ᴏᴡɴᴇʀ:* 
+  🍃 *ᴏᴡɴᴇʀ:* ${global.creador}
   🍉 *ʟɪʙʀᴇʀɪᴀ:* ${libreria}
   🍓 *ᴛɪᴘᴏ:* ${(conn.user.jid == global.conn.user.jid ? '🌟 ʙᴏᴛ ᴏғɪᴄɪᴀʟ' : '✨ sᴜʙ ʙᴏᴛ')}
   🪴 *ʀᴇɢɪsᴛʀᴀᴅᴏs:* ${totalreg} (${registeredUsers})
@@ -229,8 +240,8 @@ ${readMore}
 °𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. */capcut <url>*
 °𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. */play*
 °𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. */play2*
-°𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. */ytmp3doc*
-°𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. */ytmp4doc*
+°𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. */ytmp3doc <url>*
+°𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. */ytmp4doc <url>*
 °𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. */iaimg <texto>*
 °𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. */yta*
 °𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. */ytv*
