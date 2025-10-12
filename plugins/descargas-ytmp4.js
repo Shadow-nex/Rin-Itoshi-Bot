@@ -165,15 +165,12 @@ handler.command = ["ytmp4", "setcalidad", "setquality"]
 export default handler**/
 
 import axios from "axios"
-import fetch from "node-fetch"
 import yts from "yt-search"
-import { sizeFormatter } from "human-readable"
 
 let calidadPredeterminada = "360"
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
-
     if (command === "setcalidad" || command === "setquality") {
       const calidad = text.trim()
       if (!calidad)
@@ -203,9 +200,9 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
       const meta = {
         title: video.title,
-        duration: { timestamp: video.timestamp },
-        author: { name: video.author.name },
-        views: video.views,
+        duration: video.timestamp,
+        author: video.author.name,
+        views: video.views.toLocaleString(),
         ago: video.ago,
         url: video.url,
         thumbnail: video.thumbnail
@@ -223,11 +220,11 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 │☁️ *Calidad:* ${calidadPredeterminada}P
 │⚙️ *Servidor:* Procesando...
 ╰✿──────────────────
-> /setquality`
+
+> */setcalidad*`
 
       await conn.sendMessage(m.chat, {
         text: info,
-        mentions: [m.sender],
         contextInfo: {
           isForwarded: true,
           externalAdReply: {
@@ -241,71 +238,33 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       }, { quoted: m })
 
       let apiUsada = "Vreden"
-      let dl, fileSize, sizeMB
+      let dl_url, quality
 
       try {
-        const apiUrl = `https://api.vreden.my.id/api/v1/download/youtube/video?url=${encodeURIComponent(meta.url)}&quality=${calidadPredeterminada}`
-        const res = await axios.get(apiUrl)
+        const res = await axios.get(`https://api.vreden.my.id/api/v1/download/youtube/video?url=${encodeURIComponent(meta.url)}&quality=${calidadPredeterminada}`)
         if (!res.data?.status) throw new Error("Fallo en la API principal")
 
-        dl = res.data.result.download
-        const head = await fetch(dl.url, { method: "HEAD" })
-        const size = head.headers.get("content-length")
-        const formatSize = sizeFormatter({ std: "JEDEC", decimalPlaces: 2 })
-        fileSize = size ? formatSize(parseInt(size)) : "Desconocido"
-        sizeMB = size ? parseInt(size) / 1024 / 1024 : 0
-
-      } catch (err) {
-        console.log("⚠️ API principal falló, usando Starlight...")
-
+        dl_url = res.data.result.download.url
+        quality = calidadPredeterminada + "p"
+      } catch {
         apiUsada = "Starlight"
-        const backupUrl = `https://apis-starlights-team.koyeb.app/starlight/youtube-mp4?url=${encodeURIComponent(meta.url)}&format=${calidadPredeterminada}p`
-        const res2 = await axios.get(backupUrl)
-
+        const res2 = await axios.get(`https://apis-starlights-team.koyeb.app/starlight/youtube-mp4?url=${encodeURIComponent(meta.url)}&format=${calidadPredeterminada}p`)
         if (!res2.data?.dl_url) throw new Error("Error en la API de respaldo")
 
-        dl = {
-          url: res2.data.dl_url,
-          filename: `${meta.title}.mp4`,
-          quality: res2.data.quality
-        }
-
-        const head = await fetch(dl.url, { method: "HEAD" })
-        const size = head.headers.get("content-length")
-        const formatSize = sizeFormatter({ std: "JEDEC", decimalPlaces: 2 })
-        fileSize = size ? formatSize(parseInt(size)) : "Desconocido"
-        sizeMB = size ? parseInt(size) / 1024 / 1024 : 0
+        dl_url = res2.data.dl_url
+        quality = res2.data.quality || calidadPredeterminada + "p"
       }
 
       await m.react('✔️')
-
-      if (sizeMB > 100) {
-        await conn.sendMessage(
-          m.chat,
-          {
-            document: { url: dl.url },
-            mimetype: "video/mp4",
-            fileName: dl.filename,
-            caption: `> 🎋 *${meta.title}*\n> 📌 *Tamaño:* ${fileSize}\n> 🍉 *Calidad:* ${dl.quality}\n> ⚙️ *Servidor:* ${apiUsada}\n🚨 Enviado como documento (más de 100 MB).`
-          },
-          { quoted: m }
-        )
-      } else {
-        await conn.sendMessage(
-          m.chat,
-          {
-            video: { url: dl.url },
-            mimetype: "video/mp4",
-            fileName: dl.filename,
-            caption: `> 🎋 *${meta.title}*\n> 🍧 *Tamaño:* ${fileSize}\n> ⚙️ *Calidad:* ${dl.quality}\n> ☁️ *Servidor:* ${apiUsada}`
-          },
-          { quoted: m }
-        )
-      }
+      await conn.sendMessage(m.chat, {
+        video: { url: dl_url },
+        caption: `🎬 *${meta.title}*\n🍧 *Calidad:* ${quality}\n⚙️ *Servidor:* ${apiUsada}`,
+        mimetype: "video/mp4"
+      }, { quoted: m })
     }
   } catch (err) {
     console.error(err)
-    conn.reply(m.chat, " *Ocurrió un error al procesar tu solicitud.*\nVerifica el enlace o intenta con otro video.", m)
+    conn.reply(m.chat, "⚠️ *Ocurrió un error al procesar tu solicitud.*\nVerifica el enlace o intenta con otro video.", m)
   }
 }
 
