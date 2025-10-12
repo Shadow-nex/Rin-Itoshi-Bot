@@ -75,7 +75,7 @@ let handler = async (m, { conn, args }) => {
           newsletterName: channelRD.name
         },
         externalAdReply: {
-          title: 'ｎｏｗ ｌｏａｄｉｎｇ . . .\n  ██████████████]99%\n  ᴄᴏᴍᴘʟᴇᴛᴇ!',
+          title: 'ｎｏｗ ｌｏａｄｉｎｇ . . .\n ██████████████]99%\n  ᴄᴏᴍᴘʟᴇᴛᴇ!',
           body: '',
           thumbnailUrl: 'https://files.catbox.moe/ceotf9.jpg',
           sourceUrl: '',
