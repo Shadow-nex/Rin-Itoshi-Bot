@@ -71,95 +71,110 @@ async function showBanner() {
 ░░░░░░█▀▀█████████▀▀▀▀████████████▀░░░░
 ░░░░░░████▀░░███▀░░░░░░▀███░░▀██▀░░░░░░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    `.split('\n').map(line => chalk.hex('#00f7ff').bold(line)).join('\n')
+    `.split('\n').map(line => chalk.hex('#00eaff').bold(line)).join('\n')
 
-    const subtitle = chalk.hex('#ff3366').bold('✦ RIN ITOSHI BOT ✦').padStart(50)
-    const poweredMsg = chalk.hex('#ffcc00').italic('🌷 powered by Shadow.xyz')
+    const subtitle = chalk.hex('#ff66cc').bold('✦ RIN ITOSHI SYSTEM ✦').padStart(50)
+    const poweredMsg = chalk.hex('#ffcc00').italic('⚙ powered by ShadowCore Engine')
     const aiMsg = chalk.hex('#00f7ff').bold('──────────────────────────────────────────────────────')
+
     const tips = [
-        chalk.hex('#ffcc00')('⌬ Tip: Usa /menu para ver todas las funciones.'),
-        chalk.hex('#00f7ff')('✧ Sígueme en GitHub para ver updates.'),
-        chalk.hex('#ff3366')('⬡ Disfruta del poder de Rin Itoshi Bot.')
+        chalk.hex('#00ffcc')('✧ Usa /menu para ver todas las funciones disponibles.'),
+        chalk.hex('#ff66cc')('⌬ Mantén tu bot siempre actualizado.'),
+        chalk.hex('#ffcc00')('⬡ Disfruta del poder estético de Rin Itoshi Bot.')
     ]
-    const loadingFrames = [
-        chalk.cyanBright('⠋ Inicializando módulos...'),
-        chalk.cyanBright('⠙ Inicializando módulos...'),
-        chalk.cyanBright('⠹ Inicializando módulos...'),
-        chalk.cyanBright('⠸ Inicializando módulos...'),
-        chalk.cyanBright('⠼ Inicializando módulos...'),
-        chalk.cyanBright('⠴ Inicializando módulos...'),
-        chalk.cyanBright('⠦ Inicializando módulos...'),
-        chalk.cyanBright('⠧ Inicializando módulos...'),
-        chalk.cyanBright('⠇ Inicializando módulos...'),
-        chalk.cyanBright('⠏ Inicializando módulos...')
+
+    const loadingStyles = [
+        ['⠋', 'Inicializando módulos visuales...'],
+        ['⠙', 'Cargando base de datos dinámica...'],
+        ['⠹', 'Activando núcleo de inteligencia...'],
+        ['⠸', 'Sincronizando estructura modular...'],
+        ['⠼', 'Estableciendo conexión con el servidor...'],
+        ['⠴', 'Optimizando sistema...'],
+        ['⠦', 'Verificando integridad del entorno...'],
+        ['⠧', 'Cargando estilos dinámicos...'],
+        ['⠇', 'Compilando componentes IA...'],
+        ['⠏', 'Finalizando arranque...'],
     ]
 
     console.clear()
-   
+
     console.log(
         boxen(
             title + '\n' + subtitle,
             {
                 padding: 1,
                 margin: 1,
-                borderStyle: 'classic',
+                borderStyle: 'double',
                 borderColor: 'cyanBright',
-                backgroundColor: 'black',
-                title: 'Rin Itoshi Bot',
+                backgroundColor: '#000014',
+                title: 'Rin Itoshi System',
                 titleAlignment: 'center'
             }
         )
     )
 
     say('RIN • ITOSHI', {
-        font: 'block',
+        font: 'simple3d',
         align: 'center',
-        colors: ['cyan', 'blue'],
+        colors: ['cyan', 'white'],
         background: 'transparent',
         letterSpacing: 1,
         lineHeight: 1
     })
-    say('🍁 by ShadowCore', {
+    say('by ShadowCore', {
         font: 'console',
         align: 'center',
-        colors: ['yellow'],
+        colors: ['yellowBright'],
         background: 'transparent'
     })
+
     console.log('\n' + aiMsg + '\n')
 
-    for (let i = 0; i < 20; i++) {
-        process.stdout.write('\r' + loadingFrames[i % loadingFrames.length])
-        await sleep(80)
+    const colors = ['#00eaff', '#00ffcc', '#ff66cc', '#ffcc00', '#00f7ff']
+    for (let i = 0; i < 60; i++) {
+        const [symbol, message] = loadingStyles[i % loadingStyles.length]
+        const color = colors[i % colors.length]
+        process.stdout.write(
+            '\r' + chalk.hex(color).bold(`${symbol} ${message}`)
+        )
+        await sleep(100)
     }
-    process.stdout.write('\r' + ' '.repeat(40) + '\r') 
+    process.stdout.write('\r' + ' '.repeat(60) + '\r')
 
     console.log(
-        chalk.bold.blueBright(
+        chalk.bold.cyanBright(
             boxen(
-                chalk.bold('¡Bienvenido a Rin Itoshi Bot!\n') +
-                chalk.hex('#00f7ff')('El bot está arrancando, espera un momento...') +
+                chalk.bold('¡Bienvenido a Rin Itoshi Bot! 🚀\n') +
+                chalk.hex('#00f7ff')('El sistema se ha iniciado correctamente.') +
                 '\n\n' +
-                tips.join('\n'),
+                tips.join('\n') +
+                '\n\n' +
+                poweredMsg,
                 {
                     padding: 1,
                     margin: 1,
                     borderStyle: 'round',
-                    borderColor: 'magenta'
+                    borderColor: 'magentaBright',
+                    backgroundColor: '#000010'
                 }
             )
         )
     )
 
-    const symbols = [
-        chalk.hex('#ff3366')('✧'), chalk.hex('#00f7ff')('⌬'), chalk.hex('#ffcc00')('⬡'),
-        chalk.hex('#00f7ff')('✧'), chalk.hex('#ff3366')('⌬'), chalk.hex('#ffcc00')('⬡')
+    const patterns = [
+        chalk.hex('#00eaff')('✦'),
+        chalk.hex('#ff66cc')('⌬'),
+        chalk.hex('#ffcc00')('⬡'),
+        chalk.hex('#00ffcc')('✧'),
+        chalk.hex('#00f7ff')('◆'),
+        chalk.hex('#ff3366')('⬢')
     ]
+
     let line = ''
-    for (let i = 0; i < 40; i++) {
-        line += symbols[i % symbols.length]
-    }
+    for (let i = 0; i < 60; i++) line += patterns[i % patterns.length]
     console.log('\n' + line + '\n')
 }
+
 await showBanner()
 
 protoType()
