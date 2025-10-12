@@ -166,8 +166,10 @@ export default handler**/
 
 import axios from "axios"
 import yts from "yt-search"
+import { sizeFormatter } from "human-readable"
 
 let calidadPredeterminada = "360"
+const formatSize = sizeFormatter({ std: "JEDEC", decimalPlaces: 2 })
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
@@ -211,9 +213,9 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       const info = `🎶 *ＹＯＵＴＵＢＥ • ＭＰ4* 🕸️
 ╭ׅ✿──────────────────
 │🎋ᮬᩬִּ〫᪲۟. 𝐓𝐢𝐭𝐮𝐥𝐨: ${meta.title}
-│🌿ᮬᩬִּ〫᪲۟. 𝐃𝐮𝐫𝐚𝐜𝐢𝐨𝐧: ${meta.duration.timestamp}
-│🍏ᮬᩬִּ〫᪲۟. 𝐂𝐚𝐧𝐚𝐥: ${meta.author.name}
-│🍄ᮬᩬִּ〫᪲۟. 𝐕𝐢𝐬𝐭𝐚𝐬: ${meta.views.toLocaleString()}
+│🌿ᮬᩬִּ〫᪲۟. 𝐃𝐮𝐫𝐚𝐜𝐢𝐨𝐧: ${meta.duration}
+│🍏ᮬᩬִּ〫᪲۟. 𝐂𝐚𝐧𝐚𝐥: ${meta.author}
+│🍄ᮬᩬִּ〫᪲۟. 𝐕𝐢𝐬𝐭𝐚𝐬: ${meta.views}
 │🌷ᮬᩬִּ〫᪲۟. 𝐏𝐮𝐛𝐥𝐢𝐜𝐚𝐝𝐨: ${meta.ago}
 │🕸️ᮬᩬִּ〫᪲۟. 𝐋𝐢𝐧𝐤: ${meta.url}
 ├ׅ✿──────────────────
@@ -238,7 +240,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       }, { quoted: m })
 
       let apiUsada = "Vreden"
-      let dl_url, quality
+      let dl_url, quality, fileSize
 
       try {
         const res = await axios.get(`https://api.vreden.my.id/api/v1/download/youtube/video?url=${encodeURIComponent(meta.url)}&quality=${calidadPredeterminada}`)
@@ -246,6 +248,10 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
         dl_url = res.data.result.download.url
         quality = calidadPredeterminada + "p"
+
+        const head = await axios.head(dl_url)
+        const sizeBytes = head.headers['content-length'] || 0
+        fileSize = sizeBytes ? formatSize(sizeBytes) : "Desconocido"
       } catch {
         apiUsada = "Starlight"
         const res2 = await axios.get(`https://apis-starlights-team.koyeb.app/starlight/youtube-mp4?url=${encodeURIComponent(meta.url)}&format=${calidadPredeterminada}p`)
@@ -253,12 +259,16 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
         dl_url = res2.data.dl_url
         quality = res2.data.quality || calidadPredeterminada + "p"
+
+        const head2 = await axios.head(dl_url)
+        const sizeBytes2 = head2.headers['content-length'] || 0
+        fileSize = sizeBytes2 ? formatSize(sizeBytes2) : "Desconocido"
       }
 
       await m.react('✔️')
       await conn.sendMessage(m.chat, {
         video: { url: dl_url },
-        caption: `🎬 *${meta.title}*\n🍧 *Calidad:* ${quality}\n⚙️ *Servidor:* ${apiUsada}`,
+        caption: `🎬 *${meta.title}*\n🍧 *Calidad:* ${quality}\n📦 *Peso:* ${fileSize}\n⚙️ *Servidor:* ${apiUsada}`,
         mimetype: "video/mp4"
       }, { quoted: m })
     }
