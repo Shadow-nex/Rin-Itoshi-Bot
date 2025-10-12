@@ -33,10 +33,11 @@ export async function before(m, { conn, participants, groupMetadata }) {
     const guildName = groupMetadata.subject
     const memberCount = participants.length
     const avatar = await conn.profilePictureUrl(usuarioJid, 'image').catch(_ => 'https://i.ibb.co/1s8T3sY/48f7ce63c7aa.jpg')
-    const background = 'https://files.catbox.moe/b9p86d.jpg'
-    const guildIcon = 'https://github.com/Yuji-XDev.png'
+    const background = 'https://i.ibb.co/4YBNyvP/images-76.jpg'
+    const guildIcon = 'https://github.com/Shadow-nex.png'
+    const key = 'hYSK8YrJpKRc9jSE'
 
-    const url = `https://goo.su/Vtek/api/generate/welcome-image?username=${encodeURIComponent(username)}&guildName=${encodeURIComponent(guildName)}&memberCount=${memberCount}&avatar=${encodeURIComponent(avatar)}&background=${encodeURIComponent(background)}&guildIcon=${encodeURIComponent(guildIcon)}&key=hYSK8YrJpKRc9jSE&type=${tipo}`
+    const url = `https://api-nv.ultraplus.click/api/generate/welcome-image?username=${encodeURIComponent(username)}&guildName=${encodeURIComponent(guildName)}&memberCount=${memberCount}&avatar=${encodeURIComponent(avatar)}&background=${encodeURIComponent(background)}&guildIcon=${encodeURIComponent(guildIcon)}&key=${key}&type=${tipo}`
 
     try {
       const res = await fetch(url)
@@ -47,12 +48,11 @@ export async function before(m, { conn, participants, groupMetadata }) {
     }
   }
 
-  const thumbUrl = Array.isArray(icono) ? icono[Math.floor(Math.random() * icono.length)] : icono
   const thumbBuffer = await fetch('https://files.catbox.moe/7sbozb.jpg').then(res => res.buffer())
 
   const fkontak = {
     key: { participants: "0@s.whatsapp.net", remoteJid: m.chat, fromMe: false, id: "Halo" },
-    message: { locationMessage: { name: "☆ 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 𝚄𝙻𝚃𝚁𝙰 ☆ ⭐", jpegThumbnail: thumbBuffer } },
+    message: { locationMessage: { name: "☆ 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 𝚄𝙻𝚃𝚁𝙰 ☆ 🌸", jpegThumbnail: thumbBuffer } },
     participant: "0@s.whatsapp.net"
   }
 
@@ -68,73 +68,70 @@ export async function before(m, { conn, participants, groupMetadata }) {
       isForwarded: true,
       mentionedJid: [usuarioJid],
       externalAdReply: {
-        title: botname,
-        body: dev,
+        title: '🍉 𝙒𝙚𝙡𝙘𝙤𝙢𝙚 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 - 𝘽𝙤𝙩 🌿',
+        body: '',
         previewType: "PHOTO",
-        thumbnailUrl: thumbUrl,
+        thumbnailUrl: 'https://files.catbox.moe/7sbozb.jpg',
         sourceUrl: "https://instagram.com",
         mediaType: 1
       }
     }
   }
+ 
+  const welcomeMessage = `
+╭━━━〔 🌸 *ＢＩＥＮＶＥＮＩＤＯ ＠${numeroUsuario}* 🌸 〕━━⬣
+│🎀 ʙɪᴇɴᴠᴇɴɪᴅᴏ ᴀ *${groupMetadata.subject}* 💫
+│🍃 _${groupMetadata.desc?.slice(0, 120) || "Sin descripción."}_
+│🌸 𝑀𝑖𝑒𝑚𝑏𝑟𝑜𝑠: *${groupSize}*
+│🕰️ 𝐹𝑒𝑐ℎ𝑎: *${dia}, ${fecha}*
+│🌍 𝐿𝑢𝑔𝑎𝑟: *${pais}*
+╰━━━〔 💮 𝑅𝑖𝑛 𝐼𝑡𝑜𝑠ℎ𝑖 💮 〕━━⬣
 
-  const welcomeMessage1 = `\`\`\`  ݊ ּ͜⏜݆ׄ͜⌒໊݂݁͜⏜݄͜ ͝⃞֟🎋⃛͜͝ ⃞໊݄⏜݆ׄ͜͜⌒ ּ͜⏜݆ׄ݊͜ ּ͜ \`\`\`
-\`\`\`  ໍ۪۫꒰̥᷑ໍ᮫۪۫𝆬🍈 ࣮࣮᷑᷑𝗕֘𝗜۫𝗘〪࣮࣫𝗡۪۫࣫𝗩𝗘᮫࣮𝆬᷑𝗡۫𝗜֘ ᮫𝆬ᤲ࣫𝗗֘ ᮫𝆬ᤲ࣫𝗢֘ ᮫𝆬ᤲ࣫ 🌿᩠̥ໍ۪۫꒱̥ໍ۪۫ \`\`\`
-\`\`\` ︶ִֶָ⏝︶ִֶָ⏝˖ ࣪ ୨✧୧ ࣪ ˖⏝ִֶָ︶⏝ִֶָ︶ \`\`\``
-  const welcomeMessage2 = `
-♧ _𝐔𝐬𝐮𝐚𝐫𝐢𝐨:_ @${numeroUsuario}
-✿ _𝐆𝐫𝐨𝐮𝐩:_ *${groupMetadata.subject}*
+> ✨ *Que disfrutes tu estadía en este grupo.*
+> ૮₍｡˃ ᵕ ˂ ｡₎ა 💕 Usa _#menu_ para explorar comandos.`
 
-● ${groupMetadata.desc?.slice(0, 200) || "Sin descripción."}
+  const byeMessage = `
+╭━━━〔 💔 *ＨＡＳＴＡ ＰＲＯＮＴＯ ＠${numeroUsuario}* 💔 〕━━⬣
+│🍂 𝑬𝒔 𝒕𝒓𝒊𝒔𝒕𝒆 𝒗𝒆𝒓𝒕𝒆 𝒊𝒓...
+│🕊️ 𝐺𝑟𝑢𝑝𝑜: *${groupMetadata.subject}*
+│🌸 𝑀𝑖𝑒𝑚𝑏𝑟𝑜𝑠: *${groupSize}*
+│🕰️ 𝐹𝑒𝑐ℎ𝑎: *${dia}, ${fecha}*
+│🌍 𝐿𝑢𝑔𝑎𝑟: *${pais}*
+╰━━━〔 💮 𝑅𝑖𝑛 𝐼𝑡𝑜𝑠ℎ𝑖 💮 〕━━⬣
 
-❏ αнσяα ѕσмσѕ *${groupSize}* мιєивяσѕ
-❍ _𝐅𝐞𝐜𝐡𝐚:_ ${dia} | ${fecha} | ${hora}
-≡ _𝐏𝐚𝐢𝐬:_ ${pais}
+> 🌧️ *Esperamos verte de nuevo pronto.*
+> 🍃 Usa _#help_ si vuelves, estaremos aquí.`
 
-> *➮ Puedes usar _#help_ para ver la lista de comandos. ૮₍｡˃ ᵕ ˂ ｡₎ა*`
-
-  const byeMessage1 = `\`\`\`  ݊ ּ͜⏜݆ׄ͜⌒໊݂݁͜⏜݄͜ ͝⃞֟🎋⃛͜͝ ⃞໊݄⏜݆ׄ͜͜⌒ ּ͜⏜݆ׄ݊͜ ּ͜ \`\`\`
-\`\`\`  ໍ۪۫꒰̥᷑ໍ᮫۪۫𝆬🍈 ࣮࣮᷑᷑𝗔〪֘۫࣫𝗗۪۫࣫𝗜᮫࣮𝆬᷑𝗢۫֘ ᮫𝆬ᤲ࣫𝗦֘ ᮫𝆬ᤲ࣫֘ ᮫𝆬ᤲ࣫ 🌿᩠̥ໍ۪۫꒱̥ໍ۪۫ \`\`\`
-\`\`\` ︶ִֶָ⏝︶ִֶָ⏝˖ ࣪ ୨✧୧ ࣪ ˖⏝ִֶָ︶⏝ִֶָ︶ \`\`\``
-  const byeMessage2 = `
-✿ _𝐆𝐫𝐨𝐮𝐩:_ *${groupMetadata.subject}*
-♧ _𝐔𝐬𝐮𝐚𝐫𝐢𝐨:_ @${numeroUsuario}
-${global.welcom2}
-❏ _𝐌𝐢𝐞𝐦𝐛𝐫𝐨𝐬:_ ${groupSize}
-❍ _𝐅𝐞𝐜𝐡𝐚:_ ${dia} | ${fecha} | ${hora}
-≡ _𝐏𝐚𝐢𝐬:_ ${pais}
-
-> 💔 Te esperamos pronto de regreso.
-> *➮ Puedes usar _#help_ para ver la lista de comandos. ૮₍｡˃ ᵕ ˂ ｡₎ა*
-
-*🍓＊✿❀»»——>♡<——««❀✿＊🍁*`
-
+  // ────────────────
+  // BIENVENIDA 💫
+  // ────────────────
   if (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
     const imgWelcome = await generarImagenUrl('welcome')
     await conn.sendMessage(m.chat, { 
-      image: { url: imgWelcome }, 
-      caption: welcomeMessage1, 
-      ...fakeContext, 
-      footer: welcomeMessage2, 
+      image: { url: imgWelcome },
+      caption: welcomeMessage,
+      ...fakeContext,
       buttons: [
-        { buttonId: "#reg shadow.18", buttonText: { displayText: "⿻͢⃟𖤍۬፝͡ 𝗔𝗨𝗧𝗢 𝗩𝗘𝗥𝗜𝗙𝗜𝗖𝗔𝗥͜͡🕸️︎͢⸸𖾏ꦿ" }, type: 1 },
-        { buttonId: "#menu", buttonText: { displayText: "⿻͢⃟𖤍۬፝͡ 𝗠 𝗘 𝗡 𝗨͜͡🌱︎͢⸸𖾏ꦿ" }, type: 1 }
-      ], 
+        { buttonId: "#reg shadow.18", buttonText: { displayText: "💮 𝐀𝐔𝐓𝐎 𝐕𝐄𝐑𝐈𝐅𝐈𝐂𝐀𝐑 💮" }, type: 1 },
+        { buttonId: "#menu", buttonText: { displayText: "🌸 𝐌𝐄𝐍𝐔 𝐑𝐈𝐍 𝐈𝐓𝐎𝐒𝐇𝐈 🌸" }, type: 1 }
+      ],
       headerType: 4
     }, { quoted: fkontak })
   }
 
+  // ────────────────
+  // DESPEDIDA 🌙
+  // ────────────────
   if (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_LEAVE || m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_REMOVE) {
     const imgBye = await generarImagenUrl('bye')
     await conn.sendMessage(m.chat, {
       image: { url: imgBye },
-      caption: byeMessage1, 
-      ...fakeContext, 
-      footer: byeMessage2, 
+      caption: byeMessage,
+      ...fakeContext,
       buttons: [
-        { buttonId: "#p", buttonText: { displayText: "⿻͢⃟𖤍۬፝͡ 𝗣 𝗜 𝗡 𝗚͜͡🌿︎͢⸸𖾏ꦿ" }, type: 1 },
-        { buttonId: "#menu", buttonText: { displayText: "⿻͢⃟𖤍۬፝͡𝗠 𝗘 𝗡 𝗨͜͡☁️︎͢⸸𖾏ꦿ" }, type: 1 }
-      ], 
+        { buttonId: "#menu", buttonText: { displayText: "☁️ 𝐌𝐄𝐍𝐔 ☁️" }, type: 1 },
+        { buttonId: "#p", buttonText: { displayText: "🍃 𝐒𝐓𝐀𝐓𝐔𝐒 🍃" }, type: 1 }
+      ],
       headerType: 4
     }, { quoted: fkontak })
   }
