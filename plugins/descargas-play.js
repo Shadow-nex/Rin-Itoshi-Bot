@@ -29,7 +29,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       `> 🔗 \`Link\` » ${url}`
 
     const thumb = (await conn.getFile(thumbnail))?.data
-    await conn.reply(m.chat, thumb, infoMessage, fkontak, fake);
+    await conn.reply(m.chat, thumb, infoMessage, m);
 
  
     if (['playaudio'].includes(command)) {

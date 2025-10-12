@@ -28,23 +28,24 @@ export async function before(m, { conn, participants, groupMetadata }) {
   const numeroUsuario = usuarioJid.split('@')[0]
   const pais = getPais(numeroUsuario)
 
+  const avatarUsuario = await conn.profilePictureUrl(usuarioJid, 'image')
+    .catch(() => 'https://i.ibb.co/1s8T3sY/48f7ce63c7aa.jpg')
+
   const generarImagenUrl = async (tipo) => {
-    const username = numeroUsuario
+    const username = `@${numeroUsuario}`
     const guildName = groupMetadata.subject
     const memberCount = participants.length
-    const avatar = await conn.profilePictureUrl(usuarioJid, 'image').catch(_ => 'https://i.ibb.co/1s8T3sY/48f7ce63c7aa.jpg')
-    const background = 'https://i.ibb.co/4YBNyvP/images-76.jpg'
-    const guildIcon = 'https://github.com/Shadow-nex.png'
+    const guildIcon = await conn.profilePictureUrl(m.chat, 'image').catch(() => 'https://i.ibb.co/1s8T3sY/48f7ce63c7aa.jpg')
     const key = 'hYSK8YrJpKRc9jSE'
 
-    const url = `https://api-nv.ultraplus.click/api/generate/welcome-image?username=${encodeURIComponent(username)}&guildName=${encodeURIComponent(guildName)}&memberCount=${memberCount}&avatar=${encodeURIComponent(avatar)}&background=${encodeURIComponent(background)}&guildIcon=${encodeURIComponent(guildIcon)}&key=${key}&type=${tipo}`
+    const url = `https://api-nv.ultraplus.click/api/generate/welcome-image?username=${encodeURIComponent(username)}&guildName=${encodeURIComponent(guildName)}&memberCount=${memberCount}&avatar=${encodeURIComponent(avatarUsuario)}&background=${encodeURIComponent(avatarUsuario)}&guildIcon=${encodeURIComponent(guildIcon)}&key=${key}&type=${tipo}`
 
     try {
       const res = await fetch(url)
       if (!res.ok) throw new Error('API no responde')
       return url
     } catch {
-      return background
+      return avatarUsuario
     }
   }
 
@@ -60,26 +61,22 @@ export async function before(m, { conn, participants, groupMetadata }) {
   const hora = fechaObj.toLocaleTimeString('es-PE', { timeZone: 'America/Lima' })
   const fecha = fechaObj.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Lima' })
   const dia = fechaObj.toLocaleDateString('es-PE', { weekday: 'long', timeZone: 'America/Lima' })
-
   const groupSize = participants.length + ((m.messageStubType === 27) ? 1 : ((m.messageStubType === 28 || m.messageStubType === 32) ? -1 : 0))
 
-  const fakeContext = {
-    contextInfo: {
-      isForwarded: true,
-      mentionedJid: [usuarioJid],
-      externalAdReply: {
-        title: '🍉 𝙒𝙚𝙡𝙘𝙤𝙢𝙚 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 - 𝘽𝙤𝙩 🌿',
-        body: '',
-        previewType: "PHOTO",
-        thumbnailUrl: 'https://files.catbox.moe/7sbozb.jpg',
-        sourceUrl: "https://instagram.com",
-        mediaType: 1
-      }
+  const contextInfo = {
+    mentionedJid: [usuarioJid],
+    externalAdReply: {
+      title: '🍉 𝙒𝙚𝙡𝙘𝙤𝙢𝙚 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 - 𝘽𝙤𝙩 🌿',
+      body: '',
+      previewType: "PHOTO",
+      thumbnailUrl: avatarUsuario,
+      sourceUrl: "https://instagram.com",
+      mediaType: 1
     }
   }
- 
+
   const welcomeMessage = `
-╭━━━〔 🌸 *ＢＩＥＮＶＥＮＩＤＯ ＠${numeroUsuario}* 🌸 〕━━⬣
+╭━━━〔 🌸 *ＢＩＥＮＶＥＮＩＤＯ ${'@' + numeroUsuario}* 🌸 〕━━⬣
 │🎀 ʙɪᴇɴᴠᴇɴɪᴅᴏ ᴀ *${groupMetadata.subject}* 💫
 │🍃 _${groupMetadata.desc?.slice(0, 120) || "Sin descripción."}_
 │🌸 𝑀𝑖𝑒𝑚𝑏𝑟𝑜𝑠: *${groupSize}*
@@ -91,26 +88,24 @@ export async function before(m, { conn, participants, groupMetadata }) {
 > ૮₍｡˃ ᵕ ˂ ｡₎ა 💕 Usa _#menu_ para explorar comandos.`
 
   const byeMessage = `
-╭━━━〔 💔 *ＨＡＳＴＡ ＰＲＯＮＴＯ ＠${numeroUsuario}* 💔 〕━━⬣
+╭━━━〔 💔 *ＨＡＳＴＡ ＰＲＯＮＴＯ ${'@' + numeroUsuario}* 💔 
 │🍂 𝑬𝒔 𝒕𝒓𝒊𝒔𝒕𝒆 𝒗𝒆𝒓𝒕𝒆 𝒊𝒓...
 │🕊️ 𝐺𝑟𝑢𝑝𝑜: *${groupMetadata.subject}*
 │🌸 𝑀𝑖𝑒𝑚𝑏𝑟𝑜𝑠: *${groupSize}*
 │🕰️ 𝐹𝑒𝑐ℎ𝑎: *${dia}, ${fecha}*
 │🌍 𝐿𝑢𝑔𝑎𝑟: *${pais}*
-╰━━━〔 💮 𝑅𝑖𝑛 𝐼𝑡𝑜𝑠ℎ𝑖 💮 〕━━⬣
+╰━━━〔 💮 𝑅𝑖𝑛 𝐼𝑡𝑜𝑠𝑕𝑖 💮 〕━━⬣
 
 > 🌧️ *Esperamos verte de nuevo pronto.*
 > 🍃 Usa _#help_ si vuelves, estaremos aquí.`
 
-  // ────────────────
-  // BIENVENIDA 💫
-  // ────────────────
   if (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
     const imgWelcome = await generarImagenUrl('welcome')
     await conn.sendMessage(m.chat, { 
       image: { url: imgWelcome },
       caption: welcomeMessage,
-      ...fakeContext,
+      contextInfo,
+      mentions: [usuarioJid],
       buttons: [
         { buttonId: "#reg shadow.18", buttonText: { displayText: "💮 𝐀𝐔𝐓𝐎 𝐕𝐄𝐑𝐈𝐅𝐈𝐂𝐀𝐑 💮" }, type: 1 },
         { buttonId: "#menu", buttonText: { displayText: "🌸 𝐌𝐄𝐍𝐔 𝐑𝐈𝐍 𝐈𝐓𝐎𝐒𝐇𝐈 🌸" }, type: 1 }
@@ -119,15 +114,13 @@ export async function before(m, { conn, participants, groupMetadata }) {
     }, { quoted: fkontak })
   }
 
-  // ────────────────
-  // DESPEDIDA 🌙
-  // ────────────────
   if (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_LEAVE || m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_REMOVE) {
     const imgBye = await generarImagenUrl('bye')
     await conn.sendMessage(m.chat, {
       image: { url: imgBye },
       caption: byeMessage,
-      ...fakeContext,
+      contextInfo,
+      mentions: [usuarioJid],
       buttons: [
         { buttonId: "#menu", buttonText: { displayText: "☁️ 𝐌𝐄𝐍𝐔 ☁️" }, type: 1 },
         { buttonId: "#p", buttonText: { displayText: "🍃 𝐒𝐓𝐀𝐓𝐔𝐒 🍃" }, type: 1 }
