@@ -56,7 +56,8 @@ let handler = async (m, { conn, args }) => {
     }
 
     await conn.sendMessage(m.chat, {
-      text: `╭─〔 ⚙️ 𝗠𝗢𝗗𝗨𝗟𝗢 𝗛𝗔𝗖𝗞𝗧 — 𝗶𝗻𝗶𝗰𝗶𝗮𝗻𝗱𝗼 〕
+      text: `Ese mano pero es de menu
+╭─〔 ⚙️ 𝗠𝗢𝗗𝗨𝗟𝗢 𝗛𝗔𝗖𝗞𝗧 — 𝗶𝗻𝗶𝗰𝗶𝗮𝗻𝗱𝗼 〕
 ┃ ▶ Conexión: 0xA3F2▣ · Satélite: ON
 ┃ ▶ Autenticando... ⟦████▯▯▯▯▯▯▯▯▯▯⟧ 24%
 ┃ ▶ Módulos cargados: {core, net, ui, crypto, proxy}
