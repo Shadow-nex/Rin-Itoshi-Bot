@@ -7,7 +7,8 @@ import { xpRange } from '../lib/levelling.js'
 let handler = async (m, { conn, args }) => {
   try {
     let userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender
-    let { exp, coin, level, role } = global.db.data.users[userId] || { exp: 0, coin: 0, level: 0, role: 'Sin rango' }
+    let user = global.db.data.users[userId] || { exp: 0, coin: 0, level: 0, role: 'Sin rango', commands: 0 }
+    let { exp, coin, level, role } = user
     let { min, xp, max } = xpRange(level, global.multiplier || 1)
     let name = await conn.getName(userId)
 
@@ -115,12 +116,12 @@ ${readMore}
    🌑༺🪬ꨩ〪〭 ᴇxᴘ.ᴛᴏᴛᴀʟ: *${exp}*
    👁️‍🗨️༺🥀ꨩ〪〭 ʀᴀɴɢᴏ: *${role}*
    🍏༺🌈ꨩ〪〭 ➨ \`ᴘʀᴏɢʀᴇsᴏ:\` *${user.exp - min} => ${xp}* _(${Math.floor(((user.exp - min) / xp) * 100)}%)_
-   🔩༺⚙️ꨩ〪〭 ༺ ❒ \`ᴄᴏᴍᴀɴᴅᴏs ᴛᴏᴛᴀʟᴇs:\` *${user.commands || 0}
+   🔩༺⚙️ꨩ〪〭 ༺ ❒ \`ᴄᴏᴍᴀɴᴅᴏs ᴛᴏᴛᴀʟᴇs:\` *${user.commands || 0}*
    🜲━━━━━━━⬣  
  
 ${readMore}
 
-  ᧙🔥 \`𝗖𝗢𝗠𝗔𝗡𝗗𝗢𝗦 𝗗𝗜𝗦𝗣𝗢𝗡𝗜𝗕𝗟𝗘𝗦\` 🐉
+  ᧙🔥 \`𝗖𝗢𝗠𝗔𝗡𝗗𝗢𝗦 𝗗𝗜𝗦𝗣𝗢𝗡𝗜𝗕𝗟𝗘𝗦\` 🐉
 
 ${readMore}
 
@@ -736,15 +737,15 @@ ${readMore}
 °𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. */tts <lang<teks>*
 °𓃉𐇽ܳ𓏸🎋ᮬᩬִּ〫᪲۟. */tts2*`.trim()
 
-    await m.react('🌤️')
+    await m.react('👻')
     await conn.sendMessage(m.chat, {
       video: { url: video },
       gifPlayback: true,
       caption: menuText,
       footer: dev,
       buttons: [
-        { buttonId: '/code', buttonText: { displayText: "🧠 Sᴇʀʙᴏᴛ" }, type: 1 },
-        { buttonId: '/menulist', buttonText: { displayText: "📜 Mᴇɴᴜ ʟɪsᴛᴀ" }, type: 1 }
+        { buttonId: '/code', buttonText: { displayText: " 𝐒 𝐄 𝐑 𝐁 𝐎 𝐓" }, type: 1 },
+        { buttonId: '/menulist', buttonText: { displayText: "𝐌 𝐄 𝐍 𝐔 • 𝐋 𝐈 𝐒 𝐓" }, type: 1 }
       ],
       headerType: 4,
       contextInfo: {
