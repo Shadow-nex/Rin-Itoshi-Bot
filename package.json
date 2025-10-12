@@ -18,16 +18,16 @@
 "eslint": "eslint .",
 "eslintfix": "eslint --fix ."
 },
-"homepage": "https://github.com/Yuji-XDev/Rin-Itoshi-Bot",
+"homepage": "https://github.com/Shadow-nex/Rin-Itoshi-Bot",
 "author": {
 "name": "ShadowCore"
 },
 "repository": {
 "type": "git",
-"url": "git+https://github.com/Yuji-XDev/Rin-Itoshi-Bot.git"
+"url": "git+https://github.com/Shadow-nex/Rin-Itoshi-Bot.git"
 },
 "bugs": {
-"url": "https://github.com/Yuji-XDev/Rin-Itoshi-Bot/issues"
+"url": "https://github.com/Shadow-nex/Rin-Itoshi-Bot/issues"
 },
 "license": "MIT-License",
 "dependencies": {
