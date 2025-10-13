@@ -53,126 +53,149 @@ font: 'console',
 align: 'center',
 colors: ['cyan', 'magenta', 'yellow']
 })*/
+
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
-async function showBanner() {
-    const title = `
-░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-░░░░░░░░░░▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄░░░░░░░░░
-░░░░░░░░▄▀░░░░░░░░░░░░▄░░░░░░░▀▄░░░░░░░
-░░░░░░░░█░░▄░░░░▄░░░░░░░░░░░░░░█░░░░░░░
-░░░░░░░░█░░░░░░░░░░░░▄█▄▄░░▄░░░█░▄▄▄░░░
-░▄▄▄▄▄░░█░░░░░░▀░░░░▀█░░▀▄░░░░░█▀▀░██░░
-░██▄▀██▄█░░░▄░░░░░░░██░░░░▀▀▀▀▀░░░░██░░
-░░▀██▄▀██░░░░░░░░▀░██▀░░░░░░░░░░░░░▀██░
-░░░░▀████░▀░░░░▄░░░██░░░▄█░░░░▄░▄█░░██░
-░░░░░░░▀█░░░░▄░░░░░██░░░░▄░░░▄░░▄░░░██░
-░░░░░░░▄█▄░░░░░░░░░░░▀▄░░▀▀▀▀▀▀▀▀░░▄▀░░
-░░░░░░█▀▀█████████▀▀▀▀████████████▀░░░░
-░░░░░░████▀░░███▀░░░░░░▀███░░▀██▀░░░░░░
-░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    `.split('\n').map(line => chalk.hex('#00eaff').bold(line)).join('\n')
+function beep(times = 1, delay = 100) {
+  for (let i = 0; i < times; i++) {
+    process.stdout.write('\x07')
+  }
+  return sleep(delay * times)
+}
 
-    const subtitle = chalk.hex('#ff66cc').bold('✦ RIN ITOSHI SYSTEM ✦').padStart(50)
-    const poweredMsg = chalk.hex('#ffcc00').italic('⚙ powered by ShadowCore Engine')
-    const aiMsg = chalk.hex('#00f7ff').bold('──────────────────────────────────────────────────────')
-
-    const tips = [
-        chalk.hex('#00ffcc')('✧ Usa /menu para ver todas las funciones disponibles.'),
-        chalk.hex('#ff66cc')('⌬ Mantén tu bot siempre actualizado.'),
-        chalk.hex('#ffcc00')('⬡ Disfruta del poder estético de Rin Itoshi Bot.')
-    ]
-
-    const loadingStyles = [
-        ['⠋', 'Inicializando módulos visuales...'],
-        ['⠙', 'Cargando base de datos dinámica...'],
-        ['⠹', 'Activando núcleo de inteligencia...'],
-        ['⠸', 'Sincronizando estructura modular...'],
-        ['⠼', 'Estableciendo conexión con el servidor...'],
-        ['⠴', 'Optimizando sistema...'],
-        ['⠦', 'Verificando integridad del entorno...'],
-        ['⠧', 'Cargando estilos dinámicos...'],
-        ['⠇', 'Compilando componentes IA...'],
-        ['⠏', 'Finalizando arranque...'],
-    ]
-
-    console.clear()
-
-    console.log(
-        boxen(
-            title + '\n' + subtitle,
-            {
-                padding: 1,
-                margin: 1,
-                borderStyle: 'double',
-                borderColor: 'cyanBright',
-                backgroundColor: '#000014',
-                title: 'Rin Itoshi System',
-                titleAlignment: 'center'
-            }
-        )
-    )
-
-    say('RIN • ITOSHI', {
-        font: 'simple3d',
-        align: 'center',
-        colors: ['cyan', 'white'],
-        background: 'transparent',
-        letterSpacing: 1,
-        lineHeight: 1
-    })
-    say('by ShadowCore', {
-        font: 'console',
-        align: 'center',
-        colors: ['yellowBright'],
-        background: 'transparent'
-    })
-
-    console.log('\n' + aiMsg + '\n')
-
-    const colors = ['#00eaff', '#00ffcc', '#ff66cc', '#ffcc00', '#00f7ff']
-    for (let i = 0; i < 60; i++) {
-        const [symbol, message] = loadingStyles[i % loadingStyles.length]
-        const color = colors[i % colors.length]
-        process.stdout.write(
-            '\r' + chalk.hex(color).bold(`${symbol} ${message}`)
-        )
-        await sleep(100)
+async function pulseEffect(text, color, speed = 25, cycles = 2) {
+  const chars = ['░', '▒', '▓', '█']
+  for (let c = 0; c < cycles; c++) {
+    for (const ch of chars) {
+      process.stdout.write('\r' + chalk.hex(color)(`${ch} ${text}`))
+      await sleep(speed)
     }
-    process.stdout.write('\r' + ' '.repeat(60) + '\r')
+  }
+  process.stdout.write('\r' + chalk.hex(color)(`✔ ${text}\n`))
+}
 
-    console.log(
-        chalk.bold.cyanBright(
-            boxen(
-                chalk.bold('¡Bienvenido a Rin Itoshi Bot! 🚀\n') +
-                chalk.hex('#00f7ff')('El sistema se ha iniciado correctamente.') +
-                '\n\n' +
-                tips.join('\n') +
-                '\n\n' +
-                poweredMsg,
-                {
-                    padding: 1,
-                    margin: 1,
-                    borderStyle: 'round',
-                    borderColor: 'magentaBright',
-                    backgroundColor: '#000010'
-                }
-            )
-        )
+async function showBanner() {
+  const title = `
+█▀▄ █ █▄░█ █░█ █ █▄░█ █░█ █▀ █▄▄ █▀█ ▀█▀
+█▄▀ █ █░▀█ ▀▄▀ █ █░▀█ ▀▄▀ ▄█ █▄█ █▀▄ ░█░
+  `.split('\n').map(line => chalk.hex('#00f7ff').bold(line)).join('\n')
+
+  const subtitle = chalk.hex('#ff66cc').bold('✦ RIN ITOSHI SYSTEM ✦').padStart(45)
+  const poweredMsg = chalk.hex('#ffcc00').italic('⚙ Powered by ShadowCore Engine')
+  const aiMsg = chalk.hex('#00f7ff').bold('───────────────────────────────────────────────────────────────')
+
+  const tips = [
+    chalk.hex('#00ffcc')('✧ Usa /menu para ver los comandos disponibles.'),
+    chalk.hex('#ff66cc')('⌬ Mantén tu sistema actualizado.'),
+    chalk.hex('#ffcc00')('⬡ Bienvenido al poder de Rin Itoshi Bot.')
+  ]
+
+  const loadingSets = [
+    ['⠋', 'Inicializando núcleo del sistema...'],
+    ['⠙', 'Conectando con el servidor central...'],
+    ['⠹', 'Cargando módulos inteligentes...'],
+    ['⠸', 'Activando entorno Rin-Core...'],
+    ['⠼', 'Sincronizando matriz visual...'],
+    ['⠴', 'Optimizando flujo de energía...'],
+    ['⠦', 'Aplicando configuraciones estéticas...'],
+    ['⠧', 'Estableciendo enlace IA...'],
+    ['⠇', 'Verificando seguridad del entorno...'],
+    ['⠏', 'Finalizando arranque del sistema...'],
+    ['⚡', 'Liberando energía principal...'],
+    ['💫', 'Expandiendo parámetros cósmicos...'],
+    ['🌌', 'Estableciendo conexión dimensional...'],
+    ['🚀', 'Lanzando Rin Itoshi Bot...']
+  ]
+
+  const colorCycle = ['#00eaff', '#00ffcc', '#ff66cc', '#ffcc00', '#00f7ff', '#ff3366']
+
+  console.clear()
+  console.log(
+    boxen(
+      title + '\n' + subtitle,
+      {
+        padding: 1,
+        margin: 1,
+        borderStyle: 'double',
+        borderColor: 'cyanBright',
+        backgroundColor: '#000014',
+        title: 'RIN ITOSHI BOT',
+        titleAlignment: 'center'
+      }
     )
+  )
 
-    const patterns = [
-        chalk.hex('#00eaff')('✦'),
-        chalk.hex('#ff66cc')('⌬'),
-        chalk.hex('#ffcc00')('⬡'),
-        chalk.hex('#00ffcc')('✧'),
-        chalk.hex('#00f7ff')('◆'),
-        chalk.hex('#ff3366')('⬢')
-    ]
+  say('RIN • ITOSHI', {
+    font: 'simple3d',
+    align: 'center',
+    colors: ['cyan', 'white'],
+    background: 'transparent',
+    letterSpacing: 1,
+    lineHeight: 1
+  })
+  say('ShadowCore Online', {
+    font: 'console',
+    align: 'center',
+    colors: ['yellowBright'],
+    background: 'transparent'
+  })
 
-    let line = ''
-    for (let i = 0; i < 60; i++) line += patterns[i % patterns.length]
-    console.log('\n' + line + '\n')
+  console.log('\n' + aiMsg + '\n')
+
+  for (let i = 0; i < 120; i++) {
+    const [symbol, message] = loadingSets[i % loadingSets.length]
+    const color = colorCycle[i % colorCycle.length]
+    const barLength = (i % 30) + 1
+    const bar = chalk.hex(color)('█'.repeat(barLength)) + chalk.gray('░'.repeat(30 - barLength))
+    process.stdout.write('\r' + chalk.hex(color).bold(`${symbol} ${message} `) + bar)
+
+    if (i % 15 === 0) await beep(1, 20)
+    await sleep(90)
+  }
+  process.stdout.write('\r' + ' '.repeat(100) + '\r')
+
+  await pulseEffect('Cargando inteligencia principal...', '#00f7ff')
+  await pulseEffect('Estableciendo red neural...', '#ff66cc')
+  await pulseEffect('Sincronización completa.', '#00ffcc')
+  await beep(3, 100)
+
+  console.log(
+    chalk.bold.cyanBright(
+      boxen(
+        chalk.bold('💠 ¡Bienvenido a Rin Itoshi Bot! 🚀\n') +
+        chalk.hex('#00f7ff')('El sistema se ha iniciado correctamente.') +
+        '\n\n' +
+        tips.join('\n') +
+        '\n\n' +
+        poweredMsg,
+        {
+          padding: 1,
+          margin: 1,
+          borderStyle: 'round',
+          borderColor: 'magentaBright',
+          backgroundColor: '#000010'
+        }
+      )
+    )
+  )
+
+  const patterns = [
+    chalk.hex('#00eaff')('✦'),
+    chalk.hex('#ff66cc')('⌬'),
+    chalk.hex('#ffcc00')('⬡'),
+    chalk.hex('#00ffcc')('✧'),
+    chalk.hex('#00f7ff')('◆'),
+    chalk.hex('#ff3366')('⬢')
+  ]
+  let line = ''
+  for (let i = 0; i < 100; i++) {
+    line += patterns[i % patterns.length]
+    if (i % 8 === 0) await sleep(10)
+  }
+  console.log('\n' + line + '\n')
+
+  await beep(2, 200)
+  console.log(chalk.hex('#00ffcc').bold('✨ Sistema Rin Itoshi totalmente operativo. ✨'))
 }
 
 await showBanner()
