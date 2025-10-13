@@ -125,13 +125,18 @@ async function getRandomIcon() {
     'https://files.catbox.moe/fft2hr.jpg',
     'https://files.catbox.moe/i97oje.jpg',
     'https://files.catbox.moe/js2plu.jpg',
-    'https://d.uguu.se/GmSLPtrU.png',
-    'https://h.uguu.se/kbNQSQxM.jpg',
-    'https://h.uguu.se/wzOFAoph.png',
-    'https://h.uguu.se/UGUwjmCs.jpg',
-    'https://n.uguu.se/vqJnHBPm.jpg',
-    'https://n.uguu.se/DlsupQkP.jpg',
-    'https://i.pinimg.com/originals/e0/98/ba/e098bac73c8ae72243f66c7bf712045a.jpg'
+    'https://shadow-xyz.vercel.app/img/shadow.jpg',
+    'https://shadow-xyz.vercel.app/img/shadow1.jpg',
+    'https://shadow-xyz.vercel.app/img/shadow2.jpg',
+    'https://shadow-xyz.vercel.app/img/shadow3.jpg',
+    'https://shadow-xyz.vercel.app/img/shadow4.jpg',
+    'https://shadow-xyz.vercel.app/img/shadow5.jpg',
+    'https://shadow-xyz.vercel.app/img/shadow6.jpg',
+    'https://shadow-xyz.vercel.app/img/shadow7.jpg',
+    'https://shadow-xyz.vercel.app/img/shadow8.jpg',
+    'https://shadow-xyz.vercel.app/img/shadow9.jpg',
+    'https://shadow-xyz.vercel.app/img/shadow10.jpg',
+    'https://i.pinimg.com/originals/e0/98/ba/e098bac73c8ae72243f66c7bf712045a.jpg',
   ]
   
   let url

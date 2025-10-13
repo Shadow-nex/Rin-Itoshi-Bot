@@ -1,6 +1,5 @@
 import fetch from "node-fetch"
 import yts from "yt-search"
-import axios from "axios"
 
 const youtubeRegexID = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/
 
@@ -21,18 +20,30 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     const vistas = formatViews(views)
     const canal = author?.name || 'Desconocido'
 
-    const infoMessage = `🌷 \`Titulo:\`  *${title || 'Desconocido'}*\n\n` +
-      `> 📺 \`Canal\` » *${canal}*\n` +
-      `> 👁️ \`Vistas\` » *${vistas || 'Desconocido'}*\n` +
-      `> ⏱ \`Duración\` » *${timestamp || 'Desconocido'}*\n` +
-      `> 📆 \`Publicado\` » *${ago || 'Desconocido'}*\n` +
-      `> 🔗 \`Link\` » ${url}`
+    const infoMessage = ` *${title}*
 
-    const thumb = (await conn.getFile(thumbnail))?.data
-    await conn.reply(m.chat, thumb, infoMessage, m);
+> 📺 *Canal:* ${canal}
+> 👁️ *Vistas:* ${vistas}
+> ⏱ *Duración:* ${timestamp || 'Desconocido'}
+> 📆 *Publicado:* ${ago || 'Desconocido'}
+> 🔗 *Enlace:* ${url}`.trim()
 
- 
-    if (['playaudio'].includes(command)) {
+    await conn.sendMessage(m.chat, {
+      image: { url: thumbnail },
+      caption: infoMessage,
+      contextInfo: {
+        externalAdReply: {
+          title: title,
+          body: "🎶 Reproducir contenido multimedia",
+          thumbnailUrl: thumbnail,
+          sourceUrl: url,
+          mediaType: 1,
+          renderLargerThumbnail: true
+        }
+      }
+    }, { quoted: m })
+
+    if (command === 'playaudio') {
       try {
         const apiUrl = `https://api-nv.ultraplus.click/api/youtube/v2?url=${encodeURIComponent(url)}&format=audio&key=hYSK8YrJpKRc9jSE`
         const res = await fetch(apiUrl)
@@ -50,11 +61,10 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
           fileName: `${titulo}.mp3`,
           contextInfo: {
             externalAdReply: {
-              title: titulo,
-              body: '🎧 Descargando desde UltraPlus API',
+              title: `🎧 ${titulo}`,
+              body: 'Descarga Completa ♻️',
               mediaType: 1,
-              thumbnail: thumb,
-              mediaUrl: url,
+              thumbnailUrl: thumbnail,
               sourceUrl: url,
               renderLargerThumbnail: true
             }
@@ -66,35 +76,40 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         console.error(e)
         return conn.reply(m.chat, '*⚠ No se pudo enviar el audio. Puede ser muy pesado o hubo un error en la API.*', m)
       }
+    }
 
-    } else if (['playvideo'].includes(command)) {
+    else if (command === 'playvideo') {
       try {
-        const apiUrl = `https://api.delirius.store/download/ytmp4?url=${encodeURIComponent(url)}`
+        const apiUrl = `https://api.stellarwa.xyz/dow/ytmp4?url=${encodeURIComponent(url)}&apikey=Shadow_Core`
         const res = await fetch(apiUrl)
         const json = await res.json()
 
-        if (!json.status || !json.data?.download?.url)
+        if (!json.status || !json.data?.dl)
           throw '⚠ No se obtuvo enlace de video válido.'
 
-        const data = json.data.download
-        const sizeStr = data.size || 'Desconocido'
+        const videoUrl = json.data.dl
+        const titulo = json.data.title || title
+        const autor = json.data.author || canal
 
-        const caption = `> ✦ *Título:* ${json.data.title}
-> ❏ *Canal:* ${json.data.author}
-> ⌬ *Duración:* ${timestamp || 'Desconocido'}
-> ⨳ *Tamaño:* ${sizeStr}
-> 🜸 *Vistas:* ${vistas}
-> ❖ *Publicado:* ${ago || 'Desconocido'}
-> ⌭ *Enlace:* ${url}`
+        const caption = `> ♻️ *Titulo:* ${titulo}
+> 🎋 *Duración:* ${timestamp || 'Desconocido'}`.trim()
 
-        await conn.sendFile(
-          m.chat,
-          data.url,
-          data.filename || `${json.data.title || 'video'}.mp4`,
+        await conn.sendMessage(m.chat, {
+          video: { url: videoUrl },
           caption,
-          m,
-          { mimetype: 'video/mp4', thumbnail: thumb }
-        )
+          mimetype: 'video/mp4',
+          fileName: `${titulo}.mp4`,
+          contextInfo: {
+            externalAdReply: {
+              title: titulo,
+              body: '📽️ Descarga Completa',
+              thumbnailUrl: thumbnail,
+              sourceUrl: url,
+              mediaType: 1,
+              renderLargerThumbnail: true
+            }
+          }
+        }, { quoted: m })
 
         await m.react('✅')
       } catch (e) {
