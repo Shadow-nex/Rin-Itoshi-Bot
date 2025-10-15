@@ -100,10 +100,6 @@ let handler = async (m, { conn, args, usedPrefix }) => {
                 }
             }
         }, { quoted: m });
-
-    } catch (error) {
-        await m.reply(`⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${error.message}`, m)
-    }
 }
 
 handler.help = ['profile'];
