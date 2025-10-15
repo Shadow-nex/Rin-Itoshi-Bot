@@ -231,7 +231,7 @@ const handler = async (m, { conn, command, usedPrefix, participants }) => {
               : "Activo desde ahora"
 
             const mention = bot.replace(/[^0-9]/g, "")
-            return `☃️ @${mention}\n> 🌾 Bot: ${isMainBot ? "Principal" : "Sub-Bot"}\n> 🍉 Online: ${uptime}`
+            return `☃️ @${mention}\n> 🌾 *Bot:* ${isMainBot ? "Principal" : "Sub-Bot"}\n> 🍉 *Online:* ${uptime}`
           }).join("\n\n")
         : `✧ No hay bots activos en este grupo`
 
