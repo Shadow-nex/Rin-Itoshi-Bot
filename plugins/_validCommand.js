@@ -23,6 +23,10 @@ export async function before(m, { conn }) {
         },
         participant: "0@s.whatsapp.net"
   };
+  const channelRD = { 
+    id: '120363401008003732@newsletter', 
+    name: '👑 𝗥𝗶𝗻 𝗜𝘁𝗼𝘀𝗵𝗶 𝗨𝗹𝘁𝗿𝗮 𝗕𝗼𝘁 🎋'
+  };
 
   if (!command || command === 'bot') return;
 
