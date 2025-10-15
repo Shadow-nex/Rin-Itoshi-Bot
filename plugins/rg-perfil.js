@@ -86,31 +86,31 @@ let handler = async (m, { conn, args, usedPrefix }) => {
 🌀 *Esencia Vital:* _${description}_
 
 ╭─〔 ⚙️ CONFIGURACIÓN ESPIRITUAL 〕
-🎂 *Edad Estelar:* ${user.age || 'Incierta'}
-📆 *Ciclo Cósmico:* ${cumpleanos}
+│ 🎂 *Edad Estelar:* ${user.age || 'Incierta'}
+│ 📆 *Ciclo Cósmico:* ${cumpleanos}
 ⚧️ *Polaridad:* ${genero}
-💖 *Vínculo Álmico:* ${casado}
-🌍 *Origen Estelar:* ${country}
-📱 *Contacto:* ${phone}
-╰───────────────────────
+│ 💖 *Vínculo Álmico:* ${casado}
+│ 🌍 *Origen Estelar:* ${country}
+│ 📱 *Contacto:* ${phone}
+╰══✦
 
 ╭─〔 ✦ RECURSOS CÓSMICOS ✦ 〕
-🪙 *Monedas:* ${coin.toLocaleString()}
-🏦 *Banco:* ${bank.toLocaleString()}
-🌷 *Nivel Dimensional:* ${nivel}
-🌿 *Exp Cósmica:* ${exp.toLocaleString()}
-🌀 *Progreso:* ${progreso}
-📈 *Puesto:* #${rank}
-🛡️ *Rango:* ${user.role || 'Sin Rango'}
-🔮 *Premium:* ${premium ? `🟢 Activo (*${isLeft}*)` : '🔴 Inactivo'}
-╰───────────────────────
+│ 🪙 *Monedas:* ${coin.toLocaleString()}
+│ 🏦 *Banco:* ${bank.toLocaleString()}
+│ 🌷 *Nivel Dimensional:* ${nivel}
+│ 🌿 *Exp Cósmica:* ${exp.toLocaleString()}
+│ 🌀 *Progreso:* ${progreso}
+│ 📈 *Puesto:* #${rank}
+│ 🛡️ *Rango:* ${user.role || 'Sin Rango'}
+│ 🔮 *Premium:* ${premium ? `🟢 Activo (*${isLeft}*)` : '🔴 Inactivo'}
+╰══✦
 
 ╭─〔 💞 CONEXIÓN DIVINA 💞 〕
-ꕥ *Harem:* ${haremCount}
-♤ *Valor total:* ${haremValue.toLocaleString()}
-❒ *Coins totales:* ${totalCoins.toLocaleString()}
-❒ *Comandos usados:* ${user.commands || 0}
-╰───────────────────────
+│ ꕥ *Harem:* ${haremCount}
+│ ♤ *Valor total:* ${haremValue.toLocaleString()}
+│ ❒ *Coins totales:* ${totalCoins.toLocaleString()}
+│ ❒ *Comandos usados:* ${user.commands || 0}
+╰══✦
 
 🌌 〘 _"El cosmos refleja tu esencia."_ 〙
 `
