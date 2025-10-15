@@ -16,8 +16,7 @@ let handler = async (m, { conn, args, usedPrefix }) => {
 
     const user = global.db.data.users[userId]
     const name = await getSafeName(conn, userId)
-
-    // Datos básicos
+   
     const cumpleanos = user.birth || 'Sin especificar :< (#setbirth)'
     const genero = user.genre || 'Sin especificar'
     const pareja = user.marry
@@ -26,7 +25,6 @@ let handler = async (m, { conn, args, usedPrefix }) => {
       : 'Nadie'
     const description = user.description || 'Sin descripción :v'
 
-    // Datos numéricos
     const exp = user.exp || 0
     const nivel = user.level || 0
     const coin = user.coin || 0
@@ -35,7 +33,6 @@ let handler = async (m, { conn, args, usedPrefix }) => {
     const country = user.country || 'Desconocido'
     const phone = new PhoneNumber(userId, 'PE').getNumber('international')
 
-    // XP & ranking
     const sorted = Object.entries(global.db.data.users)
       .map(([k, v]) => ({ ...v, jid: k }))
       .sort((a, b) => (b.level || 0) - (a.level || 0))
@@ -46,7 +43,6 @@ let handler = async (m, { conn, args, usedPrefix }) => {
     )
     const progreso = `${exp - xpData.min} / ${xpData.xp} (_${porcentaje}%_)`
 
-    // Premium
     const prems = Array.isArray(global.prems) ? global.prems : []
     const premium =
       user.premium ||
@@ -59,7 +55,6 @@ let handler = async (m, { conn, args, usedPrefix }) => {
         : 'Permanente'
       : '—'
 
-    // Harem y favoritos
     const favId = user.favorite
     const favLine =
       favId && global.db.data.characters?.[favId]
@@ -74,7 +69,6 @@ let handler = async (m, { conn, args, usedPrefix }) => {
       return acc + (typeof char.value === 'number' ? char.value : 0)
     }, 0)
 
-    // Imagen del perfil
     const perfil =
       (await conn
         .profilePictureUrl(userId, 'image')
@@ -82,7 +76,6 @@ let handler = async (m, { conn, args, usedPrefix }) => {
           'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg'
         )) || 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg'
 
-    // Texto del perfil
     const profileText = `
 🔮 𝐏𝐄𝐑𝐅𝐈𝐋 𝐂𝐎𝐒𝐌𝐈𝐂𝐎 🔮
 ✧ ˚₊ ⊹ Rin Itoshi Bot ⊹ ₊˚ ✧
@@ -115,7 +108,6 @@ let handler = async (m, { conn, args, usedPrefix }) => {
 ❒ Comandos totales » *${user.commands || 0}*
 `
 
-    // Envío del mensaje
     await conn.sendMessage(
       m.chat,
       {
@@ -128,7 +120,7 @@ let handler = async (m, { conn, args, usedPrefix }) => {
             body: 'Conecta con tu energía estelar 🌠',
             thumbnailUrl: perfil,
             mediaType: 1,
-            showAdAttribution: true,
+            showAdAttribution: false,
             renderLargerThumbnail: true,
           },
         },
@@ -149,10 +141,6 @@ handler.command = ['profile', 'perfil']
 handler.group = true
 
 export default handler
-
-// ─────────────────────────────
-// Funciones auxiliares
-// ─────────────────────────────
 
 async function getSafeName(conn, id) {
   try {
