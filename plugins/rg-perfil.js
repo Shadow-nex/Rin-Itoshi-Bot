@@ -15,15 +15,14 @@ let handler = async (m, { conn, args, usedPrefix }) => {
     if (!global.db.data.users[userId]) global.db.data.users[userId] = {}
 
     const user = global.db.data.users[userId]
-    const name = await conn.getName(userId).catch(() => userId.split('@')[0])
+    const name = await getSafeName(conn, userId)
 
     // Datos básicos
     const cumpleanos = user.birth || 'Sin especificar :< (#setbirth)'
     const genero = user.genre || 'Sin especificar'
     const pareja = user.marry
     const casado = pareja
-      ? (global.db.data.users[pareja]?.name ||
-          (await conn.getName(pareja).catch(() => pareja.split('@')[0])))
+      ? (global.db.data.users[pareja]?.name || await getSafeName(conn, pareja))
       : 'Nadie'
     const description = user.description || 'Sin descripción :v'
 
@@ -150,6 +149,18 @@ handler.command = ['profile', 'perfil']
 handler.group = true
 
 export default handler
+
+// ─────────────────────────────
+// Funciones auxiliares
+// ─────────────────────────────
+
+async function getSafeName(conn, id) {
+  try {
+    return await conn.getName(id)
+  } catch {
+    return id.split('@')[0]
+  }
+}
 
 async function formatTime(ms) {
   if (ms <= 0) return 'Expirado'
