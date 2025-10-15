@@ -183,6 +183,7 @@ if (!('antifake' in chat))
 chat.antifake = false
 if (!('delete' in chat))
 chat.delete = false
+if (!("economy" in chat)) chat.economy = true
 if (!isNumber(chat.expired))
 chat.expired = 0
 } else
@@ -205,6 +206,7 @@ reaction: false,
 nsfw: false,
 expired: 0, 
 antiLag: false,
+economy: true,
 per: [],
 }
 var settings = global.db.data.settings[this.user.jid]
