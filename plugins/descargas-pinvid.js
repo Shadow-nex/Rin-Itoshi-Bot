@@ -76,5 +76,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 handler.help = ['pinvideo *<link>*']
 handler.tags = ['descargas']
 handler.command = ['pinvideo', 'pinv']
+handler.register = true;
+handler.coin = 3
 
 export default handler

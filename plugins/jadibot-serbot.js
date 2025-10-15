@@ -140,8 +140,8 @@ secret = secret.match(/.{1,4}/g)?.join("-")
       }
     }, { quoted: fkontak });
 
-codeBot = await conn.reply(m.chat, `${secret}*`, fkontak);
-//codeBot = await m.reply(secret)
+codeBot = await conn.reply(m.chat, `*\`${secret}\`*`, fkontak, fake);
+
 /*txtCode = await conn.sendMessage(
   m.chat,
   {

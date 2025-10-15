@@ -51,4 +51,5 @@ let handler = async (m, { conn, args }) => {
 };
 
 handler.command = ['applemusic'];
+handler.register = true;
 export default handler;

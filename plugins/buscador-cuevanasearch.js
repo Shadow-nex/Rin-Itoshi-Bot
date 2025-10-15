@@ -23,5 +23,7 @@ console.error(error)
 }}
 
 handler.command = ['cuevanasearch', 'cuevana']
+handler.register = true
+handler.group = true
 
 export default handler

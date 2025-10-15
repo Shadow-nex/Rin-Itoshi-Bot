@@ -42,5 +42,6 @@ handler.help = ['mediafiresearch <texto>']
 handler.tags = ['buscador']
 handler.command = ['mediafiresearch', 'mfse']
 handler.group = true
-
+handler.register = true
+handler.coin = 5
 export default handler

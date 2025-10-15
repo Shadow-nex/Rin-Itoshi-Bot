@@ -125,53 +125,5 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.help = ['music <url|nombre>']
 handler.tags = ['dl']
 handler.command = ['music']
-
+handler.register = true
 export default handler
-
-/*
-
-import fetch from 'node-fetch'
-
-let handler = async (m, { conn, args, usedPrefix, command }) => {
-  if (!args[0]) {
-    return m.reply(`🍂 *Uso correcto:*\n\n✦ \`${usedPrefix + command}\` <url de Spotify>\n\n📌 Ejemplo:\n${usedPrefix + command} https://open.spotify.com/track/3aPRjg26MXywx4V89uyjad`)
-  }
-
-  try {
-    let url = `https://api.neoxr.eu/api/spotify?url=${encodeURIComponent(args[0])}&apikey=russellxz`
-    let res = await fetch(url)
-    let json = await res.json()
-
-    if (!json.status) return m.reply(`❌ No se pudo obtener info.`)
-
-    let data = json.data
-
-    await conn.sendMessage(m.chat, {
-      audio: { url: data.url },
-      mimetype: 'audio/mpeg',
-      ptt: false,
-      fileName: `${data.title}.mp3`,
-      contextInfo: {
-        externalAdReply: {
-          title: data.title,
-          body: data.artist?.name || 'Spotify Downloader',
-          thumbnailUrl: data.thumbnail,
-          mediaUrl: args[0],
-          sourceUrl: args[0],
-          mediaType: 1,
-          renderLargerThumbnail: true
-        }
-      }
-    }, { quoted: m })
-
-  } catch (e) {
-    console.error(e)
-    m.reply(`❌ Error al procesar la petición.`)
-  }
-}
-
-handler.help = ['wcom <url>']
-handler.tags = ['downloader']
-handler.command = ['wcom']
-
-export default handler*/

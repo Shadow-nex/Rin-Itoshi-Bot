@@ -9,7 +9,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 
     let club = '⚡ *Powered by* » Sʜᴀᴅᴏᴡ•Core 𝖢𝗅𝗎𝖻 ⚡'
     let menu = `╔════ ≪ •❈• ≫ ════╗
-      👻 𝑴𝑬𝑵𝑼 𝑹𝑷𝑮 👻
+      👻 𝑴𝑬𝑵𝑼 - 𝑬𝑪𝑶𝑵𝑶𝑴𝑰𝑨 👻
 ╚════ ≪ •❈• ≫ ════╝
 ⏰ Hora: *${hora}*
 📅 Fecha: *${fecha}*

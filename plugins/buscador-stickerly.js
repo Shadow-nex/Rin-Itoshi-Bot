@@ -95,5 +95,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.help = ['stickerly <texto>'];
 handler.tags = ['sticker'];
 handler.command = ['stickerly'];
+handler.register = true;
+handler.coin = 4;
 
 export default handler;

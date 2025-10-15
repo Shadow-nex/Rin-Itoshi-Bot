@@ -156,7 +156,7 @@ const handler = async (m, { conn, args }) => {
     let res = await savetube.download(url);
     if (!res.status) {
       await m.react('✖️');
-      return m.reply(`❌ Error: ${res.error}`);
+      return m.reply(` Error: ${res.error}`);
     }
 
     const { title, duration, thumbnail, download } = res.result;
@@ -173,7 +173,7 @@ const handler = async (m, { conn, args }) => {
         contextInfo: {
           externalAdReply: {
             title: title,
-            body: `Duración: ${durationFormatted}`,
+            body: `☁️ 𝗗𝘂𝗿𝗮𝗰𝗶𝗼𝗻: ${durationFormatted}`,
             sourceUrl: url,
             thumbnailUrl: thumbnail,
             mediaType: 1,
@@ -184,7 +184,7 @@ const handler = async (m, { conn, args }) => {
       { quoted: m }
     );
 
-    await m.react('✅');
+    await m.react('✔️');
   } catch (e) {
     await m.react('✖️');
     m.reply(`⚠️ La descarga ha fallado, es posible que el archivo sea muy pesado.`);

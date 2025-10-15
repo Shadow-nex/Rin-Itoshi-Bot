@@ -15,23 +15,19 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       const app = data.data;
       apkSession.set(m.chat, { app });
 
-      let description = `
-╭━━━〔 📲 𝐃𝐞𝐬𝐜𝐚𝐫𝐠𝐚 𝐝𝐞 𝐀𝐩𝐤𝐬 〕━━━⬣
-┃ 🍧 *Nombre:* ${app.name}
-┃ 🌱 *Desarrollador:* ${app.developer}
-┃ 📦 *Paquete:* ${app.id}
-┃ ⚙️ *Tamaño:* ${app.size}
-┃ ⭐ *Rating:* ${app.stats?.rating?.average || "N/A"} (${app.stats?.rating?.total || 0} votos)
-┃ 📅 *Publicado:* ${app.publish}
-┃ ⚽ *Descargas:* ${app.stats?.downloads?.toLocaleString() || "N/A"}
-┃ 🏪 *Tienda:* ${app.store?.name || "Desconocida"}
-╰━━━━━━━━━━━━━━━━━━━━⬣
-`;
+      let description = `🍧 *Nombre:* ${app.name}
+🌱 *Desarrollador:* ${app.developer}
+📦 *Paquete:* ${app.id}
+⚙️ *Tamaño:* ${app.size}
+⭐ *Rating:* ${app.stats?.rating?.average || "N/A"} (${app.stats?.rating?.total || 0} votos)
+📅 *Publicado:* ${app.publish}
+⚽ *Descargas:* ${app.stats?.downloads?.toLocaleString() || "N/A"}
+🏪 *Tienda:* ${app.store?.name || "Desconocida"}`;
 
       const buttons = [
         {
           buttonId: `${usedPrefix}apk_download`,
-          buttonText: { displayText: "💖 ＤＥＳＣＡＲＧＡＲ" },
+          buttonText: { displayText: "☃️ 𝐃𝐞𝐬𝐜𝐚𝐫𝐠𝐚𝐫 𝐚𝐩𝐤" },
           type: 1
         }
       ];
@@ -78,15 +74,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     try {
       await m.react('⌛');
 
-      let caption = `
-╭━━━〔 ✅ 𝐃𝐞𝐬𝐜𝐚𝐫𝐠𝐚 𝐂𝐨𝐦𝐩𝐥𝐞𝐭𝐚 〕━━━⬣
-┃ 💔 *${app.name}*
-┃ 👤 *Desarrollador:* ${app.developer}
-┃ ⚙️ *Tamaño:* ${app.size}
-┃ 📦 *Paquete:* ${app.id}
-┃ 🍂 *Publicado:* ${app.publish}
-╰━━━━━━━━━━━━━━━━━━━━⬣
-`;
+      let caption = dev;
 
       await conn.sendMessage(
         m.chat,
@@ -97,8 +85,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
           caption: caption.trim(),
           contextInfo: {
             externalAdReply: {
-              title: app.name,
-              body: packname,
+              title: "𝐒𝐡𝐚𝐝𝐨𝐰_°𝐱𝐲𝐳",
+              body: " 🅁🄸🄽 🄸🅃🄾🅂🄷🄸 🄱🄾🅃 🄼🄳",
               sourceUrl: app.store?.avatar || null,
               thumbnailUrl: app.image,
               mediaType: 1,

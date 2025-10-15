@@ -255,7 +255,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       } catch {
         apiUsada = "Starlight"
         const res2 = await axios.get(`https://apis-starlights-team.koyeb.app/starlight/youtube-mp4?url=${encodeURIComponent(meta.url)}&format=${calidadPredeterminada}p`)
-        if (!res2.data?.dl_url) throw new Error("Error en la API de respaldo")
+        if (!res2.data?.dl_url) throw new Error("Error en la API")
 
         dl_url = res2.data.dl_url
         quality = res2.data.quality || calidadPredeterminada + "p"
@@ -268,7 +268,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       await m.react('✔️')
       await conn.sendMessage(m.chat, {
         video: { url: dl_url },
-        caption: `🎬 *${meta.title}*\n🍧 *Calidad:* ${quality}\n📦 *Peso:* ${fileSize}\n⚙️ *Servidor:* ${apiUsada}`,
+        caption: `*${meta.title}*\n🍧 *\`Calidad:\`* ${quality}\n📦 *\`Peso:\`* ${fileSize}\n⚙️ *\`Servidor:\`* ${apiUsada}`,
         mimetype: "video/mp4"
       }, { quoted: m })
     }
@@ -281,5 +281,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.help = ["ytmp4 <url>", "setcalidad <valor>"]
 handler.tags = ["descargas"]
 handler.command = ["ytmp4", "setcalidad", "setquality"]
+handler.register = true
+handler.group = true
 
 export default handler

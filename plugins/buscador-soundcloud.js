@@ -31,8 +31,7 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
       const image = await createImage(track.image || banner);
 
       const infoHeader = `🎵 𝗦𝗢𝗨𝗡𝗗𝗖𝗟𝗢𝗨𝗗  • 𝗕𝗨𝗦𝗤𝗨𝗘𝗗𝗔`;
-      const infoBody = `
-🎋 *Nro:* ${i + 1}
+      const infoBody = `🎋 *Nro:* ${i + 1}
 🍬 *Título:* ${track.title || 'Sin título'}
 🍧 *Artista:* ${track.artist || 'Desconocido'}
 👽 *Reproducciones:* ${track.repro || 'N/A'}
@@ -55,9 +54,9 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
             {
               name: 'cta_copy',
               buttonParamsJson: JSON.stringify({
-                display_text: "📋 𝘊𝘰𝘱𝘪𝘢𝘳 𝘭𝘪𝘯𝘬",
-                id: "copy_link",
-                copy_code: track.url
+                display_text: "🕸️ 𝘋𝘦𝘴𝘤𝘢𝘳𝘨𝘢𝘳",
+                id: "soundcloud2",
+                copy_code: `/soundcloud2 ${track.url}`
               })
             },
             {

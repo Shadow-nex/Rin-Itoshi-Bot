@@ -250,30 +250,11 @@ ${botsGroup}`
 
     const mentionList = groupBots.map(bot => (bot.endsWith("@s.whatsapp.net") ? bot : `${bot}@s.whatsapp.net`))
 
-    const rcanal = {
-      contextInfo: {
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: channelRD.id,
-          serverMessageId: "",
-          newsletterName: channelRD.name
-        },
-        externalAdReply: {
-          title: botname,
-          body: dev,
-          mediaUrl: null,
-          description: null,
-          previewType: "PHOTO",
-          thumbnail: await (await fetch(icono)).buffer(),
-          sourceUrl: redes,
-          mediaType: 1,
-          renderLargerThumbnail: false
-        },
-        mentionedJid: mentionList
-      }
-    }
+    rcanal.contextInfo.mentionedJid = mentionList
 
-    await conn.sendMessage(m.chat, { text: message, ...rcanal }, { quoted: shadow_xyz })
+    //await conn.sendMessage(m.chat, { text: message, ...rcanal }, { quoted: shadow_xyz })
+    await conn.sendMessage(m.chat, { image: { url: 'https://files.catbox.moe/z1zfg6.jpg' }, caption: message.trim(), mentions: [who], fileName: 'sockets.jpg', mimetype: 'image/jpeg', ...rcanal }, { quoted: shadow_xyz })
+
   } catch (error) {
     m.reply(`⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${error.message}`)
   }

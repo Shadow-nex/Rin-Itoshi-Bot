@@ -34,7 +34,7 @@ END:VCARD`.trim();
     displayName: name,
     vcard
   };
-  m.react('🍂');
+  m.react('☃️');
   await conn.sendMessage(m.chat, {
     contacts: {
       displayName: name,
@@ -43,8 +43,8 @@ END:VCARD`.trim();
     contextInfo: {
     mentionedJid: [m.sender],
       externalAdReply: {
-        title: '⚡ Contacto del Creador oniichan 💌',
-        body: 'Toca aquí para guardar el contacto o hablar con él',
+        title: '✦ ᴄᴏɴᴛᴀᴄᴛᴏ ᴅᴇ ᴍɪ ᴄʀᴇᴀᴅᴏʀ ᴜᴡᴜ ☆',
+        body: '',
         mediaType: 1,
         thumbnailUrl: fotoPerfil,
         renderLargerThumbnail: true,

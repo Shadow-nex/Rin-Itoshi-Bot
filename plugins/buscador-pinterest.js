@@ -111,6 +111,7 @@ handler.help = ['pinterest <texto>']
 handler.tags = ['buscador']
 handler.command = ['pinterest', 'pin']
 handler.register = true
+handler.coin = 4
 
 export default handler
 

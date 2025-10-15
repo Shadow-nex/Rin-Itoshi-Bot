@@ -76,28 +76,36 @@ export async function before(m, { conn, participants, groupMetadata }) {
   }
 
   const welcomeMessage = `
-╭━━━〔 🌸 *ＢＩＥＮＶＥＮＩＤＯ ${'@' + numeroUsuario}* 🌸 〕━━⬣
-│🎀 ʙɪᴇɴᴠᴇɴɪᴅᴏ ᴀ *${groupMetadata.subject}* 💫
-│🍃 _${groupMetadata.desc?.slice(0, 120) || "Sin descripción."}_
-│🌸 𝑀𝑖𝑒𝑚𝑏𝑟𝑜𝑠: *${groupSize}*
-│🕰️ 𝐹𝑒𝑐ℎ𝑎: *${dia}, ${fecha}*
-│🌍 𝐿𝑢𝑔𝑎𝑟: *${pais}*
-╰━━━〔 💮 𝑅𝑖𝑛 𝐼𝑡𝑜𝑠ℎ𝑖 💮 〕━━⬣
+  ╔═══════════════════╗
+           \`\`\`𝖡𝖨𝖤𝖭𝖵𝖤𝖭𝖨𝖣𝖮/𝖠\`\`\`
+  ╚═══════════════════╝
+╭────⋆ ╤╤╤ ✯ ╤╤╤ ⋆╯
+│ 🌾 *Usuario:* ${'@' + numeroUsuario}
+│ 📚 *Grupo:* ${groupMetadata.subject}
+│• | ✧︿︿ . . . .
+│ 🎋 *Miembros:* ${groupSize}
+│ 🍉 *Fecha:* ${dia}, ${fecha}, ${hora}
+│ ☃️ *Lugar:* ${pais}
+╰━━━⬣
 
-> ✨ *Que disfrutes tu estadía en este grupo.*
-> ૮₍｡˃ ᵕ ˂ ｡₎ა 💕 Usa _#menu_ para explorar comandos.`
+> ✨ *${groupMetadata.desc?.slice(0, 120) || "Sin descripción."}*
+> ૮₍｡˃ ᵕ ˂ ｡₎ა 💕 Usa *_#help_* para explorar comandos.`
 
   const byeMessage = `
-╭━━━〔 💔 *ＨＡＳＴＡ ＰＲＯＮＴＯ ${'@' + numeroUsuario}* 💔 
-│🍂 𝑬𝒔 𝒕𝒓𝒊𝒔𝒕𝒆 𝒗𝒆𝒓𝒕𝒆 𝒊𝒓...
-│🕊️ 𝐺𝑟𝑢𝑝𝑜: *${groupMetadata.subject}*
-│🌸 𝑀𝑖𝑒𝑚𝑏𝑟𝑜𝑠: *${groupSize}*
-│🕰️ 𝐹𝑒𝑐ℎ𝑎: *${dia}, ${fecha}*
-│🌍 𝐿𝑢𝑔𝑎𝑟: *${pais}*
-╰━━━〔 💮 𝑅𝑖𝑛 𝐼𝑡𝑜𝑠𝑕𝑖 💮 〕━━⬣
+  ╔═══════════════════╗
+          \`\`\`HASTA PRONTO\`\`\`
+  ╚═══════════════════╝
+╭────⋆ ╤╤╤ ✯ ╤╤╤ ⋆╯
+│ 🌾 *Usuario:* ${'@' + numeroUsuario}
+│ 📚 *Grupo:* ${groupMetadata.subject}
+│• | ✧︿︿ . . . 
+│ 🎋 *Miembros:* ${groupSize}
+│ 🍉 *Fecha:* ${dia}, ${fecha}, ${hora}
+│ ☃️ *Lugar:* ${pais}
+╰━━━⬣
 
 > 🌧️ *Esperamos verte de nuevo pronto.*
-> 🍃 Usa _#help_ si vuelves, estaremos aquí.`
+> 🍃 Usa *_#help_* si vuelves, estaremos aquí.`
 
   if (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
     const imgWelcome = await generarImagenUrl('welcome')

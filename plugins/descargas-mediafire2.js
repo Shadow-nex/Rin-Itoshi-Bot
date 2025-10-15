@@ -7,14 +7,14 @@ let handler = async (m, { conn, text }) => {
   
   await conn.sendMessage(m.chat, { react: { text: "🕒", key: m.key } })
       await conn.sendMessage(m.chat, {
-      text: '🍂 *D E S C A R G A N D O. . . ...*\n> 𝙴𝚂𝙿𝙴𝚁𝙴 𝚄𝙽 𝙼𝙾𝙼𝙴𝙽𝚃𝙸𝚃𝙾 𝚄𝚆𝚄',
+      text: ' 🄸 🄽 🄸 🄲 🄸 🄰 🄽 🄳 🄾 ᴅᴇsᴄᴀʀɢᴀ\n> *ᴘʀᴏᴄᴇsᴀɴᴅᴏ ᴅᴇsᴄᴀʀɢᴀ ᴇsᴘᴇʀᴇ ᴜɴ ᴍᴏɴᴇɴᴛᴏ ᴜᴡᴜ.*',
       mentions: [m.sender],
       contextInfo: {
         externalAdReply: {
-          title: '🍄 Rɪɴ Iᴛᴏsʜɪ ᴍᴅ 🌹 | 🪾 ʙʏ sʜᴀᴅᴏᴡ.xʏᴢ 🪴',
-          body: club,
+          title: '🧢 🆁🄸🅽 • 🄸🆃🄾🆂🄷🅸 💊',
+          body: '',
           thumbnailUrl: global.logo,
-          sourceUrl: 'https://Instagram.com',
+          sourceUrl: '',
           mediaType: 1,
           renderLargerThumbnail: true
         }
@@ -35,9 +35,9 @@ let handler = async (m, { conn, text }) => {
       title,
       `乂  *¡MEDIAFIRE - DESCARGAS!*  乂
 
-🌱 *Nombre* : ${title}
+🌾 *Nombre* : ${title}
 ⚡ *Peso* : ${peso}
-💖 *Fecha* : ${fecha}
+☃️ *Fecha* : ${fecha}
 🌳 *MimeType* : ${tipo}
 
 ${emoji} Archivo descargado con éxito.`,
@@ -47,7 +47,7 @@ ${emoji} Archivo descargado con éxito.`,
     await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } })
   } catch (e) {
     console.error(e)
-    m.reply(`❌ Error al descargar el archivo.\n${e.message}`)
+    m.reply(`Error al descargar el archivo.\n${e.message}`)
   }
 }
 
@@ -56,6 +56,7 @@ handler.tags = ['descargas']
 handler.command = ['mf2', 'mediafire2']
 handler.register = true
 handler.group = true
+handler.coin = 10
 
 export default handler
 

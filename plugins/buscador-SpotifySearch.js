@@ -97,5 +97,6 @@ handler.help = ["spotifysearch *<texto>*"]
 handler.tags = ["buscador"]
 handler.command = ["spotifysearch"]
 handler.coin = 4
+handler.register = true
 
 export default handler

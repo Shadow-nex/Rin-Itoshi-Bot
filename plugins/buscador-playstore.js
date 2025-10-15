@@ -38,5 +38,6 @@ const handler = async (m, { conn, args }) => {
 handler.command = ['playstore'];
 handler.help = ['playstore <nombre>'];
 handler.tags = ['search'];
+handler.register = true;
 
 export default handler;

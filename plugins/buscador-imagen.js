@@ -19,7 +19,7 @@ conn.reply(m.chat, `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}rep
 handler.help = ['imagen']
 handler.tags = ['descargas']
 handler.command = ['imagen', 'image']
-
+handler.register = true
 export default handler
 
 function getGoogleImageSearch(query) {

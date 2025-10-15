@@ -120,6 +120,7 @@ handler.help = ["ytsearch <texto>"];
 handler.tags = ["buscador"];
 handler.command = ["ytsearch", "yts"];
 handler.group = true;
+handler.register = true;
 
 handler.before = async (m, { conn }) => {
   if (!m.quoted || !m.quoted.text.includes("Resultados de la búsqueda")) return;

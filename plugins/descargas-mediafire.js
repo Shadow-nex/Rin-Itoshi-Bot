@@ -27,5 +27,6 @@ handler.help = ['mediafire']
 handler.tags = ['descargas']
 handler.group = true
 handler.premium = true
+handler.coin = 15
 
 export default handler

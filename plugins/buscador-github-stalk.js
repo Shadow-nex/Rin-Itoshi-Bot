@@ -39,6 +39,7 @@ await conn.sendMessage(m.chat, {text: loadd[i], edit: key })}
 handler.help = ['githubstalk'].map(v => v + ' <query>')
 handler.tags = ['stalk']
 handler.command = ['githubstalk']
+handler.register = true;
 
 export default handler
 

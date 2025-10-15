@@ -176,7 +176,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ╰━━━━━━━━━━━━━━⬣`
               }),
               footer: proto.Message.InteractiveMessage.Footer.fromObject({
-                text: '🎋 Rin Itoshi Ultra'
+                text: dev
               }),
               header: proto.Message.InteractiveMessage.Header.fromObject({
                 title: '',

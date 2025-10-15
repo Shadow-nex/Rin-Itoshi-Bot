@@ -86,8 +86,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         ptt: false,
         contextInfo: {
           externalAdReply: {
-            title: "🍏 s⍴᥆𝗍і𝖿ᥡ • mᥙsіᥴ 🌿",
-            body: "ᴅɪsғʀᴜᴛᴀ ᴛᴜ ᴍᴜsɪᴄᴀ ғᴀᴠᴏʀɪᴛᴀ 🎋",
+            title: "🌾 s⍴᥆𝗍і𝖿ᥡ • mᥙsіᥴ ☃️",
+            body: "",
             thumbnailUrl: image,
             sourceUrl: spotifyUrl,
             mediaType: 1,
@@ -111,5 +111,6 @@ handler.help = ["spotify"]
 handler.tags = ["download"]
 handler.command = ["spotify", "splay"]
 handler.group = true
+handler.register = true
 
 export default handler

@@ -108,5 +108,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.help = ['ytsearch2 <texto>'];
 handler.tags = ['buscador'];
 handler.command = ['ytsearch2', 'yts2'];
-
+handler.register = true;
+handler.coin = 3
 export default handler;

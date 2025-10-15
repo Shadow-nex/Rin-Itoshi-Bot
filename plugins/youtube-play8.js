@@ -25,7 +25,7 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
       thumbnail = await (await fetch('https://telegra.ph/file/36f2a1bd2aaf902e4d1ff.jpg')).buffer();
     }
 
-    const caption = `📀  𝐌𝐔𝐒𝐈𝐂 - 𝐘𝐎𝐔𝐓𝐔𝐁𝐄
+    const caption = `📀  𝐘𝐎𝐔𝐓𝐔𝐁𝐄 - 𝐌𝐔𝐒𝐈𝐂
  ✦ 𝗧𝗶́𝘁𝘂𝗹𝗼 › *${video.titulo || 'No encontrado'}*
  ✦ 𝗖𝗮𝗻𝗮𝗹 › *${video.canal || 'No encontrado'}*
  ✦ 𝗗𝘂𝗿𝗮𝗰𝗶𝗼́𝗻 › *${video.duracion || 'No encontrado'}*
@@ -45,7 +45,7 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
         {
           title: `📦 Descargar MP3 Documento`,
           description: `Duración: ${v.duracion || 'No disponible'}`,
-          id: `${usedPrefix}yta-v2 ${v.url}`
+          id: `${usedPrefix}yta ${v.url}`
         },
         {
           title: `🎥 Descargar MP4`,
@@ -93,13 +93,13 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
       },
       buttons: [
         {
-          buttonId: `${usedPrefix}yta ${video.url}`,
-          buttonText: { displayText: '🍂 Audio' },
+          buttonId: `${usedPrefix}ytmp3 ${video.url}`,
+          buttonText: { displayText: '☃️ 𝘋𝘦𝘴𝘤𝘢𝘳𝘨𝘢𝘳 𝘢𝘶𝘥𝘪𝘰' },
           type: 1,
         },
         {
           buttonId: `${usedPrefix}ytmp4 ${video.url}`,
-          buttonText: { displayText: '🌱 Video' },
+          buttonText: { displayText: '🌾 𝘋𝘦𝘴𝘤𝘢𝘳𝘨𝘢𝘳 𝘷𝘪𝘥𝘦𝘰' },
           type: 1,
         },
         {
@@ -107,7 +107,7 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
           nativeFlowInfo: {
             name: 'single_select',
             paramsJson: JSON.stringify({
-              title: '📺 𝐑𝐄𝐒𝐔𝐋𝐓𝐀𝐃𝐎 𝐃𝐄 𝐘𝐎𝐔𝐓𝐔𝐁𝐄',
+              title: '📺 𝐑𝐞𝐬𝐮𝐥𝐭𝐚𝐝𝐨𝐬 𝐝𝐞 𝐘𝐨𝐮𝐭𝐮𝐛𝐞',
               sections: ytSections,
             }),
           },
@@ -117,7 +117,7 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
           nativeFlowInfo: {
             name: 'single_select',
             paramsJson: JSON.stringify({
-              title: '🎲 𝐑𝐄𝐒𝐔𝐋𝐓𝐀𝐃𝐎 𝐃𝐄 𝐒𝐏𝐎𝐓𝐈𝐅𝐘',
+              title: '🎲 𝐑𝐞𝐬𝐮𝐥𝐭𝐚𝐝𝐨𝐬 𝐝𝐞 𝐒𝐩𝐨𝐭𝐢𝐟𝐲',
               sections: spotifySections,
             }),
           },

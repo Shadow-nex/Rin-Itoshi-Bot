@@ -35,14 +35,14 @@ let handler = async (m, { conn }) => {
 │ ° ⏳ *Uptime:* ${uptimeFormatted}
 └ ° 🗓️ *Date/Time:* ${fechaHora}
 \`\`\`${sysInfo.trim()}\`\`\`
-> ☄︎ кαиєкι вσт ν3 | 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 𝚂𝙷𝙰𝙳𝙾𝚆-𝚇𝚈𝚉`
+> ☃️︎ ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ | 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 𝚂𝙷𝙰𝙳𝙾𝚆-𝚇𝚈𝚉`
 
     await conn.sendMessage(m.chat, {
       text: response,
       mentions: [m.sender],
       contextInfo: {
         externalAdReply: {
-          title: '🍄 Rɪɴ Iᴛᴏsʜɪ ᴍᴅ 🌹 | 🪾 ʙʏ ᴅᴠ.sʜᴀᴅᴏᴡ 🪴',
+          title: ' 𝐑𝐢𝐧 𝐈𝐭𝐨𝐬𝐡𝐢 𝐔𝐥𝐭𝐫𝐚 𝐁𝐨𝐭 |-🌹-|',
           body: '',
           thumbnail: thumbBuffer,
           sourceUrl: redes,

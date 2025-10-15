@@ -49,7 +49,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
   } catch (e) {
     console.error(e)
-    conn.reply(m.chat, '❌ *Error al obtener el LID o la información del usuario.*', m)
+    conn.reply(m.chat, '*Error al obtener el LID o la información del usuario.*', m)
   }
 }
 

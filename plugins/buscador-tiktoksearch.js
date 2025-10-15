@@ -141,5 +141,6 @@ handler.tags = ["buscador"];
 handler.command = ["tiktoksearch", "ttsearch", "tiktoks"];
 handler.register = true;
 handler.group = true;
+handler.coin = 2
 
 export default handler;

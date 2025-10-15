@@ -20,16 +20,14 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     let data = json.data
 
-    let info = `
-╭━━━〔 🌸 *STICKERLY PACK* 🌸 〕━━⬣
-┃ ✨ *Nombre:* ${data.name}
-┃ 👤 *Autor:* ${data.author}
-┃ 📦 *Stickers:* ${data.total}
-┃ 👀 *Vistas:* ${data.viewCount}
-┃ 📤 *Exportados:* ${data.exportCount}
-┃ 🎭 *Animado:* ${data.isAnimated ? "Sí" : "No"}
-┃ 🔗 *Pack:* ${data.url}
-╰━━━━━━━━━━━━━━━━━━⬣
+    let info = `✨ *Nombre:* ${data.name}
+👤 *Autor:* ${data.author}
+📦 *Stickers:* ${data.total}
+👀 *Vistas:* ${data.viewCount}
+📤 *Exportados:* ${data.exportCount}
+🎭 *Animado:* ${data.isAnimated ? "Sí" : "No"}
+🔗 *Pack:* ${data.url}
+
 👥 *Usuario:* ${data.username}
 👤 *Followers:* ${data.followers}
     `.trim()
@@ -59,7 +57,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       }
     }
 
-    await m.react("✅")
+    await m.react("✔️")
 
   } catch (e) {
     console.error(e)
@@ -70,5 +68,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 handler.help = ["stickerlydl <url>"]
 handler.tags = ["sticker"]
 handler.command = ["stickerlydl", "stickerpack", "dls"]
+handler.register = true
+handler.coin = 5
 
 export default handler
