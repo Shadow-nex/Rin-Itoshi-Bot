@@ -249,7 +249,7 @@ ${botsGroup}`
 
     const mentionList = groupBots.map(bot => (bot.endsWith("@s.whatsapp.net") ? bot : `${bot}@s.whatsapp.net`))
 
-    const rcanal = {
+    const rcanal2 = {
       contextInfo: {
         mentionedJid: mentionList
       }
@@ -258,12 +258,13 @@ ${botsGroup}`
     await conn.sendMessage(
       m.chat,
       {
-        image: { url: 'https://files.catbox.moe/z1zfg.jpg' },
+        image: { url: 'https://shadow-xyz.vercel.app/img/shadow2.jpg' },
         caption: message.trim(),
         mentions: mentionList,
         fileName: 'sockets.jpg',
         mimetype: 'image/jpeg',
-        ...rcanal
+        ...rcanal2,
+        ...rcanal // 🙂
       },
       { quoted: shadow_xyz }
     )
