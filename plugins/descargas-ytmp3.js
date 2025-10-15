@@ -18,7 +18,6 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     const video = search.videos[0]
     if (!video) return conn.reply(m.chat, '☁️ No se encontró ningún resultado.', m)
 
-    // ======================= INFORMACIÓN DEL VIDEO =======================
     const meta = {
       title: video.title,
       duration: video.timestamp,
@@ -29,7 +28,6 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       thumbnail: video.thumbnail
     }
 
-    // ======================= DESCARGA DEL AUDIO (Primero para obtener tamaño) =======================
     const apis = [
       {
         api: 'ZenzzXD v2',
@@ -47,7 +45,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
         extractor: res => res.result?.link
       },
       {
-        api: 'StellarWA',
+        api: 'Stellar',
         endpoint: `https://api.stellarwa.xyz/dow/ytmp3?url=${encodeURIComponent(video.url)}&apikey=Shadow_Core`,
         extractor: res => res.data?.dl
       }
@@ -59,27 +57,22 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     const size = await getSize(downloadUrl)
     const sizeStr = size ? formatSize(size) : 'Desconocido'
 
-    // ======================= TEXTO DE INFORMACIÓN =======================
     const textoInfo = `🎶 *ＹＯＵＴＵＢＥ • ＭＰ3* ☁️
 ────────────────────
-> 🎧 𝐓𝐈𝐓𝐔𝐋𝐎: *${meta.title}*
-> ⏱️ 𝐃𝐔𝐑𝐀𝐂𝐈𝐎𝐍: *${meta.duration}*
-> 💾 𝐓𝐀𝐌𝐀𝐍̃𝐎: *${sizeStr}*
-> 🎚️ 𝐂𝐀𝐋𝐈𝐃𝐀𝐃: *128kbps*
-> 📺 𝐂𝐀𝐍𝐀𝐋: *${meta.author}*
-> 👀 𝐕𝐈𝐒𝐓𝐀𝐒: *${meta.views}*
-> 🌿 𝐏𝐔𝐁𝐋𝐈𝐂𝐀𝐃𝐎: *${meta.ago}*
-> ☁️ 𝐋𝐈𝐍𝐊: *${meta.url}*
+> 🎧 *Titulo:* ${meta.title}
+> ⏱️ *Duracion:* ${meta.duration}
+> 💾 *Tamaño:* ${sizeStr}
+> 🎚️ *Calidad:* 128kbps
+> 📺 *Canal:* ${meta.author}
+> 👀 *Vistas:* ${meta.views}
+> 🌿 *Publicado:* ${meta.ago}
+> ☁️ *Link:* ${meta.url}
 ────────────────────
 > *Enviando, espera un momento...*`
 
     const thumb = (await conn.getFile(meta.thumbnail)).data
 
-    // Enviar texto e imagen primero (antes del audio)
     await conn.sendMessage(m.chat, { image: thumb, caption: textoInfo }, { quoted: m })
-
-    // ======================= ENVÍO DEL AUDIO =======================
-    await m.reply(`> 🌸 *Audio procesado correctamente.*\n> Servidor usado: *${servidor}*\n> Peso: *${sizeStr}*`)
 
     await conn.sendMessage(m.chat, {
       audio: { url: downloadUrl },
@@ -99,12 +92,14 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
         }
       }
     }, { quoted: m })
+    
+    await m.reply(`> 🌸 *Audio procesado correctamente.*\n> Servidor usado: *${servidor}*\n> Peso: *${sizeStr}*`)
 
     await conn.sendMessage(m.chat, { react: { text: "✔️", key: m.key } })
 
   } catch (e) {
     console.error(e)
-    await conn.reply(m.chat, `❌ Error: ${e.message}`, m)
+    await conn.reply(m.chat, `Error: ${e.message}`, m)
   }
 }
 
@@ -116,7 +111,6 @@ handler.register = true
 
 export default handler
 
-// ======================= FUNCIONES AUXILIARES =======================
 async function fetchFromApis(apis) {
   for (const api of apis) {
     try {
