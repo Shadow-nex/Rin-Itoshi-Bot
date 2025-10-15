@@ -144,10 +144,10 @@ const handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin })
   }
 
   if (args[0] === 'on' || args[0] === 'enable') {
-    if (isEnable) return conn.reply(m.chat, `ꕥ *${type}* ya estaba *activado*.`, m)
+    if (isEnable) return conn.reply(m.chat, `ꕥ *${type}* ya estaba *activado*.`, m, rcanal)
     isEnable = true
   } else if (args[0] === 'off' || args[0] === 'disable') {
-    if (!isEnable) return conn.reply(m.chat, `ꕥ *${type}* ya estaba *desactivado*.`, m)
+    if (!isEnable) return conn.reply(m.chat, `ꕥ *${type}* ya estaba *desactivado*.`, m, rcanal)
     isEnable = false
   } else {
     return conn.reply(m.chat, `
@@ -159,7 +159,7 @@ const handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin })
 🍉 *Desactivar:* ${usedPrefix + command} off
 ━━━━━━━━━━━━━━━━━━━━━━━
 > ꕥ Estado actual: *${isEnable ? '✓ ᴬᶜᵗᶦᵛᵃᵈᵒ' : '✗ ᴰᵉˢᵃᶜᵗᶦᵛᵃᵈᵒ'}*
-━━━━━━━━━━━━━━━━━━━━━━━`, m)
+━━━━━━━━━━━━━━━━━━━━━━━`, m, rcanal)
   }
 
   if (isAll) bot[type] = isEnable
@@ -176,7 +176,7 @@ const handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin })
 🌍 *Aplica:* ${isAll ? '🌐 𝐓𝐨𝐝𝐨 𝐞𝐥 𝐁𝐨𝐭' : isUser ? '👤 𝐔𝐬𝐮𝐚𝐫𝐢𝐨' : '💬 𝐂𝐡𝐚𝐭'}
 
 °================================°
-`, m)
+`, m, rcanal)
 }
 
 handler.help = [
