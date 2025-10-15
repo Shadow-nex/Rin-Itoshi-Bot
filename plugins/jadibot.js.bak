@@ -258,7 +258,7 @@ ${botsGroup}`
     await conn.sendMessage(
       m.chat,
       {
-        image: { url: 'https://files.catbox.moe/z1zfg.jpg' },
+        image: { url: 'https://files.catbox.moe/z1zfg6.jpg' },
         caption: message.trim(),
         mentions: mentionList,
         fileName: 'sockets.jpg',
