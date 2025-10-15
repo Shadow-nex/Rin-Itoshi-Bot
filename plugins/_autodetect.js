@@ -16,7 +16,7 @@ const chat = global.db.data.chats[m.chat]
 const users = m.messageStubParameters[0]
 const usuario = await resolveLidToRealJid(m?.sender, conn, m?.chat)
 const groupAdmins = participants.filter(p => p.admin)
-const rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: '120363401008003732@newsletter', serverMessageId: '', newsletterName: '࿙ִ࿙ ͡ྌ᳝֟፝ྌ🌾 𝐑𝐢𝐧 𝐈𝐭𝐨𝐬𝐡𝐢 𝐁𝐨𝐭 🎋ྌ᳝֟፝ྌ͡ ࿚ִ࿚' }, externalAdReply: { title: "𐔌 . ⋮ ᗩ ᐯ I Տ O .ᐟ ֹ ₊ ꒱", body: textbot, mediaUrl: null, description: null, previewType: "PHOTO", thumbnail: await (await fetch(icono)).buffer(), sourceUrl: redes, mediaType: 1, renderLargerThumbnail: false }, mentionedJid: null }}
+const rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: '120363401008003732@newsletter', serverMessageId: '', newsletterName: '࿙ִ࿙ ͡ྌ᳝֟፝ྌ🌾 𝐑𝐢𝐧 𝐈𝐭𝐨𝐬𝐡𝐢 𝐁𝐨𝐭 🎋ྌ᳝֟፝ྌ͡ ࿚ִ࿚' }, externalAdReply: { title: "𐔌 . ⋮ ᗩ ᐯ I Տ O .ᐟ ֹ ₊ ꒱", body: textbot, mediaUrl: null, description: null, previewType: "PHOTO", thumbnail: await (await fetch('https://shadow-xyz.vercel.app/img/shadow10.jpg')).buffer(), sourceUrl: redes, mediaType: 1, renderLargerThumbnail: false }, mentionedJid: null }}
 
   const getThumbnail = async () => {
     const res = await axios.get("https://files.catbox.moe/3labkc.jpg", { responseType: "arraybuffer" })
