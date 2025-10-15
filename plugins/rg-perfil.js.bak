@@ -77,62 +77,56 @@ let handler = async (m, { conn, args, usedPrefix }) => {
         )) || 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg'
 
     const profileText = `
-╭━⊰ 🔮 𝐏𝐄𝐑𝐅𝐈𝐋 𝐂𝐎𝐒𝐌𝐈𝐂𝐎 🔮 ⊱━╮
-   ✧˚₊⊹ ʀɪɴ ɪᴛᴏꜱʜɪ ʙᴏᴛ ⊹₊˚✧
-╰━━━━━━━━━━━━━━━━━━━━━━━╯
+🔮 𝐏𝐄𝐑𝐅𝐈𝐋 𝐂𝐎𝐒𝐌𝐈𝐂𝐎 🔮
+✧ ˚₊ ⊹ Rin Itoshi Bot ⊹ ₊˚ ✧
 
 🌟 *Identidad Estelar:* @${userId.split('@')[0]}
-🌙 *Nombre Arcano:* *${name}*
+🌙 *Nombre Arcano:* ${name}
 🌀 *Esencia Vital:* _${description}_
 
-╭─〔 ⚙️ CONFIGURACIÓN ESPIRITUAL 〕
+⚙️ 𝐂𝐎𝐍𝐅𝐈𝐆𝐔𝐑𝐀𝐂𝐈𝐎𝐍 𝐄𝐒𝐏𝐈𝐑𝐈𝐓𝐔𝐀𝐋
 🎂 *Edad Estelar:* ${user.age || 'Incierta'}
 📆 *Ciclo Cósmico:* ${cumpleanos}
 ⚧️ *Polaridad:* ${genero}
 💖 *Vínculo Álmico:* ${casado}
 🌍 *Origen Estelar:* ${country}
 📱 *Contacto:* ${phone}
-╰───────────────────────
 
-╭─〔 ✦ RECURSOS CÓSMICOS ✦ 〕
-🪙 *Monedas:* ${coin.toLocaleString()}
-🏦 *Banco:* ${bank.toLocaleString()}
+✦ 𝐑𝐄𝐂𝐔𝐑𝐒𝐎𝐒 ✦
+🪙 *Monedas Cósmicas:* ${coin.toLocaleString()}
+🏦 *Banco Cósmico:* ${bank.toLocaleString()}
 🌷 *Nivel Dimensional:* ${nivel}
 🌿 *Exp Cósmica:* ${exp.toLocaleString()}
-🌀 *Progreso:* ${progreso}
-📈 *Puesto:* #${rank}
+➨ Progreso » *${progreso}*
+# Puesto » *#${rank}*
 🛡️ *Rango:* ${user.role || 'Sin Rango'}
-🔮 *Premium:* ${premium ? `🟢 Activo (*${isLeft}*)` : '🔴 Inactivo'}
-╰───────────────────────
+🔮 *Premium Cósmico:* ${premium ? `🟢 Activo (*${isLeft}*)` : '🔴 Inactivo'}
 
-╭─〔 💞 CONEXIÓN DIVINA 💞 〕
-ꕥ *Harem:* ${haremCount}
-♤ *Valor total:* ${haremValue.toLocaleString()}
-❒ *Coins totales:* ${totalCoins.toLocaleString()}
-❒ *Comandos usados:* ${user.commands || 0}
-╰───────────────────────
-
-🌌 〘 _"El cosmos refleja tu esencia."_ 〙
+ꕥ Harem » *${haremCount}*
+♤ Valor total » *${haremValue.toLocaleString()}*${favLine}
+❒ Coins totales » *${totalCoins.toLocaleString()}*
+❒ Comandos totales » *${user.commands || 0}*
 `
 
-    await conn.sendMessage(m.chat, {
-      text: profileText,
-      contextInfo: {
-        mentionedJid: [userId],
-        forwardingScore: 999999,
-        isForwarded: true,
-        externalAdReply: {
-          title: '🌌 𝑷𝒆𝒓𝒇𝒊𝒍 𝑪𝒐́𝒔𝒎𝒊𝒄𝒐 🌠',
-          body: `${name} — Explorador Estelar`,
-          thumbnailUrl: perfil,
-          sourceUrl: redes,
-          mediaType: 1,
-          renderLargerThumbnail: true,
-          showAdAttribution: false,
+    await conn.sendMessage(
+      m.chat,
+      {
+        image: { url: perfil },
+        caption: profileText.trim(),
+        mentions: [userId],
+        contextInfo: {
+          externalAdReply: {
+            title: '✧ Perfil Cósmico ✧',
+            body: 'Conecta con tu energía estelar 🌠',
+            thumbnailUrl: perfil,
+            mediaType: 1,
+            showAdAttribution: true,
+            renderLargerThumbnail: true,
+          },
         },
       },
-    }, { quoted: m })
-  
+      { quoted: m }
+    )
   } catch (error) {
     console.error(error)
     await m.reply(
