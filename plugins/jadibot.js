@@ -175,10 +175,9 @@ const handler = async (m, { conn, command, usedPrefix, participants }) => {
       if (días) partes.push(`${días} día${días > 1 ? "s" : ""}`)
       if (horasRest) partes.push(`${horasRest} hora${horasRest > 1 ? "s" : ""}`)
       if (minRest) partes.push(`${minRest} minuto${minRest > 1 ? "s" : ""}`)
-      if (segRest && partes.length === 0) partes.push(`${segRest} segundo${segRest > 1 ? "s" : ""}`)
+      if (segRest) partes.push(`${segRest} segundo${segRest > 1 ? "s" : ""}`)
       return partes.join(", ")
     }
-
 
     const getThumbnail = async () => {
       const res = await axios.get("https://files.catbox.moe/3su9of.jpg", { responseType: "arraybuffer" })
@@ -250,10 +249,24 @@ ${botsGroup}`
 
     const mentionList = groupBots.map(bot => (bot.endsWith("@s.whatsapp.net") ? bot : `${bot}@s.whatsapp.net`))
 
-    rcanal.contextInfo.mentionedJid = mentionList
+    const rcanal = {
+      contextInfo: {
+        mentionedJid: mentionList
+      }
+    }
 
-    //await conn.sendMessage(m.chat, { text: message, ...rcanal }, { quoted: shadow_xyz })
-    await conn.sendMessage(m.chat, { image: { url: 'https://files.catbox.moe/z1zfg6.jpg' }, caption: message.trim(), mentions: [who], fileName: 'sockets.jpg', mimetype: 'image/jpeg', ...rcanal }, { quoted: shadow_xyz })
+    await conn.sendMessage(
+      m.chat,
+      {
+        image: { url: 'https://files.catbox.moe/z1zfg6.jpg' },
+        caption: message.trim(),
+        mentions: mentionList,
+        fileName: 'sockets.jpg',
+        mimetype: 'image/jpeg',
+        ...rcanal
+      },
+      { quoted: shadow_xyz }
+    )
 
   } catch (error) {
     m.reply(`⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${error.message}`)
