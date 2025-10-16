@@ -83,13 +83,14 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
         externalAdReply: {
           showAdAttribution: true,
           title: '🎵 𝐘𝐎𝐔𝐓𝐔𝐁𝐄 • 𝐌𝐔𝐒𝐈𝐂',
-          body: `Duración: ${meta.duration} | Calidad: 128kbps | Peso: ${sizeStr}`,
+          body: `Duración: ${meta.duration} | Peso: ${sizeStr}`,
           thumbnailUrl: meta.thumbnail,
           mediaType: 2,
           renderLargerThumbnail: true,
           mediaUrl: meta.url,
           sourceUrl: meta.url
-        }
+        },
+        mentionedJid: null
       }
     }, { quoted: m })
     
