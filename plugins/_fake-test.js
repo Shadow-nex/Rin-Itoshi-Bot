@@ -1,40 +1,21 @@
-/*import pkg from '@whiskeysockets/baileys'
-import fetch from 'node-fetch'
-const { proto } = pkg
+let handler = async (m, { conn }) => {
+  try {
+    let imageUrl = "https://shadow-xyz.vercel.app/download/ups";
+    let caption = `> ${club}`.trim();
 
-var handler = m => m
-handler.all = async function (m) {
+    await conn.sendMessage(m.chat, {
+      image: { url: imageUrl },
+      caption: caption
+    }, { quoted: m });
 
-  global.rcanal = { 
-    contextInfo: { 
-      isForwarded: true, 
-      forwardedNewsletterMessageInfo: { 
-        newsletterJid: channelRD.id, 
-        serverMessageId: '', 
-        newsletterName: channelRD.name 
-      }, 
-      externalAdReply: { 
-        title: botname, 
-        body: dev, 
-        mediaUrl: null, 
-        description: null, 
-        previewType: "PHOTO", 
-        thumbnail: await (await fetch(icono)).buffer(), 
-        sourceUrl: redes, 
-        mediaType: 1, 
-        renderLargerThumbnail: true 
-      }, 
-      mentionedJid: null 
-    }
+  } catch (e) {
+    console.error(e);
+    m.reply("Error al enviar la imagen.");
   }
-}
+};
 
-export default handler
+handler.command = ['baa']; 
+handler.help = ['baa'];
+handler.tags = ['anime'];
 
-
-async function getRandomChannel() {
-  let randomIndex = Math.floor(Math.random() * canalIdM.length)
-  let id = canalIdM[randomIndex]
-  let name = canalNombreM[randomIndex]
-  return { id, name }
-}*/
+export default handler;
