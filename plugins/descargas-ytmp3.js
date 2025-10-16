@@ -93,7 +93,27 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
         mentionedJid: null
       }
     }, { quoted: m })*/
-    await conn.sendMessage(m.chat, { audio: { url: downloadUrl }, fileName: `${meta.title}.mp3`, mimetype: 'audio/mpeg' }, { quoted: m })
+  //  await conn.sendMessage(m.chat, { audio: { url: downloadUrl }, fileName: `${meta.title}.mp3`, mimetype: 'audio/mpeg' }, { quoted: m })
+    
+        const audioBuffer = await (await fetch(downloadUrl)).buffer()
+    await conn.sendMessage(m.chat, {
+      audio: audioBuffer,
+      fileName: `${meta.title}.mp3`,
+      mimetype: "audio/mpeg",
+      ptt: false,
+      contextInfo: {
+        externalAdReply: {
+          showAdAttribution: true,
+          title: '☃️ 𝐘  𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐌 𝐔 𝐒 𝐈 𝐂',
+          body: `ᴅᴜʀᴀᴄɪᴏɴ: ${meta.duration} | ᴘᴇsᴏ: ${meta.size}`,
+          thumbnailUrl: meta.thumbnail,
+          mediaType: 2,
+          renderLargerThumbnail: true,
+          mediaUrl: meta.url,
+          sourceUrl: meta.url
+        }
+      }
+    }, { quoted: fkontak })
     
     await m.reply(`> 🌸 *Audio procesado correctamente.*\n> Servidor usado: *${servidor}*\n> Peso: *${sizeStr}*`)
 
