@@ -7,7 +7,6 @@ import axios from "axios";
 const videoCache = {};
 const cacheTimeout = 10 * 60 * 1000; // 10 minutos
 const MAX_FILE_SIZE_MB = 50;
-const API_KEY = "hYSK8YrJpKRc9jSE";
 
 const shortenURL = async (url) => {
   try {
@@ -21,24 +20,26 @@ const shortenURL = async (url) => {
 
 const fetchAPI = async (url, type) => {
   try {
-    const format = type === "audio" ? "audio" : "video";
-    const endpoint = `https://api-nv.ultraplus.click/api/youtube/v2?url=${encodeURIComponent(url)}&format=${format}&key=${API_KEY}`;
-    
-    const response = await fetch(endpoint);
-    const data = await response.json();
+    let endpoint =
+      type === "audio"
+        ? `https://api.zenzxz.my.id/downloader/ytmp3v2?url=${encodeURIComponent(url)}`
+        : `https://api.zenzxz.my.id/downloader/ytmp4v2?url=${encodeURIComponent(url)}`;
 
-    if (data?.status && data?.result?.dl) {
+    let response = await fetch(endpoint);
+    let data = await response.json();
+
+    if (data?.status && data?.download_url) {
       return {
-        download: data.result.dl,
-        title: data.result.title || "Desconocido",
-        thumbnail: `https://img.youtube.com/vi/${new URL(url).searchParams.get("v")}/0.jpg`,
-        format: format === "audio" ? "mp3" : "mp4"
+        download: data.download_url,
+        title: data.title || "Desconocido",
+        duration: data.duration || 0,
+        thumbnail: data.thumbnail || null,
+        format: data.format || (type === "audio" ? "mp3" : "mp4")
       };
     }
-
-    throw new Error("API UltraPlus no respondió correctamente.");
+    throw new Error("API principal no respondió correctamente.");
   } catch (error) {
-    console.log("Error en API UltraPlus:", error.message);
+    console.log("Error en API:", error.message);
     return null;
   }
 };
@@ -149,7 +150,7 @@ handler.before = async (m, { conn }) => {
     await conn.reply(m.chat, mediaType === "audio" ? "*🍂 Descargando audio...*" : "☁️ Descargando video...*", m);
 
     let apiData = await fetchAPI(urlVideo, mediaType);
-    if (!apiData) return conn.reply(m.chat, "Error al obtener el enlace desde UltraPlus.", m);
+    if (!apiData) return conn.reply(m.chat, "Error al obtener el enlace.", m);
 
     let sizeBytes = await getSize(apiData.download);
     let fileSizeMB = sizeBytes ? sizeBytes / (1024 * 1024) : null;
@@ -163,7 +164,7 @@ handler.before = async (m, { conn }) => {
       );
     }
 
-    let fileName = `${apiData.title}`;
+    let fileName = `${apiData.title}.${mediaType === "audio" ? "mp3" : "mp4"}`;
     let infoMessage = `
 > 🌱 *Título:* ${apiData.title}
 > ⏱ *Duración:* ${videoData.timestamp || "?"}
