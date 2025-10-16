@@ -74,28 +74,9 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
     await conn.sendMessage(m.chat, { image: thumb, caption: textoInfo }, { quoted: m })
 
-/*    await conn.sendMessage(m.chat, {
-      audio: { url: downloadUrl },
-      fileName: `${meta.title}.mp3`,
-      mimetype: "audio/mpeg",
-      ptt: false,
-      contextInfo: {
-        externalAdReply: {
-          showAdAttribution: true,
-          title: '🎵 𝐘𝐎𝐔𝐓𝐔𝐁𝐄 • 𝐌𝐔𝐒𝐈𝐂',
-          body: `Duración: ${meta.duration} | Peso: ${sizeStr}`,
-          thumbnailUrl: meta.thumbnail,
-          mediaType: 2,
-          renderLargerThumbnail: true,
-          mediaUrl: meta.url,
-          sourceUrl: meta.url
-        },
-        mentionedJid: null
-      }
-    }, { quoted: m })*/
-  //  await conn.sendMessage(m.chat, { audio: { url: downloadUrl }, fileName: `${meta.title}.mp3`, mimetype: 'audio/mpeg' }, { quoted: m })
+    await conn.sendMessage(m.chat, { audio: { url: downloadUrl }, fileName: `${meta.title}.mp3`, mimetype: 'audio/mpeg' }, { quoted: m })
     
-        const audioBuffer = await (await fetch(downloadUrl)).buffer()
+ /*       const audioBuffer = await (await fetch(downloadUrl)).buffer()
     await conn.sendMessage(m.chat, {
       audio: audioBuffer,
       fileName: `${meta.title}.mp3`,
@@ -113,7 +94,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
           sourceUrl: meta.url
         }
       }
-    }, { quoted: fkontak })
+    }, { quoted: fkontak })*/
     
     await m.reply(`> 🌸 *Audio procesado correctamente.*\n> Servidor usado: *${servidor}*\n> Peso: *${sizeStr}*`)
 
