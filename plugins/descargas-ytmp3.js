@@ -74,7 +74,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
     await conn.sendMessage(m.chat, { image: thumb, caption: textoInfo }, { quoted: m })
 
-    await conn.sendMessage(m.chat, {
+/*    await conn.sendMessage(m.chat, {
       audio: { url: downloadUrl },
       fileName: `${meta.title}.mp3`,
       mimetype: "audio/mpeg",
@@ -92,7 +92,8 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
         },
         mentionedJid: null
       }
-    }, { quoted: m })
+    }, { quoted: m })*/
+    await conn.sendMessage(m.chat, { audio: { url: downloadUrl }, fileName: `${meta.title}.mp3`, mimetype: 'audio/mpeg' }, { quoted: m })
     
     await m.reply(`> 🌸 *Audio procesado correctamente.*\n> Servidor usado: *${servidor}*\n> Peso: *${sizeStr}*`)
 
