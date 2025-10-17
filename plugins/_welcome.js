@@ -79,7 +79,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
   ╔═══════════════════╗
            \`\`\`𝖡𝖨𝖤𝖭𝖵𝖤𝖭𝖨𝖣𝖮/𝖠\`\`\`
   ╚═══════════════════╝
-╭────⋆ ╤╤╤ ✯ ╤╤╤ ⋆╯j
+╭────⋆ ╤╤╤ ✯ ╤╤╤ ⋆╯
 │ 🌾 *Usuario:* ${'@' + numeroUsuario}
 │ 📚 *Grupo:* ${groupMetadata.subject}
 │• | ✧︿︿ . . . .
@@ -113,12 +113,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
       image: { url: imgWelcome },
       caption: welcomeMessage,
       contextInfo,
-      mentions: [usuarioJid],
-      buttons: [
-        { buttonId: "#reg shadow.18", buttonText: { displayText: "💮 𝐀𝐔𝐓𝐎 𝐕𝐄𝐑𝐈𝐅𝐈𝐂𝐀𝐑 💮" }, type: 1 },
-        { buttonId: "#menu", buttonText: { displayText: "🌸 𝐌𝐄𝐍𝐔 𝐑𝐈𝐍 𝐈𝐓𝐎𝐒𝐇𝐈 🌸" }, type: 1 }
-      ],
-      headerType: 4
+      mentions: [usuarioJid]
     }, { quoted: fkontak })
   }
 
@@ -128,12 +123,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
       image: { url: imgBye },
       caption: byeMessage,
       contextInfo,
-      mentions: [usuarioJid],
-      buttons: [
-        { buttonId: "#menu", buttonText: { displayText: "☁️ 𝐌𝐄𝐍𝐔 ☁️" }, type: 1 },
-        { buttonId: "#p", buttonText: { displayText: "🍃 𝐒𝐓𝐀𝐓𝐔𝐒 🍃" }, type: 1 }
-      ],
-      headerType: 4
+      mentions: [usuarioJid]
     }, { quoted: fkontak })
   }
 }
