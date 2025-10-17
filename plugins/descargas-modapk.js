@@ -27,6 +27,6 @@ handler.tags = ['descargas']
 handler.help = ['apkmod']
 handler.command = ['apk', 'modapk', 'aptoide']
 handler.group = true
-handler.premium = true
+handler.premium = false
 
 export default handler
