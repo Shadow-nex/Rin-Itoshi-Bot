@@ -2,9 +2,9 @@ import axios from "axios";
 import fetch from "node-fetch";
 
 const SEARCH_API = "https://delirius-apiofc.vercel.app/search/ytsearch?q=";
-const DOWNLOAD_API = "https://api.stellarwa.xyz/dow/ytmp4?apikey=stellar-MUdpZwW6&url=";
+const DOWNLOAD_API = "https://api.stellarwa.xyz/dow/ytmp4?apikey=Shadow&url=";
 
-let calidadPredeterminada = "360";
+let calidadPredeterminada = "480";
 
 function formatSize(bytes) {
   if (!bytes || isNaN(bytes)) return "Desconocido";
@@ -33,9 +33,11 @@ async function buscarYDescargar(query) {
     if (!dl) return null;
 
     let fileSize = "Desconocido";
+    let fileBytes = 0;
     const head = await axios.head(dl).catch(() => null);
     if (head?.headers["content-length"]) {
-      fileSize = formatSize(parseInt(head.headers["content-length"], 10));
+      fileBytes = parseInt(head.headers["content-length"], 10);
+      fileSize = formatSize(fileBytes);
     }
 
     return {
@@ -47,43 +49,28 @@ async function buscarYDescargar(query) {
       url: video.url,
       dl_url: dl,
       size: fileSize,
+      bytes: fileBytes,
     };
   } catch (err) {
-    console.log("❌ Error:", err.message);
+    console.log("Error:", err.message);
     return null;
   }
 }
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
-    if (command === "setcalidad" || command === "setquality") {
-      const calidad = text.trim();
-      if (!calidad)
-        return m.reply(`🌱 *Debes especificar la calidad de descarga.*\n\n🌿 Ejemplo:\n${usedPrefix + command} 720`);
+    if (!text)
+      return m.reply(`🎋 *Ingresa el enlace o título del video de YouTube que deseas descargar.*\n\nEjemplo:\n${usedPrefix + command} Shape of You`);
 
-      const opciones = ["144", "240", "360", "480", "720", "1080"];
-      if (!opciones.includes(calidad))
-        return m.reply(`🎋 *Calidad inválida.* Usa una de estas:\n> ${opciones.join("p, ")}p`);
+    await m.react("🕐");
 
-      calidadPredeterminada = calidad;
-      return m.reply(`✅ *Calidad predeterminada actualizada a:* ${calidad}p`);
+    const video = await buscarYDescargar(text);
+    if (!video) {
+      await m.react("⚠️");
+      return m.reply("⚠️ *No se pudo encontrar o descargar el video.* Intenta con otro nombre o enlace.");
     }
 
-    if (command === "ytmp4") {
-      if (!text)
-        return m.reply(`🎋 *Ingresa el enlace o título del video de YouTube que deseas descargar.*\n\nEjemplo:\n${usedPrefix + command} Shape of You`);
-
-      await m.react("🔍");
-
-      const video = await buscarYDescargar(text);
-      if (!video) {
-        await m.react("⚠️");
-        return m.reply("⚠️ *No se pudo encontrar o descargar el video.* Intenta con otro nombre o enlace.");
-      }
-
-      await m.react("🎶");
-
-      const info = `
+    const caption = `
 🎶 *ＹＯＵＴＵＢＥ • ＭＰ4* 🕸️
 ╭ׅ✿──────────────────
 │🎋 𝐓𝐢𝐭𝐮𝐥𝐨: ${video.title}
@@ -92,54 +79,42 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 │🍄 𝐕𝐢𝐬𝐭𝐚𝐬: ${video.views.toLocaleString()}
 │🕸️ 𝐋𝐢𝐧𝐤: ${video.url}
 ├ׅ✿──────────────────
-│☁️ *Calidad:* ${calidadPredeterminada}P
+│☁️ *Calidad:* ${calidadPredeterminada}p
 │📦 *Peso:* ${video.size}
 │⚙️ *Servidor:* Stellar
-╰✿──────────────────
-> */setcalidad* para cambiar resolución
-`;
+╰✿──────────────────`;
 
-      await conn.sendMessage(
-        m.chat,
-        {
-          text: info,
-          contextInfo: {
-            isForwarded: true,
-            externalAdReply: {
-              title: "🍉 𝗬𝗢𝗨𝗧𝗨𝗕𝗘 - 𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗 🎥",
-              thumbnailUrl: video.thumbnail,
-              sourceUrl: video.url,
-              mediaType: 1,
-              renderLargerThumbnail: true,
-            },
+    await m.react("📥");
+
+    const esGrande = video.bytes > 100 * 1024 * 1024; // > 100 MB
+
+    await conn.sendMessage(
+      m.chat,
+      esGrande
+        ? {
+            document: { url: video.dl_url },
+            mimetype: "video/mp4",
+            fileName: `${video.title}.mp4`,
+            caption,
+          }
+        : {
+            video: { url: video.dl_url },
+            mimetype: "video/mp4",
+            caption,
           },
-        },
-        { quoted: m }
-      );
+      { quoted: m }
+    );
 
-      await m.react("📥");
-
-      await conn.sendMessage(
-        m.chat,
-        {
-          video: { url: video.dl_url },
-          caption: `🎬 ${video.title}\n🍧 *Calidad:* ${calidadPredeterminada}p\n📦 *Peso:* ${video.size}`,
-          mimetype: "video/mp4",
-        },
-        { quoted: m }
-      );
-
-      await m.react("✅");
-    }
+    await m.react("✅");
   } catch (err) {
     console.error("💥 Error general:", err);
     m.reply("❌ *Error al procesar tu solicitud.* Intenta nuevamente.");
   }
 };
 
-handler.help = ["ytmp4 <url>", "setcalidad <valor>"];
+handler.help = ["ytmp4 <url>"];
 handler.tags = ["descargas"];
-handler.command = ["ytmp4", "playmp4", "mp4", "setcalidad", "setquality"];
+handler.command = ["ytmp4", "playmp4", "mp4"];
 handler.register = true;
 handler.group = true;
 
