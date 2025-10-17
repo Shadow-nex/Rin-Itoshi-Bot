@@ -128,7 +128,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         m.chat,
         {
           video: { url: dl_url },
-          caption: `*${meta.title}*\n🍧 *\`Calidad:\`* ${quality}\n📦 *\`Peso:\`* ${fileSize}\n⚙️ *\`Servidor:\`* ${apiUsada}`,
+          caption: `\n*${meta.title}*\n🍧 *\`Calidad:\`* ${quality}\n📦 *\`Peso:\`* ${fileSize}\n⚙️ *\`Servidor:\`* ${apiUsada}`,
           mimetype: "video/mp4",
         },
         { quoted: m }
