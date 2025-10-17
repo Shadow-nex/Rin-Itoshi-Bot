@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 
 const SEARCH_API = "https://delirius-apiofc.vercel.app/search/ytsearch?q=";
 const DOWNLOAD_API = "https://api.stellarwa.xyz/dow/ytmp4?apikey=Shadow&url=";
-const BACKUP_API = "https://apis-starlights-team.koyeb.app/starlight/youtube-mp4?url=";
+const BACKUP_API = "https://api.neoxr.eu/api/youtube?apikey=6cp02j&type=video&quality=480p&url=";
 
 let calidadPredeterminada = "480";
 
@@ -30,6 +30,7 @@ async function obtenerTamaño(url) {
 
 async function buscarYDescargar(query) {
   try {
+ 
     const resBusqueda = await fetch(SEARCH_API + encodeURIComponent(query));
     if (!resBusqueda.ok) throw new Error("Error en la búsqueda");
     const jsonBusqueda = await resBusqueda.json();
@@ -46,36 +47,43 @@ async function buscarYDescargar(query) {
       if (!jsonDescarga?.data?.dl) usarBackup = true;
     }
 
-    let dlURL, title, author, thumbnail, sizeBytes = 0;
+    let dlURL, title, author, thumbnail, sizeBytes = 0, sizeTexto = "Desconocido";
 
     if (usarBackup) {
-      console.log("⚠️ Usando API de respaldo (Starlight)...");
+      console.log("⚠️ Usando API de respaldo (Neoxr)...");
       const resBackup = await fetch(BACKUP_API + encodeURIComponent(video.url));
       if (!resBackup.ok) throw new Error("Error en API de respaldo");
       const jsonBackup = await resBackup.json();
-      dlURL = jsonBackup.dl_url;
+
+      dlURL = jsonBackup.data.url;
       title = jsonBackup.title;
-      author = jsonBackup.author || video.author?.name || "Desconocido";
+      author = jsonBackup.channel || video.author?.name || "Desconocido";
       thumbnail = jsonBackup.thumbnail;
+      sizeTexto = jsonBackup.data.size || "Desconocido";
+
+      const matchMB = sizeTexto.match(/([\d.]+)\s*MB/i);
+      if (matchMB) sizeBytes = parseFloat(matchMB[1]) * 1024 * 1024;
     } else {
       dlURL = jsonDescarga.data.dl;
       title = jsonDescarga.data.title;
       author = video.author?.name || "Desconocido";
       thumbnail = video.thumbnail;
+      sizeBytes = await obtenerTamaño(dlURL);
+      sizeTexto = sizeBytes ? formatSize(sizeBytes) : "Desconocido";
     }
 
-    sizeBytes = await obtenerTamaño(dlURL);
-    const fileSize = sizeBytes ? formatSize(sizeBytes) : "Desconocido";
-
     if (!usarBackup && sizeBytes > 100 * 1024 * 1024) {
-      console.log("⚠️ Archivo >100MB, cambiando a API de respaldo...");
+      console.log("⚠️ Archivo >100MB, cambiando a API de respaldo (Neoxr)...");
       const resBackup = await fetch(BACKUP_API + encodeURIComponent(video.url));
       const jsonBackup = await resBackup.json();
-      dlURL = jsonBackup.dl_url;
+      dlURL = jsonBackup.data.url;
       title = jsonBackup.title;
-      author = jsonBackup.author || video.author?.name || "Desconocido";
+      author = jsonBackup.channel || video.author?.name || "Desconocido";
       thumbnail = jsonBackup.thumbnail;
-      sizeBytes = await obtenerTamaño(dlURL);
+      sizeTexto = jsonBackup.data.size || "Desconocido";
+      const matchMB = sizeTexto.match(/([\d.]+)\s*MB/i);
+      if (matchMB) sizeBytes = parseFloat(matchMB[1]) * 1024 * 1024;
+      usarBackup = true;
     }
 
     return {
@@ -86,9 +94,9 @@ async function buscarYDescargar(query) {
       thumbnail,
       url: video.url,
       dl_url: dlURL,
-      size: sizeBytes ? formatSize(sizeBytes) : "Desconocido",
+      size: sizeTexto,
       bytes: sizeBytes,
-      servidor: usarBackup || sizeBytes > 100 * 1024 * 1024 ? "Starlight" : "Stellar",
+      servidor: usarBackup ? "Neoxr" : "Stellar",
     };
   } catch (err) {
     console.log("Error:", err.message);
@@ -105,7 +113,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     const video = await buscarYDescargar(text);
     if (!video) {
-      await m.react("⚠️");
       return m.reply("⚠️ *No se pudo encontrar o descargar el video.* Intenta con otro nombre o enlace.");
     }
 
@@ -144,7 +151,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       { quoted: m }
     );
 
-    await m.react("✅");
+    await m.react("✔️");
   } catch (err) {
     console.error("💥 Error general:", err);
     m.reply("❌ *Error al procesar tu solicitud.* Intenta nuevamente.");
