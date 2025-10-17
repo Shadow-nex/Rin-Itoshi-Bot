@@ -12,7 +12,6 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
     await conn.reply(m.chat, "🔍 *Buscando la aplicación...*", m)
 
-    // Usa el scraper/lib
     const info = await playstoreGet(text)
     const data = info.download
 
@@ -46,7 +45,6 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       },
     })
 
-    // Descargar el APK
     const apkRes = await fetch(data.link)
     const buffer = await apkRes.arrayBuffer()
 
