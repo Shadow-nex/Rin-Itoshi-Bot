@@ -79,7 +79,7 @@ const savetube = {
     if (!response.status) return response;
     return { status: true, code: 200, data: response.data.cdn };
   },
-  download: async (link, quality = '720') => {
+  download: async (link, quality = '480') => {
     if (!link) return { status: false, code: 400, error: "Falta el enlace de YouTube." };
     if (!savetube.isUrl(link)) return { status: false, code: 400, error: "URL inválida de YouTube." };
 
