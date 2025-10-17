@@ -34,26 +34,27 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       contextInfo: {
         externalAdReply: {
           title: title,
-          body: "🎶 Reproducir contenido multimedia",
+          body: "",
           thumbnailUrl: thumbnail,
           sourceUrl: url,
           mediaType: 1,
-          renderLargerThumbnail: true
+          renderLargerThumbnail: false
         }
       }
     }, { quoted: m })
 
     if (command === 'playaudio') {
       try {
-        const apiUrl = `https://api-nv.ultraplus.click/api/youtube/v2?url=${encodeURIComponent(url)}&format=audio&key=hYSK8YrJpKRc9jSE`
+        const apiUrl = `https://api.nekolabs.my.id/downloader/youtube/v1?url=${encodeURIComponent(url)}&format=mp3`
         const res = await fetch(apiUrl)
         const json = await res.json()
 
-        if (!json.status || !json.result?.dl)
+        if (!json.success || !json.result?.downloadUrl)
           throw '*⚠ No se obtuvo un enlace de audio válido.*'
 
-        const audioUrl = json.result.dl
+        const audioUrl = json.result.downloadUrl
         const titulo = json.result.title || title
+        const cover = json.result.cover || thumbnail
 
         await conn.sendMessage(m.chat, {
           audio: { url: audioUrl },
@@ -64,9 +65,9 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
               title: `🎧 ${titulo}`,
               body: 'Descarga Completa ♻️',
               mediaType: 1,
-              thumbnailUrl: thumbnail,
+              thumbnailUrl: cover,
               sourceUrl: url,
-              renderLargerThumbnail: true
+              renderLargerThumbnail: false
             }
           }
         }, { quoted: m })
