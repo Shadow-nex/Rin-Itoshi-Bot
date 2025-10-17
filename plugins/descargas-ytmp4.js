@@ -3,6 +3,7 @@ import fetch from "node-fetch";
 
 const SEARCH_API = "https://delirius-apiofc.vercel.app/search/ytsearch?q=";
 const DOWNLOAD_API = "https://api.stellarwa.xyz/dow/ytmp4?apikey=Shadow&url=";
+const BACKUP_API = "https://apis-starlights-team.koyeb.app/starlight/youtube-mp4?url=";
 
 let calidadPredeterminada = "480";
 
@@ -17,6 +18,16 @@ function formatSize(bytes) {
   return `${bytes.toFixed(2)} ${unidades[i]}`;
 }
 
+async function obtenerTamaño(url) {
+  try {
+    const head = await axios.head(url, { timeout: 8000 });
+    const size = parseInt(head.headers["content-length"], 10);
+    return !isNaN(size) && size > 0 ? size : 0;
+  } catch {
+    return 0;
+  }
+}
+
 async function buscarYDescargar(query) {
   try {
     const resBusqueda = await fetch(SEARCH_API + encodeURIComponent(query));
@@ -25,31 +36,59 @@ async function buscarYDescargar(query) {
     const video = jsonBusqueda.data?.[0];
     if (!video?.url) return null;
 
+    let usarBackup = false;
+    let jsonDescarga = null;
+
     const resDescarga = await fetch(DOWNLOAD_API + encodeURIComponent(video.url));
-    if (!resDescarga.ok) throw new Error("Error en la descarga");
-    const jsonDescarga = await resDescarga.json();
+    if (!resDescarga.ok) usarBackup = true;
+    else {
+      jsonDescarga = await resDescarga.json().catch(() => null);
+      if (!jsonDescarga?.data?.dl) usarBackup = true;
+    }
 
-    const dl = jsonDescarga.data?.dl;
-    if (!dl) return null;
+    let dlURL, title, author, thumbnail, sizeBytes = 0;
 
-    let fileSize = "Desconocido";
-    let fileBytes = 0;
-    const head = await axios.head(dl).catch(() => null);
-    if (head?.headers["content-length"]) {
-      fileBytes = parseInt(head.headers["content-length"], 10);
-      fileSize = formatSize(fileBytes);
+    if (usarBackup) {
+      console.log("⚠️ Usando API de respaldo (Starlight)...");
+      const resBackup = await fetch(BACKUP_API + encodeURIComponent(video.url));
+      if (!resBackup.ok) throw new Error("Error en API de respaldo");
+      const jsonBackup = await resBackup.json();
+      dlURL = jsonBackup.dl_url;
+      title = jsonBackup.title;
+      author = jsonBackup.author || video.author?.name || "Desconocido";
+      thumbnail = jsonBackup.thumbnail;
+    } else {
+      dlURL = jsonDescarga.data.dl;
+      title = jsonDescarga.data.title;
+      author = video.author?.name || "Desconocido";
+      thumbnail = video.thumbnail;
+    }
+
+    sizeBytes = await obtenerTamaño(dlURL);
+    const fileSize = sizeBytes ? formatSize(sizeBytes) : "Desconocido";
+
+    if (!usarBackup && sizeBytes > 100 * 1024 * 1024) {
+      console.log("⚠️ Archivo >100MB, cambiando a API de respaldo...");
+      const resBackup = await fetch(BACKUP_API + encodeURIComponent(video.url));
+      const jsonBackup = await resBackup.json();
+      dlURL = jsonBackup.dl_url;
+      title = jsonBackup.title;
+      author = jsonBackup.author || video.author?.name || "Desconocido";
+      thumbnail = jsonBackup.thumbnail;
+      sizeBytes = await obtenerTamaño(dlURL);
     }
 
     return {
-      title: jsonDescarga.data.title,
+      title,
       duration: video.duration || "Desconocida",
       views: video.views || 0,
-      author: video.author?.name || "Desconocido",
-      thumbnail: video.thumbnail,
+      author,
+      thumbnail,
       url: video.url,
-      dl_url: dl,
-      size: fileSize,
-      bytes: fileBytes,
+      dl_url: dlURL,
+      size: sizeBytes ? formatSize(sizeBytes) : "Desconocido",
+      bytes: sizeBytes,
+      servidor: usarBackup || sizeBytes > 100 * 1024 * 1024 ? "Starlight" : "Stellar",
     };
   } catch (err) {
     console.log("Error:", err.message);
@@ -81,12 +120,12 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 ├ׅ✿──────────────────
 │☁️ *Calidad:* ${calidadPredeterminada}p
 │📦 *Peso:* ${video.size}
-│⚙️ *Servidor:* Stellar
+│⚙️ *Servidor:* ${video.servidor}
 ╰✿──────────────────`;
 
     await m.react("📥");
 
-    const esGrande = video.bytes > 100 * 1024 * 1024; // > 100 MB
+    const esGrande = video.bytes > 100 * 1024 * 1024;
 
     await conn.sendMessage(
       m.chat,
@@ -114,7 +153,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
 handler.help = ["ytmp4 <url>"];
 handler.tags = ["descargas"];
-handler.command = ["ytmp4", "playmp4", "mp4"];
+handler.command = ["ytmp4", "playmp4"];
 handler.register = true;
 handler.group = true;
 
