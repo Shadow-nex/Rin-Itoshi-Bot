@@ -33,22 +33,22 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
             buttons: [
                 {
                     buttonId: `${usedPrefix}ytmp3doc ${video.url}`,
-                    buttonText: { displayText: '१✿ᩧ┅ 𝘠𝘖𝘜𝘛𝘜𝘉𝘌 𝘔𝘗3 𝘋𝘖𝘊┅✿ᩧ̼१' },
+                    buttonText: { displayText: '𝘠𝘖𝘜𝘛𝘜𝘉𝘌 𝘔𝘗3 𝘋𝘖𝘊' },
                     type: 1,
                 },
                 {
                     buttonId: `${usedPrefix}ytmp4doc ${video.url}`,
-                    buttonText: { displayText: '१✿ᩧ┅ 𝘠𝘖𝘜𝘛𝘜𝘉𝘌 𝘔𝘗4 𝘋𝘖𝘊┅✿ᩧ̼१' },
+                    buttonText: { displayText: '𝘠𝘖𝘜𝘛𝘜𝘉𝘌 𝘔𝘗4 𝘋𝘖𝘊' },
                     type: 1,
                 },
                 {
                     buttonId: `${usedPrefix}yta ${video.url}`,
-                    buttonText: { displayText: '१✿ᩧ 𝘠𝘖𝘜𝘛𝘜𝘉𝘌 𝘔𝘗3 ✿ᩧ̼१' },
+                    buttonText: { displayText: '𝘠𝘖𝘜𝘛𝘜𝘉𝘌 𝘔𝘗3' },
                     type: 1,
                 },
                 {
                     buttonId: `${usedPrefix}ytmp4 ${video.url}`,
-                    buttonText: { displayText: '१✿ᩧ 𝘠𝘖𝘜𝘛𝘜𝘉𝘌 𝘔𝘗4 ✿ᩧ̼१' },
+                    buttonText: { displayText: '𝘠𝘖𝘜𝘛𝘜𝘉𝘌 𝘔𝘗4' },
                     type: 1,
                 }
             ],
