@@ -147,7 +147,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
 > 🍉 𝙴𝚜𝚙𝚎𝚛𝚊 𝚞𝚗 𝚙𝚘𝚌𝚘, 𝚎𝚜𝚝𝚘 𝚙𝚞𝚎𝚍𝚎 𝚝𝚊𝚛𝚍𝚊𝚛 𝚍𝚎𝚙𝚎𝚗𝚍𝚒𝚎𝚗𝚍𝚘 𝚍𝚎𝚕 𝚙𝚎𝚜𝚘 𝚍𝚎𝚕 𝚟𝚒𝚍𝚎𝚘 𝚡𝚍
 
-˚₊· ͟͟͞͞➳❥ 📊 *Progreso:*  
+˚₊· ͟͟͞͞➳❥ 📊 *\`Progreso:\`*  
 [▓▓▓▓▓░░░░░] 50%` ,
     mentions: [m.sender],
     contextInfo: {
