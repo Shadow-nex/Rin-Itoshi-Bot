@@ -11,14 +11,14 @@ let handler = async (m, { conn, usedPrefix }) => {
   let img = 'https://files.catbox.moe/spg9j8.jpg'
 
   let texto = `
-╭━━━〔 💎 𝐄𝐂𝐎𝐍𝐎𝐌𝐈𝐀 💎 〕━━━⬣
+╭━━━〔 💼 𝐄𝐒𝐓𝐀𝐓𝐔𝐒 𝐅𝐈𝐍𝐀𝐍𝐂𝐈𝐄𝐑𝐎 💼 〕
 ┃
-┃ 👤 Usuario » *${conn.getName(who)}*
-┃ ⛀ Dinero » *${user.coin || 0} ${moneda}*
-┃ ⚿ Banco  » *${user.bank || 0} ${moneda}*
-┃ 💰 Total  » *${total} ${moneda}*
+┃ 🕴️ Socio » *${conn.getName(who)}*
+┃ 💵 Liquidez » *${user.coin || 0} ${moneda}*
+┃ 🏦 Reservas » *${user.bank || 0} ${moneda}*
+┃ 💼 Capital Neto » *${total} ${moneda}*
 ┃
-╰━━━━━━━━━━━━━━━━━⬣
+╰━━━━━━━━━━━━━━━━━━━━⬣
 
 > 🌸 *Consejo:* Protege tu dinero y evita robos.
 Usa:  *${usedPrefix}deposit cantidad*

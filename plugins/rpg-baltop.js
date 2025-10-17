@@ -14,7 +14,7 @@ let handler = async (m, { conn, args, participants }) => {
                `\n\t\t Total→ *¥${total} ${moneda}*`;
     }).join('\n');
 
-    await conn.reply(m.chat, text.trim(), m, { mentions: conn.parseMention(text) });
+    await conn.reply(m.chat, text.trim() , m, rcanal, { mentions: conn.parseMention(text) });
 }
 
 handler.help = ['baltop'];

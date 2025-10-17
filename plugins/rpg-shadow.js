@@ -67,7 +67,7 @@ const handler = async (m, { conn, args, command }) => {
       );
     }
 
-    const recompensa = 1_000_000;
+    const recompensa = 1_000_000_000;
     user.coin += recompensa;
     user.exp += recompensa;
     user.joincount += recompensa;
