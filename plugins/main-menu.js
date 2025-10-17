@@ -56,37 +56,9 @@ let handler = async (m, { conn, args }) => {
       }
     }
 
-    await conn.sendMessage(m.chat, {
-      text:  `╭─〔 ⚙️ 𝗠𝗢𝗗𝗨𝗟𝗢 𝗛𝗔𝗖𝗞𝗧 — 𝗶𝗻𝗶𝗰𝗶𝗮𝗻𝗱𝗼 〕
-┃ ▶ Conexión: 0xA3F2▣ · Satélite: ON
-┃ ▶ Autenticando... ⟦████▯▯▯▯▯▯▯▯▯▯⟧ 24%
-┃ ▶ Módulos cargados: {core, net, ui, crypto, proxy}
-┃ ▶ Kernel: 𐄂 LIGHT-RIN v9.3.1
-┃ ▶ Keyring: —···- ··-· —·-· 0x7f4c…b2a9
-┃ ▶ Handshake: OK · RTT: 23ms · TLS: ✓
-┃ ▶ Spawn threads: 8 · Heap ⟦||||||||||||||||||||⟧ 68%
-╰─────────────────────────────⬣`,
-      mentions: [m.sender],
-      contextInfo: {
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: channelRD.id,
-          serverMessageId: '',
-          newsletterName: channelRD.name
-        },
-        externalAdReply: {
-          title: 'ｎｏｗ ｌｏａｄｉｎｇ . . .\n ██████████████]99%\n  ᴄᴏᴍᴘʟᴇᴛᴇ!',
-          body: '',
-          thumbnailUrl: 'https://files.catbox.moe/ceotf9.jpg',
-          sourceUrl: '',
-          mediaType: 1,
-          renderLargerThumbnail: false
-        },
-       mentionedJid: null
-      }
-    }, { quoted: m })
-
-
+await conn.sendMessage(m.chat, {
+  text: ` ⚙️ ᴄᴀʀɢᴀɴᴅᴏ ᴍᴇɴᴜ 📡`
+}, { quoted: m })
 
 
     await new Promise(resolve => setTimeout(resolve, 2000))
