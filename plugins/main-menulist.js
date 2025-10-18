@@ -1,4 +1,4 @@
-/*// ☘️ Código hecho por DEV.𝘚𝘏𝘈𝘋𝘖𝘞 XD
+// ☘️ Código hecho por DEV.𝘚𝘏𝘈𝘋𝘖𝘞 XD
 // - https://github.com/Yuji-XDev
 // - Dejen créditos aunque sea gracias.
 // - 𝘙𝘐𝘕 𝘐𝘛𝘖𝘚𝘏𝘐 BOT MD ⚽
@@ -241,4 +241,4 @@ function ucapan() {
         res = "Lɪɴᴅᴀ Nᴏᴄʜᴇ 🌃"
     }
     return res
-}*/
+}
