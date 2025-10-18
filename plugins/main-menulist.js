@@ -1,7 +1,9 @@
 // ☘️ Código hecho por DEV.𝘚𝘏𝘈𝘋𝘖𝘞 XD
 // - https://github.com/Yuji-XDev
 // - Dejen créditos aunque sea gracias.
-// - 𝘙𝘐𝘕 𝘐𝘛𝘖𝘚𝘏𝘐 BOT MD ⚽
+// - 𝘙𝘐𝘕 𝘐𝘛𝘖𝘚𝘏𝘐 BOT MD ⚽ https://m.tiktok.com/v/7560444047366704391.html?u_code=e8m64l84g44cg3&preview_pb=0&sharer_language=en&_d=0&share_item_id=7560444047366704391&source=h5_m&timestamp=1760746465&user_id=7253045313384334342&sec_user_id=MS4wLjABAAAAXaVEBaCBj1qEEYtbVjfPDwncA5_AXQwXh256aq4RAPZHB51Tv9uFh25bgsgSPIGX&social_share_type=0&utm_source=copy&utm_campaign=client_share&utm_medium=android&share_iid=7485003379945522950&share_link_id=9482a8ca-8fe2-4e94-abbb-371d061fa647&share_app_id=1233&ugbiz_name=MAIN&link_reflow_popup_iteration_sharer=%7B%22click_empty_to_play%22%3A1%2C%22dynamic_cover%22%3A1%2C%22follow_to_play_duration%22%3A-1.0%2C%22profile_clickable%22%3A1%7D&enable_checksum=1
+
+// https://vt.tiktok.com/ZSUChxJyU/
 
 import sharp from 'sharp';
 import fetch from 'node-fetch';
