@@ -178,7 +178,7 @@ global.rcanalx = {
       newsletterName: channelRD.name,
     },
     externalAdReply: {
-      title: 'N A G I - A I',
+      title: botname,
       body: '',
       mediaUrl: null,
       description: null,
