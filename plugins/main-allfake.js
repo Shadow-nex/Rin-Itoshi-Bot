@@ -199,7 +199,7 @@ global.rcanalw = {
       newsletterName: channelRD.name,
     },
     externalAdReply: {
-      title: 'ɪᴛᴀᴄʜɪ ʙᴏᴛ Bʏ ᴍᴀʀᴄᴋ',
+      title: club,
       body: '',
       mediaUrl: null,
       description: null,
