@@ -32,18 +32,7 @@ let handler = async (m, { conn }) => {
 
 👤 *Autor:* ${author?.nickname || '-'} (@${author?.unique_id || '-'})
 🕒 *Duración:* ${duration || '0'}s
-💊 *Publicado:* ${new Date(create_time * 1000).toLocaleString()}
-
-📚 *Reproducciones:* ${play_count || 0}
-❤️ *Likes:* ${digg_count || 0}
-🧬 *Comentarios:* ${comment_count || 0}
-👑 *Compartidos:* ${share_count || 0}
-🔗 *Descargas:* ${download_count || 0}
-
-⚖️ *Audio:* ${music_info?.title || '-'}
-🧢 *Artista:* ${music_info?.author || '-'}
-📻 *Duración música:* ${music_info?.duration || '0'}s
-🎲 *Link música:* ${music_info?.play || music || '-'}`.trim()
+💊 *Publicado:* ${new Date(create_time * 1000).toLocaleString()}`.trim()
     if (images && images.length > 0) {
 
       await m.react('🖼️')
