@@ -43,18 +43,18 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       }
     }, { quoted: m })
 
-    if (command === 'playaudio') {
+    if (command === 'play' || command === 'playaudio') {
       try {
-        const apiUrl = `https://api.nekolabs.my.id/downloader/youtube/v1?url=${encodeURIComponent(url)}&format=mp3`
+        const apiUrl = `https://api.vreden.my.id/api/v1/download/youtube/audio?url=${encodeURIComponent(url)}&quality=128`
         const res = await fetch(apiUrl)
         const json = await res.json()
 
-        if (!json.success || !json.result?.downloadUrl)
+        if (!json.status || !json.result?.download?.url)
           throw '*⚠ No se obtuvo un enlace de audio válido.*'
 
-        const audioUrl = json.result.downloadUrl
-        const titulo = json.result.title || title
-        const cover = json.result.cover || thumbnail
+        const audioUrl = json.result.download.url
+        const titulo = json.result.metadata.title || title
+        const cover = json.result.metadata.thumbnail || thumbnail
 
         await conn.sendMessage(m.chat, {
           audio: { url: audioUrl },
@@ -62,8 +62,8 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
           fileName: `${titulo}.mp3`,
           contextInfo: {
             externalAdReply: {
-              title: `🎧 ${titulo}`,
-              body: 'Descarga Completa ♻️',
+              title: titulo,
+              body: '🎧 Descarga completa (128kbps)',
               mediaType: 1,
               thumbnailUrl: cover,
               sourceUrl: url,
@@ -72,14 +72,14 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
           }
         }, { quoted: m })
 
-        await m.react('✅')
+        await m.react('🎶')
       } catch (e) {
         console.error(e)
         return conn.reply(m.chat, '*⚠ No se pudo enviar el audio. Puede ser muy pesado o hubo un error en la API.*', m)
       }
     }
 
-    else if (command === 'playvideo') {
+    else if (command === 'playvideo' || command === 'play2') {
       try {
         const apiUrl = `https://api.stellarwa.xyz/dow/ytmp4?url=${encodeURIComponent(url)}&apikey=Shadow_Core`
         const res = await fetch(apiUrl)
@@ -90,9 +90,8 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
         const videoUrl = json.data.dl
         const titulo = json.data.title || title
-        const autor = json.data.author || canal
 
-        const caption = `> ♻️ *Titulo:* ${titulo}
+        const caption = `> ♻️ *Título:* ${titulo}
 > 🎋 *Duración:* ${timestamp || 'Desconocido'}`.trim()
 
         await conn.sendMessage(m.chat, {
@@ -103,7 +102,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
           contextInfo: {
             externalAdReply: {
               title: titulo,
-              body: '📽️ Descarga Completa',
+              body: '📽️ Descarga completa',
               thumbnailUrl: thumbnail,
               sourceUrl: url,
               mediaType: 1,
@@ -112,12 +111,14 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
           }
         }, { quoted: m })
 
-        await m.react('✅')
+        await m.react('🎥')
       } catch (e) {
         console.error(e)
         return conn.reply(m.chat, '⚠ No se pudo enviar el video. Puede ser muy pesado o hubo un error en la API.', m)
       }
-    } else {
+    }
+
+    else {
       return conn.reply(m.chat, '✧ Comando no reconocido.', m)
     }
 
@@ -127,7 +128,8 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 }
 
-handler.command = handler.help = ['playaudio', 'playvideo']
+handler.command = ['play', 'playaudio', 'playvideo', 'play2']
+handler.help = ['play', 'playaudio', 'playvideo', 'play2']
 handler.tags = ['descargas']
 export default handler
 
