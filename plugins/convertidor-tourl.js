@@ -1,52 +1,78 @@
-import fs from "fs"
-import fetch from "node-fetch"
-import FormData from "form-data"
+import fs from 'fs'
+import axios from 'axios'
+import crypto from 'crypto'
+import { fileTypeFromBuffer } from 'file-type'
 
-let handler = async m => {
+const githubToken = '' 
+const owner = 'El-brayan502' 
+const branch = 'main'
+
+let repos = ['dat1', 'dat2', 'dat3', 'dat4']
+
+async function ensureRepoExists(repo) {
   try {
-    const q = m.quoted || m
-    const mime = q.mediaType || ""    
-    if (!/image|video|audio|sticker|document/.test(mime)) 
-      throw "```[ 📤 ] Responde a una imagen / vídeo / audio ( normal o documento )```"
-    const media = await q.download(true)
-    const fileSizeInBytes = fs.statSync(media).size    
-    if (fileSizeInBytes === 0) {
-      await m.reply("```[ ❗ ] El archivo es demasiado ligero```")
-      await fs.promises.unlink(media)
-      return
-    }   
-    if (fileSizeInBytes > 1073741824) {
-      await m.reply("```[ 📌 ] El archivo supera 1GB```")
-      await fs.promises.unlink(media)
-      return
-    }    
-    const { files } = await uploadUguu(media)
-    const caption = `\`\`\`[ ⚡ ] Aquí tienes la URL de tu archivo:\n${files[0]?.url}\`\`\``
-    await m.reply(caption)
+    await axios.get(`https://api.github.com/repos/${owner}/${repo}`, {
+      headers: { Authorization: `Bearer ${githubToken}` }
+    })
   } catch (e) {
-    await m.reply(`${e}`)
+    if (e.response?.status === 404) {
+      await axios.post(`https://api.github.com/user/repos`,
+        { name: repo, private: false },
+        { headers: { Authorization: `Bearer ${githubToken}` } }
+      )
+      if (!repos.includes(repo)) repos.push(repo)
+    } else throw e
   }
 }
 
-handler.help = ["tourl2", "tourl"]
-handler.tags = ["transformador"]
-handler.command = ["tourl2", "tourl"]
+function generateRepoName() {
+  return `dat-${crypto.randomBytes(3).toString('hex')}`
+}
+
+async function uploadFile(buffer) {
+  const detected = await fileTypeFromBuffer(buffer)
+  const ext = detected?.ext || 'bin'
+  const code = crypto.randomBytes(3).toString('hex')
+  const fileName = `${code}-${Date.now()}.${ext}`
+  const filePathGitHub = `uploads/${fileName}`
+  const base64Content = Buffer.from(buffer).toString('base64')
+
+  let targetRepo = repos[Math.floor(Math.random() * repos.length)]
+  try {
+    await ensureRepoExists(targetRepo)
+  } catch {
+    targetRepo = generateRepoName()
+    await ensureRepoExists(targetRepo)
+  }
+
+  await axios.put(
+    `https://api.github.com/repos/${owner}/${targetRepo}/contents/${filePathGitHub}`,
+    { message: `Upload file ${fileName}`, content: base64Content, branch },
+    { headers: { Authorization: `Bearer ${githubToken}` } }
+  )
+
+  return `https://raw.githubusercontent.com/${owner}/${targetRepo}/${branch}/${filePathGitHub}`
+}
+
+const handler = async (m, { conn }) => {
+  try {
+    const q = m.quoted ? m.quoted : m
+    const mime = (q.msg || q).mimetype || ''
+    if (!mime) return m.reply('⚠️ Envía o responde a un archivo para subirlo.')
+    m.reply('📤 Subiendo archivo a GitHub, espera un momento...')
+
+    const buffer = await q.download()
+    const url = await uploadFile(buffer)
+
+    await m.reply(`✅ Archivo subido con éxito:\n${url}`)
+  } catch (e) {
+    console.error(e)
+    m.reply(`❌ Error: ${e.message}`)
+  }
+}
+
+handler.help = ['tourl']
+handler.tags = ['tools']
+handler.command = ['tourl', 'url']
+
 export default handler
-
-async function uploadUguu(path) {
-  try {
-    const form = new FormData()
-    form.append("files[]", fs.createReadStream(path))   
-    const res = await fetch("https://uguu.se/upload.php", {
-      method: "POST",
-      headers: form.getHeaders(),
-      body: form
-    })    
-    const json = await res.json()
-    await fs.promises.unlink(path)   
-    return json
-  } catch (e) {
-    await fs.promises.unlink(path)
-    throw "Upload failed"
-  }
-}
