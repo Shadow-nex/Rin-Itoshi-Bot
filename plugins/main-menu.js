@@ -62,7 +62,7 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
       'anime': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ᴀɴɪᴍᴇ` 🌸',
       'descargas': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ᴅᴏᴡɴʟᴏᴀᴅ` 🎧 ᦡᦡ',
       'grupo': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ɢʀᴜᴘᴏs` 🏮 ᦡᦡ',
-      'ai': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ɪᴀ` ☁️ ᦡᦡ',
+      'ia': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ɪᴀ` ☁️ ᦡᦡ',
       'tools': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ᴛᴏᴏʟs` 🧩 ᦡᦡ',
       'owner': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ᴏᴡɴᴇʀ` ⚙️ ᦡᦡ',
       'jadibot': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ᴊᴀᴅɪ-ʙᴏᴛ` 🍰 ᦡᦡ',
@@ -82,7 +82,7 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
     for (let tag in tags) {
       let comandos = commands
         .filter(cmd => cmd.tags.includes(tag))
-        .map(cmd => cmd.help.map(e => `🍓 ${usedPrefix}${e}`).join('\n'))
+        .map(cmd => cmd.help.map(e => `ര ׄ 🍃 ׅ  ${usedPrefix}${e}`).join('\n'))
         .join('\n')
       if (comandos) {
         menuTexto += `\n\n*${tags[tag]}*\n${comandos}`
@@ -99,10 +99,10 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
 🎋 *Usuarios totales:* ${totalreg}
 ☁️ *Grupos activos:* ${groupsCount}
 🚀 *Tiempo activo:* ${uptime}
-📡 *Fecha:* ${hora}, ${hora}, ${fechaTxt}
+📡 *Fecha:* \`${hora}, ${dia}, ${fechaTxt}\`
 ─────────────────────`.trim()
 
-    const cuerpo = infoUser + `*🍡 Mᴇɴú ᴅɪsᴘᴏɴɪʙʟᴇ:*
+    const cuerpo = infoUser + `\n*🍡 Mᴇɴú ᴅɪsᴘᴏɴɪʙʟᴇ:*
 
 ${menuTexto}`.trim()
 
