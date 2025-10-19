@@ -37,14 +37,10 @@ global.listo = '🎋 ᴀǫᴜɪ ᴛɪᴇɴᴇs ᴄᴀᴜsᴀ'
 global.fotoperfil = await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg')
 
 global.canalIdM = [
-  "120363401008003732@newsletter",
-  "120363401008003732@newsletter",
-  "120363401008003732@newsletter",
-  "120363401008003732@newsletter"
+  "120363422142340004@newsletter",
+  "120363422142340004@newsletter"
 ]
 global.canalNombreM = [
-  "⸸ ⚡︎「 𝐑𝐢𝐧 𝐈𝐭𝐨𝐬𝐡𝐢 ✦ 𝐎𝐟𝐟𝐢𝐜𝐢𝐚𝐥 」⚡︎ ⸸",
-  "✦͙͙͙*ೃ༄ 𝑹𝒊𝒏 𝑰𝒕𝒐𝒔𝒉𝒊 | 𝑺𝒉𝒂𝒅𝒐𝒘`𝑪𝒐𝒓𝒆 ༄*ೃ✦",
   "⋆｡ﾟ☁︎｡⋆ 𝚁 𝙸 𝙽 • 𝙸 𝚃 𝙾 𝚂 𝙷 𝙸 ⋆｡ﾟ☁︎｡⋆",
   "⏤͟͟͞͞☆ ⃟🎋 ᪲ୂ: яιи ιтσѕнι ¢нαииєℓ  ᪲•˙ꨂ ֢✧:"
 ]
