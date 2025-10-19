@@ -40,7 +40,7 @@ font: 'block',
 align: 'center',
 gradient: ['green', 'white']
 })
-say('No edites codigos alo pendejo FIN', {
+say('Shadow_Core xD', {
 font: 'console',
 align: 'center',
 colors: ['cyan', 'magenta', 'yellow']
