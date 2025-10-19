@@ -25,11 +25,9 @@ let handler = async (m, { conn }) => {
       comment_count, share_count, download_count, author, images, create_time
     } = data
 
-    const info = `
+    const info = `🍉 *Título:* ${title || 'Sin título'}
 🎋 *ID:* ${id || '-'}
 🌎 *Región:* ${region || '-'}
-🍉 *Título:* ${title || 'Sin título'}
-
 👤 *Autor:* ${author?.nickname || '-'} (@${author?.unique_id || '-'})
 🕒 *Duración:* ${duration || '0'}s
 💊 *Publicado:* ${new Date(create_time * 1000).toLocaleString()}`.trim()
