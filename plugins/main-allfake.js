@@ -67,9 +67,9 @@ global.emoji5 = '(づ｡◕‿‿◕｡)づ'
 global.emoji6 = '★~(◠‿◕✿)'
 global.emojis = [emoji, emoji2, emoji3, emoji4, emoji5, emoji6].getRandom()
 
-global.edadaleatoria = ['10', '28', '20', '40', '18', '21', '15', '11', '9', '17', '25'].getRandom();
-global.user2 = m.pushName || 'Anónimo';
-global.verifyaleatorio = ['registrar', 'reg', 'verificar', 'verify', 'register'].getRandom();
+//global.edadaleatoria = ['10', '28', '20', '40', '18', '21', '15', '11', '9', '17', '25'].getRandom();
+//global.user2 = m.pushName || 'Anónimo';
+//global.verifyaleatorio = ['registrar', 'reg', 'verificar', 'verify', 'register'].getRandom();
 
 global.wait = '🎋 Espera un momento, soy lento...';
 global.waitt = '🍧 Espera un momento, soy lento...';

@@ -49,11 +49,11 @@ global.shadowJadibts = true
 
 //✎﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏
 
-global.packname = '⸙͎۪۫ ࣭࿐ ✿ ˚.🍧 𝐑𝐢𝐧 𝐈𝐭𝐨𝐬𝐡𝐢 ⌗ 𝐁𝐨𝐭 ♡⚡ ࿐ ۪۫⸙͎'
-global.botname = '⋆ ˚｡⋆୨୧˚ 𝑹𝑰𝑵 𝑰𝑻𝑶𝑺𝑯𝑰 𝐁𝐨𝐭 ⚽ ˚୨୧⋆｡˚ ⋆'
+global.packname = '⸙͎۪۫ ࣭࿐ ✿ ˚.🍧 𝐑𝐢𝐧 𝐈𝐭𝐨𝐬𝐡𝐢 ⌗ 𝙎𝙟𝙦𝙙𝙤𝙬͎'
+global.botname = '⸙͎۪۫🌾 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 𝘽𝙤𝙩 ⌗ 𝙎𝙖𝙙𝙤𝙬.𝙭𝙮 ☃️'
 global.wm = '◈ 𝐑𝐢𝐧 𝐈𝐭𝐨𝐬𝐡𝐢 𝐁𝐨𝐭 ◈'
 global.author = '⩇⃟🔋 𝑴𝒂𝒅𝒆 𝒃𝒚 𝑺𝒉𝒂𝒅𝒐𝒘𝒄𝒐𝒓𝒆 ⩇⃟⚡'
-global.dev = '✧ 𖦹 𝚃𝙷𝙴 𝚂𝙷𝙰𝙳𝙾𝚆 ⊹꙰ ꔛ ＸＹＺ ✧'
+global.dev = '✧ 𖦹 𝚃𝙷𝙴 𝚂𝙷𝙰𝙳𝙾𝚆 ⊹꙰ ꔛxyz ✧'
 global.bot = '𝑹𝒊𝒏 𝑰𝒕𝒐𝒔𝒉𝒊 𝑩𝒐𝒕'
 global.club = '𓏲⍣⃝🌙꙰꙳ 𝑷𝒐𝒘𝒆𝒓𝒆𝒅 𝒃𝒚 𝑺ʜᴀᴅᴏᴡ 𝑪𝒍𝒖𝒃 ꙳⍣⃝ ☻⋆͙̈✫.🪷'
 global.textbot = '𓏲⍣⃝🍧꙰꙳ 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 𝙱𝙾𝚃 ✦ 𝕊ℍ𝔸𝔻𝕆𝕎•ℂ𝕆ℝ𝔼 ꙳⍣⃝☻⋆͙̈✫.⚽'
@@ -62,8 +62,6 @@ global.etiqueta = '@sʜᴀᴅᴏᴡ°ᴄᴏʀᴇ'
 //✎﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏
 
 global.moneda = '¥enes'
-global.welcom1 = '🌿 𝐄ძі𝗍ᥲ ᥱᥣ ᥕᥱᥣᥴ᥆mᥱ ᥴ᥆ᥒ #sᥱ𝗍ᥕᥱᥣᥴ᥆mᥱ'
-global.welcom2 = '🌷 𝐄ძі𝗍ᥲ ᥱᥣ ᥕᥱᥣᥴ᥆mᥱ ᥴ᥆ᥒ #sᥱ𝗍ᑲᥡᥱ'
 global.banner = 'https://files.catbox.moe/fft2hr.jpg'
 global.avatar = 'https://files.catbox.moe/js2plu.jpg'
 global.logo = 'https://files.catbox.moe/fft2hr.jpg'
@@ -74,8 +72,8 @@ global.gp1 = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
 global.comunidad1 = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
 global.channel = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
 global.channel2 = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
-global.md = 'https://github.com/Yuji-XDev/Rin-Itoshi-Bot'
-global.correo = 'blackoficial2025@gmail.com'
+global.md = 'https://github.com/Shadow-nex/Rin-Itoshi-Bot'
+global.correo = 'shadowcore.xyz@gmail.com'
 
 //✎﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏
 
