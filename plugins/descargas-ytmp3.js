@@ -57,18 +57,19 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     const size = await getSize(downloadUrl)
     const sizeStr = size ? formatSize(size) : 'Desconocido'
 
-    const textoInfo = `🎶 *ＹＯＵＴＵＢＥ • ＭＰ3* ☁️
+    const textoInfo = `╔═══❖•ೋ° ⚜️ °ೋ•❖═══╗
+       *🎧 ＹＯＵＴＵＢＥ ＭＰ3 🎶*
+╚═══❖•ೋ° ⚜️ °ೋ•❖═══╝
+🌸 *Título:* ${meta.title}
+🕒 *Duración:* ${meta.duration}
+💾 *Tamaño:* ${sizeStr}
+🎚 *Calidad:* 128kbps
+📡 *Canal:* ${meta.author}
+👁 *Vistas:* ${meta.views}
+📅 *Publicado:* ${meta.ago}
+🔗 *Enlace:* ${meta.url}
 ────────────────────
-> 🎧 *Titulo:* ${meta.title}
-> ⏱️ *Duracion:* ${meta.duration}
-> 💾 *Tamaño:* ${sizeStr}
-> 🎚️ *Calidad:* 128kbps
-> 📺 *Canal:* ${meta.author}
-> 👀 *Vistas:* ${meta.views}
-> 🌿 *Publicado:* ${meta.ago}
-> ☁️ *Link:* ${meta.url}
-────────────────────
-> *Enviando, espera un momento...*`
+🍀 *Procesando tu canción, espera un momento...*`
 
     const thumb = (await conn.getFile(meta.thumbnail)).data
 

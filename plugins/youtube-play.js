@@ -1,4 +1,4 @@
-import yts from 'yt-search';
+/*import yts from 'yt-search';
 import fetch from 'node-fetch';
 
 const handler = async (m, { conn, args, usedPrefix, command }) => {
@@ -85,4 +85,4 @@ async function searchVideos(query) {
         console.error('*Error en yt-search:*', error.message);
         return [];
     }
-}
+}*/

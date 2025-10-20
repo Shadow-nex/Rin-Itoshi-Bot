@@ -4,6 +4,7 @@ import Jimp from 'jimp'
 
 var handler = async (m, { conn, usedPrefix, command, text }) => {
   if (!text) return conn.reply(m.chat, `🕸️ Por favor, ingrese el nombre de la apk para descargarlo.`, m, rcanal)
+
   try {
     await m.react('🕒')
 
@@ -33,27 +34,26 @@ var handler = async (m, { conn, usedPrefix, command, text }) => {
       console.log('⚠️ Error al crear miniatura:', err)
     }
 
-    await conn.sendMessage(m.chat, {
-      document: { url: data5.dllink },
-      mimetype: 'application/vnd.android.package-archive',
-      fileName: `${data5.name}.apk`,
-      caption: `°\n> ${club}`,
-      ...(thumbnail ? { jpegThumbnail: thumbnail } : {}),
-      contextInfo: {
-        externalAdReply: {
-          title: data5.name,
-          body: `💾 ${data5.size} • ${data5.package}`,
-          mediaType: 1,
-          thumbnailUrl: data5.icon,
-          renderLargerThumbnail: true,
-          sourceUrl: `https://aptoide.com/search?query=${encodeURIComponent(data5.name)}`
-        }
-      }
-    }, { quoted: fkontak }) // jsjsjs no quedó 🥲
+    await conn.sendMessage(
+      m.chat,
+      {
+        document: { url: data5.dllink },
+        mimetype: 'application/vnd.android.package-archive',
+        fileName: `${data5.name}.apk`,
+        caption: `> ${dev}`,
+        ...(thumbnail ? { jpegThumbnail: thumbnail } : {})
+      },
+      { quoted: fkontak }
+    )
 
     await m.react('✔️')
   } catch (error) {
-    return conn.reply(m.chat, `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${error.message}`, m)
+    console.error(error)
+    return conn.reply(
+      m.chat,
+      `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${error.message}`,
+      m
+    )
   }
 }
 

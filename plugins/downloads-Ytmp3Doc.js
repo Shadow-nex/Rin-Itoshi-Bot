@@ -133,41 +133,18 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     }, { quoted: m })
   }
 
-/*  await conn.sendMessage(m.chat, {
-    text: `૮₍｡˃ ᵕ ˂ ｡₎ა 🎶 *¡𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰𝙽𝙳𝙾 𝚃𝚄 𝙰𝚄𝙳𝙸𝙾!*
-
-> ✅ єѕρєяє υи мσмєитσ, єѕтσ ρυє∂є тαя∂αя ∂єρє∂ιєи∂σ ∂єℓ ρєѕσ ∂єℓ αυ∂ισ χ∂
-
-˚₊· ͟͟͞͞➳❥ 📊 Progresito:  
-[▓▓▓▓▓░░░░░] 50%`
-  }, { quoted: fkontak })
-*/
   await conn.sendMessage(m.chat, {
-    text:  `૮₍｡˃ ᵕ ˂ ｡₎ა 🎶 *¡𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰𝙽𝙳𝙾 𝚃𝚄 𝙰𝚄𝙳𝙸𝙾!*
+    text: `૮₍｡˃ ᵕ ˂ ｡₎ა 🎶 *¡𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰𝙽𝙳𝙾 𝚃𝚄 𝙰𝚄𝙳𝙸𝙾!*
+╰─────────────────────────────❀
 
-> ⭐ єѕρєяє υи мσмєитσ, єѕтσ ρυє∂є тαя∂αя ∂єρє∂ιєи∂σ ∂єℓ ρєѕσ ∂єℓ αυ∂ισ χ∂
+> 🍓 *Por favor espera un momento...*
+> 🌙 *Esto puede tardar según el tamaño del archivo.*
 
-˚₊· ͟͟͞͞➳❥ 📊 Progresito:  
-[▓▓▓▓▓░░░░░] 50%` ,
-    mentions: [m.sender],
-    contextInfo: {
-      isForwarded: true,
-      forwardedNewsletterMessageInfo: {
-        newsletterJid: channelRD.id,
-        serverMessageId: '',
-        newsletterName: channelRD.name
-      },
-      externalAdReply: {
-        title: '🎬 𝗬𝗢𝗨𝗧𝗨𝗕𝗘 - 𝗠𝗣𝟯 ° 𝗗𝗢𝗖 ⚙️',
-        body: '',
-        thumbnailUrl: 'https://files.catbox.moe/j7bg0i.jpg',
-        sourceUrl: '',
-        mediaType: 1,
-        renderLargerThumbnail: true
-      },
-     mentionedJid: null
-    }
-  }, { quoted: m })
+˚₊· ͟͟͞͞➳❥ 📊 *Progreso:*  
+    [▓▓▓▓▓▓▓░░░] 70%
+
+🎧 *No te desesperes uwu, tu canción está casi lista...*`
+  }, { quoted: fkontak })
 
   try {
     // 🔍 Buscar en YT
@@ -188,16 +165,15 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let { result } = info
 
     let caption = `
-◌⃘֟፝֯        *⏜⏜੭୧ֹ⏜⏜*
-  *( \`☄︎ 𝙔𝙊𝙐𝙏𝙐𝘽𝙀 𝙈𝙋𝟯 𝘿𝙊𝘾 ☄\` *)*
-          *⏝⏝୨୧⏝⏝*
-> ┌──
-> │ °  📌 *Titulo:* ${result.title}
-> │ °  ⏱️ *Duracion:* ${vid.duration}
-> │ °  👽 *Canal:* ${vid.author?.name || "Desconocido"}
-> │ °  🍧 *Calidad:* ${result.quality}P
-> │ °  🏔️ *Link:* ${vid.url}
-> └──
+╭─❖『 *🎧 𝚈𝙾𝚄𝚃𝚄𝙱𝙴 𝙼𝙿𝟹 𝙳𝙾𝙲* 』
+│ ° 📌 *Título:* ${result.title}
+│ ° ⏱️ *Duración:* ${vid.duration}
+│ ° 👽 *Canal:* ${vid.author?.name || "Desconocido"}
+│ ° 🍧 *Calidad:* ${result.quality}p
+│ ° 🏔️ *Link:* ${vid.url}
+╰───────────────⬣
+
+૮₍｡˃ ᵕ ˂ ｡₎ა 🚀 *¡Descarga Completa con exito!*
 
 > ☁️ яιи ιтσsнι вσт | 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 𝚂𝙷𝙰𝙳𝙾𝚆-𝚇𝚈𝚉`.trim()
 

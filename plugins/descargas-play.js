@@ -63,7 +63,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
           contextInfo: {
             externalAdReply: {
               title: titulo,
-              body: '🎧 Descarga completa (128kbps)',
+              body: '',
               mediaType: 1,
               thumbnailUrl: cover,
               sourceUrl: url,
@@ -102,11 +102,11 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
           contextInfo: {
             externalAdReply: {
               title: titulo,
-              body: '📽️ Descarga completa',
+              body: '',
               thumbnailUrl: thumbnail,
               sourceUrl: url,
               mediaType: 1,
-              renderLargerThumbnail: true
+              renderLargerThumbnail: false
             }
           }
         }, { quoted: m })

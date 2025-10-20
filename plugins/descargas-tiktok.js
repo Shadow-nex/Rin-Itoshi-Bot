@@ -39,35 +39,41 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
         m.chat,
         videoURL,
         "tiktok.mp4",
-        `❐ 🍧 • *𝐓𝐢𝐭𝐮𝐥𝐨:* ${data.title || 'Sin descripción uwu'}
-
-*~ ＥＳＴＡＤＯ ~*
-❐ 🍂 • *𝐀𝐮𝐭𝐨𝐫* ➭ ${data.author?.nickname || 'Desconocido'} (${data.author?.username || 'N/A'})
-❐ 🆔 • *ID Autor:* ${data.author?.id || 'N/A'}
-❐ 🏳️ • *Región:* ${data.region || 'N/A'}
-❐ 📅 • *Publicado:* ${data.published || 'Desconocido'}
-
-*~ ＳＴＡＴＳ ~*
-❐ 🔥 • *Likes:* ${data.like || '0'}
-❐ 💙 • *Comentarios:* ${data.comment || '0'}
-❐ 💥 • *Vistas:* ${data.repro || '0'}
-❐ 🌾 • *Compartido:* ${data.share || '0'}
-❐ 📥 • *Descargas:* ${data.download || '0'}
-
-*~ ＭＵＳＩＣＡ ~*
-❐ 🎶 • *Título:* ${data.music?.title || 'Desconocido'}
-❐ 👤 • *Autor:* ${data.music?.author || 'Desconocido'}
-❐ ⏳ • *Duración Música:* ${data.music?.duration || 'N/A'} seg
-
-*~ ＶＩＤＥＯ ~*
-❐ 📺 • *Duración:* ${data.duration || '0'} seg
-❐ ⚡ • *Tamaño HD:* ${data.meta.media[0]?.size_hd || 'N/A'}
-❐ 📂 • *Tamaño Original:* ${data.meta.media[0]?.size_org || 'N/A'}
-❐ 🚫 • *Tamaño con marca de agua:* ${data.meta.media[0]?.size_wm || 'N/A'}
-
-*~ ＩＮＦＯ ＡＰＩ ~*
-❐ 👨‍💻 • *API By:* ${tiktokData.creator || 'Delirius'}
-❐ ⚙️ • *Proceso:* ${(tiktokData.process * 100).toFixed(2)}%`,
+        `╭━━━〔 🩵 𝐈𝐍𝐅𝐎𝐑𝐌𝐀𝐂𝐈𝐎́𝐍 𝐃𝐄𝐋 𝐕𝐈𝐃𝐄𝐎 🩵 〕━━⬣
+│ 🍧 *Título:* \`${data.title || 'Sin descripción uwu'}\`
+│
+│ ╭─❏ ＥＳＴＡＤＯ ❏
+│ │ 🍂 *Autor:* ${data.author?.nickname || 'Desconocido'} (${data.author?.username || 'N/A'})
+│ │ 🆔 *ID Autor:* ${data.author?.id || 'N/A'}
+│ │ 🏳️ *Región:* ${data.region || 'N/A'}
+│ │ 📅 *Publicado:* ${data.published || 'Desconocido'}
+│ ╰───────────────⬣
+│
+│ ╭─❏ ＳＴＡＴＳ ❏
+│ │ 🔥 *Likes:* ${data.like || '0'}
+│ │ 💬 *Comentarios:* ${data.comment || '0'}
+│ │ 👀 *Vistas:* ${data.repro || '0'}
+│ │ 📤 *Compartido:* ${data.share || '0'}
+│ │ 📥 *Descargas:* ${data.download || '0'}
+│ ╰───────────────⬣
+│
+│ ╭─❏ ＭＵＳＩＣＡ ❏
+│ │ 🎶 *Título:* ${data.music?.title || 'Desconocido'}
+│ │ 👤 *Autor:* ${data.music?.author || 'Desconocido'}
+│ │ ⏳ *Duración:* ${data.music?.duration || 'N/A'} seg
+│ ╰───────────────⬣
+│
+│ ╭─❏ ＶＩＤＥＯ ❏
+│ │ 📺 *Duración:* ${data.duration || '0'} seg
+│ │ ⚡ *Tamaño HD:* ${data.meta.media[0]?.size_hd || 'N/A'}
+│ │ 📂 *Original:* ${data.meta.media[0]?.size_org || 'N/A'}
+│ │ 🚫 *Marca de agua:* ${data.meta.media[0]?.size_wm || 'N/A'}
+│ ╰───────────────⬣
+│
+│ ╭─❏ ＩＮＦＯ ❏
+│ │ ⚙️ *Proceso:* ${(tiktokData.process * 100).toFixed(2)}%
+│ ╰───────────────⬣
+╰━━━━━━━━━━━━━━━━━━━━━━⬣`,
         fkontak
       );
     } else {

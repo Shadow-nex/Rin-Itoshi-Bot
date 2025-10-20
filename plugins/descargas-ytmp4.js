@@ -47,13 +47,18 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     const size = head.headers.get("content-length")
     const sizeMB = size ? Number(size) / (1024 * 1024) : 0
 
-    const caption = `🍉 *Título:* ${title}
-📺 *Canal:* ${author?.name}
-⏱️ *Duración:* ${duration?.timestamp || "Desconocida"}
-🧬 *Vistas:* ${views.toLocaleString()}
-🕰️ *Publicado:* ${ago}
-💾 *Calidad:* ${quality}p
-☁️ *Tamaño:* ${formatSize(size)}`
+    const caption = `╔═══❖•ೋ° ⚜️ °ೋ•❖═══╗
+    🎬 *ＹＯＵＴＵＢＥ ＶＩＤＥＯ* 🌷
+╚═══❖•ೋ° ⚜️ °ೋ•❖═══╝
+🍉 *Título:* ${title}
+📡 *Canal:* ${author?.name}
+🕒 *Duración:* ${duration?.timestamp || "Desconocida"}
+👁 *Vistas:* ${views.toLocaleString()}
+📆 *Publicado:* ${ago}
+🎚 *Calidad:* ${quality}p
+💾 *Tamaño:* ${formatSize(size)}
+────────────────────
+✨ *Enviando tu archivo...*`
 
     await conn.sendMessage(m.chat, {
       image: { url: thumbnail },

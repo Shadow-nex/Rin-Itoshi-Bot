@@ -133,41 +133,14 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     }, { quoted: m })
   }
 
-/*  await conn.sendMessage(m.chat, {
-    text: `૮₍｡˃ ᵕ ˂ ｡₎ა 🎶 *¡𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰𝙽𝙳𝙾 𝚃𝚄 𝚅𝙸𝙳𝙴𝙾!*
-
-> ✅ єѕρєяє υи мσмєитσ, єѕтσ ρυє∂є тαя∂αя ∂єρє∂ιєи∂σ ∂єℓ ρєѕσ ∂єℓ νι∂єσ χ∂
-
-˚₊· ͟͟͞͞➳❥ 📊 Progresito:  
-[▓▓▓▓▓░░░░░] 50% `
-  }, { quoted: fkontak })*/
-
   await conn.sendMessage(m.chat, {
-    text:  `૮₍｡˃ ᵕ ˂ ｡₎ა 🎶 *¡𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰𝙽𝙳𝙾 𝚃𝚄 𝚅𝙸𝙳𝙴𝙾!*
+    text: `૮₍｡˃ ᵕ ˂ ｡₎ა 🎥 *¡𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰𝙽𝙳𝙾 𝚃𝚄 𝚅𝙸𝙳𝙴𝙾!*
 
-> 🍉 𝙴𝚜𝚙𝚎𝚛𝚊 𝚞𝚗 𝚙𝚘𝚌𝚘, 𝚎𝚜𝚝𝚘 𝚙𝚞𝚎𝚍𝚎 𝚝𝚊𝚛𝚍𝚊𝚛 𝚍𝚎𝚙𝚎𝚗𝚍𝚒𝚎𝚗𝚍𝚘 𝚍𝚎𝚕 𝚙𝚎𝚜𝚘 𝚍𝚎𝚕 𝚟𝚒𝚍𝚎𝚘 𝚡𝚍
+> 🍓 𝚃𝚎𝚗 𝚙𝚊𝚌𝚒𝚎𝚗𝚌𝚒𝚊~ 𝚎𝚜𝚝𝚘 𝚙𝚞𝚎𝚍𝚎 𝚝𝚊𝚛𝚍𝚊𝚛 𝚞𝚗 𝚙𝚘𝚌𝚘 𝚍𝚎𝚙𝚎𝚗𝚍𝚒𝚎𝚗𝚍𝚘 𝚍𝚎𝚕 𝚝𝚊𝚖𝚊ñ𝚘 𝚍𝚎𝚕 𝚟𝚒𝚍𝚎𝚘 ₍ᐢ.ˬ.ᐢ₎♡
 
-˚₊· ͟͟͞͞➳❥ 📊 *\`Progreso:\`*  
-[▓▓▓▓▓░░░░░] 50%` ,
-    mentions: [m.sender],
-    contextInfo: {
-      isForwarded: true,
-      forwardedNewsletterMessageInfo: {
-        newsletterJid: channelRD.id,
-        serverMessageId: '',
-        newsletterName: channelRD.name
-      },
-      externalAdReply: {
-        title: '🎬 𝗬𝗢𝗨𝗧𝗨𝗕𝗘 - 𝗠𝗣𝟰 ° 𝗗𝗢𝗖 🌿',
-        body: '',
-        thumbnailUrl: 'https://files.catbox.moe/j7bg0i.jpg',
-        sourceUrl: '',
-        mediaType: 1,
-        renderLargerThumbnail: true
-      },
-     mentionedJid: null
-    }
-  }, { quoted: m })
+˚₊· ͟͟͞͞➳❥ 📊 *\`Progreso actual:\`*  
+[▓▓▓▓▓▓░░░░] 60%`
+  }, { quoted: fkontak })
   
   try {
     // 🔍 Buscar en YT
@@ -187,16 +160,13 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let { result } = info
 
     let caption = `
-◌⃘֟፝֯         *⏜⏜੭୧ֹ⏜⏜*
-  *( \`☄︎ 𝙔𝙊𝙐𝙏𝙐𝘽𝙀 𝙈𝙋𝟰 𝘿𝙊𝘾 ☄\` *)*
-          *⏝⏝୨୧⏝⏝*
-> ┌──
-> │ ° 📌 *Titulo:* ${result.title}
-> │ °  ⏱️ *Duracion:* ${vid.duration}
-> │ °  👽 *Canal:* ${vid.author?.name || "Desconocido"}
-> │ °  🍧 *Calidad:* ${result.quality}P
-> │ °  🏔️ *Link:* ${vid.url}
-> └──
+> ┌── 「 🎬 𝚈𝙾𝚄𝚃𝚄𝙱𝙴 𝙼𝙿4 𝙳𝙾𝙲 」──
+> │ ° 🎧 *Título:* ${result.title}
+> │ ° ⏱️ *Duración:* ${vid.duration}
+> │ ° 👤 *Canal:* ${vid.author?.name || "Desconocido"}
+> │ ° 💾 *Calidad:* ${result.quality}P
+> │ ° 🔗 *Link:* ${vid.url}
+> └───────────────────
 
 > ☁️ яιи ιтσsнι вσт | 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 𝚂𝙷𝙰𝙳𝙾𝚆-𝚇𝚈𝚉`.trim()
 
