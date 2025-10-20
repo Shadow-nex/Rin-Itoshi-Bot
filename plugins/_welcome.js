@@ -128,7 +128,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
   }
 }*/
 
-
+// welcome no funciona jsjsjsjs 😏
 
 import { WAMessageStubType } from '@whiskeysockets/baileys'
 import fetch from 'node-fetch'
@@ -144,7 +144,6 @@ export async function before(m, { conn, participants, groupMetadata }) {
   const numeroUsuario = usuarioJid.split('@')[0]
   const tagUser = `@${numeroUsuario}`
 
-  // Tipo de mensaje
   const tipo =
     m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD
       ? 'WELCOME'
@@ -163,7 +162,6 @@ export async function before(m, { conn, participants, groupMetadata }) {
   const fondo = 'https://files.catbox.moe/7cckvp.jpg'
   const urlapi = `https://canvas-8zhi.onrender.com/api/welcome3?title=${encodeURIComponent(tipo)}&desc=${encodeURIComponent(tipo)}&profile=${encodeURIComponent(avatarUsuario)}&background=${encodeURIComponent(fondo)}`
 
-  // Contacto falso con miniatura
   const thumb = await fetch('https://files.catbox.moe/7sbozb.jpg').then(res => res.buffer())
   const fkontak = {
     key: { participants: "0@s.whatsapp.net", remoteJid: m.chat, fromMe: false, id: "Halo" },
@@ -171,7 +169,6 @@ export async function before(m, { conn, participants, groupMetadata }) {
     participant: "0@s.whatsapp.net"
   }
 
-  // Texto decorado
   const caption = `
 ╔═══════════════════╗
       \`\`\`${tipo}\`\`\`
@@ -187,13 +184,11 @@ export async function before(m, { conn, participants, groupMetadata }) {
 > 🍃 Usa *_#help_* para explorar comandos.
 `.trim()
 
-  // Botones personalizados
   const botones =
     tipo === 'WELCOME'
       ? [{ buttonId: '#verify', buttonText: { displayText: '🪄 Registrarse' }, type: 1 }]
       : [{ buttonId: '#menu', buttonText: { displayText: '📜 Menú' }, type: 1 }]
 
-  // Mensaje tipo producto
   const mensajeProducto = {
     product: {
       productImage: { url: urlapi },
