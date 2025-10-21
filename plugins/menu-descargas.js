@@ -160,7 +160,7 @@ let handler = async (m, { conn, args, usedPrefix, command, text }) => {
 
     const channel = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U'
     const owner = 'https://wa.me/51919199620'
-    const ig = 'https://instagram.com/tu_instagram'
+    const ig = 'https://www.instagram.com/shadow_xyz9?igsh=aWFtNTIwczlhNnQ4'
     const logo = 'https://shadow-xyz.vercel.app/img/shadow13.jpg'
 
     const comandos = Object.values(global.plugins)
