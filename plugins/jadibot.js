@@ -1,4 +1,4 @@
-import ws from "ws"
+/*import ws from "ws"
 import axios from "axios"
 import fetch from "node-fetch"
 
@@ -130,4 +130,4 @@ handler.tags = ["serbot"]
 handler.help = ["botlist"]
 handler.command = ["botlist", "listbots", "listbot", "bots", "sockets", "socket"]
 
-export default handler
+export default handler*/

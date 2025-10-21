@@ -26,7 +26,6 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
     ]
 
     return await conn.sendMessage(m.chat, {
-      image: { url: 'https://files.catbox.moe/eml66k.jpg' },
       caption: '   ꒰🍓⚠️ `ＡＶＩＳＯ` ⚠️🍓꒱ ',
       mentions: [m.sender],
       footer: `
@@ -53,11 +52,10 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
 
   if (!Reg.test(text)) {
     const botones = [
-      { buttonId: `${usedPrefix}reg ${name2}.18`, buttonText: { displayText: '☘️ Auto Verificar ☘️' }, type: 1 },
+      { buttonId: `${usedPrefix}reg ${name2}.18`, buttonText: { displayText: 'ᴠᴇʀɪғɪᴄᴀʀ ✅' }, type: 1 },
     ]
 
     return await conn.sendMessage(m.chat, {
-      image: { url: 'https://files.catbox.moe/eml66k.jpg' },
       caption: '`ＡＶＩＳＯ:`',
       mentions: [m.sender],
       footer: `
@@ -118,18 +116,18 @@ ${usedPrefix + command} nombre.edad
 ├─ 🍉 ғᴇᴄʜᴀ: ${fecha}    📡 ʜᴏʀᴀ: ${hora}
 ├─ 🎀 ᴅɪᴀ: ${dia}
 └─ 🚀 ᴄʟᴀᴠᴇ ɴs: ${sn}
-╚═══════════════════════════════╝`
+╚═════════════════════..`
 
   await m.react?.('📩')
   await conn.sendMessage(
     m.chat,
     {
-      image: { url: 'https://files.catbox.moe/eml66k.jpg' },
+      image: { url: pp },
       caption: regbot,
       footer: `${botname} • ${dev}`,
       buttons: [],
       headerType: 4,
-      ...global.rcanal
+      ...global.rcanalx
     },
     { quoted: fkontak }
   )

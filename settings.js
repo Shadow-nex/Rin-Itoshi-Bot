@@ -41,22 +41,22 @@ global.prems = ['51919199620', '51934053286']
 global.libreria = 'Baileys'
 global.baileys = 'V 6.7.17' 
 global.vs = '3.0.0'
-global.nameqr = '⋆｡°✩🍂 Rin•Itoshi•Bot•MD ⚡✩°｡⋆'
-global.namebot = '✿⋆｡° Rin•Itoshi•Bot•MD °｡⋆✿'
+global.nameqr = '⋆｡°✩🍂 Rin Itoshi Bot ⚡✩°｡⋆'
+global.namebot = '✿⋆｡° Rin Itoshi Bot MD °｡⋆✿'
 global.sessions = 'Sessions'
 global.jadi = 'JadiBots' 
 global.shadowJadibts = true
 
 //✎﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏
 
-global.packname = '⸙͎۪۫ ࣭࿐ ✿ ˚.🍧 𝐑𝐢𝐧 𝐈𝐭𝐨𝐬𝐡𝐢 ⌗ 𝙎𝙟𝙦𝙙𝙤𝙬͎'
-global.botname = '⸙͎۪۫🌾 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 𝘽𝙤𝙩 ⌗ 𝙎𝙖𝙙𝙤𝙬.𝙭𝙮 ☃️'
+global.packname = '⸙͎۪۫🌾 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 𝘽𝙤𝙩 ⌗ 𝙎𝙖𝙙𝙤𝙬.𝙭𝙮 ☃️͎'
+global.botname = 'な 𝐑𝐢𝐧 𝐈𝐭𝐨𝐬𝐡𝐢 な౼⋆·˚ ☾︎ 𝐱𝐃 ᰍ'
 global.wm = '◈ 𝐑𝐢𝐧 𝐈𝐭𝐨𝐬𝐡𝐢 𝐁𝐨𝐭 ◈'
-global.author = '⩇⃟🔋 𝑴𝒂𝒅𝒆 𝒃𝒚 𝑺𝒉𝒂𝒅𝒐𝒘𝒄𝒐𝒓𝒆 ⩇⃟⚡'
-global.dev = '✧ 𖦹 𝚃𝙷𝙴 𝚂𝙷𝙰𝙳𝙾𝚆 ⊹꙰ ꔛxyz ✧'
+global.author = '🌿 𝑴𝒂𝒅𝒆 𝒃𝒚 𝑺𝒉𝒂𝒅𝒐𝒘𝒄𝒐𝒓𝒆'
+global.dev = '✧ 𖦹 ᴘᴏᴡʀᴇᴅ ʙʏ sʜᴀᴅᴏᴡ.xʏᴢ  ✧'
 global.bot = '𝑹𝒊𝒏 𝑰𝒕𝒐𝒔𝒉𝒊 𝑩𝒐𝒕'
-global.club = '𓏲⍣⃝🌙꙰꙳ 𝑷𝒐𝒘𝒆𝒓𝒆𝒅 𝒃𝒚 𝑺ʜᴀᴅᴏᴡ 𝑪𝒍𝒖𝒃 ꙳⍣⃝ ☻⋆͙̈✫.🪷'
-global.textbot = '𓏲⍣⃝🍧꙰꙳ 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 𝙱𝙾𝚃 ✦ 𝕊ℍ𝔸𝔻𝕆𝕎•ℂ𝕆ℝ𝔼 ꙳⍣⃝☻⋆͙̈✫.⚽'
+global.club = dev
+global.textbot = '𓏲⍣⃝🍧꙰꙳ 𝑹𝒊𝒏 𝑰𝒕𝒐𝒔𝒉𝒊 𝑴𝑫 | xD'
 global.etiqueta = '@sʜᴀᴅᴏᴡ°ᴄᴏʀᴇ'
 
 //✎﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏

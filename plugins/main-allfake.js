@@ -41,8 +41,8 @@ global.canalIdM = [
   "120363422142340004@newsletter"
 ]
 global.canalNombreM = [
-  "⋆｡ﾟ☁︎｡⋆ 𝚁 𝙸 𝙽 • 𝙸 𝚃 𝙾 𝚂 𝙷 𝙸 ⋆｡ﾟ☁︎｡⋆",
-  "⏤͟͟͞͞☆ ⃟🎋 ᪲ୂ: яιи ιтσѕнι ¢нαииєℓ  ᪲•˙ꨂ ֢✧:"
+  "Bot de mrd",
+  " ᪲ୂ: Bot de mierda 🌿:"
 ]
 global.channelRD = await getRandomChannel()
 

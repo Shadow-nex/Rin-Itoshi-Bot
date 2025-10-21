@@ -1,4 +1,4 @@
-const { /*generateWAMessageFromContent, proto,*/ useMultiFileAuthState, DisconnectReason, makeCacheableSignalKeyStore, fetchLatestBaileysVersion } = (await import("@whiskeysockets/baileys"))
+/*const { useMultiFileAuthState, DisconnectReason, makeCacheableSignalKeyStore, fetchLatestBaileysVersion } = (await import("@whiskeysockets/baileys"))
 import qrcode from "qrcode"
 import NodeCache from "node-cache"
 import fs from "fs"
@@ -193,7 +193,7 @@ const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
 }), { quoted: m })
 
 await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
-*/
+
 console.log(secret)
 }
 if (txtCode && txtCode.key) {
@@ -325,3 +325,5 @@ for (const value of Object.values(global.ch)) {
 if (typeof value === 'string' && value.endsWith('@newsletter')) {
 await sock.newsletterFollow(value).catch(() => {})
 }}}
+
+*/

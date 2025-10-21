@@ -16,22 +16,25 @@ let handler = async (m, { conn, usedPrefix }) => {
     let totalf = Object.values(global.plugins).filter((v) => v.help && v.tags).length
     let subBots = Object.keys(global.conns).length
     
-    let info = ` ✿｡🌸｡✿━─〔 🐰 𝐈𝐍𝐅𝐎 𝐁𝐎𝐓 🐰 〕─━✿｡🌸｡✿
-🍓 ✦ \`ᴘʀᴇꜰɪᴊᴏ:\` ${usedPrefix}  
-🍬 ✦ \`ᴘʟᴜɢɪɴꜱ ᴀᴄᴛɪᴠᴏꜱ:\` ${totalf}  
-🧁 ✦ \`ᴄᴏᴍᴀɴᴅᴏꜱ ᴜꜱᴀᴅᴏꜱ:\` ${toNum(totalStats)} (${totalStats})  
-🌷 ✦ \`ꜱᴜʙʙᴏᴛꜱ ᴄᴏɴᴇᴄᴛᴀᴅᴏꜱ:\` ${subBots}  
+    let info = ` ╭━━━〔 💎 𝙄𝙉𝙁𝙊 𝘽𝙊𝙏 〕━━⬣
+┃ ✿ Prefijo: ${usedPrefix}
+┃ ✿ Plugins activos: ${totalf}
+┃ ✿ Comandos usados: ${toNum(totalStats)} (${totalStats})
+┃ ✿ Subbots conectados: ${subBots}
+╰━━━━━━━━━━━━━━⬣
 
-✿｡🌸｡✿━─〔 🎀 𝐒𝐈𝐒𝐓𝐄𝐌𝐀 𝐇𝐎𝐒𝐓 🎀 〕─━✿｡🌸｡✿
-🧸 ✦ \`ᴘʟᴀᴛᴀꜰᴏʀᴍᴀ:\` ${platform()}  
-🌐 ✦ \`ꜱᴇʀᴠɪᴅᴏʀ:\` ${hostname()}  
-🍭 ✦ \`ʀᴀᴍ ᴜꜱᴀᴅᴀ:\` ${format(totalmem() - freemem())} / ${format(totalmem())}  
-🍡 ✦ \`ʀᴀᴍ ʟɪʙʀᴇ:\` ${format(freemem())}  
+╭━━━〔 ⚙️ 𝙎𝙄𝙎𝙏𝙀𝙈𝘼 𝙃𝙊𝙎𝙏 〕━━⬣
+┃ ✿ Plataforma: ${platform()}
+┃ ✿ Servidor: ${hostname()}
+┃ ✿ RAM usada: ${format(totalmem() - freemem())} / ${format(totalmem())}
+┃ ✿ RAM libre: ${format(freemem())}
+╰━━━━━━━━━━━━━━⬣
 
-✿｡🌸｡✿━─〔 💖 𝐌𝐄𝐌𝐎𝐑𝐈𝐀 𝐍𝐎𝐃𝐄.𝐉𝐒 💖 〕─━✿｡🌸｡✿
+╭━━━〔 🧠 𝙈𝙀𝙈𝙊𝙍𝙄𝘼 𝙉𝙊𝘿𝙀.𝙅𝙎 〕━━⬣
 ${'```' + Object.keys(process.memoryUsage())
-   .map((key) => `🌸 ✦ ${key}: ${format(process.memoryUsage()[key])}`)
-   .join('\n') + '```'}`
+   .map((key) => `┃ ✿ ${key}: ${format(process.memoryUsage()[key])}`)
+   .join('\n') + '```'}
+╰━━━━━━━━━━━━━━⬣`
 
    await conn.sendFile(m.chat, banner, 'info.jpg', info, fkontak,  false, { contextInfo: { mentionedJid: [owner[0][0] + '@s.whatsapp.net'] } })
 }
