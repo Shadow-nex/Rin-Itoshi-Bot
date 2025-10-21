@@ -20,13 +20,13 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     const vistas = formatViews(views)
     const canal = author?.name || 'Desconocido'
 
-    const infoMessage = ` *${title}*
-
-> 📺 *Canal:* ${canal}
-> 👁️ *Vistas:* ${vistas}
-> ⏱ *Duración:* ${timestamp || 'Desconocido'}
-> 📆 *Publicado:* ${ago || 'Desconocido'}
-> 🔗 *Enlace:* ${url}`.trim()
+    const infoMessage = `
+🕸️ *Titulo:* *${title}*
+🌿 *Canal:* ${canal}
+🍋 *Vistas:* ${vistas}
+🍃 *Duración:* ${timestamp || 'Desconocido'}
+📆 *Publicado:* ${ago || 'Desconocido'}
+🚀 *Enlace:* ${url}`.trim()
 
     await conn.sendMessage(m.chat, {
       image: { url: thumbnail },

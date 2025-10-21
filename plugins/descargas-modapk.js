@@ -40,7 +40,7 @@ var handler = async (m, { conn, usedPrefix, command, text }) => {
         document: { url: data5.dllink },
         mimetype: 'application/vnd.android.package-archive',
         fileName: `${data5.name}.apk`,
-        caption: `> ${dev}`,
+        caption: null,
         ...(thumbnail ? { jpegThumbnail: thumbnail } : {})
       },
       { quoted: fkontak }
