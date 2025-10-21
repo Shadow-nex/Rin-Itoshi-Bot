@@ -128,10 +128,11 @@ export async function before(m, { conn, participants, groupMetadata }) {
   }
 }*/
 
-// welcome no funciona jsjsjsjs 😏
+// welcome no funcionando jsjsjsjs 😏
 
 import { WAMessageStubType } from '@whiskeysockets/baileys'
 import fetch from 'node-fetch'
+import PhoneNumber from 'awesome-phonenumber'
 
 export async function before(m, { conn, participants, groupMetadata }) {
   if (!m.messageStubType || !m.isGroup) return true
@@ -143,6 +144,33 @@ export async function before(m, { conn, participants, groupMetadata }) {
 
   const numeroUsuario = usuarioJid.split('@')[0]
   const tagUser = `@${numeroUsuario}`
+  const groupSize = participants.length
+
+  const fechaActual = new Date()
+  const opciones = { timeZone: 'America/Lima', hour12: false }
+  const fecha = fechaActual.toLocaleDateString('es-PE', opciones)
+  const hora = fechaActual.toLocaleTimeString('es-PE', opciones)
+  const dia = fechaActual.toLocaleString('es-PE', { weekday: 'long', timeZone: 'America/Lima' })
+
+  const userId = m.sender.split('@')[0]
+  const phone = PhoneNumber('+' + userId)
+  const codigoPais = phone.getRegionCode() || '🌐'
+  const paises = {
+    PE: 'Perú 🇵🇪',
+    MX: 'México 🇲🇽',
+    AR: 'Argentina 🇦🇷',
+    CL: 'Chile 🇨🇱',
+    CO: 'Colombia 🇨🇴',
+    VE: 'Venezuela 🇻🇪',
+    EC: 'Ecuador 🇪🇨',
+    BO: 'Bolivia 🇧🇴',
+    UY: 'Uruguay 🇺🇾',
+    PY: 'Paraguay 🇵🇾',
+    ES: 'España 🇪🇸',
+    US: 'Estados Unidos 🇺🇸',
+    BR: 'Brasil 🇧🇷'
+  }
+  const pais = paises[codigoPais] || 'Desconocido 🌐'
 
   const tipo =
     m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD
@@ -153,58 +181,70 @@ export async function before(m, { conn, participants, groupMetadata }) {
       : null
   if (!tipo) return
 
-  const totalMembers = participants.length
-  const fecha = new Date().toLocaleString('es-PE', { timeZone: 'America/Lima' })
-
   const avatarUsuario = await conn.profilePictureUrl(usuarioJid, 'image')
     .catch(() => 'https://i.ibb.co/1s8T3sY/48f7ce63c7aa.jpg')
-
   const fondo = 'https://files.catbox.moe/7cckvp.jpg'
-  const urlapi = `https://canvas-8zhi.onrender.com/api/welcome3?title=${encodeURIComponent(tipo)}&desc=${encodeURIComponent(tipo)}&profile=${encodeURIComponent(avatarUsuario)}&background=${encodeURIComponent(fondo)}`
+  
+  const urlapi = tipo === 'WELCOME'
+    ? `https://api.siputzx.my.id/api/canvas/welcomev1?username=${encodeURIComponent(tagUser)}&guildName=${encodeURIComponent(groupMetadata.subject)}&memberCount=${groupSize}&avatar=${encodeURIComponent(avatarUsuario)}&background=${encodeURIComponent(fondo)}&quality=100`
+    : `https://api.siputzx.my.id/api/canvas/goodbyev2?username=${encodeURIComponent(tagUser)}&guildName=${encodeURIComponent(groupMetadata.subject)}&memberCount=${groupSize}&avatar=${encodeURIComponent(avatarUsuario)}&background=${encodeURIComponent(fondo)}`
 
   const thumb = await fetch('https://files.catbox.moe/7sbozb.jpg').then(res => res.buffer())
   const fkontak = {
     key: { participants: "0@s.whatsapp.net", remoteJid: m.chat, fromMe: false, id: "Halo" },
-    message: { locationMessage: { name: "☆ 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 𝚄𝙻𝚃𝚁𝙰 ☆ 🌸", jpegThumbnail: thumb } },
+    message: { locationMessage: { name: "🌸 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 ʙᴏᴛ 🌸", jpegThumbnail: thumb } },
     participant: "0@s.whatsapp.net"
   }
 
-  const caption = `
+  const welcomeMessage = `
 ╔═══════════════════╗
-      \`\`\`${tipo}\`\`\`
+       \`\`\`𝖡𝖨𝖤𝖭𝖵𝖤𝖭𝖨𝖣𝖮/𝖠\`\`\`
 ╚═══════════════════╝
 ╭────⋆ ╤╤╤ ✯ ╤╤╤ ⋆╯
 │ 🌾 *Usuario:* ${tagUser}
 │ 📚 *Grupo:* ${groupMetadata.subject}
 │• | ✧︿︿ . . . .
-│ 🎋 *Miembros:* ${totalMembers}
-│ 🍉 *Fecha:* ${fecha}
+│ 🎋 *Miembros:* ${groupSize}
+│ 🍉 *Fecha:* ${dia}, ${fecha}, ${hora}
+│ ☃️ *Lugar:* ${pais}
 ╰━━━⬣
 
-> 🍃 Usa *_#help_* para explorar comandos.
-`.trim()
+> ✨ *${groupMetadata.desc?.slice(0, 120) || "Sin descripción."}*
+> ૮₍｡˃ ᵕ ˂ ｡₎ა 💕 Usa *_#help_* para explorar comandos.`
 
-  const botones =
-    tipo === 'WELCOME'
-      ? [{ buttonId: '#verify', buttonText: { displayText: '🪄 Registrarse' }, type: 1 }]
-      : [{ buttonId: '#menu', buttonText: { displayText: '📜 Menú' }, type: 1 }]
+  const byeMessage = `
+╔═══════════════════╗
+       \`\`\`HASTA PRONTO\`\`\`
+╚═══════════════════╝
+╭────⋆ ╤╤╤ ✯ ╤╤╤ ⋆╯
+│ 🌾 *Usuario:* ${tagUser}
+│ 📚 *Grupo:* ${groupMetadata.subject}
+│• | ✧︿︿ . . . 
+│ 🎋 *Miembros:* ${groupSize}
+│ 🍉 *Fecha:* ${dia}, ${fecha}, ${hora}
+│ ☃️ *Lugar:* ${pais}
+╰━━━⬣
 
+> 🌧️ *Esperamos verte de nuevo pronto.*
+> 🍃 Usa *_#help_* si vuelves, estaremos aquí.`
+
+  const caption = tipo === 'WELCOME' ? welcomeMessage : byeMessage
+  
   const mensajeProducto = {
     product: {
       productImage: { url: urlapi },
       productId: '2452968910',
-      title: `${tipo} ✨`,
+      title: tipo === 'WELCOME' ? '🌸 NUEVO MIEMBRO 🌸' : '🌧️ DESPEDIDA 🌧️',
       description: '',
       currencyCode: 'USD',
       priceAmount1000: '10',
       retailerId: 1677,
-      url: ``,
+      url: '',
       productImageCount: 1
     },
     businessOwnerJid: usuarioJid,
     caption,
-    footer: `🌸 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 𝘽𝙤𝙩`,
-    buttons: botones,
+    footer: `🌸 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 ʙᴏᴛ 🌸`,
     headerType: 1,
     mentions: [usuarioJid]
   }
