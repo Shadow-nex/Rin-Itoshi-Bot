@@ -103,7 +103,7 @@ pkg install git nodejs ffmpeg imagemagick yarn -y
 ```
 
 ```bash
-git clone https://github.com/Yuji-XDev/Rin-Itoshi-Bot && cd Rin-Itoshi-Bot
+git clone https://github.com/Shadow-nex/Rin-Itoshi-Bot && cd Rin-Itoshi-Bot
 ```
 
 ```bash
@@ -168,7 +168,7 @@ npm start
 ```
 </details>
 
-![line](https://github.com/Yuji-XDev/Yuji-XDev/blob/main/shadow'core/line.gif)
+![line](https://github.com/Shadow-nex/Shadow-nex/blob/main/shadow'core/line.gif)
 
 <details>
  <summary><b>🎋 Volverte owner del bot</b></summary>
@@ -208,7 +208,7 @@ apt update && apt upgrade
 ```
 
 ```bash
-git clone https://github.com/Yuji-XDev/Rin-Itoshi-Bot && cd Rin-Itoshi-Bot
+git clone https://github.com/Shadow-nex/Rin-Itoshi-Bot && cd Rin-Itoshi-Bot
 ```
 
 ```bash
