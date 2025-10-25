@@ -20,8 +20,6 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
     const dia = fecha.toLocaleDateString(locale, { weekday: 'long' })
     const fechaTxt = fecha.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
     const hora = fecha.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })
-    
-    const totalreg = Object.keys(global.db.data.users).length
     const totalCommands = Object.keys(global.plugins).length
 
     const userId = m.sender.split('@')[0]
@@ -105,7 +103,6 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
 ─────────────────────
 🌾 *Bot:* ${(conn.user.jid == global.conn.user.jid ? '🌟 `ʙᴏᴛ ᴏғɪᴄɪᴀʟ`' : '✨ `sᴜʙ ʙᴏᴛ`')}
 🕸️ *Comandos:* ${totalCommands}
-📡 *Users:* ${totalreg}
 📡 *Fecha:* \`${hora}, ${dia}, ${fechaTxt}\`
 ─────────────────────\n`.trim()
 
