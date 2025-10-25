@@ -92,7 +92,8 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
           mediaType: 2,
           renderLargerThumbnail: true,
           mediaUrl: meta.url,
-          sourceUrl: meta.url
+          sourceUrl: meta.url,
+          who = mentionedJid[0] ? mentionedJid[0] : m.quoted ? await m.quoted.sender : m.sender
         }
       }
     }, { quoted: fkontak })*/
@@ -108,10 +109,9 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 }
 
 handler.command = ['ytmp3', 'song']
-handler.tags = ['descargas']
+handler.tags = ['download']
 handler.help = ['ytmp3 <texto o link>', 'song <texto>']
 handler.group = true
-handler.register = true
 
 export default handler
 
