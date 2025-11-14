@@ -57,6 +57,7 @@
 "url-regex-safe": "^3.0.0",
 "ws": "^8.18.3",
 "yargs": "^17.3.1",
+"mongoose": "^8.4.1",
 "yt-search": "^2.10.3"
 },
 "optionalDependencies": {
