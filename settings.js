@@ -13,7 +13,7 @@ global.botNumber = ''
 
 //✎﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏
 
-global.owner = 
+global.owner = [
 // <-- Número @s.whatsapp.net -->
   ['51919199620', '🜲 Propietario 🎃', true],
   ['51969214380', 'shadow', true],
@@ -22,7 +22,7 @@ global.owner =
   ['50231458537', 'BrayanX330', true],
   ['51946200884'],
   ['51927303598'],
-
+],
 //✎﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏
 
 global.suittag = ['51919199620'] 
